@@ -38,6 +38,24 @@ CURRENT_PROJECT = 'C--Users-psh93-OneDrive-Desktop-Claude'
 # ─────────────────────────────────────────────
 CATEGORIES = [
     {
+        'name': 'Gen2_Policy',
+        'file': 'Gen2_Policy/Gen2_Policy_대화_학습_정리.md',
+        'keywords': [
+            'annotation policy', 'sequence annotation', 'gen2 policy', 'annotation rule',
+            'heading angle', 'ground plane', 'occlusion rule', 'truncation',
+            'temporal annotation', 'spatial validity', 'perception window',
+            'class-specific', 'class-wise', 'attribute definition', 'vehicle attribute',
+            'shall', 'acceptance criteria', 'spatial consistency',
+            'barrier solid', 'barrier rail', 'barrier fence', 'barrier temporary',
+            'obstacle cone', 'obstacle cylinder', 'bollard', 'mv_od_3d', '3d_boundbox',
+            'policy version', 'policy table', 'policy 테이블', '정책 문서',
+            'illumination_insufficient', 'cuboid 3d annotation', 'sequence od annotation',
+            'policy-as-code', 'git 문서', '정책 실효성', 'policy validation',
+            'annotation schema', 'semantic variant', 'dynamicodtarget', 'staticodtarget',
+            '상반기 policy', 'policy kpi', 'acceptance criteria 정의',
+        ],
+    },
+    {
         'name': 'OpenLABEL',
         'file': 'OpenLABEL/OpenLABEL_대화_학습_정리.md',
         'keywords': [

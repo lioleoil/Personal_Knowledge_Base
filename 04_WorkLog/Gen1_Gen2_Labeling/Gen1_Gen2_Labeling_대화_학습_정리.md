@@ -252,7 +252,18 @@
 ### Lane ref_uuid 처리 방법
 **날짜:** 2025-02-17 | **파일:** conversations-001.json
 
-**맥락/질문:** # XML에서 ref_uuid 조합과 Lane 속성 및 top_y, bottom_y 값 추출 def extract_lanes(xml_path, image_height):     try:         tree = ET.parse(xml_path)         root = tree.getroot()          lane_data = {}         for segment in root.findall(".//LaneSegment"):             left_point = segment.find(".//LeftEdge/Point")             right_point = segment.find(".//RightEdge/Point")              left_spli...
+**맥락/질문:** # XML에서 ref_uuid 조합과 Lane 속성 및 top_y, bottom_y 값 추출
+ def extract_lanes(xml_path, image_height):
+     try:
+         tree = ET.parse(xml_path)
+         root = tree.getroot()
+ 
+         lane_data = {}
+         for segment in root.findall(".//LaneSegment"):
+             left_point = segment.find(".//LeftEdge/Point")
+             right_point = segment.find(".//RightEdge/Point")
+ 
+             left_spli...
 
 **핵심 답변/결론:** 이 문제는 `LeftEdge`와 `RightEdge`의 `ref_uuid`가 1개 이상일 수 있는 경우를 처리하고, 이를 기반으로 각 Lane을 유니크하게 구분할 수 있도록 수정하는 작업입니다.  ### 수정 내용:  1. **다수의 `ref_uuid` 처리**: `LeftEdge`와 `RightEdge`에서 `ref_uuid`가 여러 개일 수 있으므로, 이들을 모두 수집하여 각 `Lane`의 고유 키를 만들도록 변경합니다. 2. **유니크한 Lane 조합**: `ref_uuid`가 여러 개 있을 때, 각 `Lane`을 정확하게 비교하려면 모든 `ref_uuid`의 조합을 고려해야 하므로, `left_splines`와 `right_splines` 리스트를 사용하여 유니크한 조합을 만들어야 합니다.  수정된 코드는 다음과 같습니다:  ```python import xml.etree.ElementTree as ET  def extract_lanes(xml_path, image_height):     try:         tree = ET.parse(xml_path)         root = tree.getroot()          lane_data = {}...
 
@@ -307,7 +318,15 @@
 ### Lane Modification Count Logic
 **날짜:** 2025-03-06 | **파일:** conversations-001.json
 
-**맥락/질문:** new_lanes = set(modified_lanes.keys()) - set(original_lanes.keys())         new_lane_count = len(new_lanes)         total_new_lane += new_lane_count          same_point_count, different_point_count = 0, 0         same_class_count, different_class_count, same_lanes = 0, 0, set()         existing_lanes = set(original_lanes.keys()) & set(modified_lanes.keys())          for lane in existing_la...
+**맥락/질문:** new_lanes = set(modified_lanes.keys()) - set(original_lanes.keys())
+         new_lane_count = len(new_lanes)
+         total_new_lane += new_lane_count
+ 
+         same_point_count, different_point_count = 0, 0
+         same_class_count, different_class_count, same_lanes = 0, 0, set()
+         existing_lanes = set(original_lanes.keys()) & set(modified_lanes.keys())
+ 
+         for lane in existing_la...
 
 **핵심 답변/결론:** 중복 카운트를 방지하고, "Modified Lane(type) - class 변경"만 먼저 계산한 후, 나머지 변경은 "Modified Lane(range) - point 변경"으로 처리하려면, 로직을 조금 수정해야 합니다.  수정된 로직은 아래와 같습니다:  1. **"Modified Lane(type) - class 변경"**을 먼저 계산합니다. 2. 그 다음, **"Modified Lane(range) - point 변경"**을 처리합니다. 3. 중복 카운트를 방지하려면, "type" 변경이 적용된 lane은 더 이상 "range" 변경이 적용되지 않도록 해야 합니다.  수정된 코드:  ```python new_lanes = set(modified_lanes.keys()) - set(original_lanes.keys()) new_lane_count = len(new_lanes) total_new_lane += new_lane_count  same_point_count, different_point_count = 0, 0 same_class_count, different_class_count, same_lanes = 0, 0, set() existing...
 
@@ -318,7 +337,13 @@
 ### 레인 비교 및 분류
 **날짜:** 2025-03-06 | **파일:** conversations-001.json
 
-**맥락/질문:** for lane in existing_lanes:             orig_top_y, orig_bottom_y = original_lanes[lane]["top_y"], original_lanes[lane]["bottom_y"]             mod_top_y, mod_bottom_y = modified_lanes[lane]["top_y"], modified_lanes[lane]["bottom_y"]              if orig_top_y == mod_top_y and orig_bottom_y == mod_bottom_y:                 same_point_count += 1                 same_lanes.add(lane)...
+**맥락/질문:** for lane in existing_lanes:
+             orig_top_y, orig_bottom_y = original_lanes[lane]["top_y"], original_lanes[lane]["bottom_y"]
+             mod_top_y, mod_bottom_y = modified_lanes[lane]["top_y"], modified_lanes[lane]["bottom_y"]
+ 
+             if orig_top_y == mod_top_y and orig_bottom_y == mod_bottom_y:
+                 same_point_count += 1
+                 same_lanes.add(lane)...
 
 **핵심 답변/결론:** 알겠습니다! `same_lanes`가 아닌 것들 중에서 `different_point_count`를 구하고, 나머지 속성들은 `different_type_count`로 분류하려는 거군요.  여기서 핵심은 두 가지입니다: 1. **same_lanes가 아닌 것들**을 따로 분리해서 `different_point_count`를 구하고, 2. 그 외에 나머지 속성들을 `different_type_count`로 처리하는 것입니다.  그러면 다음과 같이 코드를 수정할 수 있습니다:  ```python for lane in existing_lanes:     orig_top_y, orig_bottom_y = original_lanes[lane]["top_y"], original_lanes[lane]["bottom_y"]     mod_top_y, mod_bottom_y = modified_lanes[lane]["top_y"], modified_lanes[lane]["bottom_y"]      if orig_top_y == mod_top_y and orig_bottom_y == mod_bottom_y:         same_lanes.add(lane)  # same_...
 
@@ -329,7 +354,12 @@
 ### 차선 데이터 분석
 **날짜:** 2025-03-12 | **파일:** conversations-001.json
 
-**맥락/질문:** <RoadLane toolVersion="" imageWidth="1920" imageHeight="1536">     <VP hasVP="true" y_ratio="0.49972793459892273" x_ratio="0.47219136357307434"/>     <Splines splineNum="4">         <Spline type1="2" type2="2" type3="1" type4="0" type5="1" type6="0" pointNum="8" occNum="0">             <Point x="502.39131103515626" y="1162.7578125" r="14.995123901367187"/>             <Point x="530.3368066406...
+**맥락/질문:** <RoadLane toolVersion="" imageWidth="1920" imageHeight="1536">
+     <VP hasVP="true" y_ratio="0.49972793459892273" x_ratio="0.47219136357307434"/>
+     <Splines splineNum="4">
+         <Spline type1="2" type2="2" type3="1" type4="0" type5="1" type6="0" pointNum="8" occNum="0">
+             <Point x="502.39131103515626" y="1162.7578125" r="14.995123901367187"/>
+             <Point x="530.3368066406...
 
 **핵심 답변/결론:** 이 XML 데이터는 도로 차선 정보를 나타내는 구조입니다. 주요 구성 요소를 살펴보겠습니다.  ### **1. 주요 요소 분석** - `<VP>`: 차선의 소실점(Vanishing Point) 정보를 포함하며, x/y 좌표 비율을 가짐. - `<Splines>`: 도로 차선을 구성하는 곡선 데이터를 포함.   - `<Spline>`: 개별 차선을 정의하는 요소.   - `type1~type6`: 차선 유형을 지정하는 속성들.   - `pointNum`: 해당 차선의 포인트 개수.   - `<Point>`: 각 차선의 좌표(x, y) 및 반지름(r)을 포함.  ### **2. 데이터 요약** - **소실점(VP)**   - x 좌표 비율: 0.472   - y 좌표 비율: 0.500 - **차선 정보**   - 총 4개의 차선(`Spline` 4개)   - 각각 4~10개의 포인트로 이루어짐.   - `type1~type6` 속성 조합으로 차선 유형을 설정.  ### **3. 활용 방안** 이 데이터는 **자율주행 차량의 차선 감지 및 경로 설정**에 활용될 수 있습니다.   가능한 분석 방법: 1. **차선 곡률 분석**: 각 차선의 곡선을 분석하여 차선 변...
 
@@ -373,7 +403,11 @@
 ### Cuboid 값 해석
 **날짜:** 2025-07-10 | **파일:** conversations-002.json
 
-**맥락/질문:** cuboid object에 대한 value가                                         0.13201189041137695,                                         -0.07463663816452026,                                         -0.6155438423156738,                                         0.0,                                         0.0, 다음과 같이 5개로 구성되어 있을때 x,y,z 좌표 외의 나머지 2개의 값은 무엇이지?
+**맥락/질문:** cuboid object에 대한 value가                                         0.13201189041137695,
+                                         -0.07463663816452026,
+                                         -0.6155438423156738,
+                                         0.0,
+                                         0.0, 다음과 같이 5개로 구성되어 있을때 x,y,z 좌표 외의 나머지 2개의 값은 무엇이지?
 
 **핵심 답변/결론:** 이 값들이 ASAM OpenLABEL 포맷에서 `cuboid` 객체의 일부라면, 5개의 값은 다음과 같이 해석할 수 있습니다:  1. **x**: 0.13201189041137695   2. **y**: -0.07463663816452026   3. **z**: -0.6155438423156738   4. **roll (or rx)**: 0.0   5. **pitch (or ry)**: 0.0    즉, **앞의 3개는 위치 좌표 (x, y, z)**   **뒤의 2개는 방향을 나타내는 회전 값 (roll, pitch)** 로 간주됩니다.  하지만 cuboid는 일반적으로 9개의 파라미터를 가집니다:  - 위치: `x, y, z` - 회전: `roll, pitch, yaw` (또는 `rx, ry, rz`) - 크기: `length, width, height`  따라서 지금 이 5개의 값은 **정의된 cuboid 포맷 중 일부만 표현된 것**이고, 나머지 정보(`yaw`, `size`)는 생략되었거나 별도 필드에 정의되어 있을 가능성이 높습니다.  ---  ### 확인 포인트: - 이 값들이 `cuboid`의 `val` 필드에 들어 있다면, OpenLABEL...
 
@@ -450,7 +484,13 @@
 ### SURF v3.0 데이터 수집 파이프라인
 **날짜:** 2025-07-18 | **파일:** conversations-003.json
 
-**맥락/질문:** 이제 실측 데이터 수집 및 시퀀스 데이터 구축, 수동 라벨링, OpenLABEL 포맷 export로 이어지는 파이프라인의 관점에서 논의해보자. 일단 요구되는 스펙은 다음과 같아.  데이터 수집 시스템 (SURF v3.0 #2)  모든 센서 장비(카메라, LiDAR, Radar, CAN 등)로부터 수집되는 데이터는 정확하고 일관된 Timestamp가 부여되어야 하며, 센서 간 동기화 정확도가 보장되어야 한다.  8MP 이상의 고해상도 카메라 12채널 이상 구성에 대해, Exposure time을 제외한 정확한 트리거 기반 Time Synchronization이 보장되어야 한다.  모든 센서 스트림은 실시간으로 안정적으로 기록되어야 하며, 저장 장치는 수 테라바이트(TB) 이상의 대용량을 Storag...
+**맥락/질문:** 이제 실측 데이터 수집 및 시퀀스 데이터 구축, 수동 라벨링, OpenLABEL 포맷 export로 이어지는 파이프라인의 관점에서 논의해보자. 일단 요구되는 스펙은 다음과 같아.  데이터 수집 시스템 (SURF v3.0 #2)
+ 
+ 모든 센서 장비(카메라, LiDAR, Radar, CAN 등)로부터 수집되는 데이터는 정확하고 일관된 Timestamp가 부여되어야 하며, 센서 간 동기화 정확도가 보장되어야 한다.
+ 
+ 8MP 이상의 고해상도 카메라 12채널 이상 구성에 대해, Exposure time을 제외한 정확한 트리거 기반 Time Synchronization이 보장되어야 한다.
+ 
+ 모든 센서 스트림은 실시간으로 안정적으로 기록되어야 하며, 저장 장치는 수 테라바이트(TB) 이상의 대용량을 Storag...
 
 **핵심 답변/결론:** 요구된 **SURF v3.0 #2 기반 데이터 수집 시스템** 사양을 반영하여 전체 파이프라인을 "데이터 수집 → 시퀀스 구축 → 수동 라벨링 → OpenLABEL export" 단계로 나누고, 각 단계에서 고려해야 할 조건과 시스템 연계를 다음과 같은 **구조화된 테이블**로 정리함.  ---  ### 📦 실측 기반 OpenLABEL 파이프라인 구조  | 단계 | 구성 요소 | 주요 요구 조건 (SURF v3.0 #2 기반) | 구현 시 고려사항 | OpenLABEL 매핑 포인트 | |------|------------|--------------------------|--------------------------|-------------------------| | **1. 데이터 수집** | Sensor Rig & SURF | - 12채널 이상 8MP급 카메라<br>- LiDAR, Radar, CAN, GPS<br>- 정확한 Timestamp 동기화<br>- Exposure time 외 정확한 Trigger 기반<br>- 수 TB 단위 저장 장치<br>- 원격 제어, 상태 모니터링 지원 | - PTP 기반 HW-level 동기화<br>- SSD RAID...
 
@@ -527,7 +567,47 @@
 ### Workload 측정 가이드
 **날짜:** 2025-09-19 | **파일:** conversations-003.json
 
-**맥락/질문:** Feature 별 Workload 측정 가이드    By seonghwan.park   #1 Define #2 Approach #3 Feature Information #4 Measuring unit Reference #1 Define 1.1 Workload 란? 투입된 Labeling 시간(비용)에 대한 결과물, 작업 생산량  임금 기반의 Labeling 단가를 산출하는 데이터     1.2 평가 지표 주요 지표(KPI)  평균 최대 작업 수량  객체 클래스 유형별 작업 시간  보조 지표  작업자 수준  작업 난이도  작업 품질     1.3 Limitation 작업 품질  SV Workload의 정의는 시간당 작업량 정보로 나타내는...
+**맥락/질문:** Feature 별 Workload 측정 가이드
+ 
+ 
+ 
+ By seonghwan.park
+ 
+ 
+ #1 Define
+ #2 Approach
+ #3 Feature Information
+ #4 Measuring unit
+ Reference
+ #1 Define
+ 1.1 Workload 란?
+ 투입된 Labeling 시간(비용)에 대한 결과물, 작업 생산량
+ 
+ 임금 기반의 Labeling 단가를 산출하는 데이터
+ 
+  
+ 
+ 1.2 평가 지표
+ 주요 지표(KPI)
+ 
+ 평균 최대 작업 수량
+ 
+ 객체 클래스 유형별 작업 시간
+ 
+ 보조 지표
+ 
+ 작업자 수준
+ 
+ 작업 난이도
+ 
+ 작업 품질
+ 
+  
+ 
+ 1.3 Limitation
+ 작업 품질
+ 
+ SV Workload의 정의는 시간당 작업량 정보로 나타내는...
 
 **핵심 답변/결론:** {"comments":[{"pattern":".*","comment":"The document is well-structured, but some areas could be improved:\n\n1. **Clarify KPI vs. Supporting Metrics**: In section 1.2, explicitly separate the quantitative KPIs (e.g., 작업량 per hour) from qualitative or contextual supporting factors (작업 난이도, 품질) to strengthen evaluation logic.\n\n2. **Standardize Terminology**: In section 2.2, terms like *Workflow*, *Tool, Service ver.*, and *Policy ver.* could benefit from consistent formatting (e.g., bullet hierarchy) for readability.\n\n3. **Link Feature Information to Measuring Units**: Section 3 (Feature In...
 
@@ -538,7 +618,29 @@
 ### MongoDB taskId 조회쿼리
 **날짜:** 2025-10-17 | **파일:** conversations-004.json
 
-**맥락/질문:** 다음과 같은 구조의 json 파일이 있을 때 Mongo DB compass에서 taskId를 조회하는 쿼리문을 보여줘   _id 6837a388bc74bad9f837e006  operation Object timestamp 2025-05-29T00:00:00.330+00:00 objectId 68347209f5c5caf7719a75b8 frameId 66334cf8002e71a44ab12c28 taskId 6833e610f5c5caf77176f7f1 stage "Review" cameraPosition "mvc_front" userId 658aabc3987bd02ff6526aa8  version Object
+**맥락/질문:** 다음과 같은 구조의 json 파일이 있을 때 Mongo DB compass에서 taskId를 조회하는 쿼리문을 보여줘  
+ _id
+ 6837a388bc74bad9f837e006
+ 
+ operation
+ Object
+ timestamp
+ 2025-05-29T00:00:00.330+00:00
+ objectId
+ 68347209f5c5caf7719a75b8
+ frameId
+ 66334cf8002e71a44ab12c28
+ taskId
+ 6833e610f5c5caf77176f7f1
+ stage
+ "Review"
+ cameraPosition
+ "mvc_front"
+ userId
+ 658aabc3987bd02ff6526aa8
+ 
+ version
+ Object
 
 **핵심 답변/결론:** MongoDB Compass에서 특정 `taskId` 값을 기준으로 문서를 조회하려면 다음과 같이 입력하면 된다.  ---  ### 🔹 **기본 쿼리 (정확히 일치하는 taskId 조회)**  ```javascript { "taskId": ObjectId("6833e610f5c5caf77176f7f1") } ```  이 쿼리는 `taskId` 필드가 정확히 `ObjectId("6833e610f5c5caf77176f7f1")`인 문서를 찾아준다.   MongoDB Compass에서는 **“Filter”** 입력란에 그대로 붙여 넣으면 된다.  ---  ### 🔹 **만약 taskId가 문자열(String)로 저장되어 있다면** 데이터에 따라 `taskId`가 `ObjectId`가 아닌 문자열 형태로 저장된 경우도 있다.   그럴 때는 아래처럼 쿼리한다.  ```javascript { "taskId": "6833e610f5c5caf77176f7f1" } ```  ---  ### 🔹 **부분 일치(패턴 검색)가 필요한 경우 (정규식)** 혹시 taskId의 일부만 알고 있다면 다음처럼 정규식 검색도 가능하다.  ```javascript { "taskId": { "...
 
@@ -747,7 +849,8 @@
 ### Translate animal specification
 **날짜:** 2025-12-05 | **파일:** conversations-004.json
 
-**맥락/질문:** "Animal의 Heading Angle은 상체를 기준으로 ±11.46도를 규정한다. - 머리와 상체의 방향이 다른 경우에도 상체를 기준으로 규정한다." Animal의 GroundPlane은 ±1.71도 이내를 규정한다.  번역해줘
+**맥락/질문:** "Animal의 Heading Angle은 상체를 기준으로 ±11.46도를 규정한다. - 머리와 상체의 방향이 다른 경우에도 상체를 기준으로 규정한다."
+ Animal의 GroundPlane은 ±1.71도 이내를 규정한다.  번역해줘
 
 **핵심 답변/결론:** 다음처럼 자연스럽고 규범적인 영어 문장으로 정리해준다.  **Heading Angle**   The Heading Angle of an animal shall be defined based on the torso with an allowable range of ±11.46°.   – Even when the head and torso are oriented differently, the Heading Angle shall be determined according to the torso orientation.  **Ground Plane**   The Ground Plane of an animal shall fall within ±1.71°.     **Q1**   Animal Heading Angle 기준을 torso로 고정하는 이유를 추가 설명해야 한다면 어떤 문장이 자연스러울까?     **Q2**   허용 범위를 degree 대신 radian으로 병기해야 할까?     **Q3**   Ground Plane 규정에 예외 케이스(예: 비정상적인 자세)를 포함시키고 싶다면 어떤 표현을 쓰면 좋을까?
 
@@ -813,7 +916,24 @@
 ### Gen1 Gen2 OD 비교
 **날짜:** 2026-01-06 | **파일:** conversations-005.json
 
-**맥락/질문:** Frame base Gen1 OD와 Map base Gen2 OD의 작업 공수를 비교하기 위해 다음과 같이 대략적인 컨셉 초안을 잡아봤어  목표 : Gen2 Sequential OD 와 Gen1 MV OD를 비교하여 작업 효율의 임팩트를 측정한다.  비교 대상  Map base로 개발한 Gen2 OD (Sequential)  Frame base 기반의 Gen1 MV OD (HA OD 7ch)  Front narrow channel에 포착되는 객체 수량을 반영  비교 방법  Frame base : Object Density가 가장 높은 프레임 구간의 객체 수량 * 프레임 수 * 2/3   Map base : 시퀀스 내에 등장하는 전체 객체 수량  다음 아이템 (2차)  ALT,...
+**맥락/질문:** Frame base Gen1 OD와 Map base Gen2 OD의 작업 공수를 비교하기 위해 다음과 같이 대략적인 컨셉 초안을 잡아봤어  목표 : Gen2 Sequential OD 와 Gen1 MV OD를 비교하여 작업 효율의 임팩트를 측정한다.
+ 
+ 비교 대상
+ 
+ Map base로 개발한 Gen2 OD (Sequential)
+ 
+ Frame base 기반의 Gen1 MV OD (HA OD 7ch)
+ 
+ Front narrow channel에 포착되는 객체 수량을 반영
+ 
+ 비교 방법
+ 
+ Frame base : Object Density가 가장 높은 프레임 구간의 객체 수량 * 프레임 수 * 2/3  
+ Map base : 시퀀스 내에 등장하는 전체 객체 수량
+ 
+ 다음 아이템 (2차)
+ 
+ ALT,...
 
 **핵심 답변/결론:** 결론부터 말하면, 지금 초안으로도 **“대략적인 효율 임팩트”를 빠르게 가늠하는 0차 추정치**는 만들 수 있어.   다만 이 상태로 나온 수치를 “합리적(=의사결정 근거로 충분)”이라고 판단하려면, **비교식이 공수(시간/행동량)를 직접 대변하는지**를 보강해야 해. 지금은 “객체 수(Workload proxy)” 중심이라 **Effort로 연결되는 브릿지(가정/보정/검증)가 부족**해.  아래 순서로 점검하면 깔끔하게 “합리성”을 확보할 수 있어.  ---  ## 1) 지금 비교식이 갖는 장점과 위험  ### 장점 (왜 유효한가) - Gen1(Frame base) vs Gen2(Sequential/Map base)의 핵심 차이를 **단일 축(객체량)** 으로 단순화해서 비교하려는 방향은 맞아. - “Front narrow 채널 기준”을 둔 것도 좋아. 최소한 **작업자가 실제로 보는 기준 채널**을 고정하려는 시도니까.  ### 위험 (왜 그대로는 설득이 약한가) 1) **Frame base 식이 ‘최대 밀집 구간’에 과하게 끌릴 수 있음**      - “Object Density가 가장 높은 구간”은 분산/평균이 아니라 **피크 값**이라, 프로젝트/...
 
@@ -890,7 +1010,12 @@
 ### Obstacle 분류 및 정의
 **날짜:** 2026-01-11 | **파일:** conversations-005.json
 
-**맥락/질문:** Hierarchy	Description	Limitation	Acceptance Criteria 0	Information		 0.1	"Obstacle은 도로 환경에서 차량 주행 시 회피 또는 인지가 필요한 물리적 객체를 의미하며,  통행 제한, 차단, 또는 주행 유도 기능을 할 수 있다."		 0.2	Obstacle은 7개의 Class로 분류한다.		 0.2.1	Obstacle cone : 차량의 통행을 임시적으로 제한하기 위해 설치한 원뿔 형태의 장애물을 의미한다. 		 0.2.2	Obstacle cylinder : 차량의 통행을 제한하거나 경계를 표시하기 위해 설치된 원통 형태의 장애물을 의미하며, 차량을 완전히 차단할 수 있는 중량 또는 구조적 강도를 전제로 하지 않는다.	차량의 통과를 물리적으...
+**맥락/질문:** Hierarchy	Description	Limitation	Acceptance Criteria
+ 0	Information		
+ 0.1	"Obstacle은 도로 환경에서 차량 주행 시 회피 또는 인지가 필요한 물리적 객체를 의미하며,  통행 제한, 차단, 또는 주행 유도 기능을 할 수 있다."		
+ 0.2	Obstacle은 7개의 Class로 분류한다.		
+ 0.2.1	Obstacle cone : 차량의 통행을 임시적으로 제한하기 위해 설치한 원뿔 형태의 장애물을 의미한다. 		
+ 0.2.2	Obstacle cylinder : 차량의 통행을 제한하거나 경계를 표시하기 위해 설치된 원통 형태의 장애물을 의미하며, 차량을 완전히 차단할 수 있는 중량 또는 구조적 강도를 전제로 하지 않는다.	차량의 통과를 물리적으...
 
 **핵심 답변/결론:** 핵심부터 정리한다.   이 문서는 **정의–분류–제외–속성–시퀀스 규칙**까지는 잘 갖춰졌지만, 실제 annotation 일관성과 분쟁 방지를 위해 **용어 정합성, 분류 경계, 수치 기준의 적용 방식, 전방 관측 기준의 명시성**에서 보완이 필요하다. 아래를 순서대로 본다.  ---  ## 1. 최상위 정의(0번대) 검토  ### ✔ 강점 - Obstacle의 목적 정의(회피/인지/유도)가 명확함 - Class를 기능 중심(차단/유도/임시)으로 나눈 방향은 적절  ### ⚠ 개선 필요 **0.2.2 Cylinder vs 0.2.3 Bollard 경계** - 현재는 “차단 가능 여부” + “중량/지름”이 혼재됨 - *차단 의도*와 *물리적 결과*가 섞여 있음  #### 개선 제안 - **Bollard 정의의 1차 기준을 ‘설치 목적’으로 고정** - 수치는 *판단 보조 기준*으로만 사용  > 제안 문구   > *Bollard : 차량의 통과를 물리적으로 차단하는 것을 주된 목적으로 설치된 고정형 또는 반고정형 장애물*   > *참고 기준: 일반적으로 지름 ≥15cm 또는 중량 ≥10kg*  → 이렇게 하면 수치 때문에 class가 뒤집히는 상황을 방지한다....
 
@@ -923,7 +1048,14 @@
 ### Barrier 분류 검토 및 수정
 **날짜:** 2026-01-13 | **파일:** conversations-005.json
 
-**맥락/질문:** 아래 조항 검토해줘  Hierarchy	Description	Limitation	Criteria 0	Information		 0.1	Barrier는 차량 또는 보행자의 이동을 물리적으로 제한하거나 충격을 완화하는 구조물을 의미한다.		 0.2	Barrier은 4개의 Class로 분류한다.		 0.2.1	Barrier Solid : 나무벽, 건물 외벽, 방음벽, 옹벽, 담장, 콘크리트 구조물 등 틈이 없고 단단한 구조물을 의미한다.		 0.2.2	Barrier Rail : 가드레일, 다리의 난간 등 레일 구조를 포함하고 있는 구조물을 의미한다.		 0.2.3	Barrier Fence : 시각적으로 투과가 가능한 고정형 펜스 형태의 구조물을 의미한다.		 0.2.4	Barrier Temporary...
+**맥락/질문:** 아래 조항 검토해줘  Hierarchy	Description	Limitation	Criteria
+ 0	Information		
+ 0.1	Barrier는 차량 또는 보행자의 이동을 물리적으로 제한하거나 충격을 완화하는 구조물을 의미한다.		
+ 0.2	Barrier은 4개의 Class로 분류한다.		
+ 0.2.1	Barrier Solid : 나무벽, 건물 외벽, 방음벽, 옹벽, 담장, 콘크리트 구조물 등 틈이 없고 단단한 구조물을 의미한다.		
+ 0.2.2	Barrier Rail : 가드레일, 다리의 난간 등 레일 구조를 포함하고 있는 구조물을 의미한다.		
+ 0.2.3	Barrier Fence : 시각적으로 투과가 가능한 고정형 펜스 형태의 구조물을 의미한다.		
+ 0.2.4	Barrier Temporary...
 
 **핵심 답변/결론:** 바로 핵심부터 정리한다.   **전체 구조는 잘 잡혀 있지만, 분류 기준의 축 혼재·용어 일관성·퍼셉션 관점의 모호성** 때문에 정책 문서로 쓰기엔 몇 군데 반드시 정리해야 한다.  ---  ## 1. 상위 개념 정의 (0번 섹션)  ### ✅ 좋은 점 - Barrier의 **기능적 목적(이동 제한 / 충격 완화)** 정의는 명확함 - GEN2 / perception 기준에서 충분히 포괄적  ### ⚠️ 수정 포인트  #### (1) 기능 정의 vs 형태 정의의 혼재 > *“Barrier는 차량 또는 보행자의 이동을 물리적으로 제한하거나 충격을 완화하는 구조물”*  - 이후 분류는 **형태 기반(Solid / Rail / Fence / Temporary)**   - 정의 문장도 **기능 + 형태 중 하나로 초점 통일**하는 것이 좋음  👉 권장 수정 > Barrier는 차량 또는 보행자의 이동을 물리적으로 제한하거나 충격을 완화하기 위해 설치된 **연속적 또는 분절형 구조물**을 의미한다.  → “연속/분절”을 넣어 **Cuboid 분할 규칙(15m)** 과 자연스럽게 연결됨  ---  ## 2. Class 분류 (0.2 / 1번 섹션)  ### ⚠️ 가장...
 
@@ -956,7 +1088,19 @@
 ### GEN2 성능 측정 전략
 **날짜:** 2026-01-19 | **파일:** conversations-005.json
 
-**맥락/질문:** 아이템 전체 진행 방향이 조금 바뀌어서 전략, 컨셉 수정이 필요해. 아래가 이번에 진행할 문서니까 파악해봐.  ## 3. Phase 1: Performance Measurement  ### 3.1 목적 및 역할  **"GEN2 Feature가 실제 라벨링 생산성·난이도·효율성에 미치는 영향을 정밀 측정"**  이 단계는 변동성을 그대로 반영하며, 실제 데이터를 있는 그대로 받아들입니다. 단가 산정에 직접 사용되지 않으므로 측정의 민감성과 정밀성을 최대화합니다.  ### 3.2 핵심 개념  #### Workload (작업량) - 라벨링 작업을 통해 실제로 생성·완성된 결과물의 양 - 포함 요소: Frame 수, Object 수, Class 수, 난이도 tier, Geometry type...
+**맥락/질문:** 아이템 전체 진행 방향이 조금 바뀌어서 전략, 컨셉 수정이 필요해. 아래가 이번에 진행할 문서니까 파악해봐.  ## 3. Phase 1: Performance Measurement
+ 
+ ### 3.1 목적 및 역할
+ 
+ **"GEN2 Feature가 실제 라벨링 생산성·난이도·효율성에 미치는 영향을 정밀 측정"**
+ 
+ 이 단계는 변동성을 그대로 반영하며, 실제 데이터를 있는 그대로 받아들입니다. 단가 산정에 직접 사용되지 않으므로 측정의 민감성과 정밀성을 최대화합니다.
+ 
+ ### 3.2 핵심 개념
+ 
+ #### Workload (작업량)
+ - 라벨링 작업을 통해 실제로 생성·완성된 결과물의 양
+ - 포함 요소: Frame 수, Object 수, Class 수, 난이도 tier, Geometry type...
 
 **핵심 답변/결론:** 핵심부터 정리한다.   이 문서는 **“단가 산정 전(前) 단계에서 GEN2 Feature의 실제 영향도를 최대한 날것으로 계측하는 성능 측정 레이어”**로 성격이 명확해졌고, 그 방향은 타당하다.   다만 **전략·컨셉 측면에서 몇 가지 불일치와 미정렬 포인트**가 보인다. 아래에서 단계적으로 짚고, 수정 방향을 제안한다.  ---  ## 1. Phase 1의 전략적 포지션 재정의  ### 현재 정의의 강점 - **단가와 분리**: 측정 민감도 확보 → 통계적 왜곡 최소화 - **GEN2 Feature 영향 검증에 집중**: 기술·정책 변화의 효과를 순수하게 관측 - **실측 데이터 존중**: normalization 이전의 raw behavior 확보  ### 전략적으로 더 명확히 해야 할 문장 지금 문서는 “무엇을 측정한다”는 잘 쓰여 있으나   **“왜 이 측정이 이후 Phase를 가능하게 하는가”**가 약하다.  👉 Phase 1의 전략적 정의는 다음으로 고정하는 게 좋다.  > **Phase 1은 ‘Cost Model을 만들기 위한 단계’가 아니라   > ‘Cost Model이 왜 바뀌어야 하는지를 증명하는 단계’다.**  이 문장이 문서 전반의...
 
@@ -986,15 +1130,6 @@
 
 ---
 
-### 자세 변화 크기 변화
-**날짜:** 2026-02-02 | **파일:** conversations-005.json
-
-**맥락/질문:** 자세 변화로 인한 크기 변화가 허용된다.
-
-**핵심 답변/결론:** 핵심만 정리하면 **표현은 맞지만, 기준 문서/정책 문맥에서는 조금 더 명확하게 다듬는 게 좋다.**   아래에서 목적별로 바로 쓰기 좋은 문장들을 제안할게.  ---  ### 권장 표현 (정책·가이드 문맥)  1. **가장 중립적·표준** - **자세 변화에 따른 객체 크기 변화는 허용된다.**  2. **퍼셉션/비전 맥락 강조** - **객체의 자세 변화로 인해 발생하는 크기 변화는 정상 범위로 간주한다.**  3. **오해 방지용 (왜 허용되는지 명시)** - **시점 및 자세 변화로 인한 객체의 외형적 크기 변화는 오류로 판단하지 않는다.**  4. **Annotation rule에 적합한 톤** - **자세 변화에 기인한 크기 변동은 annotation 일관성 위반으로 간주하지 않는다.**  5. **간결 버전 (짧은 규칙 문장)** - **자세 변화에 따른 크기 변화 허용**  ---  ### 표현상 주의 포인트 - **‘자세 변화’**는 사람·동물·차량 모두 커버 가능 → 범용성 높음   - **‘외형적 크기’**를 쓰면 실제 크기 변화로 오해할 여지를 차단   - “허용된다” vs “오류로 판단하지 않는다”는 **검수 기준 문서**에서는 후자가...
-
-**대화 길이:** 총 16개 메시지 (질문 8개)
-
 ---
 
 ### 파일 구조 차이 분석
@@ -1008,58 +1143,13 @@
 
 ---
 
-### 자율주행 객체 검출 용어
-**날짜:** 2026-02-05 | **파일:** conversations-005.json
-
-**맥락/질문:** Line 같은 경우, 국내법상 color와 shape에 따라서 성격이 완전히 달라지기 때문에 클래스를 결정하는 정보로 보고 있는데, 이것을 객체 검출의 단위가 되는 클래스로 규정하기는 어려운 것 같아. 그렇다고 attribute는 뭔가 부가적인 느낌이고. 적합한 용어가 있을까? 자율주행 학습 도메인에서
-
-**핵심 답변/결론:** 핵심부터 정리할게.  네가 느끼는 불편함의 정체는 **“검출 단위가 아닌데, 의미 결정에는 핵심인 정보”**라는 점이야.   자율주행 학습 도메인에서는 이걸 attribute로 밀어 넣기엔 가볍고, class로 올리기엔 과도할 때 쓰는 개념들이 이미 있어.  아래는 **현업에서 실제로 쓰이거나, 그 성격에 가장 잘 맞는 용어 후보들**이야.  ---  ## 1️⃣ Semantic Variant (또는 Semantic Type)  **가장 정합도가 높음**  - **정의**:     동일한 physical object(class)에 대해 **법·의미·행동 해석을 바꾸는 하위 의미 타입** - **포지션**:     `Class`와 `Attribute` 사이 - **예시**:   ```   Object Class: LaneMarking   Semantic Variant: Solid_Yellow / Dashed_White   ``` - **장점**   - “부가 정보” 느낌이 없음   - **행동 결정(주행 규칙)** 과 직접 연결 가능   - perception → planning 연결 구조에 자연스러움  📌 업계 문서에서는 `semantic_type`, `se...
-
-**대화 길이:** 총 44개 메시지 (질문 22개)
+---
 
 ---
 
-### AI 기반 정책 관리
-**날짜:** 2026-02-09 | **파일:** conversations-005.json
-
-**맥락/질문:** AI driven annotation policy document management를 하려고해. Policy 문서를 마크다운과 json 포맷을 작성하고, git에 올려 이력을 관리하면서 AI를 통해 호환성과 정합성을 판단하기 쉬운 구조로 만드는게 목표야. 이렇게 하면 Tool 개발 관점에서도 대응하기 쉬울 것 같아서
-
-**핵심 답변/결론:** 핵심부터 정리한다.   네가 말한 방식은 **정책 문서를 “사람이 읽는 문서”에서 “기계가 해석 가능한 정책 자산(Policy-as-Code)”로 전환**하는 전략이고, Tool·파이프라인·거버넌스까지 한 번에 묶는 설계다. 방향은 아주 정확하다.  ---  ## 1. 목표를 구조적으로 재정의  ### What you’re really building - **Annotation Policy = 단순 문서가 아니라 규칙 집합** - AI는 “정책을 해석하는 주체”, Git은 “정책의 시간축” - Tool은 “정책을 실행·검증하는 런타임”  즉, > *Policy → Spec → Validation → Tool Behavior*   이 흐름을 끊김 없이 만드는 게 목적이다.  ---  ## 2. 문서 포맷 분리 전략 (Markdown + JSON)  ### 2.1 Markdown: 인간 중심 레이어 **역할** - 정책 의도, 정의 배경, 판단 기준 설명 - 리뷰·토론·교육용  **권장 구조** ```md # Barrier Annotation Policy  ## 1. Purpose ## 2. Scope ## 3. Definitions ## 4. Class Hie...
-
-**대화 길이:** 총 29개 메시지 (질문 14개)
-
 ---
 
-### 네이밍 개선 제안
-**날짜:** 2026-02-09 | **파일:** conversations-005.json
-
-**맥락/질문:** 아래 두 단어 이름 refine 해줄 수 있어?  DynamicODTarget  StaticODTarget
-
-**핵심 답변/결론:** 바로 정리해줄게.   핵심은 **Target의 성격(움직임 vs 고정)**을 얼마나 **명확·확장 가능·정책/시스템 친화적으로** 드러내느냐야.  ---  ## 1️⃣ 방향성 먼저 정리  현재 네이밍의 문제 포인트: - `DynamicODTarget / StaticODTarget`     → 의미는 명확하지만 **조금 기술 내부용**이고,     → 정책 문서·메타데이터·시스템 스펙으로 확장할 때 **딱딱함**이 있음.  그래서 아래 3가지 축으로 나눠서 제안할게.  ---  ## 2️⃣ 가장 보수적이면서 정합성 좋은 개선안 (추천 ★)  ### ✅ **ODDynamicTarget** ### ✅ **ODStaticTarget**  **이유** - `OD`를 접두로 올려 **도메인 범위 명확화** - 기존 개념을 거의 유지 → 이행 비용 낮음 - 정책 / JSON key / 클래스명으로 쓰기 좋음  👉 **지금 구조 유지하면서 가장 깔끔한 리파인**  ---  ## 3️⃣ 정책·개념 중심으로 조금 더 세련된 안  ### ✅ **DynamicODObject** ### ✅ **StaticODObject**  **언제 좋냐면** - Target이 “학습·평가 대상...
-
-**대화 길이:** 총 10개 메시지 (질문 5개)
-
 ---
-
-### JSON Schema 검토 결과
-**날짜:** 2026-02-09 | **파일:** conversations-005.json
-
-**맥락/질문:** 아래 데이터 구조에 이상이 없는지 봐줘  {   "$schema": "http://json-schema.org/draft-07/schema#",   "title": "GEN2 Road Scene Annotation Strict Schema",   "type": "object",   "required": ["formatVersion", "exportedAt", "policy", "stage", "scene", "cameraConfigs", "objects", "roadmarks", "lanes"],   "properties": {     "formatVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },     "exportedAt"...
-
-**핵심 답변/결론:** 바로 구조 검토 들어갈게.   **결론부터 말하면 “개념 설계는 일관되지만, JSON Schema 관점에서 명확한 결함과 애매한 지점이 여러 개 존재”**한다.   아래를 **치명도 기준**으로 정리한다.  ---  ## 1️⃣ **치명적 오류 (Schema Validation 자체가 깨질 수 있음)**  ### ❌ 1. `cameraConfigs`가 required인데 정의가 없음 ```json "required": ["formatVersion", "exportedAt", "policy", "stage", "scene", "cameraConfigs", "objects", "roadmarks", "lanes"] ```  하지만 ```json "properties": { ... } ``` 안에 **`cameraConfigs` 정의가 전혀 없음**  ➡️ **무조건 validation fail**  **해결** - `cameraConfigs` 정의 추가 - 또는 `required`에서 제거  ---  ### ❌ 2. `roadmarkItem`에 `properties` 기본 정의 없음 ```json "roadmarkItem": {   "type": "object"...
-
-**대화 길이:** 총 2개 메시지 (질문 1개)
-
----
-
-### 데이터 정책 이미지 요청
-**날짜:** 2026-02-10 | **파일:** conversations-005.json
-
-**맥락/질문:** Data Policy Part 라는 이름에 어울리는 이미지 생성해줘.
-
-**핵심 답변/결론:** {"prompt":"A clean, modern conceptual illustration representing 'Data Policy Part'. Abstract architecture of data governance: layered documents, flow diagrams, structured grids, and interconnected nodes. Visual metaphors for policy, rules, and control—checklists, schemas, versioned documents, and directional arrows. Professional enterprise style, minimal color palette (deep blue, slate gray, white), subtle gradients, no text, no people, flat + isometric hybrid design, suitable as a section cover image for a technical policy document.","size":"1024x1024","n":1}
-
-**대화 길이:** 총 10개 메시지 (질문 5개)
 
 ---
 
@@ -1085,36 +1175,9 @@
 
 ---
 
-### 정책 실효성 검증 표현
-**날짜:** 2026-02-11 | **파일:** conversations-006.json
-
-**맥락/질문:** 정책의 유효성? 이라는 표현 어때? 수립된 정책이 어떤지 직접 어노테이션을 해보며 점검할 계획인데
-
-**핵심 답변/결론:** 괜찮은 표현이긴 한데, **의도 대비 정확도는 살짝 아쉬움**이 있어.  지금 네가 하려는 건   > *“수립된 정책이 실제 annotation 과정에서 **작동하는지, 문제를 만들지는 않는지** 직접 써보며 검증”*   이거잖아. 이 맥락에서 보면 **‘유효성’은 포괄적이지만 다소 추상적**이야.  아래에서 딱 맞게 쪼개볼게.  ---  ## 1️⃣ 「정책의 유효성」의 장단점  ### ✔ 장점 - 공식 문서에서 무난함 - 정책 존재 이유를 묻는 큰 질문에 적합     (이 정책이 *필요한가? 유지할 가치가 있는가?*)  ### ❌ 한계 - **검증 방식이 불명확** - *annotation 실무 관점*이 드러나지 않음   - “법적/제도적 유효성”처럼 오해될 여지도 있음  ➡️ **실제 작업으로 점검한다는 뉘앙스가 부족**  ---  ## 2️⃣ 네 의도에 더 정확한 표현들 (우선순위별)  ### 🥇 **정책의 실효성 검증** > 가장 추천  - *문서 → 실제 작업* 연결이 명확 - “써봤을 때 의미 있게 작동하는가”를 정확히 찌름 - annotation 기반 점검과 궁합이 아주 좋음  👉 예: > **수립된 정책의 실효성을 실제 annotation을 통...
-
-**대화 길이:** 총 4개 메시지 (질문 2개)
-
 ---
 
-### Policy review 표현 수정
-**날짜:** 2026-02-13 | **파일:** conversations-006.json
-
-**맥락/질문:** Policy review on Annotation data 이 표현 어때
-
-**핵심 답변/결론:** **“Policy review on Annotation data”**는 문법적으로 완전히 틀린 표현은 아니지만,   공식 문서 제목으로는 약간 어색하고 힘이 약해 보인다.  왜냐하면:  - **review on ~** 보다는 **review of ~**가 더 자연스럽다. - “Annotation data”는 소문자 d로 쓰거나, “annotation dataset”처럼 더 구체화하는 편이 좋다. - 이 문장이 말하려는 게     ① 정책을 데이터로 검증하는 것인지     ② 데이터 품질을 정책 기준으로 검토하는 것인지     ③ 정책 자체를 재정비하는 것인지     에 따라 표현이 달라진다.  ---  ## 1️⃣ 가장 기본적이고 무난한 표현  **Policy Review of Annotation Data**  → 정책 기준에 따라 어노테이션 데이터를 검토한다는 의미   → 가장 자연스럽고 공식 문서 제목으로 적합  ---  ## 2️⃣ “정책의 유효성 검증”이 목적이라면  **Annotation Data Review for Policy Validation**  → 데이터를 통해 정책의 타당성을 검증한다는 뉘앙스   → 지금 맥락(직접 어노테이션을 해보며 점...
-
-**대화 길이:** 총 4개 메시지 (질문 2개)
-
 ---
-
-### 상반기 Policy 목표 설정
-**날짜:** 2026-02-24 | **파일:** conversations-006.json
-
-**맥락/질문:** 상반기 Policy 관련 goal과 kpi metric을 설정하려고 해. 다음 내용이 컨셉 초안인데, 구체화 해주겠어?   MVGen2 Annotation policy의 호환 및 자동화된 이력 관리체계로 전환한다.  AI 환경에서 활용도 높은 자산화 한다.  Git 문서 전환률 : Policy ver. 별 Markdown format 작성 / 전체 Policy Output format 각 필드 별 Acceptance Criteria 정의 / 전체 필드
-
-**핵심 답변/결론:** 좋아.   이건 단순 “문서 정리” 목표가 아니라, **정책을 시스템 자산으로 전환하는 프로젝트**야.   그래서 Goal은 구조 전환 관점으로, KPI는 **측정 가능 + 운영 연결 가능**하게 재정의해야 해.  ---  # 1️⃣ 상반기 Goal 재정의 (전략 레벨)  ### 🎯 Goal 1   **MVGen2 Annotation Policy를 시스템 정합 기반의 Git-Managed 구조로 전환한다.**  > 문서 → 버전 관리 자산 → 구조화된 정책 엔진 입력 자산  ---  ### 🎯 Goal 2   **Policy Output Schema를 표준화하고, 모든 필드에 대해 Acceptance Criteria를 명문화한다.**  > “설명 중심 문서” → “검증 가능한 스펙 문서”  ---  ### 🎯 Goal 3   **AI 학습/검증 파이프라인에서 활용 가능한 정책 자산 구조를 완성한다.**  > 사람이 읽는 정책 → 모델이 해석 가능한 정책  ---  # 2️⃣ KPI Metric 구체화  ## 📌 KPI Cluster A — Git 기반 정책 전환율  | KPI | 정의 | 산식 | 목표 | |------|------|------|------|...
-
-**대화 길이:** 총 24개 메시지 (질문 12개)
 
 ---
 
@@ -1132,7 +1195,45 @@
 ### Task Lifecycle 권한 모델
 **날짜:** 2026-03-04 | **파일:** conversations-006.json
 
-**맥락/질문:** 다음은 라벨링 툴의 Task lifecycle 을 테스트하는 시나리오야. 내용을 검토한 후에 계정 권한별로 Task의 Stage control과 Workspace 내 action에 대해서 어떤 권한이 부여되어야 하는지 표로 정리해 줄래?  Stage  Account  Scenario  UI  UX              Set up     Owner     계정 생성 시, 동일한 업체로 레이블러, 리뷰어, 매니저 계정 묶음을 생성한다.  테스터에 따라 다른 업체로 생성한다.  테스트용 데이터 셋을 1개 만든다.  Policy 별로 진행한다.  종료 후, Completed 상태의 Task를 Export 한다.     Sub.manager...
+**맥락/질문:** 다음은 라벨링 툴의 Task lifecycle 을 테스트하는 시나리오야. 내용을 검토한 후에 계정 권한별로 Task의 Stage control과 Workspace 내 action에 대해서 어떤 권한이 부여되어야 하는지 표로 정리해 줄래?  Stage
+ 
+ Account
+ 
+ Scenario
+ 
+ UI
+ 
+ UX
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+ Set up
+ 
+  
+ 
+ Owner
+ 
+  
+ 
+ 계정 생성 시, 동일한 업체로 레이블러, 리뷰어, 매니저 계정 묶음을 생성한다.
+ 
+ 테스터에 따라 다른 업체로 생성한다.
+ 
+ 테스트용 데이터 셋을 1개 만든다.
+ 
+ Policy 별로 진행한다.
+ 
+ 종료 후, Completed 상태의 Task를 Export 한다.
+ 
+  
+ 
+ Sub.manager...
 
 **핵심 답변/결론:** 시나리오를 구조적으로 해석하면 **권한 모델은 3개의 축으로 정리된다.**  1. **Stage Control 권한** (Stage 전환을 발생시키는 Action) 2. **Workspace Action 권한** (작업 화면 내부 기능) 3. **Board Action 권한** (Task list / board에서의 관리 기능)  그리고 Stage lifecycle은 다음 흐름으로 고정되어 있다.  ``` Labeling  → Review  → Submit-wait  → Inspection  → Final review  → Completed ```  각 Stage 전환은 **특정 Role의 Action으로만 발생**하도록 설계되어 있다.   이 구조를 기준으로 권한을 정리하면 다음과 같다.  ---  # 1. Task Lifecycle Stage Control 권한  | Stage | Trigger Action | Next Stage | 권한 Role | |---|---|---|---| | Yellow StarLabeling (Waiting/In progress) | Done | Yellow StarReview (Waiting) | Sub.labeler |...
 

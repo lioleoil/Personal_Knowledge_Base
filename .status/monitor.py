@@ -37,6 +37,7 @@ FOLDER_COLORS = {
     'OpenLABEL':         '#1ABC9C',
     'DQA':               '#E74C3C',
     'Gen1_Gen2_Labeling':'#E67E22',
+    'Gen2_Policy':       '#E91E8C',
     'Career':            '#F39C12',
     'Python_Scripts':    '#27AE60',
     'Strategy_Business': '#3498DB',

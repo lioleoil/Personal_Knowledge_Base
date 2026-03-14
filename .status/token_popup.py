@@ -154,7 +154,7 @@ def show_popup(data):
 
 
 if __name__ == '__main__':
-    data = {'used': 0, 'window_limit': 44000, 'plan': 'Pro', 'date': '', 'sessions': []}
+    data = {'used': 0, 'window_limit': 72000, 'plan': 'Pro', 'date': '', 'sessions': []}
     if os.path.exists(TOKEN_FILE):
         try:
             with open(TOKEN_FILE, 'r', encoding='utf-8') as f:

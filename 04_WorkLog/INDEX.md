@@ -1,6 +1,6 @@
 # WorkLog INDEX
 
-> 마지막 업데이트: 2026-03-14 10:16
+> 마지막 업데이트: 2026-03-14 19:37
 
 ---
 
@@ -9,6 +9,7 @@
 ### Career/ — 이직, 커리어 전략, 이력서, 포트폴리오
 
 - [Career_대화_학습_정리.md](Career/Career_대화_학습_정리.md) _(저장: 2026-03-14)_
+- [Career_인사이트_심층분석.md](Career/Career_인사이트_심층분석.md) _(저장: 2026-03-14)_
 
 ### DQA/ — 데이터 품질 분석, 라벨 검증
 
@@ -17,6 +18,10 @@
 ### Gen1_Gen2_Labeling/ — OD/RMD/3DP 라벨링 성능 측정, Policy
 
 - [Gen1_Gen2_Labeling_대화_학습_정리.md](Gen1_Gen2_Labeling/Gen1_Gen2_Labeling_대화_학습_정리.md) _(저장: 2026-03-14)_
+
+### Gen2_Policy/ — Sequence 기반 Gen2 Annotation Policy 수립·조항 작성·번역
+
+- [Gen2_Policy_대화_학습_정리.md](Gen2_Policy/Gen2_Policy_대화_학습_정리.md) _(저장: 2026-03-14)_
 
 ### Misc/ — 기타 (개인 관심사, 일회성 질문)
 
@@ -44,6 +49,6 @@
 
 ---
 
-**총 파일 수: 9개**
+**총 파일 수: 11개**
 
 > 새 파일 추가 후 `python update_index.py` 실행하면 이 파일이 자동 갱신됩니다.

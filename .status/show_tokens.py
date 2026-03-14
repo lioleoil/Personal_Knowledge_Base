@@ -39,7 +39,7 @@ def load():
             data = json.load(f)
         if data.get('date') == period:
             return data
-    return {'date': period, 'used': 0, 'window_limit': 44000, 'plan': 'Pro', 'sessions': [], 'transcripts': {}}
+    return {'date': period, 'used': 0, 'window_limit': 72000, 'plan': 'Pro', 'sessions': [], 'transcripts': {}}
 
 
 def save(data):

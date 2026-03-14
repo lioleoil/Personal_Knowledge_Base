@@ -1,6 +1,4 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# README
 
 > 기본 저장 경로: `C:\Users\psh93\OneDrive\Desktop\Claude`
 
@@ -18,10 +16,12 @@ Claude/
 │
 ├── 02_Profile/          # 직업 프로필 (자율주행 어노테이션 PO/PM), 역량맵
 │   ├── user_profile.md          → 자율주행 어노테이션, 데이터 플랫폼, Python, 커리어 이력
+│   ├── More about you.md        → 사용자 추가 자기소개 및 보완 정보
 │   └── 역량맵_Capability_Map.md → 689개 대화 기반 증거 중심 역량 맵
 │
-├── 03_Instructions/     # Claude 인터랙션 커스텀 설정
-│   └── user_custom_instructions.md  → 역할, 톤, 응답 포맷, Q1/Q2/Q3 규칙
+├── 03_Instructions/     # Claude 인터랙션 커스텀 설정 및 효율화 가이드
+│   ├── user_custom_instructions.md    → 역할, 톤, 응답 포맷, Q1/Q2/Q3 규칙
+│   └── Claude_Code_효율화_매뉴얼.md  → 토큰 절약 전략, 파일 읽기 규칙, 에이전트 사용법
 │
 ├── 04_WorkLog/          # GPT/Claude 대화 학습 결과물 (주제별 분류)
 │   ├── Nova/                → Nova 대시보드, 사내 서비스 기획/릴리즈
@@ -29,6 +29,8 @@ Claude/
 │   ├── OpenLABEL/           → ASAM OpenLABEL, SV→OpenLABEL 마이그레이션
 │   ├── DQA/                 → 데이터 품질 분석, 라벨 검증
 │   ├── Gen1_Gen2_Labeling/  → OD/RMD/3DP 라벨링 성능 측정, Policy
+│   ├── Gen2_Policy/         → Sequence 기반 Gen2 Annotation Policy 수립·조항 작성·번역 (2025-11~)
+│   │   └── Gen2_Policy_대화_학습_정리.md
 │   ├── Career/              → 이직, 커리어 전략, 이력서, 포트폴리오
 │   ├── Python_Scripts/      → Python 스크립트, 자동화, 파일 처리
 │   ├── Strategy_Business/   → 전략 문서, KPI/OKR, 비즈니스 번역
@@ -36,16 +38,27 @@ Claude/
 │   ├── INDEX.md             → 전체 대화 분류 현황 요약 (자동 생성)
 │   └── update_index.py      → INDEX.md 자동 갱신 스크립트
 │
-└── .status/             # 에이전트 진행 상황 모니터링 (q1/q2/q3_status.json)
+├── scripts/             # 유틸리티 스크립트
+│   ├── agent_log.py         → AgentLog 클래스 (에이전트 실행 기록 관리)
+│   └── classify.py          → 대화 분류 파이프라인
+│
+└── .status/             # 토큰 추적 및 에이전트 모니터링
+    ├── monitor.py           → Claude Agent Monitor GUI (tkinter)
+    ├── show_tokens.py       → 터미널 토큰 사용량 바 표시
+    ├── auto_track.py        → Stop 훅 — transcript 기반 자동 토큰 집계
+    ├── token_popup.py       → 세션 종료 시 토큰 사용량 GUI 팝업
+    └── token_usage.json     → 토큰 사용량 데이터 (5시간 윈도우 기준)
 ```
 
 ## 핵심 파일
 
 - `03_Instructions/user_custom_instructions.md` — Claude 응답 방식 규칙 (한국어 응답, Q1/Q2/Q3 후속 질문 형식 등)
+- `03_Instructions/Claude_Code_효율화_매뉴얼.md` — 토큰 효율화 전략 및 에이전트 운영 규칙
 - `01_Identity/user_identity.md` — 사용자 정체성 심층 분석
 - `02_Profile/user_profile.md` — 직업·기술 스택·커리어 맥락
 - `02_Profile/역량맵_Capability_Map.md` — 689개 대화 기반 증거 중심 역량 맵
 - `04_WorkLog/INDEX.md` — 전체 WorkLog 파일 인덱스
+- `04_WorkLog/Gen2_Policy/Gen2_Policy_대화_학습_정리.md` — Gen2 Policy 특화 대화 정리 (31개, 2025-11~2026-01)
 
 ## 자주 쓰는 명령
 
@@ -163,3 +176,6 @@ log.done('완료 메시지')   # 또는 log.error('오류 내용')
 | 2026-03-14 | 초기 구조 생성, 기존 메모리 파일 이전 |
 | 2026-03-14 | 04_WorkLog 주제별 하위 구조 생성, Custom instructions 통합, 694개 대화 학습 시작 |
 | 2026-03-14 | README.md 삭제, CLAUDE.md로 통합 |
+| 2026-03-14 | token window_limit 44000 → 72000 수정 (실측 기반) |
+| 2026-03-14 | Gen2_Sequence_Annotation_Policy_대화_정리.md 분리 생성 (31개 대화, 2025-11~2026-01) |
+| 2026-03-14 | README.md 폴더 구조 현행화 (scripts/, .status/ 파일 목록 추가) |

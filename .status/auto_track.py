@@ -15,11 +15,16 @@ POPUP_SCRIPT   = os.path.join(STATUS_DIR, 'token_popup.py')
 
 def launch_popup():
     """GUI 팝업을 백그라운드 서브프로세스로 실행 (훅 블로킹 없음)."""
-    subprocess.Popen(
-        [sys.executable, POPUP_SCRIPT],
-        creationflags=subprocess.DETACHED_PROCESS if sys.platform == 'win32' else 0,
-        close_fds=True,
-    )
+    if sys.platform == 'win32':
+        # pythonw.exe: 콘솔 창 없이 GUI만 표시 (Windows GUI 앱 표준 실행 방식)
+        pythonw = os.path.join(os.path.dirname(sys.executable), 'pythonw.exe')
+        interpreter = pythonw if os.path.exists(pythonw) else sys.executable
+        subprocess.Popen(
+            [interpreter, POPUP_SCRIPT],
+            creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+        )
+    else:
+        subprocess.Popen([sys.executable, POPUP_SCRIPT])
 
 
 def count_tokens_from_transcript(transcript_path):
