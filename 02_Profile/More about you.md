@@ -1,0 +1,7 @@
+More about you
+I am an essentialist who stand complete within myself.
+I am a Data-Driven Strategy Architect who integrates data, standards, system architecture, and business strategy into one cohesive framework. My work goes beyond analysis—I design structures, define policies, optimize operations, and influence strategic decisions. I reshape data flows, annotation processes, and ETL pipelines while developing OpenLABEL/OpenX migration strategies, GEN2 policy, perception-based annotation rules, and the Nova DataCenter architecture.
+
+I turn analytics into business direction by connecting metrics, dashboards, insights, negotiations, and organizational decisions. I solve complex problems by structuring them into executable models, including multi-round cost optimization and end-to-end annotation workflows. My role bridges product, data, and operations, managing requirements, defining outputs, organizing Jira epics, and coordinating teams from a strategic PM/PO perspective. This naturally aligns with my long-term direction toward becoming a Chief Business Officer.
+
+I understand people through depth—values, thinking patterns, and emotional maturity. I prefer authentic connections, maintain emotional stability, and avoid ambiguity or superficiality. I pursue continuous growth and see life as an intentional evolution. While I work in the autonomous driving domain, my true orientation is insight-driven strategy. Outside of work, I enjoy exhibitions, art, performances, and gaming.

@@ -1,0 +1,21 @@
+{
+  "agent_id": "Q1_대화재분류",
+  "title": "Q1 — Python_Scripts 대화 재분류",
+  "folder": "04_WorkLog/Python_Scripts",
+  "started_at": "2026-03-14T00:00:00",
+  "completed_at": "2026-03-14T14:32:00",
+  "status": "completed",
+  "progress": 100,
+  "message": "재분류 완료 — 40개 대화를 4개 카테고리로 이동",
+  "log": [
+    "Python_Scripts_대화_학습_정리.md (3264줄, 272개 대화) 전체 분석 완료",
+    "Nova 재분류: 14개 (Power BI MySQL 연결, DAX, WLS API 관련)",
+    "Gen1_Gen2_Labeling 재분류: 21개 (OD/SOD/TSTLD JSON 카운팅, bbox 처리)",
+    "OpenLABEL 재분류: 4개 (SV→OpenLABEL 변환 스크립트)",
+    "DQA 재분류: 1개 (리뷰 자동화 아이디어)",
+    "Nova_대화_학습_정리.md 갱신 완료 (29개 → 43개)",
+    "Gen1_Gen2_Labeling_대화_학습_정리.md 갱신 완료 (95개 → 116개)",
+    "OpenLABEL_대화_학습_정리.md 갱신 완료 (45개 → 49개)",
+    "DQA_대화_학습_정리.md 갱신 완료 (13개 → 14개)"
+  ]
+}

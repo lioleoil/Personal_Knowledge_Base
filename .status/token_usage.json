@@ -1,0 +1,77 @@
+{
+  "date": "2026-03-14 14:00",
+  "used": 78359,
+  "window_limit": 75699,
+  "plan": "Pro",
+  "sessions": [
+    {
+      "task": "오늘 대화 (14:00 이전 포함)",
+      "tokens": 31082,
+      "time": "15:23:00"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1568,
+      "time": "15:30:18"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 629,
+      "time": "15:30:37"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 7251,
+      "time": "15:37:19"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1728,
+      "time": "15:39:32"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 13468,
+      "time": "15:48:04"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 581,
+      "time": "15:48:25"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 6905,
+      "time": "15:54:07"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 6313,
+      "time": "15:57:16"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 874,
+      "time": "15:58:44"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 819,
+      "time": "15:59:57"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 3348,
+      "time": "16:02:49"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 3793,
+      "time": "16:06:19"
+    }
+  ],
+  "transcripts": {
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\063e133b-d2e6-4cc8-8cb7-cf183b83c90c.jsonl": 74566,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\cfc36fb2-7a8e-4dd3-80b6-2d1061e0fe81.jsonl": 3793
+  }
+}

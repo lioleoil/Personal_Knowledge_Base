@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PYTHONIOENCODING=utf-8 python \"C:/Users/psh93/OneDrive/Desktop/Claude/.status/auto_track.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
