@@ -1,0 +1,61 @@
+{
+  "date": "2026-03-14 19:00",
+  "used": 52817,
+  "window_limit": 72000,
+  "plan": "Pro",
+  "sessions": [
+    {
+      "task": "자동 추적",
+      "tokens": 275,
+      "time": "19:00:49"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1712,
+      "time": "19:02:42"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 2010,
+      "time": "19:05:31"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 422,
+      "time": "19:07:09"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 604,
+      "time": "19:08:02"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 2195,
+      "time": "19:16:27"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 18483,
+      "time": "19:24:06"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 4134,
+      "time": "19:27:25"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 10915,
+      "time": "19:38:08"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 12067,
+      "time": "19:45:13"
+    }
+  ],
+  "transcripts": {
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\68855607-c75d-4f3e-bde1-d11faa681b45.jsonl": 52817
+  }
+}

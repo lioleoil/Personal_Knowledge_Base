@@ -14,6 +14,7 @@ FOLDER_DESC = {
     'OpenLABEL':          'ASAM OpenLABEL, SV→OpenLABEL 마이그레이션',
     'DQA':                '데이터 품질 분석, 라벨 검증',
     'Gen1_Gen2_Labeling': 'OD/RMD/3DP 라벨링 성능 측정, Policy',
+    'Gen2_Policy':        'Sequence 기반 Gen2 Annotation Policy 수립·조항 작성·번역',
     'Career':             '이직, 커리어 전략, 이력서, 포트폴리오',
     'Python_Scripts':     'Python 스크립트, 자동화, 파일 처리',
     'Strategy_Business':  '전략 문서, KPI/OKR, 비즈니스 번역',
