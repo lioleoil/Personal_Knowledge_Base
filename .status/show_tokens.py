@@ -24,9 +24,9 @@ WHITE = '\033[97m'
 
 def get_period_key():
     """현재 시각 기준 5시간 윈도우의 시작 시각을 반환.
-    알려진 기준점(2026-03-14 14:00)에서 5시간 단위로 계산."""
+    알려진 기준점(2026-03-15 07:57, 웹 실측)에서 5시간 단위로 계산."""
     now = datetime.now()
-    anchor = datetime(2026, 3, 14, 14, 0, 0)
+    anchor = datetime(2026, 3, 15, 8, 0, 0)
     delta_h = (now - anchor).total_seconds() / 3600
     window_idx = int(delta_h // 5)
     period_start = anchor + timedelta(hours=5 * window_idx)

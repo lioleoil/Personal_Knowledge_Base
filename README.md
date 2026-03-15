@@ -23,24 +23,34 @@ Claude/
 │   ├── user_custom_instructions.md    → 역할, 톤, 응답 포맷, Q1/Q2/Q3 규칙
 │   └── Claude_Code_효율화_매뉴얼.md  → 토큰 절약 전략, 파일 읽기 규칙, 에이전트 사용법
 │
-├── 04_WorkLog/          # GPT/Claude 대화 학습 결과물 (주제별 분류)
+├── 04_WorkLog/          # 대화 로그 요약 + 정리 마크다운 전용
 │   ├── Nova/                → Nova 대시보드, 사내 서비스 기획/릴리즈
 │   ├── ODD/                 → ASAM OpenODD, 운행설계영역
 │   ├── OpenLABEL/           → ASAM OpenLABEL, SV→OpenLABEL 마이그레이션
 │   ├── DQA/                 → 데이터 품질 분석, 라벨 검증
 │   ├── Gen1_Gen2_Labeling/  → OD/RMD/3DP 라벨링 성능 측정, Policy
 │   ├── Gen2_Policy/         → Sequence 기반 Gen2 Annotation Policy 수립·조항 작성·번역 (2025-11~)
-│   │   └── Gen2_Policy_대화_학습_정리.md
 │   ├── Career/              → 이직, 커리어 전략, 이력서, 포트폴리오
 │   ├── Python_Scripts/      → Python 스크립트, 자동화, 파일 처리
 │   ├── Strategy_Business/   → 전략 문서, KPI/OKR, 비즈니스 번역
 │   ├── Misc/                → 기타 (개인 관심사, 일회성 질문)
+│   ├── Daily_Scrap/         → GeekNews 일간 뉴스 스크랩 (자동 수집)
+│   │   └── Daily_Scrap.md
 │   ├── INDEX.md             → 전체 대화 분류 현황 요약 (자동 생성)
 │   └── update_index.py      → INDEX.md 자동 갱신 스크립트
 │
-├── scripts/             # 유틸리티 스크립트
+├── .agents/             # 에이전트 실행 JSON 로그 전용 (WorkLog와 분리)
+│   ├── daily_scrap/         → daily_scrap.py / daily_scrap_runner.py 로그
+│   ├── classify/            → classify.py 로그
+│   └── career_insight/      → 커리어 인사이트 에이전트 로그
+│
+├── .scripts/            # 유틸리티 스크립트
 │   ├── agent_log.py         → AgentLog 클래스 (에이전트 실행 기록 관리)
-│   └── classify.py          → 대화 분류 파이프라인
+│   ├── classify.py          → 대화 분류 파이프라인
+│   ├── daily_scrap.py       → GeekNews 기사 수집·선택 → .staging.json
+│   ├── daily_scrap_runner.py→ 전체 파이프라인 (수집→요약→저장→팝업)
+│   ├── scrap_popup.py       → 스크랩 완료 알림 팝업 (좌상단)
+│   └── run_daily_scrap.bat  → Task Scheduler 진입점 (매일 09:00)
 │
 └── .status/             # 토큰 추적 및 에이전트 모니터링
     ├── monitor.py           → Claude Agent Monitor GUI (tkinter)
@@ -70,9 +80,12 @@ python 04_WorkLog/update_index.py
 python .status/monitor.py
 
 # 대화 분류 파이프라인
-python scripts/classify.py <file.json>         # 단일 파일 (오분류 시 팝업)
-python scripts/classify.py --dry-run <file>    # 미리보기
-python scripts/classify.py --no-popup <file>   # 팝업 없이 자동 처리
+python .scripts/classify.py <file.json>         # 단일 파일 (오분류 시 팝업)
+python .scripts/classify.py --dry-run <file>    # 미리보기
+python .scripts/classify.py --no-popup <file>   # 팝업 없이 자동 처리
+
+# GeekNews 뉴스 스크랩 수동 실행
+python .scripts/daily_scrap_runner.py
 
 # 토큰 사용량 수동 확인 / 기록 추가 (Claude가 세션 종료 시 자동 실행)
 python .status/show_tokens.py                      # 현재 사용량만 표시
@@ -105,19 +118,18 @@ python .status/show_tokens.py <추정_토큰수> "<작업명>"
 
 ## 에이전트 실행 기록 관리
 
-에이전트는 작업 대상 폴더의 `.agents/` 디렉토리에 실행 기록을 저장한다.
-monitor.py가 프로젝트 전체를 자동 탐색하여 모든 에이전트 기록을 표시한다.
+에이전트 로그는 `.agents/<agent_type>/` 에 저장한다. WorkLog와 완전히 분리.
 
 **에이전트 로깅 사용법:**
 ```python
 import sys
-sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Claude/scripts')
+sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Claude/.scripts')
 from agent_log import AgentLog
 
 log = AgentLog(
-    agent_id = "작업명_날짜",
-    title    = "표시용 제목",
-    folder   = "04_WorkLog/Python_Scripts",  # 프로젝트 루트 기준 상대경로
+    agent_id   = "작업명_날짜",
+    title      = "표시용 제목",
+    agent_type = "classify",   # .agents/ 하위 폴더명
 )
 log.add('처리 시작')          # 로그 항목 추가
 log.update(progress=50)      # 진행률 업데이트
@@ -125,17 +137,17 @@ log.done('완료 메시지')       # 완료 처리
 log.error('오류 메시지')      # 오류 처리
 ```
 
-**저장 위치:** `{folder}/.agents/{YYYYMMDD_HHMMSS}_{agent_id}.json`
+**저장 위치:** `.agents/{agent_type}/{YYYYMMDD_HHMMSS}_{agent_id}.json`
 
 **파일 스키마:**
 ```json
 {
   "agent_id": "식별자",
   "title": "표시용 제목",
-  "folder": "대상 폴더 경로",
+  "agent_type": "daily_scrap",
   "started_at": "ISO8601",
   "completed_at": "ISO8601 or null",
-  "status": "waiting|running|completed|error",
+  "status": "running|completed|error",
   "progress": 0,
   "message": "현재 작업 설명",
   "log": ["HH:MM:SS  로그 항목"]
@@ -145,23 +157,23 @@ log.error('오류 메시지')      # 오류 처리
 ## 서브에이전트 표준 지시문 템플릿
 
 **Claude 필수 규칙:** 서브에이전트를 생성할 때 프롬프트 맨 앞에 아래 블록을 반드시 포함한다.
-`<agent_id>`, `<title>`, `<folder>` 세 값은 작업 내용을 분석하여 Claude가 직접 채운다:
+`<agent_id>`, `<title>`, `<agent_type>` 세 값은 작업 내용을 분석하여 Claude가 직접 채운다:
 - `agent_id`: `작업명_YYYYMMDD` 형식 (예: `Nova재분류_20260315`)
 - `title`: 작업 목적을 한 줄로 요약한 한국어 제목
-- `folder`: 작업 대상 파일이 위치한 프로젝트 루트 기준 상대경로 (예: `04_WorkLog/Nova`)
+- `agent_type`: `.agents/` 하위 폴더명 (예: `classify`, `daily_scrap`, `career_insight`)
 
 ```
 [에이전트 로깅 필수]
 작업 시작 시 즉시 아래 코드를 실행하여 AgentLog를 초기화하고, 이후 모든 주요 단계마다 log.add() 또는 log.update()를 호출하라. Read/Write/Edit 권한이 필요하다.
 
 import sys
-sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Claude/scripts')
+sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Claude/.scripts')
 from agent_log import AgentLog
 
 log = AgentLog(
-    agent_id = "<agent_id>",
-    title    = "<title>",
-    folder   = "<folder>",
+    agent_id   = "<agent_id>",
+    title      = "<title>",
+    agent_type = "<agent_type>",
 )
 log.add('작업 시작')
 # ... 작업 수행 ...
@@ -179,3 +191,5 @@ log.done('완료 메시지')   # 또는 log.error('오류 내용')
 | 2026-03-14 | token window_limit 44000 → 72000 수정 (실측 기반) |
 | 2026-03-14 | Gen2_Sequence_Annotation_Policy_대화_정리.md 분리 생성 (31개 대화, 2025-11~2026-01) |
 | 2026-03-14 | README.md 폴더 구조 현행화 (scripts/, .status/ 파일 목록 추가) |
+| 2026-03-15 | Daily Scrap Agent 구축 (GeekNews 자동 수집, Task Scheduler, 팝업 알림) |
+| 2026-03-15 | 디렉토리 정책 재편: scripts/ → .scripts/, .agents/ 최상위 분리, WorkLog 순수화 |
