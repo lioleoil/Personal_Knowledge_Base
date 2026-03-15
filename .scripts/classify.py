@@ -3,14 +3,30 @@ Claude Code 대화 자동 분류 파이프라인
 용도: ~/.claude/projects/<project>/*.jsonl 을 읽어 키워드 기반으로 카테고리 분류 후 WorkLog에 자동 append
 
 사용법:
-  python scripts/classify.py                     # 현재 프로젝트 JSONL 전체
-  python scripts/classify.py --all               # 모든 Claude 프로젝트 JSONL
-  python scripts/classify.py --dry-run           # 분류 결과만 미리보기
-  python scripts/classify.py <file.jsonl>        # 단일 파일 지정
+  python .scripts/classify.py                     # 현재 프로젝트 JSONL 전체
+  python .scripts/classify.py --all               # 모든 Claude 프로젝트 JSONL
+  python .scripts/classify.py --dry-run           # 분류 결과만 미리보기
+  python .scripts/classify.py <file.jsonl>        # 단일 파일 지정
 
 결과:
   - 04_WorkLog/<카테고리>/<카테고리>_대화_학습_정리.md 끝에 새 섹션 추가
   - 04_WorkLog/INDEX.md 자동 갱신 (update_index.py 호출)
+
+─── 디렉토리 정책 ───────────────────────────────────────────────────
+  04_WorkLog/          대화 로그 요약 + 정리 마크다운 파일만 보관
+    <카테고리>/
+      <카테고리>_대화_학습_정리.md   ← classify.py 출력 대상
+      (기타 수동 정리 마크다운)
+
+  .agents/             에이전트 실행 로그 전용 (AgentLog JSON)
+    daily_scrap/       ← daily_scrap.py, daily_scrap_runner.py
+    classify/          ← classify.py 에이전트 로그
+    career_insight/    ← 커리어 인사이트 에이전트
+    (기타 에이전트 유형)
+
+  WorkLog에 .agents/ 폴더나 에이전트 JSON을 생성하지 않는다.
+  에이전트 로그는 반드시 AgentLog(agent_type=...) 를 통해 .agents/ 에만 기록한다.
+─────────────────────────────────────────────────────────────────────
 """
 
 import json
@@ -26,8 +42,9 @@ from pathlib import Path
 if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-BASE = Path(__file__).parent.parent
-WORKLOG = BASE / '04_WorkLog'
+BASE            = Path(__file__).parent.parent
+WORKLOG         = BASE / '04_WorkLog'        # 대화 로그 + 마크다운 전용
+AGENTS_ROOT     = BASE / '.agents' / 'classify'  # classify 에이전트 로그 위치
 CLAUDE_PROJECTS = Path.home() / '.claude' / 'projects'
 
 # 현재 프로젝트 ID (프로젝트 디렉토리명 → 슬래시 → 언더스코어 변환 기반)
@@ -393,7 +410,10 @@ def find_jsonl_files(project_id: str = CURRENT_PROJECT, all_projects: bool = Fal
 
 
 def append_to_worklog(conv: dict, category: str):
-    """분류된 대화를 해당 카테고리 파일에 append"""
+    """분류된 대화를 해당 카테고리 마크다운 파일에 append.
+    정책: WorkLog에는 *_대화_학습_정리.md 와 수동 정리 마크다운만 기록.
+          에이전트 로그(JSON)는 .agents/ 에만 기록하며 이 함수에서 생성하지 않는다.
+    """
     cat_info = next((c for c in CATEGORIES if c['name'] == category), CATEGORIES[-1])
     target = WORKLOG / cat_info['file']
 

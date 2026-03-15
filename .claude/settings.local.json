@@ -6,7 +6,18 @@
       "Bash(ls:*)",
       "Bash(cd:*)",
       "WebSearch",
-      "Bash(pythonw:*)"
+      "Bash(pythonw:*)",
+      "Bash(start:*)",
+      "WebFetch(domain:news.hada.io)",
+      "Bash(pip install:*)",
+      "Bash(echo:*)",
+      "Bash(schtasks:*)",
+      "Bash(cmd //c \"schtasks /create /tn \\\\\"Claude_DailyScrap\\\\\" /tr \\\\\"python C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\scripts\\\\\\\\daily_scrap_runner.py\\\\\" /sc DAILY /st 09:03 /f\" 2>&1)",
+      "Bash(cmd //c \"schtasks /create /tn Claude_DailyScrap /tr \\\\\"python C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\scripts\\\\\\\\daily_scrap_runner.py\\\\\" /sc DAILY /st 09:03 /f\" 2>&1)",
+      "Bash(cmd //c \"schtasks /create /tn Claude_DailyScrap /tr \\\\\"C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\scripts\\\\\\\\run_daily_scrap.bat\\\\\" /sc DAILY /st 09:03 /f\" 2>&1)",
+      "Bash(cmd //c \"schtasks /query /tn Claude_DailyScrap /fo LIST\" 2>&1)",
+      "Bash(cmd //c \"schtasks /change /tn Claude_DailyScrap /st 09:00\" 2>&1)",
+      "Bash(cmd //c \"schtasks /change /tn Claude_DailyScrap /tr \\\\\"C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\.scripts\\\\\\\\run_daily_scrap.bat\\\\\"\" 2>&1)"
     ]
   }
 }

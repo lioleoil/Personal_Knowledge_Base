@@ -83,7 +83,8 @@ def main():
 
     if new_tokens >= MIN_NEW_TOKENS:
         transcripts[transcript_path] = total_tokens
-        data['used'] = data.get('used', 0) + new_tokens
+        data['used']        = data.get('used', 0)        + new_tokens
+        data['weekly_used'] = data.get('weekly_used', 0) + new_tokens
         data.setdefault('sessions', []).append({
             'task': '자동 추적',
             'tokens': new_tokens,

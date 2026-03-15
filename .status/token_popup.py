@@ -48,19 +48,28 @@ def show_popup(data):
     pct      = min(used / limit * 100, 100) if limit > 0 else 0
     color    = get_bar_color(pct)
 
+    weekly_used  = data.get('weekly_used', 0)
+    weekly_limit = data.get('weekly_limit', 500000)
+    week_start   = data.get('week_start', '')
+    wpct         = min(weekly_used / weekly_limit * 100, 100) if weekly_limit > 0 else 0
+    wcolor       = get_bar_color(wpct)
+
     warn_text  = None
     warn_color = RED
     if pct >= 90:
-        warn_text  = '!  한도 90% 초과 — 속도 제한 임박'
+        warn_text  = '!  윈도우 90% 초과 — 속도 제한 임박'
         warn_color = RED
     elif pct >= 75:
-        warn_text  = f'!  한도 75% 도달 — 잔여 {fmt(limit - used)} 토큰'
+        warn_text  = f'!  윈도우 75% 도달 — 잔여 {fmt(limit - used)} 토큰'
         warn_color = YELLOW
+    elif wpct >= 80:
+        warn_text  = f'!  주간 80% 초과 — 상위 5% 헤비유저 구간'
+        warn_color = ORANGE
 
     recent = sessions[-2:] if sessions else []
 
     W = 420
-    H = 138 + (22 if warn_text else 0) + len(recent) * 19
+    H = 170 + (22 if warn_text else 0) + len(recent) * 19
 
     root = tk.Tk()
     root.title('Token Usage')
@@ -85,28 +94,53 @@ def show_popup(data):
     tk.Label(hdr, text=f'{plan}  |  {period}~', bg=BG, fg=GRAY,
              font=('Consolas', 9)).pack(side='right', padx=(0, 2))
 
-    # ── 진행 바 ───────────────────────────────
-    bar_canvas = tk.Canvas(root, bg=BG2, height=13,
+    # ── 5시간 윈도우 바 ───────────────────────
+    tk.Label(root, text='5h 윈도우', bg=BG, fg=GRAY,
+             font=('Consolas', 8)).pack(anchor='w', padx=pad, pady=(0, 1))
+    bar_canvas = tk.Canvas(root, bg=BG2, height=11,
                            highlightthickness=0, relief='flat')
-    bar_canvas.pack(fill='x', padx=pad, pady=(0, 3))
+    bar_canvas.pack(fill='x', padx=pad, pady=(0, 2))
 
     def draw_bar(event=None):
         bar_canvas.update_idletasks()
         w = bar_canvas.winfo_width()
         filled = max(1, int(w * pct / 100))
         bar_canvas.delete('all')
-        bar_canvas.create_rectangle(0, 0, w, 13, fill=BG2, outline='')
-        bar_canvas.create_rectangle(0, 0, filled, 13, fill=color, outline='')
+        bar_canvas.create_rectangle(0, 0, w, 11, fill=BG2, outline='')
+        bar_canvas.create_rectangle(0, 0, filled, 11, fill=color, outline='')
 
     bar_canvas.bind('<Configure>', draw_bar)
 
-    # ── 수치 ──────────────────────────────────
     num = tk.Frame(root, bg=BG)
     num.pack(fill='x', padx=pad)
-    tk.Label(num, text=f'{fmt(used)}  /  {fmt(limit)}', bg=BG, fg=color,
-             font=('Consolas', 10, 'bold')).pack(side='left')
+    tk.Label(num, text=f'{fmt(used)} / {fmt(limit)}', bg=BG, fg=color,
+             font=('Consolas', 9, 'bold')).pack(side='left')
     tk.Label(num, text=f'{pct:.1f}%', bg=BG, fg=color,
-             font=('Consolas', 10, 'bold')).pack(side='right')
+             font=('Consolas', 9, 'bold')).pack(side='right')
+
+    # ── 주간 바 ───────────────────────────────
+    tk.Label(root, text=f'주간 ({week_start}~)', bg=BG, fg=GRAY,
+             font=('Consolas', 8)).pack(anchor='w', padx=pad, pady=(5, 1))
+    wbar_canvas = tk.Canvas(root, bg=BG2, height=11,
+                            highlightthickness=0, relief='flat')
+    wbar_canvas.pack(fill='x', padx=pad, pady=(0, 2))
+
+    def draw_wbar(event=None):
+        wbar_canvas.update_idletasks()
+        w = wbar_canvas.winfo_width()
+        filled = max(1, int(w * wpct / 100))
+        wbar_canvas.delete('all')
+        wbar_canvas.create_rectangle(0, 0, w, 11, fill=BG2, outline='')
+        wbar_canvas.create_rectangle(0, 0, filled, 11, fill=wcolor, outline='')
+
+    wbar_canvas.bind('<Configure>', draw_wbar)
+
+    wnum = tk.Frame(root, bg=BG)
+    wnum.pack(fill='x', padx=pad)
+    tk.Label(wnum, text=f'{fmt(weekly_used)} / {fmt(weekly_limit)}', bg=BG, fg=wcolor,
+             font=('Consolas', 9, 'bold')).pack(side='left')
+    tk.Label(wnum, text=f'{wpct:.1f}%', bg=BG, fg=wcolor,
+             font=('Consolas', 9, 'bold')).pack(side='right')
 
     # ── 경고 ──────────────────────────────────
     if warn_text:
