@@ -17,7 +17,14 @@
       "Bash(cmd //c \"schtasks /create /tn Claude_DailyScrap /tr \\\\\"C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\scripts\\\\\\\\run_daily_scrap.bat\\\\\" /sc DAILY /st 09:03 /f\" 2>&1)",
       "Bash(cmd //c \"schtasks /query /tn Claude_DailyScrap /fo LIST\" 2>&1)",
       "Bash(cmd //c \"schtasks /change /tn Claude_DailyScrap /st 09:00\" 2>&1)",
-      "Bash(cmd //c \"schtasks /change /tn Claude_DailyScrap /tr \\\\\"C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\.scripts\\\\\\\\run_daily_scrap.bat\\\\\"\" 2>&1)"
+      "Bash(cmd //c \"schtasks /change /tn Claude_DailyScrap /tr \\\\\"C:\\\\\\\\Users\\\\\\\\psh93\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\Claude\\\\\\\\.scripts\\\\\\\\run_daily_scrap.bat\\\\\"\" 2>&1)",
+      "Bash(node:*)",
+      "Bash(claude mcp:*)",
+      "Bash(npx:*)",
+      "Bash(npm config:*)",
+      "Bash(uvx:*)",
+      "Bash(UVX=\"C:/Users/psh93/AppData/Local/Programs/Python/Python313/Scripts/uvx.exe\"\n\"$UVX\" --version 2>&1)",
+      "Bash(JIRA_URL=https://stradvision.atlassian.net \\\\\nJIRA_USERNAME=seonghwan.park@stradvision.com \\\\\nJIRA_API_TOKEN=ATATT3xFfGF0T2d9WZNU9Kx2T2As8LTJuzoedl5qmK9rVfbJUEdiW3unIp0c_PDhL40YknJ1_hCnqMWMac3p09ASF6BJ8BqRt6LSSZGuKA7xLdxDB7O6lL57OuAw3U7xlmtmc42i645vU1q-HNqKFE72ePTDPEsw65RJ8xfoZUU_Vpt43yl3fWk=7D80318E \\\\\nCONFLUENCE_URL=https://stradvision.atlassian.net/wiki \\\\\nCONFLUENCE_USERNAME=seonghwan.park@stradvision.com \\\\\nCONFLUENCE_API_TOKEN=ATATT3xFfGF0T2d9WZNU9Kx2T2As8LTJuzoedl5qmK9rVfbJUEdiW3unIp0c_PDhL40YknJ1_hCnqMWMac3p09ASF6BJ8BqRt6LSSZGuKA7xLdxDB7O6lL57OuAw3U7xlmtmc42i645vU1q-HNqKFE72ePTDPEsw65RJ8xfoZUU_Vpt43yl3fWk=7D80318E \\\\\n\"C:/Users/psh93/AppData/Local/Programs/Python/Python313/Scripts/uvx.exe\" mcp-atlassian 2>&1)"
     ]
   }
 }

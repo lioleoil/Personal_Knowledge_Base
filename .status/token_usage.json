@@ -1,72 +1,64 @@
 {
-  "date": "2026-03-15 10:00",
-  "used": 49857,
+  "date": "2026-03-15 23:00",
+  "used": 7731,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
     {
       "task": "자동 추적",
-      "tokens": 30026,
-      "time": "10:09:15"
+      "tokens": 2557,
+      "time": "23:06:21"
     },
     {
       "task": "자동 추적",
-      "tokens": 2400,
-      "time": "10:13:27"
+      "tokens": 569,
+      "time": "23:12:46"
     },
     {
       "task": "자동 추적",
-      "tokens": 387,
-      "time": "10:14:55"
+      "tokens": 244,
+      "time": "23:15:51"
     },
     {
       "task": "자동 추적",
-      "tokens": 2095,
-      "time": "10:17:07"
+      "tokens": 829,
+      "time": "23:29:44"
     },
     {
       "task": "자동 추적",
-      "tokens": 3332,
-      "time": "10:19:39"
+      "tokens": 630,
+      "time": "23:58:48"
     },
     {
       "task": "자동 추적",
-      "tokens": 366,
-      "time": "10:23:16"
+      "tokens": 1026,
+      "time": "00:04:34"
     },
     {
       "task": "자동 추적",
-      "tokens": 738,
-      "time": "10:26:18"
+      "tokens": 199,
+      "time": "00:16:43"
     },
     {
       "task": "자동 추적",
-      "tokens": 920,
-      "time": "10:28:19"
+      "tokens": 504,
+      "time": "00:18:52"
     },
     {
       "task": "자동 추적",
-      "tokens": 6983,
-      "time": "11:04:53"
+      "tokens": 410,
+      "time": "00:20:00"
     },
     {
       "task": "자동 추적",
-      "tokens": 2610,
-      "time": "11:09:40"
+      "tokens": 763,
+      "time": "00:21:38"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\063e133b-d2e6-4cc8-8cb7-cf183b83c90c.jsonl": 76658,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\292a9cb9-fdbe-40aa-9993-1b4d2e1649d7.jsonl": 15592,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\44571d4e-cb3f-46eb-a8c6-8c9f2e9aaa7a.jsonl": 50188,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\68855607-c75d-4f3e-bde1-d11faa681b45.jsonl": 52817,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\b7aafea8-88ca-4ba2-af7e-dfb874c7ff5e.jsonl": 128,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\c52477c7-5aab-421f-905d-1d08c71eb4f1.jsonl": 59144,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\cfc36fb2-7a8e-4dd3-80b6-2d1061e0fe81.jsonl": 3793,
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\d8096347-45ae-40e6-9626-69ff1588c503.jsonl": 8202,
-    "C:\\Users\\psh93\\.claude\\projects\\c--Users-psh93-OneDrive-Desktop-Claude\\d63303de-71d1-4422-ae98-8449a7cddfc2.jsonl": 1658
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\915ba9be-9525-4405-b51e-83f05c200e4d.jsonl": 7731
   },
-  "week_start": "2026-03-09",
-  "weekly_used": 268180,
-  "weekly_limit": 801759
+  "week_start": "2026-03-16",
+  "weekly_used": 2902,
+  "weekly_limit": 855485
 }
