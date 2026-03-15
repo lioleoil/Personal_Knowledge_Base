@@ -1,7 +1,8 @@
 """
 터미널 토큰 사용량 바 — Claude Code Stop 훅에 의해 자동 실행
 수동 실행: python .status/show_tokens.py [추가_토큰수] ["작업명"]
-리셋 기준: 매일 14:00 (Claude Code 5시간 윈도우 관측값)
+리셋 기준: 5시간 롤링 윈도우 / 주간 한도 별도 추적 (월~일)
+Claude Pro 정책: 5시간당 ~45메시지(짧은기준), 주간 한도는 극소수만 도달
 """
 import json, os, sys
 from datetime import datetime, timedelta
@@ -32,14 +33,51 @@ def get_period_key():
     return period_start.strftime('%Y-%m-%d %H:%M')
 
 
+def get_week_start():
+    """이번 주 월요일 날짜를 반환 (주간 한도 리셋 기준)."""
+    now = datetime.now()
+    monday = now - timedelta(days=now.weekday())
+    return monday.strftime('%Y-%m-%d')
+
+
 def load():
     period = get_period_key()
+    week_start = get_week_start()
+
     if os.path.exists(TOKEN_FILE):
         with open(TOKEN_FILE, 'r', encoding='utf-8') as f:
             data = json.load(f)
+
+        # 주간 데이터 보존 (5시간 윈도우 리셋과 무관하게 주 단위 유지)
+        saved_week = data.get('week_start', week_start)
+        if saved_week != week_start:
+            # 새 주 시작 — 주간 카운터 리셋
+            weekly_used = 0
+            saved_week = week_start
+        else:
+            weekly_used = data.get('weekly_used', 0)
+        weekly_limit = data.get('weekly_limit', 500000)
+
         if data.get('date') == period:
+            data['week_start'] = saved_week
+            data['weekly_used'] = weekly_used
+            data['weekly_limit'] = weekly_limit
             return data
-    return {'date': period, 'used': 0, 'window_limit': 72000, 'plan': 'Pro', 'sessions': [], 'transcripts': {}}
+        else:
+            # 새 5시간 윈도우 — 윈도우 데이터 리셋, 주간 데이터 유지
+            return {
+                'date': period, 'used': 0, 'window_limit': 72000,
+                'plan': 'Pro', 'sessions': [], 'transcripts': {},
+                'week_start': saved_week,
+                'weekly_used': weekly_used,
+                'weekly_limit': weekly_limit,
+            }
+
+    return {
+        'date': period, 'used': 0, 'window_limit': 72000,
+        'plan': 'Pro', 'sessions': [], 'transcripts': {},
+        'week_start': week_start, 'weekly_used': 0, 'weekly_limit': 500000,
+    }
 
 
 def save(data):
@@ -50,6 +88,7 @@ def save(data):
 def add_session(tokens, task_name):
     data = load()
     data['used'] = data.get('used', 0) + tokens
+    data['weekly_used'] = data.get('weekly_used', 0) + tokens
     data.setdefault('sessions', []).append({
         'task': task_name,
         'tokens': tokens,
@@ -90,16 +129,29 @@ def display(data):
     pct = min(used / limit * 100, 100) if limit > 0 else 0
     b, color = bar(pct)
 
+    weekly_used = data.get('weekly_used', 0)
+    weekly_limit = data.get('weekly_limit', 500000)
+    week_start = data.get('week_start', '')
+    wpct = min(weekly_used / weekly_limit * 100, 100) if weekly_limit > 0 else 0
+    wb, wcolor = bar(wpct, width=40)
+
     print()
     print(f'{BOLD}{WHITE}  [ Claude Token Usage ]  {GRAY}[{plan} | 기준: {period}~]{R}')
-    print(f'  {b}  {color}{BOLD}{pct:.1f}%{R}')
-    print(f'  {GRAY}사용: {color}{BOLD}{fmt(used)}{R}{GRAY} / 윈도우: {WHITE}{fmt(limit)}{R}  '
-          f'{GRAY}남은 토큰: {WHITE}{fmt(limit - used)}{R}')
+    print(f'  {GRAY}5h 윈도우{R}  {b}  {color}{BOLD}{pct:.1f}%{R}')
+    print(f'  {GRAY}사용: {color}{BOLD}{fmt(used)}{R}{GRAY} / {fmt(limit)}  남은: {WHITE}{fmt(limit - used)}{R}')
 
     if pct >= 90:
-        print(f'  {RED}{BOLD}[!] 한도 90% 초과 — 곧 속도 제한될 수 있음. 다음 리셋까지 사용 주의{R}')
+        print(f'  {RED}{BOLD}[!] 윈도우 90% 초과 — 속도 제한 임박{R}')
     elif pct >= 75:
-        print(f'  {YELLOW}[!] 한도 75% 도달 — 잔여 {fmt(limit - used)} 토큰{R}')
+        print(f'  {YELLOW}[!] 윈도우 75% 도달 — 잔여 {fmt(limit - used)}{R}')
+
+    print(f'  {GRAY}주간({week_start}~){R}  {wb}  {wcolor}{BOLD}{wpct:.1f}%{R}')
+    print(f'  {GRAY}주간: {wcolor}{BOLD}{fmt(weekly_used)}{R}{GRAY} / {fmt(weekly_limit)}  남은: {WHITE}{fmt(weekly_limit - weekly_used)}{R}')
+
+    if wpct >= 80:
+        print(f'  {RED}{BOLD}[!] 주간 80% 초과 — 상위 5% 헤비유저 구간{R}')
+    elif wpct >= 60:
+        print(f'  {YELLOW}[!] 주간 60% 도달{R}')
 
     if sessions:
         recent = sessions[-3:]

@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-15",
+  "articles": [
+    {
+      "title": "BitNet - 1비트 LLM을 위한 추론 프레임워크",
+      "url": "https://news.hada.io/topic?id=27444",
+      "description": "- Microsoft의 bitnet.cpp는 1비트 대형언어모델(LLM)의 공식 추론 프레임워크로, CPU와 GPU에서 빠르고 손실 없는 추론을 지원  \r\n- ARM CPU에서 ...",
+      "topic": "AI/LLM"
+    },
+    {
+      "title": "Vite 8.0 출시",
+      "url": "https://news.hada.io/topic?id=27485",
+      "description": "- 기존 esbuild + Rollup 이중 구조를 Rust 기반 번들러 Rolldown으로 단일화하여 최대 10~30배 빠른 빌드 성능을 달성  \r\n- 새로운 플러그인 레지...",
+      "topic": "개발/오픈소스"
+    },
+    {
+      "title": "ralph-loop - 장시간 실행형 AI 에이전트 루프로 개발 업무 자동화하기",
+      "url": "https://news.hada.io/topic?id=27426",
+      "description": "- 반복하여 작업 목록을 순회하며 완료될 때까지 수행하는 장시간 실행형 AI 루프 시스템  \r\n- Docker 샌드박스 환경에서 안전하게 Claude Code/Co...",
+      "topic": "AI/LLM"
+    }
+  ]
+}

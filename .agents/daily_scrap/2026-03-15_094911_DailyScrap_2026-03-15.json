@@ -1,0 +1,16 @@
+{
+  "agent_id": "DailyScrap_2026-03-15",
+  "title": "Daily Scrap — GeekNews",
+  "folder": "04_WorkLog/Daily_Scrap",
+  "started_at": "2026-03-15T09:49:11",
+  "completed_at": "2026-03-15T09:49:15",
+  "status": "error",
+  "progress": 55,
+  "message": "\"Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+  "log": [
+    "09:49:11  기존 수집 URL: 0개",
+    "09:49:14  수집 기사: 60개",
+    "09:49:14  선택 기사: 3개",
+    "09:49:14  요약: OpenAI의 에이전트 구축을 위한 실용 가이드..."
+  ]
+}
