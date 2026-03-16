@@ -1,64 +1,177 @@
 {
-  "date": "2026-03-15 23:00",
-  "used": 7731,
+  "date": "2026-03-16 19:00",
+  "used": 62003,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
     {
       "task": "자동 추적",
-      "tokens": 2557,
-      "time": "23:06:21"
+      "tokens": 2089,
+      "time": "19:46:30"
     },
     {
       "task": "자동 추적",
-      "tokens": 569,
-      "time": "23:12:46"
+      "tokens": 279,
+      "time": "19:47:18"
     },
     {
       "task": "자동 추적",
-      "tokens": 244,
-      "time": "23:15:51"
+      "tokens": 2147,
+      "time": "19:49:26"
     },
     {
       "task": "자동 추적",
-      "tokens": 829,
-      "time": "23:29:44"
+      "tokens": 930,
+      "time": "19:51:01"
     },
     {
       "task": "자동 추적",
-      "tokens": 630,
-      "time": "23:58:48"
+      "tokens": 940,
+      "time": "19:56:05"
     },
     {
       "task": "자동 추적",
-      "tokens": 1026,
-      "time": "00:04:34"
+      "tokens": 2410,
+      "time": "20:01:23"
     },
     {
       "task": "자동 추적",
-      "tokens": 199,
-      "time": "00:16:43"
+      "tokens": 2391,
+      "time": "20:06:18"
     },
     {
       "task": "자동 추적",
-      "tokens": 504,
-      "time": "00:18:52"
+      "tokens": 132,
+      "time": "20:08:51"
     },
     {
       "task": "자동 추적",
-      "tokens": 410,
-      "time": "00:20:00"
+      "tokens": 165,
+      "time": "20:09:11"
     },
     {
       "task": "자동 추적",
-      "tokens": 763,
-      "time": "00:21:38"
+      "tokens": 6319,
+      "time": "20:11:25"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1718,
+      "time": "20:14:39"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 4405,
+      "time": "20:17:26"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 12466,
+      "time": "20:24:44"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 396,
+      "time": "20:26:46"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1635,
+      "time": "20:29:19"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1077,
+      "time": "20:55:45"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 243,
+      "time": "20:57:01"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 275,
+      "time": "20:57:45"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 684,
+      "time": "21:01:28"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 529,
+      "time": "21:05:14"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 389,
+      "time": "21:33:44"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 4613,
+      "time": "21:38:40"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 4376,
+      "time": "22:04:09"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 498,
+      "time": "22:06:13"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 345,
+      "time": "22:07:13"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 6273,
+      "time": "22:18:59"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 1507,
+      "time": "22:25:37"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 506,
+      "time": "22:31:26"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 414,
+      "time": "22:33:59"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 422,
+      "time": "22:40:50"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 450,
+      "time": "22:41:32"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 980,
+      "time": "22:43:21"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\915ba9be-9525-4405-b51e-83f05c200e4d.jsonl": 7731
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\3772090c-cb17-49bc-aa71-beab987ee976.jsonl": 6385,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\2c842307-ac9b-400f-91aa-1650f8ab34b8.jsonl": 35234,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\ebea271f-7ba3-4517-82f2-5e798ebc9a40.jsonl": 4613,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\b47db6c1-7535-4eff-802d-cfb86975ee74.jsonl": 15771
   },
   "week_start": "2026-03-16",
-  "weekly_used": 2902,
+  "weekly_used": 64905,
   "weekly_limit": 855485
 }
