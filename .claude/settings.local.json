@@ -26,7 +26,15 @@
       "Bash(UVX=\"C:/Users/psh93/AppData/Local/Programs/Python/Python313/Scripts/uvx.exe\"\n\"$UVX\" --version 2>&1)",
       "Bash(JIRA_URL=https://stradvision.atlassian.net \\\\\nJIRA_USERNAME=seonghwan.park@stradvision.com \\\\\nJIRA_API_TOKEN=ATATT3xFfGF0T2d9WZNU9Kx2T2As8LTJuzoedl5qmK9rVfbJUEdiW3unIp0c_PDhL40YknJ1_hCnqMWMac3p09ASF6BJ8BqRt6LSSZGuKA7xLdxDB7O6lL57OuAw3U7xlmtmc42i645vU1q-HNqKFE72ePTDPEsw65RJ8xfoZUU_Vpt43yl3fWk=7D80318E \\\\\nCONFLUENCE_URL=https://stradvision.atlassian.net/wiki \\\\\nCONFLUENCE_USERNAME=seonghwan.park@stradvision.com \\\\\nCONFLUENCE_API_TOKEN=ATATT3xFfGF0T2d9WZNU9Kx2T2As8LTJuzoedl5qmK9rVfbJUEdiW3unIp0c_PDhL40YknJ1_hCnqMWMac3p09ASF6BJ8BqRt6LSSZGuKA7xLdxDB7O6lL57OuAw3U7xlmtmc42i645vU1q-HNqKFE72ePTDPEsw65RJ8xfoZUU_Vpt43yl3fWk=7D80318E \\\\\n\"C:/Users/psh93/AppData/Local/Programs/Python/Python313/Scripts/uvx.exe\" mcp-atlassian 2>&1)",
       "Bash(tree:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(claude plugin:*)",
+      "Bash(printenv GEMINI_API_KEY)",
+      "Bash(GEMINI_API_KEY=\"AIzaSyAqW6faASZxIrO6oodx8brabkRHoKVfFrA\" python \"C:/Users/psh93/OneDrive/Desktop/Claude/pm_ppt_generator.py\" \"C:/Users/psh93/OneDrive/Desktop/Claude/05_PM_Outputs/brainstorm-okrs_nova-platform-q2_2026-03-21.md\" 2>&1)",
+      "Bash(BACKUP_DIR=\"C:/Users/psh93/OneDrive/Desktop/Claude/.scripts/skill_backups/pm-execution\")",
+      "Bash(mkdir -p \"$BACKUP_DIR/brainstorm-okrs\" \"$BACKUP_DIR/create-prd\" \"$BACKUP_DIR/outcome-roadmap\" \"$BACKUP_DIR/pre-mortem\" \"$BACKUP_DIR/summarize-meeting\")",
+      "Bash(__NEW_LINE_f4aedd99596d73ae__ CACHE=\"C:/Users/psh93/.claude/plugins/cache/pm-skills/pm-execution/1.0.1/skills\")",
+      "Bash(for skill:*)",
+      "Bash(do)"
     ]
   }
 }

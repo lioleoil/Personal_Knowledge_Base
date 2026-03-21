@@ -1,1 +1,21 @@
-{"date": "2026-03-15", "count": 3, "articles": [{"title": "OpenAI의 에이전트 구축을 위한 실용 가이드", "topic": "AI/LLM", "url": "https://news.hada.io/topic?id=27459"}, {"title": "diffnav - GitHub 스타일의 Git diff pager", "topic": "개발/오픈소스", "url": "https://news.hada.io/topic?id=27515"}, {"title": "하네스 엔지니어링: Codex 활용하기", "topic": "AI/LLM", "url": "https://news.hada.io/topic?id=27457"}]}
+{
+  "date": "2026-03-18",
+  "count": 3,
+  "articles": [
+    {
+      "title": "BitNet - 1비트 LLM을 위한 추론 프레임워크",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=27444"
+    },
+    {
+      "title": "Vite 8.0 출시",
+      "topic": "개발/오픈소스",
+      "url": "https://news.hada.io/topic?id=27485"
+    },
+    {
+      "title": "ralph-loop - 장시간 실행형 AI 에이전트 루프로 개발 업무 자동화하기",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=27426"
+    }
+  ]
+}
