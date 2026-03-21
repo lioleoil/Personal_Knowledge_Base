@@ -5,7 +5,15 @@ from slack_sdk.web import WebClient
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-load_dotenv()
+import glob
+import importlib
+import sys
+
+# .env 로드 (로컬 → 상위 .scripts/.env 순)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+_scripts_env = os.path.join(os.path.dirname(__file__), "..", ".scripts", ".env")
+if os.path.exists(_scripts_env):
+    load_dotenv(dotenv_path=_scripts_env, override=False)
 
 ssl_context = ssl.create_default_context()
 ssl_context.check_hostname = False
@@ -84,6 +92,25 @@ def handle_nova_dashboard(ack, respond):
             }
         ]
     })
+
+
+# ── 플러그인 자동 디스커버리 ──────────────────────────────────────────────────
+# nova_*.py 파일에 register(app) 함수가 있으면 자동으로 로드됩니다.
+# 새 기능 추가: nova_xxx.py 파일을 만들고 register(app) 함수를 구현하세요.
+_plugin_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _plugin_dir)
+
+for _path in sorted(glob.glob(os.path.join(_plugin_dir, "nova_*.py"))):
+    _name = os.path.splitext(os.path.basename(_path))[0]
+    if _name == "nova_helper":
+        continue
+    try:
+        _mod = importlib.import_module(_name)
+        if hasattr(_mod, "register"):
+            _mod.register(app)
+            print(f"[plugin] {_name} registered")
+    except Exception as _e:
+        print(f"[plugin] {_name} load failed: {_e}")
 
 
 if __name__ == "__main__":
