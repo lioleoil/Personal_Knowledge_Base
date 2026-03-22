@@ -67,14 +67,10 @@ MODAL = {
                 "type": "checkboxes",
                 "action_id": "options_check",
                 "options": [
-                    {"text": {"type": "plain_text", "text": "PPT 생성 (Gemini AI)"},
-                     "value": "ppt"},
                     {"text": {"type": "plain_text", "text": "Confluence 업로드"},
                      "value": "confluence"},
                 ],
                 "initial_options": [
-                    {"text": {"type": "plain_text", "text": "PPT 생성 (Gemini AI)"},
-                     "value": "ppt"},
                     {"text": {"type": "plain_text", "text": "Confluence 업로드"},
                      "value": "confluence"},
                 ],

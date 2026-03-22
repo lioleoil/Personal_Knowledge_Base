@@ -25,8 +25,6 @@ if _ENV_FILE.exists():
             _k, _v = _line.split("=", 1)
             os.environ.setdefault(_k.strip(), _v.strip())
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-
 OUTPUT_DIR = Path(r"C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs")
 
 # ── 스킬별 Gemini 프롬프트 ────────────────────────────────────────────────────
@@ -150,13 +148,11 @@ def call_gemini(md_text: str, skill: str) -> list[dict]:
     try:
         from google import genai
     except ImportError:
-        print("[오류] google-genai 패키지 없음. pip install google-genai")
-        sys.exit(1)
+        raise RuntimeError("google-genai 패키지 없음. pip install google-genai")
 
     api_key = os.environ.get("GEMINI_API_KEY", "")
     if not api_key:
-        print("[오류] GEMINI_API_KEY 미설정. .scripts/.env 확인")
-        sys.exit(1)
+        raise RuntimeError("GEMINI_API_KEY 미설정. .scripts/.env 확인")
 
     template = SKILL_PROMPTS.get(skill, GENERIC_PROMPT)
     prompt = template.replace("{content}", md_text)
@@ -572,6 +568,7 @@ def update_index(output_dir: Path) -> None:
 # ── 메인 ─────────────────────────────────────────────────────────────────────
 
 def main():
+    sys.stdout = __import__("io").TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     if len(sys.argv) < 2:
         print("사용법: python pm_ppt_generator.py <markdown_file_path>")
         sys.exit(1)
