@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "plugins": {
+    "pm-execution@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-execution\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-product-discovery@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-product-discovery\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-product-strategy@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-product-strategy\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-market-research@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-market-research\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-data-analytics@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-data-analytics\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-go-to-market@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-go-to-market\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-marketing-growth@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-marketing-growth\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ],
+    "pm-toolkit@pm-skills": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\psh93\\.claude\\plugins\\cache\\pm-skills\\pm-toolkit\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-03-21T08:02:50.611Z",
+        "lastUpdated": "2026-03-21T08:02:50.611Z"
+      }
+    ]
+  }
+}

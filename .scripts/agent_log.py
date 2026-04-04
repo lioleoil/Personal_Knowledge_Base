@@ -4,7 +4,7 @@
 
 사용법:
   import sys
-  sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Claude/.scripts')
+  sys.path.insert(0, 'C:/Users/psh93/OneDrive/Desktop/Workspace/.scripts')
   from agent_log import AgentLog
 
   log = AgentLog(

@@ -23,7 +23,7 @@ PERPLEXITY_MODEL     = os.getenv('PERPLEXITY_MODEL', 'sonar')
 CLAUDE_API_KEY       = os.getenv('CLAUDE_API_KEY', '')
 
 WORKLOG_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '04_WorkLog')
+    os.path.join(os.path.dirname(__file__), '..', 'projects', '04_WorkLog')
 )
 
 USER_CONTEXT = """\

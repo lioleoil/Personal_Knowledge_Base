@@ -1,0 +1,44 @@
+{
+  "_id": "7687c6a7-abf0-4828-b34f-1b88c593e727",
+  "_raw": {
+    "specversion": "1.0",
+    "id": "7687c6a7-abf0-4828-b34f-1b88c593e727",
+    "source": "labelit/workspace",
+    "type": "annotation.object.select",
+    "time": "2026-03-24T04:39:09.756Z",
+    "dataschema": "1.0.0",
+    "subject": "6989b6582175390096df8b45",
+    "sessionid": "64518f05-3432-42f7-a385-dd42a7a76ece",
+    "data": {
+      "feature": "od",
+      "user": {
+        "id": "6555f019722b63ccbf3c9331",
+        "name": "test_owner"
+      },
+      "project": {
+        "dataset_id": "Unknown",
+        "task_id": "698ad622c73815e7873113d2"
+      },
+      "action": "update",
+      "input_type": "mouse",
+      "targets": [0],
+      "changes": [
+        {
+          "object_id": 0,
+          "object_type": "bbox3d",
+          "action": "update",
+          "old": {
+            "selectedTrackingIds": [1]
+          },
+          "new": {
+            "selectedTrackingIds": []
+          }
+        }
+      ],
+      "params": {
+        "selectedCount": 0
+      }
+    }
+  },
+  "occurred_at": "2026-03-24T04:39:05.548+00:00"
+}

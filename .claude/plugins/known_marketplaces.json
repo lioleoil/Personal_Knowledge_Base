@@ -1,0 +1,18 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "C:\\Users\\psh93\\.claude\\plugins\\marketplaces\\claude-plugins-official",
+    "lastUpdated": "2026-04-04T04:42:13.143Z"
+  },
+  "pm-skills": {
+    "source": {
+      "source": "directory",
+      "path": "C:\\Users\\psh93\\Downloads\\pm-skills-main\\pm-skills-main"
+    },
+    "installLocation": "C:\\Users\\psh93\\Downloads\\pm-skills-main\\pm-skills-main",
+    "lastUpdated": "2026-03-21T07:30:50.897Z"
+  }
+}

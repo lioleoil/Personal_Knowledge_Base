@@ -50,7 +50,7 @@ Output-focused roadmaps create false precision and misalign teams around feature
    - Key assumptions about customer needs
    - Flexible release windows (quarters, not specific dates)
 
-7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\` using the naming convention: `outcome-roadmap_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
+7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\projects\05_PM_Outputs\` using the naming convention: `outcome-roadmap_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
 
 ## Notes
 

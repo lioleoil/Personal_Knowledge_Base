@@ -43,12 +43,12 @@ if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 BASE            = Path(__file__).parent.parent
-WORKLOG         = BASE / '04_WorkLog'        # 대화 로그 + 마크다운 전용
+WORKLOG         = BASE / 'projects' / '04_WorkLog'  # 대화 로그 + 마크다운 전용
 AGENTS_ROOT     = BASE / '.agents' / 'classify'  # classify 에이전트 로그 위치
 CLAUDE_PROJECTS = Path.home() / '.claude' / 'projects'
 
 # 현재 프로젝트 ID (프로젝트 디렉토리명 → 슬래시 → 언더스코어 변환 기반)
-CURRENT_PROJECT = 'C--Users-psh93-OneDrive-Desktop-Claude'
+CURRENT_PROJECT = 'C--Users-psh93-OneDrive-Desktop-Workspace'
 
 # ─────────────────────────────────────────────
 # 카테고리별 키워드 규칙 (우선순위 높은 순)
@@ -487,7 +487,7 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
     print(f'  {"합계":25s}: {sum(len(v) for v in results.values()):3d}개')
 
     if not dry_run:
-        update_index = BASE / '04_WorkLog' / 'update_index.py'
+        update_index = BASE / 'projects' / '04_WorkLog' / 'update_index.py'
         if update_index.exists():
             subprocess.run([sys.executable, str(update_index)], check=False)
             print('\n✓ INDEX.md 갱신 완료')

@@ -1,0 +1,48 @@
+{
+  "_id": "bf7317b6-829a-42f5-8e46-e8e9b19f6e3c",
+  "_raw": {
+    "specversion": "1.0",
+    "id": "bf7317b6-829a-42f5-8e46-e8e9b19f6e3c",
+    "source": "labelit/workspace",
+    "type": "annotation.bbox3d.transform",
+    "time": "2026-03-24T04:39:07.831Z",
+    "dataschema": "1.0.0",
+    "subject": "6989b6582175390096df8b45",
+    "sessionid": "64518f05-3432-42f7-a385-dd42a7a76ece",
+    "data": {
+      "feature": "od",
+      "user": {
+        "id": "6555f019722b63ccbf3c9331",
+        "name": "test_owner"
+      },
+      "project": {
+        "dataset_id": "Unknown",
+        "task_id": "698ad622c73815e7873113d2"
+      },
+      "action": "transform",
+      "input_type": "mouse",
+      "targets": [1],
+      "changes": [
+        {
+          "object_id": 1,
+          "object_type": "bbox3d",
+          "action": "update",
+          "old": {
+            "position": {"x": 1.1207351054789443, "y": 4.073571696321389, "z": -1.2088250381475067},
+            "rotation": {"roll": 0, "pitch": 0, "yaw": 0},
+            "size": {"length": 4.51, "width": 1.804, "height": 1.589}
+          },
+          "new": {
+            "position": {"x": 1.820735105478945, "y": 4.073571696321389, "z": -1.2088250381475067},
+            "rotation": {"roll": 0, "pitch": 0, "yaw": 0},
+            "size": {"length": 4.51, "width": 1.804, "height": 1.589}
+          }
+        }
+      ],
+      "params": {
+        "updateCount": 1
+      }
+    }
+  },
+  "occurred_at": "2026-03-24T04:39:15.547+00:00"
+}

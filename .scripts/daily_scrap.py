@@ -17,8 +17,8 @@ from bs4 import BeautifulSoup
 HADA_BASE = "https://news.hada.io"
 MAX_PAGES  = 5
 TOP_N      = 3
-OUTPUT_MD  = Path(PROJECT_ROOT) / "04_WorkLog/Daily_Scrap/Daily_Scrap.md"
-STAGING    = Path(PROJECT_ROOT) / "04_WorkLog/Daily_Scrap/.staging.json"
+OUTPUT_MD  = Path(PROJECT_ROOT) / "projects/04_WorkLog/Daily_Scrap/Daily_Scrap.md"
+STAGING    = Path(PROJECT_ROOT) / "projects/04_WorkLog/Daily_Scrap/.staging.json"
 
 TOPICS = {
     "AI/LLM": [

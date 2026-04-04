@@ -1,0 +1,690 @@
+=== 전체 대화 제목 목록 ===
+[2024-01-25] [None] 돈까츠 유래 알려줘!
+[2024-06-07] [auto] 벤더사 의뢰 업체.
+[2024-01-16] [None] 방법 문의
+[2023-11-11] [None] 고유 값 조회: DISTINCT vs. GROUP BY
+[2024-07-15] [auto] Code Refactoring for JSON
+[2023-09-15] [None] 복사할 JPG 파일 추출
+[2024-07-09] [auto] Input Path Confirmation
+[2024-06-07] [auto] Submit with Admin Account
+[2023-08-23] [None] Copy Matching Image Files
+[2023-12-13] [None] XML 확인 후 출력
+[2024-08-08] [auto] Executing JSON Analysis Script
+[2024-07-14] [auto] Directory Input Handling
+[2024-07-03] [auto] Comparing Python code structures
+[2024-08-12] [auto] JSON Object Counting Script
+[2024-07-14] [auto] Counting 2D & 3D Objects
+[2024-06-24] [auto] Debugging API Integration
+[2024-06-15] [auto] Effective Organizational Systems Strengthening
+[2024-04-05] [text-davinci-002-render-sha] Credential Error Troubleshooting Guide
+[2023-09-19] [None] XML 수정 및 최적화
+[2024-07-12] [auto] 파일 정보 파싱 수정
+[2023-12-06] [None] IndentationError: Fix Code
+[2023-09-18] [None] 배치 파일 이름 변경
+[2023-09-11] [None] 개선된 파일 복사
+[2024-07-10] [auto] Schedule Program Tasks with AutoHotkey
+[2023-12-19] [None] 안녕하세요! Assist inquiry.
+[2024-01-22] [None] 비즈니스 도메인 정의
+[2024-07-05] [auto] Compare Excel Functions
+[2024-07-04] [auto] Workload Measurement Comparison Insights
+[2024-08-02] [auto] Understanding Float Type
+[2024-08-12] [auto] Valid 3D and 2D Count
+[2023-08-20] [None] XML 파일명 추가 코드
+[2024-07-26] [auto] 협업 평가 사례 작성
+[2024-04-05] [text-davinci-002-render-sha] Troubleshoot MySQL Connector Issue
+[2023-09-16] [None] 오브젝트 액세스 오류 해결
+[2024-06-11] [auto] Export Tasks Process Optimized
+[2024-07-25] [auto] Classwise 2D 3D Statistics
+[2024-04-05] [text-davinci-002-render-sha] 네트워크 연결 문제 해결
+[2024-07-03] [auto] Hourly Wage vs. Salary
+[2023-11-11] [None] SQL Syntax Error Fix
+[2024-07-16] [auto] Add 'Unknown' to Object Class
+[2023-08-26] [None] Copy JPGs from List
+[2024-05-08] [text-davinci-002-render-sha] Smooth Handover Process Planned.
+[2024-01-13] [None] Job Redesign Request
+[2024-07-01] [auto] Difficulty Levels in English
+[2023-09-16] [None] 수정된 파일명으로 CSV 출력
+[2023-08-23] [None] Batch Copy Images
+[2023-11-24] [None] 폴더별 JPG 카운트
+[2023-11-11] [None] SQL Syntax Error Fix
+[2023-11-02] [None] 복사 코드 생성
+[2024-04-04] [text-davinci-002-render-sha] MySQL Provider Not Found
+[2024-06-10] [auto] Unicode Escape Fixing
+[2024-09-09] [auto] 주차 슬롯 상태 분석
+[2024-09-09] [auto] Add Progress Bar
+[2024-09-09] [auto] Python Folder Creation Script
+[2024-09-09] [auto] Create Labels Folders
+[2024-09-10] [auto] 폴더 내 JSON 복사
+[2024-09-10] [auto] 주차 슬롯 분석 코드
+[2024-09-10] [auto] JSON Processing Code Update
+[2024-09-10] [auto] Business Translation Request
+[2024-09-27] [auto] XML 데이터 추출 코드
+[2024-09-30] [auto] 평가 기준 번역 방법
+[2024-10-04] [auto] 코드 오류 수정 요청
+[2024-10-07] [auto] XML 파일 파싱 코드
+[2024-10-07] [auto] 16진수 조합 수 계산
+[2024-10-08] [auto] 조작된 작업 환경 번역
+[2024-10-08] [auto] 현장 결제 방식 변경
+[2024-10-08] [auto] 작업 여부 번역 요청
+[2024-10-14] [auto] 자동 계산값 영어 표현
+[2024-10-15] [auto] 하위경로 파일 이름 변경
+[2024-10-15] [auto] Spline 좌표 연산 코드
+[2024-10-15] [auto] 작업 부하 데이터 활용
+[2024-10-21] [auto] XML 파일 비교 오류 처리
+[2024-11-05] [auto] 코드 오류 수정 요청
+[2024-11-05] [auto] JSON 데이터 처리 코드
+[2024-11-05] [auto] 네트워크 드라이브 파일 처리
+[2024-11-05] [auto] JSON 파일 구조 업데이트
+[2024-11-07] [auto] JSON list attribute error
+[2024-11-07] [auto] 파일 검색 병렬 처리
+[2024-11-07] [auto] PowerShell 명령어 설명
+[2024-11-07] [auto] 경로 슬래시 수정 방법
+[2024-11-08] [auto] Curl 실행 오류 해결
+[2024-11-08] [auto] PNG 파일 리스트 CSV 생성
+[2024-11-13] [auto] JSON 파싱 코드 수정
+[2024-11-13] [auto] 엑셀 조건부 값 찾기
+[2024-11-14] [auto] 파일명 추출 스크립트
+[2024-11-14] [auto] CSV 데이터 구조 변경
+[2024-11-19] [auto] Scene 데이터 요약 처리
+[2024-11-19] [auto] JSON 파일 처리 수정
+[2024-11-20] [auto] JSON 파일 처리 개선
+[2024-11-21] [auto] pip 업데이트 방법
+[2024-11-22] [auto] Capa 용어 선택 안내
+[2024-11-26] [auto] Object 수량 차이 원인
+[2024-11-26] [auto] JSON 객체 분석 코드
+[2024-11-26] [auto] JSON 파싱 코드 개선
+[2024-11-26] [auto] 불필요한 데이터 제거
+[2024-11-26] [auto] Ignore_2D 예외 처리
+[2024-11-26] [gpt-4o] 리뷰 자동화 아이디어
+[2024-11-26] [gpt-4o] 레이블링 자동화 아이디어
+[2024-11-28] [auto] 레이블링 검수 자동화 방안
+[2024-12-03] [auto] SVC 채널 객체 카운트
+[2024-12-04] [auto] SVC 채널 카운팅 구현
+[2024-12-04] [auto] JSON 파일 처리 코드
+[2024-12-04] [auto] JSON 객체 SVC 카운트
+[2024-12-04] [auto] 파일명 변경 코드
+[2024-12-05] [auto] Format 변경 문장 자연스럽게
+[2024-12-06] [auto] Hitachi 질문 대응 문서
+[2024-12-06] [auto] 디버깅 및 코드 개선
+[2024-12-06] [auto] 자연스러운 표현 추천
+[2024-12-09] [auto] JSON 바운딩박스 카운트 스크립트
+[2024-12-09] [auto] 3DP OD 포맷 통합
+[2024-12-10] [auto] 객체 카운트 코드
+[2024-12-10] [auto] 객체 크기 계산
+[2024-12-13] [auto] 경로 입력 수정 요청
+[2024-12-15] [auto] Urlfetch Daily Limit Exceeded
+[2024-12-15] [auto] Urlfetch Service Error
+[2024-12-18] [auto] 시트 초기화 수정 요청
+[2024-12-19] [auto] DRV 재교정 파라미터 조정
+[2025-01-02] [auto] 성과 평가 보고서 작성
+[2025-01-03] [auto] WLS 활용 계획
+[2025-01-06] [auto] WLS 대시보드 요구사항
+[2025-01-08] [auto] WLS 워크로드 측정 요구사항
+[2025-01-15] [auto] 스크립트 분석 및 개선
+[2025-01-15] [auto] JSONDecodeError 해결 방법
+[2025-01-16] [auto] XML 파싱 데이터프레임 생성
+[2025-01-19] [auto] 목표 설정 문장 수정
+[2025-01-21] [auto] 실수 표현 요청
+[2025-01-21] [auto] Cost Reduction Expressions
+[2025-01-24] [auto] 정기 측정 영어 표현
+[2025-01-24] [auto] 구별하다 영어 표현
+[2024-02-17] [None] GPS 정보 받고 있어?
+[2025-02-05] [auto] MySQL 조인 쿼리
+[2025-02-05] [auto] DAX 테이블 생성 방법
+[2025-02-10] [auto] 주차슬롯 L1 거리 계산
+[2025-02-10] [auto] 제작설명서 영어번역
+[2025-02-11] [auto] 라벨링 문장 수정
+[2025-02-11] [auto] Crosswalk Speedbump Impact
+[2025-02-13] [auto] 에러 디버깅 방법
+[2025-02-14] [auto] XML 파일 비교 분석
+[2025-02-14] [auto] XML 파일 비교 처리
+[2025-02-15] [auto] XML 파일 비교 최적화
+[2025-02-17] [auto] XML 파일 비교 분석
+[2025-02-17] [auto] Lane ref_uuid 처리 방법
+[2025-02-20] [auto] XML Lane Data Extraction
+[2025-02-21] [auto] 개발 요구사항 문서 작성
+[2025-02-21] [auto] 접미사와 Postfix 차이
+[2025-02-21] [auto] 분산형 차트 설명
+[2025-02-24] [auto] MongoDB Compass 사용법
+[2025-02-25] [auto] 비용 영향 분석 변경
+[2025-02-28] [auto] API 인증 오류 수정
+[2025-02-28] [auto] Qumulo 경로 마운트 필요
+[2025-03-01] [auto] curl 인식 오류 해결
+[2025-03-02] [auto] Conversation Summary Request
+[2025-03-02] [auto] 판단 잎과 판다 연관성
+[2025-03-04] [auto] JSON 파싱 오류 해결
+[2025-03-04] [auto] Matplotlib 컬러맵 오류 해결
+[2025-03-05] [auto] Impact 측정 표현 방법
+[2025-03-06] [auto] Bounding Box Score 계산
+[2025-03-06] [auto] XML 비교 분석 개선
+[2025-03-06] [auto] Lane Modification Count Logic
+[2025-03-06] [auto] Same class count fix
+[2025-03-06] [auto] Modified Lane Count Fix
+[2025-03-06] [auto] CSV 합계 오류 해결
+[2025-03-06] [auto] XML Lane Data Extraction
+[2025-03-06] [auto] 레인 비교 및 분류
+[2025-03-06] [auto] Stay Count 수정
+[2025-03-07] [auto] MongoDB 정렬 오류 해결
+[2025-03-07] [auto] 상위 객체 제거 수정
+[2025-03-07] [auto] JSON 처리 코드 수정
+[2025-03-07] [auto] Process files in subfolder
+[2025-03-07] [auto] 폴더에 label 생성
+[2025-03-07] [auto] Directory Path Error Fix
+[2025-03-07] [auto] 파일 복사 자동화 개선
+[2025-03-07] [auto] 파일 복사 스크립트 수정
+[2025-03-08] [gpt-4o] 보이지 않는 것들
+[2025-03-08] [gpt-4o] Clarification Request
+[2025-03-08] [auto] API 키 vs 토큰
+[2025-03-08] [auto] Power BI API 연결
+[2025-03-10] [auto] API 토큰 인증 방법
+[2025-03-10] [auto] KeyError 데이터셋 처리
+[2025-03-11] [auto] Python SyntaxError 해결법
+[2025-03-11] [auto] XML 속성 오류 수정
+[2025-03-11] [auto] TypeError 해결 방법
+[2025-03-12] [auto] 차선 데이터 분석
+[2025-03-12] [auto] 영어 연습 요청
+[2025-03-13] [auto] JSON 파싱 및 분석
+[2025-03-14] [auto] 엑셀 배열 합산 함수
+[2025-03-14] [auto] 횡단보도 과속방지턱 분포
+[2025-03-14] [auto] Initiative 뜻 설명
+[2025-03-18] [auto] Internal Unit Price Translation
+[2025-03-21] [auto] 기대효과 영어 표현
+[2025-03-21] [auto] 해당 연도 띄어쓰기
+[2025-03-21] [auto] 몽고DB 쿼리 작성
+[2025-03-21] [auto] API 요청 Python 변환
+[2025-03-23] [auto] 생산성 vs 효율성
+[2025-03-23] [auto] 생산 경제성 표현법
+[2025-03-24] [auto] 스크립트 병합 출력
+[2025-03-26] [auto] 포괄적인 영어 표현
+[2025-03-27] [auto] 분석 인터페이스 설계
+[2025-03-28] [auto] IP와 TM의 의미
+[2025-03-31] [auto] 데이터프레임 정리 요청
+[2025-03-31] [auto] 지브리 스타일 요청
+[2025-04-02] [auto] 지브리 스타일 변환
+[2025-04-03] [auto] 이미지 텍스트 데이터프레임 변환
+[2025-04-04] [auto] Django DB DataFrame 변환
+[2025-04-07] [auto] 컨플루언스 iframe 삽입 방법
+[2025-04-07] [auto] API 데이터 처리 문제
+[2025-04-07] [auto] Power BI 시트 인식 수정
+[2025-04-07] [auto] Power BI Python 스크립트
+[2025-04-08] [auto] 연산 영어 번역
+[2025-04-08] [auto] PPT iframe 차트 반응형
+[2025-04-09] [auto] IN 오퍼레이터 사용법
+[2025-04-10] [auto] 시간 포맷 변환 DAX
+[2025-04-11] [auto] Init vs Idle 상태
+[2025-04-11] [auto] 엑셀 인덱스 수정 방법
+[2025-04-12] [auto] Conversation Summary Request
+[2025-04-13] [auto] 커리어 전략 및 개선사항
+[2025-04-13] [auto] 데이터 전략 구성
+[2025-04-14] [auto] 전략 분석 포트폴리오 작성
+[2025-04-16] [auto] 분석 툴 소개
+[2025-04-18] [auto] 비용 분석 개선 방향
+[2025-04-18] [auto] 나에 대한 평가
+[2025-04-18] [auto] 사고방식 분석과 패턴
+[2025-04-19] [auto] 커리어와 가치관 분석
+[2025-04-21] [auto] KPI 분석 아이템
+[2025-04-24] [auto] 엔드 투 엔드 분석
+[2025-04-28] [auto] 이직 경력기술서 작성법
+[2025-04-28] [auto] 크래프톤 PM 연봉 복지
+[2025-04-28] [auto] IT 채용 정보 추천
+[2025-05-01] [auto] IT 이력서 작성법
+[2025-05-02] [auto] 자동화 솔루션 제안서 템플릿
+[2025-05-03] [auto] 빗썸 데이터 분석 연봉
+[2025-05-05] [auto] 시장 분석 전략 준비
+[2025-05-08] [auto] 펄어비스 비개발직 평균 연봉
+[2025-05-10] [auto] 수식 평가 및 개선
+[2025-05-11] [auto] 게임 퍼블리셔 역할
+[2025-05-14] [auto] 데이터독 로그 분석
+[2025-05-15] [auto] DRF API 역할 설명
+[2025-05-16] [auto] Windows 리눅스 서버 설정
+[2025-05-17] [auto] 이미지 업스케일링 가능 여부
+[2025-05-18] [auto] 주인공과 안타고니스트 구도
+[2025-05-19] [auto] 로그 분석 최적화 방안
+[2025-05-20] [auto] JSON 포맷 업데이트
+[2025-05-20] [auto] 테이블 정리 요청
+[2025-05-20] [auto] 교통 장애물 하단부 높이
+[2025-05-20] [auto] 정량과 정성 평가
+[2025-05-22] [auto] 삼성전자 지배구조 분석
+[2025-05-26] [auto] 코아시아 그룹 개요
+[2025-05-27] [auto] 정규분포 그래프 만들기
+[2025-05-27] [auto] Data Analysis Career Insights
+[2025-05-29] [auto] 하반기 단가 협상안
+[2025-06-02] [auto] 비즈니스 협상 타협안
+[2025-06-09] [auto] MCP 개념 설명
+[2025-06-09] [auto] PCAP 변환 설정 방법
+[2025-06-09] [auto] OpenSSL 1.1 설치 문제
+[2025-06-09] [auto] CIFS 마운트 시도
+[2025-06-09] [auto] WSL Ubuntu 2204 오류 해결
+[2025-06-09] [auto] 웹 페이지 레이아웃 디자인
+[2025-06-13] [auto] Length property error debugging
+[2025-06-16] [auto] 구글 앱스크립트 오류 분석
+[2025-06-16] [auto] Swagger 설정 오류
+[2025-06-20] [auto] WSL 스크립트 실행법
+[2025-06-20] [auto] Axios 모듈 오류
+[2025-06-23] [auto] UTF-8 디코딩 오류 해결
+[2025-06-24] [auto] 업무 사고 회고 보고서
+[2025-06-25] [auto] 과정 구성 적합성 평가
+[2025-06-26] [auto] 송도 센트럴파크 야경
+[2025-07-02] [auto] CP949 인코딩 오류 해결
+[2025-07-03] [auto] 엑셀 매크로 오류 해결
+[2025-07-10] [auto] ASAM OpenLABEL 개요
+[2025-07-10] [auto] Key Deliverables 영어 표현
+[2025-07-10] [auto] Cuboid 값 해석
+[2025-07-11] [gpt-4o] Annotation Label Format 요약
+[2025-07-11] [gpt-4o] SV to OpenLABEL Migration
+[2025-07-11] [gpt-4o] OpenLABEL Annotation Acceptance Criteria
+[2025-07-11] [gpt-4o] SV Annotation vs ASAM OpenLABEL
+[2025-07-11] [gpt-4o] OpenLABEL Scene Annotation 지원
+[2025-07-11] [gpt-4o] 3D 변환 정보 분석
+[2025-07-11] [gpt-4o] 스키마 파일과 온톨로지 차이
+[2025-07-11] [gpt-4o] SV Annotation vs ASAM
+[2025-07-12] [gpt-4o] OpenLABEL 이미지 설명
+[2025-07-12] [gpt-4o] ASAM OpenLABEL 변환 방법
+[2025-07-12] [gpt-4o] SV to OpenLABEL 변환
+[2025-07-12] [gpt-4o] SV 좌표계 OpenLABEL 변환
+[2025-07-13] [gpt-4o] SV 객체 인식 마이그레이션
+[2025-07-13] [gpt-4o] 자기 분석과 전략적 로스트
+[2025-07-14] [gpt-4o] SV to OpenLABEL 마이그레이션
+[2025-07-14] [gpt-4o] SV Map to OpenLABEL Migration
+[2025-07-14] [gpt-4o] Transformation vs Transforms vs Stream
+[2025-07-15] [gpt-4o] Vision Perception Transformation
+[2025-07-15] [gpt-4o] Spatiotemporal 개념 이해
+[2025-07-15] [gpt-4o] OpenLABEL 필드 지원
+[2025-07-15] [gpt-4o] ASAM OpenSCENARIO 버전 확인
+[2025-07-16] [gpt-4o] OpenLABEL OpenSCENARIO 연계
+[2025-07-16] [gpt-4o] OpenScenario 호환성 분석
+[2025-07-16] [gpt-4o] OpenODD와 OpenLABEL 비교
+[2025-07-16] [gpt-4o] 센서 보정 후처리 방법
+[2025-07-17] [gpt-4o] CAN GPS 정합 분석
+[2025-07-17] [gpt-4o] OpenSCENARIO OpenDRIVE 참조
+[2025-07-17] [gpt-4o] 언어 습관 성격 분석
+[2025-07-17] [gpt-4o] autoEnv 개념과 사용법
+[2025-07-17] [gpt-4o] OpenLABEL 변환 작업
+[2025-07-17] [gpt-4o] ODD와 OpenDRIVE 구분
+[2025-07-17] [gpt-4o] OpenScenario to OpenLABEL Mapping
+[2025-07-17] [gpt-4o] OpenX 시리즈 점검
+[2025-07-17] [gpt-4o] Deskewing 및 시차 보상
+[2025-07-18] [gpt-4o] OpenLABEL 멀티 프레임 정렬
+[2025-07-18] [gpt-4o] Fleet AI 및 트리거
+[2025-07-18] [gpt-4o] AIMotive 시뮬레이터 OpenSC 지원
+[2025-07-18] [gpt-4o] SURF v3.0 데이터 수집 파이프라인
+[2025-07-18] [gpt-4o] OpenLABEL 포맷 구축
+[2025-07-18] [gpt-4o] 퍼셉션 윈도우 주석 정책
+[2025-07-18] [gpt-4o] OpenODD 시나리오 구성
+[2025-07-18] [gpt-4o] OpenDRIVE XML 포맷
+[2025-07-18] [gpt-4o] OpenSCENARIO v2.0 구조
+[2025-07-18] [gpt-4o] Indent 맞추기
+[2025-07-18] [gpt-4o] 센서 정합 기술 매핑
+[2025-07-18] [gpt-4o] GPS 저주기 센서 정렬
+[2025-07-19] [gpt-4o] 고정형 vs 회전형 라이다
+[2025-07-21] [gpt-4o] OpenLABEL 포맷 검토
+[2025-07-21] [gpt-4o] ASAM OpenODD 클래스 정보
+[2025-07-21] [gpt-4o] 퍼셉션 윈도우 기반 어노테이션
+[2025-07-21] [gpt-4o] 하중 영향 및 대응 방안
+[2025-07-21] [gpt-4o] 플로우와 프로세스 차이
+[2025-07-21] [gpt-4o] OpenLABEL 포맷 샘플
+[2025-07-21] [gpt-4o] SV to OpenLABEL 변환
+[2025-07-21] [gpt-4o] ASAM to OpenLABEL 변환
+[2025-07-21] [gpt-4o] 변환 스크립트 번역
+[2025-07-21] [gpt-4o] OpenLABEL 구조 검토
+[2025-07-21] [gpt-4o] Convert 명사형 확인
+[2025-07-21] [gpt-4o] New chat
+[2025-07-22] [gpt-4o] OpenLABEL 포맷 정리
+[2025-07-22] [gpt-4o] 이미지 정보 필드 수정
+[2025-07-22] [gpt-4o] OpenLABEL 필드 검토
+[2025-07-22] [gpt-4o] VCS 좌표계 변환 수정
+[2025-07-22] [gpt-4o] Cuboid vs Bbox 구조
+[2025-07-23] [gpt-4o] SV_to_OpenLABEL 경로 수정
+[2025-07-23] [gpt-4o] 모듈화된 좌표 변환 사용법
+[2025-07-23] [gpt-4o] OpenX 보고서 번역
+[2025-07-23] [gpt-4o] OSDaR23 라이선스 안내
+[2025-07-23] [gpt-4o] MCIP 의미 해석
+[2025-07-24] [gpt-4o] Shall 뉘앙스 해석
+[2025-07-24] [gpt-4o] ASAM OpenODD COD 의미
+[2025-07-24] [gpt-4o] OpenSCENARIO 버전 비교
+[2025-07-24] [gpt-4o] 최소 매출 최적화
+[2025-07-24] [gpt-4o] 회차별 참여자 수
+[2025-07-25] [gpt-4o] 스크립트 리팩토링 요청
+[2025-07-25] [gpt-4o] 수량비중 비용비중 수정
+[2025-07-25] [gpt-4o] 회차 컬럼 제거 방법
+[2025-07-25] [gpt-4o] 비용 기준 제약 이슈
+[2025-07-29] [gpt-4o] MySQL 주석 방법
+[2025-07-29] [gpt-4o] 엑셀 시트 수 비교
+[2025-07-30] [gpt-4o] 사전조사 영어 표현
+[2025-07-31] [gpt-4o] Json 파일 파싱 방법
+[2025-07-31] [gpt-4o] Cost data flow 전략
+[2025-07-31] [gpt-4o] 영어 번역 및 하위 작업
+[2025-08-01] [gpt-4o] 동적 함수 설계 안내
+[2025-08-01] [gpt-4o] 엑셀 필터 함수 설정
+[2025-08-02] [gpt-4o] 엑셀 테이블 값 매핑
+[2025-08-02] [gpt-4o] 데이터 관리 이슈 분석
+[2025-08-05] [gpt-4o] Google Drive 공유 제한
+[2025-08-05] [gpt-4o] 업무 인수인계 전략 개선
+[2025-08-05] [gpt-4o] Work item과 action item 차이
+[2025-08-06] [gpt-4o] Deprecated 의미 설명
+[2025-08-06] [gpt-4o] 하이퍼링크 URL로 변경
+[2025-08-06] [gpt-4o] 차이점 설명 데이터 스트림 플로우
+[2025-08-08] [gpt-5] 스크립트 분석 요청
+[2025-08-08] [gpt-5] RMD 그룹 계산 추가
+[2025-08-14] [auto] FSD 스크립트 분석
+[2025-08-14] [auto] SharePoint 2FA 자동 새로고침
+[2025-08-18] [auto] 영어 단어 표현 방법
+[2025-08-21] [auto] 문제 원인 번역 설명
+[2025-08-21] [auto] Lateral vs Longitudinal Distance
+[2025-08-21] [auto] WLS 결과 검증 번역
+[2025-08-22] [auto] 파일 경로 오류 해결
+[2025-08-25] [auto] ChunkLoadError 해결 방법
+[2025-08-25] [auto] 날짜 계산하기 316일 전
+[2025-08-26] [auto] 엑셀 몫 구하는 법
+[2025-08-28] [auto] 추산과 추정 차이
+[2025-08-29] [auto] Misc 뜻과 차이점
+[2025-09-04] [auto] 코드 개선 포인트
+[2025-09-04] [auto] 세금계산서 발행 기준
+[2025-09-08] [auto] 스크립트 작성 요청
+[2025-09-08] [auto] 입출력 디렉터리 수정
+[2025-09-09] [auto] 코드 정리 및 수정
+[2025-09-09] [auto] 문제 해결 제안
+[2025-09-09] [auto] Static circle total 수정
+[2025-09-09] [auto] 판관비 회계처리 방법
+[2025-09-09] [auto] 로로 브랜드 찾기
+[2025-09-10] [auto] 엑셀 SQL 업로드 자동화
+[2025-09-11] [gpt-5] IndexError 해결 방법
+[2025-09-11] [auto] 리포트 목차 구성 피드백
+[2025-09-15] [auto] MySQL 인덱스 조회 방법
+[2025-09-17] [auto] Django debug explanation
+[2025-09-18] [auto] 호환성 영어 번역
+[2025-09-18] [auto] Dynamic 객체 카운트 방법
+[2025-09-18] [auto] 스크립트 수정 요청
+[2025-09-18] [auto] 군집 분석과 K-means
+[2025-09-19] [auto] 통계 검증 vs 모델링
+[2025-09-19] [auto] Workload 측정 가이드
+[2025-09-19] [auto] 가이드와 매뉴얼 차이
+[2025-09-19] [auto] 대시보드 UI 문서화
+[2025-09-19] [auto] 문구 번역 및 해석
+[2025-09-21] [auto] 새벽 여명 황혼 먼동 설명
+[2025-09-22] [auto] NICE 신용점수 올리기
+[2025-09-23] [auto] 체결 완료 영어 표현
+[2025-09-23] [auto] DPA 의미 설명
+[2025-09-24] [auto] 디버깅 에러 분석
+[2025-09-25] [auto] MCT 조직 의미 설명
+[2025-09-26] [auto] Acceptance Minute 설명
+[2025-09-30] [auto] Airflow 무료 버전 여부
+[2025-09-30] [auto] MySQL Airflow ETL 구축
+[2025-09-30] [auto] Airflow UI 문제 해결
+[2025-10-05] [auto] 퇴직연금제도 안내
+[2025-10-13] [auto] 전년도 대비 영어 표현
+[2025-10-13] [auto] Dynamic 객체 필터링 분석
+[2025-10-15] [auto] PostgreSQL 무료 버전 확인
+[2025-10-16] [auto] PostgreSQL 스키마 오류 해결
+[2025-10-16] [auto] pgAdmin UI 개선 방법
+[2025-10-17] [auto] MongoDB taskId 조회쿼리
+[2025-10-17] [auto] MySQL 업데이트 SQL문
+[2025-10-17] [auto] Permission error troubleshooting
+[2025-10-18] [auto] Oracle 무료버전 다운로드
+[2025-10-18] [gpt-4o-mini] SQL 분석 엔드포인트 의미
+[2025-10-19] [auto] OLAP OLTP 비교
+[2025-10-20] [auto] SQL 오류 해결 방법
+[2025-10-20] [auto] SQL 오류 수정 방법
+[2025-10-21] [auto] 신뢰도 영어 번역
+[2025-10-22] [auto] 영구적 효과 표현
+[2025-10-22] [auto] 메신저 답장 미수신 분석
+[2025-10-24] [auto] 장소 확인 및 이동 질문
+[2025-10-24] [auto] 장제비 지원 여부
+[2025-10-28] [auto] 컬럼 제목 추천
+[2025-10-28] [auto] Operational issue 자연스러움
+[2025-10-31] [auto] 비즈니스 메일 마무리 인사
+[2025-11-01] [auto] 행사가격 조정 여부
+[2025-11-01] [auto] 매도가 계산 방법
+[2025-11-05] [auto] 카운팅 로직 설명
+[2025-11-06] [auto] 기간 조회 SQL 방법
+[2025-11-07] [auto] 시연 리허설 기획안
+[2025-11-10] [auto] Aptiv VFS 불가 원인
+[2025-11-11] [gpt-5-1] NOVA 서비스 소개
+[2025-11-12] [auto] 문장 다듬기 요청
+[2025-11-12] [gpt-5-1] Pre-meta mapping 스크립트
+[2025-11-13] [gpt-5-1] 서비스 인프라 구축 작업
+[2025-11-13] [gpt-5-1] PM PO 도서 추천
+[2025-11-13] [auto] 서비스 로드맵 작성
+[2025-11-13] [gpt-5-1] 서비스 정책 구조화 방법
+[2025-11-13] [gpt-5-1] DataCenter 서비스 설명
+[2025-11-14] [gpt-5-1] Jira 티켓 규칙 매뉴얼
+[2025-11-17] [gpt-5-1] deprecated 뜻 설명
+[2025-11-17] [gpt-5-1] 대시보드 이름 제안
+[2025-11-17] [gpt-5-1] 3DP FV LDRBD 통계 스크립트 생성
+[2025-11-17] [gpt-5-1] 디버깅 로그 분석
+[2025-11-17] [gpt-5-1] 기술 시장 가치 비교
+[2025-11-18] [gpt-5-1] 전달하다 영어 표현 5개
+[2025-11-19] [gpt-5-1] Deploy 의미 설명
+[2025-11-19] [gpt-5-1] 비즈니스 메일 작성
+[2025-11-19] [gpt-5-1] dbt 정의 설명
+[2025-11-21] [gpt-5-1] 문서 목적과 구조 분석
+[2025-11-22] [gpt-5-1] 쿼터니언 4가지 값
+[2025-11-23] [gpt-5-1] BigQuery 오류 분석
+[2025-11-24] [gpt-5-1] 인사말 수정 요청
+[2025-11-24] [gpt-5-1] GEN2 policy Jira 티켓
+[2025-11-25] [gpt-5-1] 구간별 Static Dynamic 판정
+[2025-11-25] [gpt-5-1] 번역 요청 검토
+[2025-11-25] [gpt-5-1] Policy 테이블 포맷 적용
+[2025-11-26] [gpt-5-1] AI 영상 생성 프롬프트
+[2025-11-26] [gpt-5-1] 2D fallback geometry 필요성
+[2025-11-26] [gpt-5-1] OpenLABEL val 속성
+[2025-11-26] [gpt-5-1] Sequence OD vs Map-base vs 4DP
+[2025-11-26] [gpt-5-2] Your curse explained
+[2025-11-27] [gpt-5-1] 업무 역할 정의
+[2025-11-27] [gpt-5-1] 주식 보호예수 설명
+[2025-11-27] [gpt-5-1] 복수형 기준 설명
+[2025-11-27] [gpt-5-1] Walkaround 의미 설명
+[2025-11-28] [gpt-5-1] Workload 용어 구분
+[2025-11-28] [gpt-5-1] Excel export 오류 원인
+[2025-11-28] [gpt-5-1] 컨셉 분석 평가
+[2025-11-28] [gpt-5-1] 중장비 영어 번역
+[2025-11-28] [gpt-5-1] 비즈니스 매너 평가
+[2025-11-28] [gpt-5-1] 객체 일관성 번역
+[2025-11-29] [gpt-5-1] 공간적 정합성 번역
+[2025-11-29] [gpt-5-1] Stage 2 개발 스펙
+[2025-11-29] [gpt-5-1] FoV와 Visibility 구분
+[2025-12-02] [gpt-5-1] 객체 명칭 영어 번역
+[2025-12-03] [gpt-5-1] 클래스별 어노테이션 규칙
+[2025-12-03] [gpt-5-1] 쿼터니언 헤딩 수평 표현
+[2025-12-05] [gpt-5-1] OpenLABEL 필드 매핑
+[2025-12-05] [gpt-5-1] Policy 언급 필요성
+[2025-12-05] [gpt-5-1] Translate animal specification
+[2025-12-08] [gpt-5-1] dbt 커리큘럼 내용
+[2025-12-09] [gpt-5-1] committee 뜻 설명
+[2025-12-09] [gpt-5-1] Distinct 쿼리 사용법
+[2025-12-10] [gpt-5-1] 클라우드 통합 번역 요약
+[2025-12-10] [gpt-5-1] English prompt script
+[2025-12-10] [gpt-5-1] Pegasus 모델 분석
+[2025-12-10] [gpt-5-1] 변환 규칙 정리
+[2025-12-10] [gpt-5-1] 변환 스크립트 규칙
+[2025-12-11] [gpt-5-1] 계약단가 비교 보고서
+[2025-12-12] [gpt-5-1] 임팩트 추산 번역
+[2025-12-12] [gpt-5-1] VS Code 업데이트 방법
+[2025-12-12] [gpt-5-1] Wheel stopper 정의
+[2025-12-12] [gpt-5-2] 콜라주 이미지 생성
+[2025-12-12] [gpt-5-2] YML 테이블 구조 작성
+[2025-12-12] [gpt-5-2] 쿼리 오류 수정
+[2025-12-13] [gpt-5-2] Jira 티켓 분류
+[2025-12-13] [gpt-5-2] 서비스 요구사항 프로세스 개선
+[2025-12-14] [gpt-5-2] OpenLABEL output format 정의
+[2025-12-14] [gpt-5-2] Object data pointers 설명
+[2025-12-15] [gpt-5-2] Attribute name suggestions
+[2025-12-15] [gpt-5-2] 실습과 실전 비교
+[2025-12-15] [gpt-5-2] Swimlane roadmap 작성
+[2025-12-15] [gpt-5-2] 도표 재디자인 요청
+[2025-12-16] [gpt-5-2] 커브 유도 표지 명칭
+[2025-12-16] [gpt-5-2] 쿼리 최적화 조언
+[2025-12-16] [gpt-5-2] 시선유도봉 영어 번역
+[2025-12-17] [gpt-5-2] GitHub Enterprise 접근법
+[2025-12-17] [gpt-5-2] dbt 토이프로젝트 설명
+[2025-12-17] [gpt-5-2] 파일 삭제 원인 분석
+[2025-12-18] [gpt-5-2] 페이지 내용 분석
+[2025-12-18] [gpt-5-2] 지름 기호 표기 확인
+[2025-12-18] [gpt-5-2] 정답 정리
+[2025-12-19] [gpt-5-2] 쿼리 수정 방법
+[2025-12-19] [gpt-5-2] 오류 분석 및 해결
+[2025-12-19] [gpt-5-2] 주차금지봉 영어 명칭
+[2025-12-20] [gpt-5-2] Python 설치 문제 해결
+[2025-12-20] [gpt-5-2] 줄바꿈 표현 방법
+[2025-12-20] [gpt-5-2] dbt Python 환경 설정
+[2025-12-21] [gpt-5-2] 상황 분석 및 merge 방지
+[2025-12-22] [gpt-5-2] New chat
+[2025-12-22] [gpt-5-2] Airflow와 DAG 연결고리
+[2025-12-22] [gpt-5-2] Lakehouse DB 구축 정의
+[2025-12-22] [gpt-5-2] Nova Dashboard 릴리즈 노트
+[2025-12-24] [gpt-5-2] DB 설계 영어 표현
+[2025-12-26] [gpt-5-2] 영어 회화 번역 도움
+[2025-12-29] [gpt-5-2] 계약 단가 및 정산 효율화
+[2025-12-30] [gpt-5-2] CI CD와 COSMOS 설명
+[2025-12-30] [gpt-5-2] Nova 서비스 개발 검토
+[2025-12-30] [gpt-5-2] 보고서 요약 가공
+[2026-01-01] [gpt-5-2] 감정 표현 요청
+[2026-01-02] [gpt-5-2] 연혁 영어 표현 정리
+[2026-01-02] [gpt-5-2] 시각적 인식 불가 속성
+[2026-01-03] [gpt-5-2] dbt intermediate 모델 활용
+[2026-01-05] [gpt-5-2] 새로운 main 브랜치 만들기
+[2026-01-05] [gpt-5-2] Nova 대시보드 공개 안내
+[2026-01-06] [gpt-5-2] 대시보드 이름 제안
+[2026-01-06] [gpt-5-2] Databricks 쿼리 엔진 전환
+[2026-01-06] [gpt-5-2] 로컬 삭제 및 클론
+[2026-01-06] [gpt-5-2] Django Workbench API 지원
+[2026-01-06] [gpt-5-2] 대체 표현 추천
+[2026-01-06] [gpt-5-2] Gen1 Gen2 OD 비교
+[2026-01-06] [gpt-5-2] 전사 데이터 대시보드 표현
+[2026-01-07] [gpt-5-2] Operation 비용 측정
+[2026-01-07] [gpt-5-2] Cuboid 도로 객체 설명
+[2026-01-08] [gpt-5-2] Pole 높이 표현 방법
+[2026-01-08] [gpt-5-2] Vehicle Attribute 제목 순서
+[2026-01-09] [gpt-5-2] 문법적 표현 수정
+[2026-01-09] [gpt-5-2] 배리어와 바리케이드 차이
+[2026-01-09] [gpt-5-2] 스웨터 클립 설명
+[2026-01-10] [gpt-5-2] 볼라드 정의 목적
+[2026-01-11] [gpt-5-2] Obstacle 분류 및 정의
+[2026-01-12] [gpt-5-2] DB 스키마와 테이블 차이
+[2026-01-12] [gpt-5-2] OKR 및 KPI 전환
+[2026-01-12] [gpt-5-2] 투시 투과 투사
+[2026-01-13] [gpt-5-2] 교량 난간 영어 표현
+[2026-01-13] [gpt-5-2-thinking] Barrier 분류 검토 및 수정
+[2026-01-15] [gpt-5-2] 채도 명도 수정 요청
+[2026-01-15] [gpt-5-2] 한국어 클래스명 추천
+[2026-01-16] [gpt-5-2] MVGen2 요구사항 검토
+[2026-01-16] [gpt-5-2] ODD 메타 데이터 여부
+[2026-01-19] [gpt-5-2] Gen2 ODD 전환 필요성
+[2026-01-19] [gpt-5-2] GEN2 성능 측정 전략
+[2026-01-20] [gpt-5-2] ASPICE Pre-Assessment 설명
+[2026-01-21] [gpt-5-2] 이하 동문 사용법
+[2026-01-23] [gpt-5-2] 피어 평가 의견 작성
+[2026-01-25] [gpt-5-2] 얼굴 인식과 정체성
+[2026-01-26] [gpt-5-2] ODD 데이터 거버넌스
+[2026-01-26] [gpt-5-2] 미국 증시 현황 분석
+[2026-01-27] [gpt-5-2] 차량 모델 확인 요청
+[2026-01-28] [gpt-5-2] 헤지 효과 평가
+[2026-01-29] [gpt-5-2] 데이터 거버넌스 개념
+[2026-01-29] [gpt-5-2] 데이터 레이크하우스 정의
+[2026-01-30] [gpt-5-2] 데이터 라이프사이클 vs 플로우
+[2026-02-02] [gpt-5-2] 오늘 일정 요약
+[2026-02-02] [gpt-5-2] 자세 변화 크기 변화
+[2026-02-03] [gpt-5-2] 파일 구조 차이 분석
+[2026-02-04] [gpt-5-2] CCAN vs PCAN
+[2026-02-05] [gpt-5-2] 자율주행 객체 검출 용어
+[2026-02-05] [gpt-5-2] Analytics Engineer 역할 정의
+[2026-02-06] [gpt-5-2] 프로젝트 관련 영어 표현
+[2026-02-07] [gpt-5-2] MCIP MTBF NCAP 설명
+[2026-02-07] [gpt-5-2] 갤럭시 S25 비교
+[2026-02-09] [gpt-5-2] IMU 자율주행 활용법
+[2026-02-09] [gpt-5-2] AI 기반 정책 관리
+[2026-02-09] [gpt-5-2] 공지 초안 작성 도움
+[2026-02-09] [gpt-5-2] 네이밍 개선 제안
+[2026-02-09] [gpt-5-2] JSON Schema 검토 결과
+[2026-02-10] [gpt-5-2] 데이터 정책 이미지 요청
+[2026-02-10] [gpt-5-2] 헤더 이미지 항목 분석
+[2026-02-11] [gpt-5-2] 조회 기능 모듈 정의
+[2026-02-11] [gpt-5-2] 정책 실효성 검증 표현
+[2026-02-13] [gpt-5-2] Policy review 표현 수정
+[2026-02-13] [gpt-5-2] Ingestion 정의 및 역할
+[2026-02-19] [gpt-5-2] 영어로 중요도 표현
+[2026-02-20] [gpt-5-2] KPI Goal 검토 기준
+[2026-02-20] [gpt-5-2] 이미지 생성 요청
+[2026-02-22] [gpt-5-2] 외로움과 고독의 차이
+[2026-02-23] [gpt-5-2] 주행통계 대시보드 이름
+[2026-02-24] [gpt-5-2] 상반기 Policy 목표 설정
+[2026-02-25] [gpt-5-2] KPI 설정 완성
+[2026-02-25] [gpt-5-2] Nova 전략 전환 분석
+[2026-02-25] [gpt-5-2] 추이 투입 현황 영어
+[2026-02-26] [gpt-5-2] 메시지 수정 요청
+[2026-02-26] [gpt-5-2] LPSD 정의 및 적용
+[2026-02-26] [gpt-5-2] 감성적 결혼 축하 메시지
+[2026-03-04] [gpt-5-3] Severe 의미와 사용법
+[2026-03-04] [gpt-5-3] Task Lifecycle 권한 모델
+[2026-03-06] [gpt-5-3] Nova Beta Launch Ticket
+[2026-03-07] [gpt-5-3] 알게 모르게 챙김
+[2026-03-09] [gpt-5-3] PTP 종목 설명
+[2026-03-10] [gpt-5-2] Labeling Analytics 구조 정리
+[2026-03-10] [gpt-5-3] 대화 기록 저장 방법
+[2023-08-24] [None] Efficient Multi-PPT Creation
+[2023-09-15] [None] 파일 갯수 카운트 코드
+[2024-01-04] [None] Data Handling Skills Guide
+[2023-10-18] [None] PPT 템플릿 찾는 방법
+[2024-08-08] [auto] 출력 경로 설정 오류
+[2024-04-05] [text-davinci-002-render-sha] 
+[2024-07-02] [auto] Handling Encoding Errors
+[2024-07-23] [auto] ResizeObserver Error Explanation
+[2024-06-01] [auto] 디자인 의도 적합성 평가
+[2024-07-02] [auto] Measurement Factors Overview
+[2024-06-10] [auto] 디버깅과 오류 해결
+[2024-07-10] [auto] Color Selection for Dashboard
+[2024-05-30] [auto] PIL Import Error Fix
+[2024-07-22] [auto] 2D Box Counting Issue
+[2024-01-18] [None] 포트폴리오 작성 가이드
+[2024-01-16] [None] 연말 정산 안내
+[2023-09-21] [None] Multithreading for Faster Copying
+[2024-04-17] [text-davinci-002-render-sha] 자동 업데이트 매크로 설정
+[2024-05-07] [text-davinci-002-render-sha] 해결 방법: 테이블 열 추가
+[2024-03-07] [None] 폴더 JSON 데이터프레임 변환
+[2023-10-16] [None] 파일 복사 코드 작성
+[2024-04-25] [text-davinci-002-render-sha] Database Table Design
+[2024-06-28] [auto] Error Troubleshooting JSON Decode
+[2023-08-24] [None] 딥러닝 양자화 개요
+[2024-01-29] [None] 이직 경력 요약.
+[2023-09-19] [None] 노란색 게이지 추가
+[2023-12-06] [None] SQL Query Correction
+[2023-09-15] [None] 복사 파일 효율적으로
+[2024-04-05] [text-davinci-002-render-sha] MySQL 공급자 설치 오류
+[2024-04-05] [text-davinci-002-render-sha] Power BI Desktop 오류 해결
+[2024-04-05] [text-davinci-002-render-sha] 구성 파일 수정 방법
+[2024-02-01] [None] Rlc SLC 기능 설명
+[2023-09-07] [None] 세개의 클래스 개수
+[2024-04-05] [text-davinci-002-render-sha] Config 파일 수정 방법
+[2023-09-14] [None] XML Processing Optimization Tips
+[2024-04-13] [text-davinci-002-render-sha] 복사 중복되지 않는 json
+[2024-01-04] [None] Assist with user request.
+[2023-08-23] [None] Delete Files by CSV
+[2024-08-05] [auto] 2D Object Count Fix
+[2024-07-01] [auto] Enhanced Report Structure
+[2024-07-05] [auto] Excel VLOOKUP vs INDEX MATCH
+[2024-06-11] [auto] 이미지 불러오기 오류 해결
+[2024-03-07] [None] 폴더 생성 기능
+[2024-07-31] [auto] XML 데이터베이스 입력 분석
+[2024-05-31] [auto] Labeling Cost Reduction: MV.
+[2024-04-05] [text-davinci-002-render-sha] 자격증명 오류 해결
+[2024-07-23] [auto] 맞춤 모닝 루틴 설계
+[2023-11-11] [None] MySQL 데이터 삽입 오류
+[2023-10-19] [None] XML 파일 이름 업데이트
+[2024-07-29] [auto] CSV File Copy Script
+[2024-07-18] [auto] Supporting User Request
+[2023-09-15] [None] 삭제할 파일 목록 요청
+[2023-09-11] [None] File Comparison and Copy
+[2023-12-20] [None] 한국어로 가능
+[2023-10-12] [None] 텍스트 형식 테이블 생성
+[2023-10-29] [None] Fix MySQL Column Count Error
+[2024-01-08] [None] 동료 협업평가 사례 강화
+[2024-01-31] [None] Remote Work Terminology
+[2024-01-11] [None] Organizational Secrecy: Public Awareness
+[2023-11-02] [None] XML 파일 파싱 오류
+[2024-01-26] [None] Efficiency & Effectiveness: Team Slogan
+[2023-08-22] [None] XML Data to Summary Table
+[2023-12-05] [None] Remove XML Declaration Python
+[2024-05-07] [text-davinci-002-render-sha] Sampling Inspection Process: English
+[2024-07-15] [auto] Count JSON object classes
+[2024-07-02] [auto] Workload Measurement Documentation Guidelines
+[2023-09-22] [None] 오류 수정 코드

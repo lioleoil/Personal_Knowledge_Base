@@ -13,9 +13,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from agent_log import AgentLog, PROJECT_ROOT
 
 PROJECT    = Path(PROJECT_ROOT)
-STAGING    = PROJECT / "04_WorkLog/Daily_Scrap/.staging.json"
-OUTPUT_MD  = PROJECT / "04_WorkLog/Daily_Scrap/Daily_Scrap.md"
-RESULT_JSON= PROJECT / "04_WorkLog/Daily_Scrap/.scrap_result.json"
+STAGING    = PROJECT / "projects/04_WorkLog/Daily_Scrap/.staging.json"
+OUTPUT_MD  = PROJECT / "projects/04_WorkLog/Daily_Scrap/Daily_Scrap.md"
+RESULT_JSON= PROJECT / "projects/04_WorkLog/Daily_Scrap/.scrap_result.json"
 COLLECTOR  = PROJECT / ".scripts/daily_scrap.py"
 POPUP      = PROJECT / ".scripts/scrap_popup.py"
 

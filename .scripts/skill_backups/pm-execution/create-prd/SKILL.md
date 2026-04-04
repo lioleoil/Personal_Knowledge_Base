@@ -69,7 +69,7 @@ A well-structured PRD clearly communicates the what, why, and how of your produc
 
 5. **Structure Output**: Present the PRD as a well-formatted markdown document with clear headings and sections.
 
-6. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\` using the naming convention: `create-prd_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
+6. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\projects\05_PM_Outputs\` using the naming convention: `create-prd_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
 
 ## Notes
 

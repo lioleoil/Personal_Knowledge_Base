@@ -76,7 +76,7 @@ A pre-mortem is a structured risk-identification exercise that forces teams to t
    [For each, include: Risk, Mitigation, Owner, Due Date]
    ```
 
-7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\` using the naming convention: `pre-mortem_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
+7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\projects\05_PM_Outputs\` using the naming convention: `pre-mortem_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
 
 ## Notes
 
