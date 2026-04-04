@@ -1,15 +1,21 @@
 {
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PYTHONIOENCODING=utf-8 python \"C:/Users/psh93/OneDrive/Desktop/Claude/.status/auto_track.py\""
-          }
-        ]
+  "enabledPlugins": {
+    "pm-execution@pm-skills": true,
+    "pm-product-discovery@pm-skills": true,
+    "pm-product-strategy@pm-skills": true,
+    "pm-market-research@pm-skills": true,
+    "pm-data-analytics@pm-skills": true,
+    "pm-go-to-market@pm-skills": true,
+    "pm-marketing-growth@pm-skills": true,
+    "pm-toolkit@pm-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "pm-skills": {
+      "source": {
+        "source": "directory",
+        "path": "C:\\Users\\psh93\\Downloads\\pm-skills-main\\pm-skills-main"
       }
-    ]
-  }
+    }
+  },
+  "autoUpdatesChannel": "latest"
 }

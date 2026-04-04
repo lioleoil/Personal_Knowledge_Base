@@ -1,0 +1,32 @@
+# Credentials & secrets
+.claude/.credentials.json
+**/.env
+**/*.pem
+**/*.key
+
+# Claude internal state
+.claude/cache/
+.claude/sessions/
+.claude/history.jsonl
+.claude/shell-snapshots/
+.claude/worktrees/
+.claude/paste-cache/
+.claude/ide/
+.claude/file-history/
+
+# Embedded git repos (managed separately)
+projects/sv_dqat/
+projects/sv_lakehouse/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db

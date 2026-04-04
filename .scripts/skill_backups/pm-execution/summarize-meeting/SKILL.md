@@ -71,7 +71,7 @@ Meeting summaries are how knowledge spreads and accountability stays clear in pr
    - What does each person need to do?
    - By when do they need to do it?
 
-7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\` using the naming convention: `summarize-meeting_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
+7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\projects\05_PM_Outputs\` using the naming convention: `summarize-meeting_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
 
 ## Notes
 

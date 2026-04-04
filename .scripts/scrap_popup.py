@@ -9,7 +9,7 @@ from pathlib import Path
 
 SCRIPT_DIR   = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-RESULT_FILE  = PROJECT_ROOT / "04_WorkLog/Daily_Scrap/.scrap_result.json"
+RESULT_FILE  = PROJECT_ROOT / "projects/04_WorkLog/Daily_Scrap/.scrap_result.json"
 
 # 다크 테마 (token_popup.py 동일 팔레트)
 BG     = '#1e1e1e'

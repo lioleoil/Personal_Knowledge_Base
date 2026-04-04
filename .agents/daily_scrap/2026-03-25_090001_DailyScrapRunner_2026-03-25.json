@@ -1,0 +1,11 @@
+{
+  "agent_id": "DailyScrapRunner_2026-03-25",
+  "title": "Daily Scrap 전체 실행",
+  "agent_type": "daily_scrap",
+  "started_at": "2026-03-25T09:00:01",
+  "completed_at": "2026-03-25T09:00:02",
+  "status": "completed",
+  "progress": 100,
+  "message": "새 기사 없음 (중복 또는 미수집)",
+  "log": []
+}

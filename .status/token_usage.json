@@ -1,29 +1,35 @@
 {
-  "date": "2026-03-22 10:00",
-  "used": 15917,
+  "date": "2026-04-04 13:00",
+  "used": 13207,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
     {
       "task": "자동 추적",
-      "tokens": 8461,
-      "time": "10:28:08"
+      "tokens": 229,
+      "time": "13:30:20"
     },
     {
       "task": "자동 추적",
-      "tokens": 6908,
-      "time": "10:38:23"
+      "tokens": 2306,
+      "time": "13:45:10"
     },
     {
       "task": "자동 추적",
-      "tokens": 548,
-      "time": "10:44:50"
+      "tokens": 3029,
+      "time": "13:48:21"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 7643,
+      "time": "13:52:32"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\2cf3d05b-5928-4489-a5f8-aa8930852982.jsonl": 15917
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude--claude-worktrees-silly-agnesi\\38cf6783-4ce0-472c-90ca-734668b75551.jsonl": 229,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Claude\\e46bf06f-899d-4252-9c1c-6f59aac5de44.jsonl": 12978
   },
-  "week_start": "2026-03-16",
-  "weekly_used": 220880,
+  "week_start": "2026-03-30",
+  "weekly_used": 13207,
   "weekly_limit": 855485
 }

@@ -41,7 +41,7 @@ FOLDER_COLORS = {
     'Career':            '#F39C12',
     'Python_Scripts':    '#27AE60',
     'Strategy_Business': '#3498DB',
-    '02_Profile':        '#8E44AD',
+    'projects/02_Profile': '#8E44AD',
     'Misc':              '#7F8C8D',
 }
 

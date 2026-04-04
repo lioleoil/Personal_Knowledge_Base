@@ -61,7 +61,7 @@ OKRs are fundamentally about: (1) Setting a single, inspiring goal. (2) Empoweri
    - Three Key Results (specific metrics with targets)
    - Brief rationale (why this matters to the company and team)
 
-7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\` using the naming convention: `brainstorm-okrs_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
+7. **Save the Output**: Save as a markdown document to `C:\Users\psh93\OneDrive\Desktop\Claude\projects\05_PM_Outputs\` using the naming convention: `brainstorm-okrs_{context-2-3words}_{YYYY-MM-DD}.md`. Include frontmatter: `skill`, `context`, `date`. After saving, ask the user: "PPT 파일(.pptx)로 변환할까요? [y/n]"
 
 ## Notes
 
