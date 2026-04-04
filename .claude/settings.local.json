@@ -7,7 +7,9 @@
       "Bash(xargs cat:*)",
       "Bash(direnv version:*)",
       "Bash(.venv/Scripts/pip install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit -m ':*)"
     ]
   }
 }
