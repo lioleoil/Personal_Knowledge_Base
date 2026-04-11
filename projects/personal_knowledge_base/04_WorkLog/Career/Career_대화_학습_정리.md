@@ -312,3 +312,228 @@ _(내용 없음)_
 **대화 길이:** 총 2개 메시지
 
 ---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Please run /login · API Error: 401 {"type":"error","error":{"type":"authenticati
+**날짜:** 2026-04-05 | **파일:** 041e085b-b3b1-4c2f-aa83-eb1f7790ccca.jsonl
+
+**맥락 요약:** Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your       existing token."},"request...
+
+**대화 길이:** 총 2개 메시지
+
+---

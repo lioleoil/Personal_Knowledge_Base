@@ -1,3 +1,6 @@
 .env
 __pycache__/
 *.pyc
+
+*.log
+.current_tunnel_url
