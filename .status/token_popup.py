@@ -22,6 +22,7 @@ WHITE   = '#ffffff'
 BLUE    = '#61afef'
 
 AUTO_CLOSE_MS = 6000  # 6초 후 자동 닫기
+CHART_H = 72          # 라인 그래프 높이 (px)
 
 
 def get_bar_color(pct):
@@ -39,12 +40,69 @@ def fmt(n):
     return str(n)
 
 
+def draw_line_chart(parent, buckets: list):
+    """최근 hourly_buckets(4시간 단위)를 Line 그래프로 그린다.
+    최근 12버킷(최대 2일치)을 표시한다.
+    """
+    label = tk.Label(parent, text='4h 사용량 추이', bg=BG, fg=GRAY,
+                     font=('Consolas', 8))
+    label.pack(anchor='w', padx=14, pady=(6, 1))
+
+    canvas = tk.Canvas(parent, bg=BG2, height=CHART_H, highlightthickness=0)
+    canvas.pack(fill='x', padx=14, pady=(0, 4))
+
+    recent = buckets[-12:] if buckets else []
+
+    def _draw(event=None):
+        canvas.delete('all')
+        w = canvas.winfo_width()
+        if not recent or w < 10:
+            canvas.create_text(w // 2, CHART_H // 2, text='데이터 없음',
+                               fill=GRAY, font=('Consolas', 8))
+            return
+        vals = [b['tokens'] for b in recent]
+        max_v = max(vals) if vals else 1
+        n = len(vals)
+        pad_x, pad_y = 6, 8
+        step = (w - pad_x * 2) / max(n - 1, 1)
+        points = [
+            (pad_x + i * step,
+             CHART_H - pad_y - int((v / max_v) * (CHART_H - pad_y * 2)))
+            for i, v in enumerate(vals)
+        ]
+        # 그라디언트 영역 (폴리곤)
+        poly_pts = [pad_x, CHART_H]
+        for x, y in points:
+            poly_pts += [x, y]
+        poly_pts += [pad_x + (n - 1) * step, CHART_H]
+        canvas.create_polygon(poly_pts, fill='#1a2a3a', outline='')
+        # 라인
+        for i in range(len(points) - 1):
+            canvas.create_line(*points[i], *points[i + 1],
+                               fill=BLUE, width=2, smooth=True)
+        # 점
+        for x, y in points:
+            canvas.create_oval(x - 3, y - 3, x + 3, y + 3,
+                               fill=BLUE, outline=BG, width=1)
+        # 최대값 라벨
+        canvas.create_text(w - 4, 4, text=fmt(max_v),
+                           anchor='ne', fill=GRAY, font=('Consolas', 7))
+        # 최신 버킷 시각 라벨
+        if recent:
+            last_label = recent[-1].get('hour', '')[-5:]  # HH:00
+            canvas.create_text(w - 4, CHART_H - 4, text=last_label,
+                               anchor='se', fill=GRAY, font=('Consolas', 7))
+
+    canvas.bind('<Configure>', _draw)
+
+
 def show_popup(data):
     used     = data.get('used', 0)
     limit    = data.get('window_limit', data.get('daily_limit', 44000))
     plan     = data.get('plan', 'Pro')
     period   = data.get('date', '')
     sessions = data.get('sessions', [])
+    buckets  = data.get('hourly_buckets', [])
     pct      = min(used / limit * 100, 100) if limit > 0 else 0
     color    = get_bar_color(pct)
 
@@ -67,9 +125,10 @@ def show_popup(data):
         warn_color = ORANGE
 
     recent = sessions[-2:] if sessions else []
+    has_chart = len(buckets) >= 2  # 데이터 2개 이상일 때만 차트 표시
 
     W = 420
-    H = 170 + (22 if warn_text else 0) + len(recent) * 19
+    H = 170 + (22 if warn_text else 0) + len(recent) * 19 + (CHART_H + 28 if has_chart else 0)
 
     root = tk.Tk()
     root.title('Token Usage')
@@ -160,6 +219,10 @@ def show_popup(data):
             tk.Label(row, text=f'+{fmt(s.get("tokens", 0))}', bg=BG, fg=YELLOW,
                      font=('Consolas', 8)).pack(side='right')
 
+    # ── 4시간 단위 사용량 추이 그래프 ────────
+    if has_chart:
+        draw_line_chart(root, buckets)
+
     # ── 하단 바 (열기 버튼) ───────────────────
     footer = tk.Frame(root, bg=BG2)
     footer.pack(fill='x', side='bottom')
@@ -188,7 +251,10 @@ def show_popup(data):
 
 
 if __name__ == '__main__':
-    data = {'used': 0, 'window_limit': 72000, 'plan': 'Pro', 'date': '', 'sessions': []}
+    data = {
+        'used': 0, 'window_limit': 72000, 'plan': 'Pro',
+        'date': '', 'sessions': [], 'hourly_buckets': [],
+    }
     if os.path.exists(TOKEN_FILE):
         try:
             with open(TOKEN_FILE, 'r', encoding='utf-8') as f:
