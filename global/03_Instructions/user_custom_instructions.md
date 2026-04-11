@@ -29,7 +29,7 @@ type: user
     c. 사용자가 번호를 입력하면 해당 스킬을 즉시 실행한다 (추가 확인 없이).
 
 16. [PM Skill 산출물 마크다운 저장 규칙] PM 스킬 실행 후 산출물이 생성되면:
-    a. 항상 마크다운 형식(.md)으로 C:\Users\psh93\OneDrive\Desktop\Claude\05_PM_Outputs\ 폴더에 저장한다.
+    a. 항상 마크다운 형식(.md)으로 C:\Users\psh93\OneDrive\Desktop\Workspace\global\05_PM_Outputs\ 폴더에 저장한다.
     b. 파일명 규칙: {skill-name}_{컨텍스트_2~3단어요약}_{YYYY-MM-DD}.md
        예) brainstorm-okrs_nova-platform-q2_2026-03-21.md
     c. 파일 상단에 아래 frontmatter를 포함한다:
@@ -44,7 +44,7 @@ type: user
     a. 마크다운 저장 완료 직후, 아래 메시지로 확인을 요청한다:
        "PPT 파일(.pptx)로 변환할까요? Gemini AI를 통해 실제 파일을 생성합니다. [y/n]"
     b. 사용자가 y(또는 yes)를 입력하면:
-       python "C:\Users\psh93\OneDrive\Desktop\Claude\pm_ppt_generator.py" "{저장된_마크다운_파일_절대경로}"
+       python "C:\Users\psh93\OneDrive\Desktop\Workspace\.scripts\pm_ppt_generator.py" "{저장된_마크다운_파일_절대경로}"
        명령어를 실행한다.
     c. 생성된 .pptx 파일 경로를 사용자에게 안내한다.
     d. 사용자가 n(또는 no)를 입력하면 변환을 건너뛴다.
