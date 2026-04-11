@@ -43,6 +43,12 @@ FOLDER_COLORS = {
     'Strategy_Business': '#3498DB',
     'projects/02_Profile': '#8E44AD',
     'Misc':              '#7F8C8D',
+    # Agent Ecosystem 역할
+    'execution':         '#4A90D9',
+    'validation':        '#27AE60',
+    'advisor':           '#E67E22',
+    'reporter':          '#9B59B6',
+    'orchestrator':      '#1ABC9C',
 }
 
 STATUS_MAP = {
@@ -58,31 +64,128 @@ POLL_INTERVAL = 2   # 초
 # ── 데이터 로딩 ───────────────────────────────────────────────
 
 def discover_agents() -> list[dict]:
-    """프로젝트 전체에서 .agents/*.json 파일을 탐색, 최신순 정렬."""
+    """프로젝트 전체에서 .agents/*.json 파일을 탐색, 최신순 정렬.
+    .agents/bus/ 의 task 파일도 카드로 포함."""
     results = []
     skip = {'.git', '__pycache__', 'node_modules', '.claude'}
     for dirpath, dirnames, _ in os.walk(PROJECT_ROOT):
         dirnames[:] = [d for d in dirnames if d not in skip]
         if '.agents' in dirnames:
             agents_dir = os.path.join(dirpath, '.agents')
-            for fname in os.listdir(agents_dir):
-                if not fname.endswith('.json'):
+            for subname in os.listdir(agents_dir):
+                subpath = os.path.join(agents_dir, subname)
+                # bus/ 디렉터리: task 요약 카드 생성
+                if subname == 'bus' and os.path.isdir(subpath):
+                    results.extend(_discover_bus_tasks(subpath))
                     continue
-                fpath = os.path.join(agents_dir, fname)
-                try:
-                    with open(fpath, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
-                    data['_path']  = fpath
-                    data['_mtime'] = os.path.getmtime(fpath)
-                    results.append(data)
-                except Exception:
+                if not os.path.isdir(subpath):
                     continue
+                for fname in os.listdir(subpath):
+                    if not fname.endswith('.json'):
+                        continue
+                    fpath = os.path.join(subpath, fname)
+                    try:
+                        with open(fpath, 'r', encoding='utf-8') as f:
+                            data = json.load(f)
+                        data['_path']  = fpath
+                        data['_mtime'] = os.path.getmtime(fpath)
+                        results.append(data)
+                    except Exception:
+                        continue
     STATUS_ORDER = {'running': 0, 'error': 1, 'waiting': 2, 'completed': 3}
     results.sort(key=lambda d: (
         STATUS_ORDER.get(d.get('status', 'waiting'), 2),
         -d['_mtime']
     ))
     return results
+
+
+def _discover_bus_tasks(bus_dir: str) -> list[dict]:
+    """bus/ 디렉터리에서 task_id별로 가장 최신 파일을 읽어 요약 카드 생성."""
+    task_files: dict[str, list[str]] = {}
+    for fname in os.listdir(bus_dir):
+        if not fname.endswith('.json'):
+            continue
+        parts = fname[:-5].split('_', 1)
+        if len(parts) != 2:
+            continue
+        tid, ftype = parts
+        task_files.setdefault(tid, []).append(fname)
+
+    cards = []
+    for tid, fnames in task_files.items():
+        # 가장 최신 파일로 상태 추론
+        latest_path = None
+        latest_mtime = 0
+        domain = '?'
+        verdict = None
+        bus_status = 'running'
+        file_types = []
+
+        for fname in fnames:
+            fpath = os.path.join(bus_dir, fname)
+            mtime = os.path.getmtime(fpath)
+            if mtime > latest_mtime:
+                latest_mtime = mtime
+                latest_path = fpath
+            ftype = fname[:-5].split('_', 1)[1] if '_' in fname[:-5] else ''
+            file_types.append(ftype)
+
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                if ftype == 'manifest':
+                    domain = data.get('domain', '?')
+                elif ftype == 'validation':
+                    verdict = data.get('verdict')
+                    if verdict == 'PASS':
+                        bus_status = 'completed' if 'report' in file_types else 'running'
+                    elif verdict == 'FAIL':
+                        bus_status = 'error'
+                elif ftype == 'report':
+                    bus_status = 'completed'
+            except Exception:
+                pass
+
+        progress_map = {
+            'manifest':   20,
+            'result':     50,
+            'validation': 70,
+            'advice':     80,
+            'report':     100,
+        }
+        progress = max((progress_map.get(ft, 0) for ft in file_types), default=0)
+        verdict_label = f' [{verdict}]' if verdict else ''
+
+        card = {
+            '_path':      latest_path or os.path.join(bus_dir, f'{tid}_manifest.json'),
+            '_mtime':     latest_mtime,
+            'agent_id':   tid,
+            'title':      f'Bus Task: {domain}{verdict_label}',
+            'agent_type': 'bus',
+            'folder':     _infer_role_from_files(file_types),
+            'status':     bus_status,
+            'progress':   progress,
+            'message':    f'파일: {", ".join(file_types)}',
+            'log':        [f'task_id: {tid}', f'domain: {domain}', f'verdict: {verdict or "-"}'],
+            'started_at': None,
+            'completed_at': None,
+        }
+        cards.append(card)
+    return cards
+
+
+def _infer_role_from_files(file_types: list[str]) -> str:
+    """버스 파일 유형으로 현재 활성 에이전트 역할 추론."""
+    if 'report' in file_types:
+        return 'reporter'
+    if 'advice' in file_types:
+        return 'advisor'
+    if 'validation' in file_types:
+        return 'validation'
+    if 'result' in file_types:
+        return 'execution'
+    return 'orchestrator'
 
 
 def fmt(n: int) -> str:

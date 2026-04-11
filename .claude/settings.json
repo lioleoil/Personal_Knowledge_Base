@@ -1,4 +1,33 @@
 {
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/psh93/OneDrive/Desktop/Workspace/.scripts/classify.py\" --no-popup",
+            "timeout": 120,
+            "async": true,
+            "statusMessage": "대화 분류 중..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "TaskOutput",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/psh93/OneDrive/Desktop/Workspace/.status/remote_track.py\"",
+            "timeout": 15,
+            "async": true,
+            "statusMessage": "원격 에이전트 토큰 추적 중..."
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "pm-execution@pm-skills": true,
     "pm-product-discovery@pm-skills": true,

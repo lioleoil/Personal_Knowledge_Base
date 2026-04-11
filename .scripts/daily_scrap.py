@@ -59,7 +59,7 @@ def scrape_articles(max_pages: int = MAX_PAGES) -> list[dict]:
     for page in range(1, max_pages + 1):
         url = f"{HADA_BASE}/?page={page}"
         try:
-            resp = requests.get(url, timeout=10, headers=headers)
+            resp = requests.get(url, timeout=10, headers=headers, verify=False)
             resp.raise_for_status()
         except Exception as e:
             print(f"[WARN] page {page} fetch error: {e}", flush=True)
@@ -168,7 +168,6 @@ def main():
 
         log.done(f"스테이징 저장 완료 → {STAGING}")
         print(f"[OK] staging: {STAGING}", flush=True)
-        print(json.dumps(staging_data, ensure_ascii=False, indent=2), flush=True)
 
     except Exception as e:
         log.error(str(e))
