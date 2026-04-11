@@ -40,6 +40,23 @@ PROJECT_ROOT = os.path.normpath(
 )
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '.scripts'))
 
+# .env 자동 로드 (nova_helper/.env 우선, 루트 .env 차선)
+def _load_dotenv():
+    for env_path in [
+        os.path.join(PROJECT_ROOT, 'projects', 'nova_helper', '.env'),
+        os.path.join(PROJECT_ROOT, '.env'),
+    ]:
+        if os.path.exists(env_path):
+            with open(env_path, encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        k, _, v = line.partition('=')
+                        os.environ.setdefault(k.strip(), v.strip())
+            break
+
+_load_dotenv()
+
 from agent_bus import AgentBus, BusFile
 from agent_log import AgentLog
 

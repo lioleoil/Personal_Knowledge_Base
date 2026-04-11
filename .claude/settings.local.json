@@ -1,15 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)",
-      "Bash(ls:*)",
-      "Bash(grep -r \"C:\\\\\\\\Users\\\\|OneDrive\\\\|Desktop\" ./projects --include=\"*.py\")",
-      "Bash(xargs cat:*)",
-      "Bash(direnv version:*)",
-      "Bash(.venv/Scripts/pip install:*)",
-      "Bash(git add:*)",
-      "Bash(git rm:*)",
-      "Bash(git commit -m ':*)"
-    ]
+      "Bash(*)",
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "Skill(*)",
+      "mcp__claude_ai_Slack__*",
+      "mcp__claude_ai_Atlassian__*"
+    ],
+    "deny": []
   }
 }
