@@ -43,7 +43,7 @@ if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 BASE            = Path(__file__).parent.parent
-WORKLOG         = BASE / 'projects' / '04_WorkLog'  # 대화 로그 + 마크다운 전용
+WORKLOG         = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog'  # 대화 로그 + 마크다운 전용
 AGENTS_ROOT     = BASE / '.agents' / 'classify'  # classify 에이전트 로그 위치
 CLAUDE_PROJECTS = Path.home() / '.claude' / 'projects'
 
@@ -487,7 +487,7 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
     print(f'  {"합계":25s}: {sum(len(v) for v in results.values()):3d}개')
 
     if not dry_run:
-        update_index = BASE / 'projects' / '04_WorkLog' / 'update_index.py'
+        update_index = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog' / 'update_index.py'
         if update_index.exists():
             subprocess.run([sys.executable, str(update_index)], check=False)
             print('\n✓ INDEX.md 갱신 완료')
