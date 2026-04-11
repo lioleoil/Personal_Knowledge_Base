@@ -90,6 +90,17 @@ CATEGORIES = [
             'wls', 'workload labeling', 'labelit api', 'lakehouse',
             'databricks', 'nova dashboard', 'nova beta', 'data yield',
             'mysql provider', 'gateway', 'dbt', 'staging',
+            # nova_helper / 에이전트 생태계
+            'nova_helper', 'nova_log_analytics', 'nova helper', 'nova log',
+            'slack bot', 'slack 봇', 'socket mode', 'http mode', 'aiohttp',
+            'bolt', 'slack_bolt', 'signing secret', 'escalation',
+            'agent ecosystem', '에이전트 생태계', 'multi-agent', '멀티에이전트',
+            'orchestrator', 'agent bus', 'agentbus', 'execution agent',
+            'validation agent', 'advisor agent', 'reporter agent',
+            'role_rules', 'task_manifest', 'agent onboarding',
+            'show_tokens', 'token_popup', 'token tracking', '토큰 추적',
+            'remote_track', 'monitor.py', 'agent_bus', 'agent_log',
+            'daily_scrap', 'geek news', 'remote trigger', '원격 에이전트',
         ],
     },
     {
