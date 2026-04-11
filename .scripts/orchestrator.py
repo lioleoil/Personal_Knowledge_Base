@@ -59,6 +59,19 @@ _load_dotenv()
 
 from agent_bus import AgentBus, BusFile
 from agent_log import AgentLog
+from permission_bus import PermissionBus
+
+_PERM_BUS = PermissionBus()
+
+def check_permission(perm_type: str, task_id: str = 'orchestrator', context: str = '') -> bool:
+    """
+    권한 레지스트리 기반 체크. auto_approved → True, user_approval_required → False.
+    레지스트리 로드 실패 시 True 반환 (허용 우선, 비중단).
+    """
+    try:
+        return _PERM_BUS.check(task_id, perm_type, context)
+    except Exception:
+        return True  # 레지스트리 오류 시 비중단
 
 # ── 상수 ──────────────────────────────────────────────────────────
 TOKEN_USAGE_PATH = os.path.join(PROJECT_ROOT, '.status', 'token_usage.json')
@@ -323,6 +336,11 @@ def list_tasks():
 
 def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     """Execution → Validation → (Advisor) → Reporter 자동 실행."""
+
+    # ── 0. 권한 사전 체크 ────────────────────────────────────────
+    if not check_permission('agent_spawn', context=f'task={task} domain={domain}'):
+        log.error('agent_spawn 권한 없음 — 사용자 승인 필요 (.agents/bus/*_permission_request.json 확인)')
+        return
 
     exec_retries   = 0
     advisor_calls  = 0

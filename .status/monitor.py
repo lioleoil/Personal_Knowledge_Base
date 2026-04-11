@@ -286,6 +286,113 @@ class AgentCard(tk.Frame):
 
 # ── 메인 앱 ───────────────────────────────────────────────────
 
+class TokenLineGraph(tk.Frame):
+    """
+    token_usage.json의 hourly_buckets 기반 라인 그래프.
+    최근 24시간 토큰 사용량을 Canvas로 렌더링.
+    """
+    HEIGHT = 72
+    PAD_L, PAD_R, PAD_T, PAD_B = 38, 8, 8, 18
+
+    def __init__(self, parent):
+        super().__init__(parent, bg=BG_CARD, pady=4)
+        tk.Label(self, text='토큰 사용량 (24h)', font=('Consolas', 8),
+                 bg=BG_CARD, fg=FG_DIM).pack(anchor='w', padx=10)
+        self._canvas = tk.Canvas(self, bg=BG_CARD, height=self.HEIGHT,
+                                 highlightthickness=0)
+        self._canvas.pack(fill='x', padx=8, pady=(0, 4))
+        self._canvas.bind('<Configure>', lambda _: self._draw())
+        self._token_file = os.path.join(STATUS_DIR, 'token_usage.json')
+
+    def refresh(self):
+        self._draw()
+
+    def _load_buckets(self) -> list[dict]:
+        if not os.path.exists(self._token_file):
+            return []
+        try:
+            with open(self._token_file, encoding='utf-8') as f:
+                data = json.load(f)
+            buckets = data.get('hourly_buckets', [])
+            # 최근 24h
+            from datetime import timedelta
+            cutoff = (datetime.now() - timedelta(hours=24)).strftime('%Y-%m-%dT%H')
+            return sorted(
+                [b for b in buckets if b.get('hour', '') >= cutoff],
+                key=lambda b: b['hour']
+            )
+        except Exception:
+            return []
+
+    def _draw(self):
+        c = self._canvas
+        c.delete('all')
+        w = c.winfo_width()
+        if w < 10:
+            return
+
+        buckets = self._load_buckets()
+        pl, pr, pt, pb = self.PAD_L, self.PAD_R, self.PAD_T, self.PAD_B
+        gw = w - pl - pr
+        gh = self.HEIGHT - pt - pb
+
+        # 축
+        c.create_line(pl, pt, pl, pt + gh, fill=FG_DIMMER, width=1)
+        c.create_line(pl, pt + gh, pl + gw, pt + gh, fill=FG_DIMMER, width=1)
+
+        if not buckets:
+            c.create_text(pl + gw // 2, pt + gh // 2,
+                          text='데이터 없음', fill=FG_DIM, font=('Consolas', 8))
+            return
+
+        max_tok = max(b.get('tokens', 0) for b in buckets) or 1
+
+        # Y축 레이블
+        for frac, label in [(0, '0'), (0.5, fmt(max_tok // 2)), (1.0, fmt(max_tok))]:
+            y = pt + gh - int(frac * gh)
+            c.create_line(pl - 3, y, pl, y, fill=FG_DIMMER)
+            c.create_text(pl - 4, y, text=label, anchor='e',
+                          fill=FG_DIM, font=('Consolas', 7))
+
+        # 포인트 좌표 계산
+        n = len(buckets)
+        step = gw / max(n - 1, 1)
+        points = []
+        for i, b in enumerate(buckets):
+            x = pl + int(i * step)
+            ratio = b.get('tokens', 0) / max_tok
+            y = pt + gh - int(ratio * gh)
+            points.append((x, y))
+
+        # 면적 채우기
+        if len(points) >= 2:
+            poly = [pl, pt + gh]
+            for x, y in points:
+                poly += [x, y]
+            poly += [points[-1][0], pt + gh]
+            c.create_polygon(poly, fill='#1A2A3E', outline='')
+
+        # 라인
+        if len(points) >= 2:
+            flat = [coord for pt_ in points for coord in pt_]
+            c.create_line(flat, fill=C_BLUE, width=1.5, smooth=True)
+
+        # 포인트 + X축 레이블
+        for i, (x, y) in enumerate(points):
+            c.create_oval(x - 3, y - 3, x + 3, y + 3,
+                          fill=C_BLUE, outline=BG_CARD)
+            if i % max(1, n // 6) == 0:
+                label = buckets[i]['hour'][-2:]  # HH
+                c.create_text(x, pt + gh + 10, text=label,
+                              fill=FG_DIM, font=('Consolas', 7))
+
+
+def fmt(n: int) -> str:
+    if n >= 1000:
+        return f'{n/1000:.1f}k'
+    return str(n)
+
+
 class MonitorApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -336,6 +443,10 @@ class MonitorApp(tk.Tk):
         self._card_frame.bind('<Configure>', self._on_frame_resize)
         self._canvas.bind('<Configure>', self._on_canvas_resize)
         self._canvas.bind_all('<MouseWheel>', self._on_mousewheel)
+
+        # 토큰 라인 그래프
+        self._token_graph = TokenLineGraph(self)
+        self._token_graph.pack(fill='x', padx=16, pady=(0, 4))
 
         # 푸터
         ftr = tk.Frame(self, bg=BG_DARK, padx=20, pady=6)
@@ -401,6 +512,7 @@ class MonitorApp(tk.Tk):
                 self._cards[path].refresh(data)
 
         self._repack_cards(agents)
+        self._token_graph.refresh()
 
         # 상태 요약
         total   = len(agents)
