@@ -5,6 +5,13 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python \"C:/Users/psh93/OneDrive/Desktop/Workspace/.status/auto_track.py\"",
+            "timeout": 30,
+            "async": true,
+            "statusMessage": "토큰 사용량 기록 중..."
+          },
+          {
+            "type": "command",
             "command": "python \"C:/Users/psh93/OneDrive/Desktop/Workspace/.scripts/classify.py\" --no-popup",
             "timeout": 120,
             "async": true,
