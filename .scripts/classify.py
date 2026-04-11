@@ -83,6 +83,26 @@ CATEGORIES = [
         ],
     },
     {
+        'name': 'AgentEcosystem',
+        'file': 'AgentEcosystem/AgentEcosystem_대화_학습_정리.md',
+        'keywords': [
+            # 에이전트 생태계 인프라
+            'agent ecosystem', '에이전트 생태계', 'multi-agent', '멀티에이전트',
+            'orchestrator', 'agent bus', 'agentbus', 'agent_bus',
+            'execution agent', 'validation agent', 'advisor agent', 'reporter agent',
+            'role_rules', 'task_manifest', 'agent onboarding',
+            'daily_scrap', 'geek news', 'remote trigger', '원격 에이전트',
+            'remote_track', 'agent_log', 'agent log',
+            # 토큰 추적 시스템
+            'show_tokens', 'token_popup', 'token tracking', '토큰 추적',
+            'token_usage', 'hourly_bucket', '4h 롤링', '4h rolling',
+            'monitor.py', 'auto_track', 'remote_track',
+            # Git/브랜치 관리 (워크스페이스 관리)
+            'feat/ecosystem', 'branch cleanup', '브랜치 정리', 'worktree',
+            'pr merge', 'pull request', '04_agentecosystem',
+        ],
+    },
+    {
         'name': 'Nova',
         'file': 'Nova/Nova_대화_학습_정리.md',
         'keywords': [
@@ -90,17 +110,11 @@ CATEGORIES = [
             'wls', 'workload labeling', 'labelit api', 'lakehouse',
             'databricks', 'nova dashboard', 'nova beta', 'data yield',
             'mysql provider', 'gateway', 'dbt', 'staging',
-            # nova_helper / 에이전트 생태계
+            # nova_helper / nova_log_analytics (Nova 서비스 영역)
             'nova_helper', 'nova_log_analytics', 'nova helper', 'nova log',
-            'slack bot', 'slack 봇', 'socket mode', 'http mode', 'aiohttp',
-            'bolt', 'slack_bolt', 'signing secret', 'escalation',
-            'agent ecosystem', '에이전트 생태계', 'multi-agent', '멀티에이전트',
-            'orchestrator', 'agent bus', 'agentbus', 'execution agent',
-            'validation agent', 'advisor agent', 'reporter agent',
-            'role_rules', 'task_manifest', 'agent onboarding',
-            'show_tokens', 'token_popup', 'token tracking', '토큰 추적',
-            'remote_track', 'monitor.py', 'agent_bus', 'agent_log',
-            'daily_scrap', 'geek news', 'remote trigger', '원격 에이전트',
+            'slack bot', 'slack 봇', 'socket mode', 'http mode',
+            'signing secret', 'escalation', 'nova_okr', 'nova_jira',
+            'bolt', 'slack_bolt', 'flask handler', 'nova port',
         ],
     },
     {
@@ -171,16 +185,30 @@ def classify_conversation(title: str, content: str) -> tuple[str, int]:
     """카테고리 결정. 반환: (카테고리명, 최고점수)"""
     text = (title + ' ' + content).lower()
     scores = {}
+    matched_keywords: dict[str, list[str]] = {}
 
     for cat in CATEGORIES[:-1]:  # Misc 제외하고 점수 계산
-        score = sum(text.count(kw.lower()) for kw in cat['keywords'])
+        hits = [(kw, text.count(kw.lower())) for kw in cat['keywords'] if text.count(kw.lower()) > 0]
+        score = sum(cnt for _, cnt in hits)
         if score > 0:
             scores[cat['name']] = score
+            matched_keywords[cat['name']] = [f'{kw}({cnt})' for kw, cnt in sorted(hits, key=lambda x: -x[1])[:5]]
 
     if not scores:
         return 'Misc', 0
-    best = max(scores, key=scores.get)
-    return best, scores[best]
+
+    # 점수 로그 출력 (근소차 10점 이하면 경고)
+    sorted_scores = sorted(scores.items(), key=lambda x: -x[1])
+    best, best_score = sorted_scores[0]
+    if len(sorted_scores) >= 2:
+        second_score = sorted_scores[1][1]
+        margin = best_score - second_score
+        if margin <= 10:
+            print(f'  [분류 주의] 점수 근소차: {sorted_scores[0][0]}({best_score}) vs {sorted_scores[1][0]}({second_score}) — 수동 검토 권장')
+    top_kws = ', '.join(matched_keywords.get(best, []))
+    print(f'  [분류 점수] {best}: {best_score}점 | 주요 키워드: {top_kws}')
+
+    return best, best_score
 
 
 def save_keyword_to_category(category_name: str, keyword: str):

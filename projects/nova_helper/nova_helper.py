@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from slack_sdk.web import WebClient
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from slack_bolt.adapter.flask import SlackRequestHandler
 
 import glob
 import importlib
@@ -20,7 +21,12 @@ ssl_context.check_hostname = False
 ssl_context.verify_mode = ssl.CERT_NONE
 
 client = WebClient(token=os.environ["SLACK_BOT_TOKEN"], ssl=ssl_context)
-app = App(client=client)
+
+# signing_secret은 HTTP mode에서 요청 검증에 사용. Socket mode에서는 무시됨.
+app = App(
+    client=client,
+    signing_secret=os.environ.get("SLACK_SIGNING_SECRET", ""),
+)
 
 NOVA_HELP_URL = "https://stradvision.atlassian.net/servicedesk/customer/portal/45"
 
@@ -160,32 +166,26 @@ for _path in sorted(glob.glob(os.path.join(_plugin_dir, "nova_*.py"))):
 
 if __name__ == "__main__":
     if os.environ.get("NOVA_MODE") == "server":
-        # HTTP 서버 모드 — 서버/컨테이너 환경에서 실행
-        # 필요 패키지: pip install aiohttp slack-bolt[async]
-        import asyncio
-        from aiohttp import web
-        from slack_bolt.adapter.aiohttp import AioHTTPAdapter
+        # HTTP 서버 모드 — Flask + SlackRequestHandler (ngrok 터널 또는 서버 배포 필요)
+        # 필요: pip install flask / ngrok http <port> 실행 후 Slack App에 Request URL 등록
+        from flask import Flask, request as flask_request
 
-        signing_secret = os.environ["SLACK_SIGNING_SECRET"]
-        http_app = App(
-            token=os.environ["SLACK_BOT_TOKEN"],
-            signing_secret=signing_secret,
-        )
-        adapter = AioHTTPAdapter(http_app)
-
-        async def handle_slack(request):
-            return await adapter.handle(request)
-
-        async def handle_health(request):
-            return web.Response(text="ok")
-
-        web_app = web.Application()
-        web_app.router.add_post("/slack/events", handle_slack)
-        web_app.router.add_get("/health", handle_health)
-
+        flask_app = Flask(__name__)
+        handler = SlackRequestHandler(app)
         port = int(os.environ.get("NOVA_PORT", 3000))
-        print(f"Nova Helper bot starting (HTTP mode) on port {port}...")
-        web.run_app(web_app, host="0.0.0.0", port=port)
+
+        @flask_app.route("/slack/events", methods=["POST"])
+        def slack_events():
+            return handler.handle(flask_request)
+
+        @flask_app.route("/health", methods=["GET"])
+        def health():
+            return "ok", 200
+
+        print(f"Nova Helper bot starting (HTTP/Flask mode) on port {port}...")
+        print(f"  Slack endpoint: POST http://0.0.0.0:{port}/slack/events")
+        print(f"  Health check:   GET  http://0.0.0.0:{port}/health")
+        flask_app.run(host="0.0.0.0", port=port)
     else:
         # 로컬 Socket 모드 (기본 동작 — SLACK_APP_TOKEN 필요)
         print("Nova Helper bot starting (Socket mode)...")

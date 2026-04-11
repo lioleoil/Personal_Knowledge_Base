@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-_BASE    = Path(__file__).parent.parent
+_BASE    = Path(__file__).parent.parent.parent  # workspace root
 _SCRIPTS = _BASE / ".scripts"
 sys.path.insert(0, str(_SCRIPTS))
 
