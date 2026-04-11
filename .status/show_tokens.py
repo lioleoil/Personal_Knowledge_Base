@@ -1,8 +1,8 @@
 """
 터미널 토큰 사용량 바 — Claude Code Stop 훅에 의해 자동 실행
 수동 실행: python .status/show_tokens.py [추가_토큰수] ["작업명"]
-리셋 기준: 5시간 롤링 윈도우 / 주간 한도 별도 추적 (월~일)
-Claude Pro 정책: 5시간당 ~45메시지(짧은기준), 주간 한도는 극소수만 도달
+리셋 기준: 4시간 롤링 윈도우 / 주간 한도 별도 추적 (월~일)
+Claude Pro 정책: 5시간당 72,000 토큰, 주간 한도는 극소수만 도달
 """
 import json, os, sys
 from datetime import datetime, timedelta
@@ -23,14 +23,21 @@ WHITE = '\033[97m'
 
 
 def get_period_key():
-    """현재 시각 기준 5시간 윈도우의 시작 시각을 반환.
-    알려진 기준점(2026-03-15 07:57, 웹 실측)에서 5시간 단위로 계산."""
+    """현재 시각 기준 4시간 윈도우의 시작 시각을 반환.
+    하루를 6개 구간(00-04, 04-08, 08-12, 12-16, 16-20, 20-24)으로 분할."""
     now = datetime.now()
-    anchor = datetime(2026, 3, 15, 8, 0, 0)
-    delta_h = (now - anchor).total_seconds() / 3600
-    window_idx = int(delta_h // 5)
-    period_start = anchor + timedelta(hours=5 * window_idx)
+    block = (now.hour // 4) * 4
+    period_start = now.replace(hour=block, minute=0, second=0, microsecond=0)
     return period_start.strftime('%Y-%m-%d %H:%M')
+
+
+def get_4h_window_usage(data):
+    """hourly_buckets에서 최근 4시간 합산. 버킷 없으면 data['used'] 반환."""
+    buckets = data.get('hourly_buckets', [])
+    if not buckets:
+        return data.get('used', 0)
+    cutoff = (datetime.now() - timedelta(hours=4)).strftime('%Y-%m-%dT%H')
+    return sum(b.get('tokens', 0) for b in buckets if b.get('hour', '') >= cutoff)
 
 
 def get_week_start():
@@ -65,7 +72,7 @@ def load():
             data.setdefault('hourly_buckets', [])
             return data
         else:
-            # 새 5시간 윈도우 — 윈도우 데이터 리셋, 주간/버킷 데이터 유지
+            # 새 4시간 윈도우 — 윈도우 데이터 리셋, 주간/버킷 데이터 유지
             return {
                 'date': period, 'used': 0, 'window_limit': 72000,
                 'plan': 'Pro', 'sessions': [], 'transcripts': {},
@@ -139,14 +146,18 @@ def display(data):
     wb, wcolor = bar(wpct, width=40)
 
     print()
-    print(f'{BOLD}{WHITE}  [ Claude Token Usage ]  {GRAY}[{plan} | 기준: {period}~]{R}')
-    print(f'  {GRAY}5h 윈도우{R}  {b}  {color}{BOLD}{pct:.1f}%{R}')
-    print(f'  {GRAY}사용: {color}{BOLD}{fmt(used)}{R}{GRAY} / {fmt(limit)}  남은: {WHITE}{fmt(limit - used)}{R}')
+    rolling_4h = get_4h_window_usage(data)
+    rpct = min(rolling_4h / limit * 100, 100) if limit > 0 else 0
+    rb, rcolor = bar(rpct)
 
-    if pct >= 90:
-        print(f'  {RED}{BOLD}[!] 윈도우 90% 초과 — 속도 제한 임박{R}')
-    elif pct >= 75:
-        print(f'  {YELLOW}[!] 윈도우 75% 도달 — 잔여 {fmt(limit - used)}{R}')
+    print(f'{BOLD}{WHITE}  [ Claude Token Usage ]  {GRAY}[{plan} | 윈도우: {period}~]{R}')
+    print(f'  {GRAY}4h 롤링{R}   {rb}  {rcolor}{BOLD}{rpct:.1f}%{R}')
+    print(f'  {GRAY}사용: {rcolor}{BOLD}{fmt(rolling_4h)}{R}{GRAY} / {fmt(limit)}  남은: {WHITE}{fmt(limit - rolling_4h)}{R}')
+
+    if rpct >= 90:
+        print(f'  {RED}{BOLD}[!] 4h 윈도우 90% 초과 — 속도 제한 임박{R}')
+    elif rpct >= 75:
+        print(f'  {YELLOW}[!] 4h 윈도우 75% 도달 — 잔여 {fmt(limit - rolling_4h)}{R}')
 
     print(f'  {GRAY}주간({week_start}~){R}  {wb}  {wcolor}{BOLD}{wpct:.1f}%{R}')
     print(f'  {GRAY}주간: {wcolor}{BOLD}{fmt(weekly_used)}{R}{GRAY} / {fmt(weekly_limit)}  남은: {WHITE}{fmt(weekly_limit - weekly_used)}{R}')
