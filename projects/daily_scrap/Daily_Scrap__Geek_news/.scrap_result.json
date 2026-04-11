@@ -1,0 +1,21 @@
+{
+  "date": "2026-04-08",
+  "count": 3,
+  "articles": [
+    {
+      "title": "Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=28115"
+    },
+    {
+      "title": "AWS 엔지니어, Linux 7.0에서 PostgreSQL 성능이 절반으로 감소했다고 보고 – 수정이 쉽지 않을 수 있음",
+      "topic": "개발/오픈소스",
+      "url": "https://news.hada.io/topic?id=28241"
+    },
+    {
+      "title": "Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다",
+      "topic": "비즈니스/스타트업",
+      "url": "https://news.hada.io/topic?id=28182"
+    }
+  ]
+}

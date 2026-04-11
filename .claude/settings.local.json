@@ -11,7 +11,13 @@
       "WebSearch(*)",
       "Skill(*)",
       "mcp__claude_ai_Slack__*",
-      "mcp__claude_ai_Atlassian__*"
+      "mcp__claude_ai_Atlassian__*",
+      "Bash(python jira_chrome_runner.py)",
+      "Bash(PYTHONUNBUFFERED=1 python -u jira_chrome_runner.py)",
+      "Bash(PYTHONUNBUFFERED=1 python -u jira_chrome_runner.py login)",
+      "Bash(PYTHONUNBUFFERED=1 .venv\\\\Scripts\\\\python.exe -u jira_chrome_runner.py)",
+      "Bash(PYTHONUNBUFFERED=1 .venv/Scripts/python.exe -u jira_chrome_runner.py)",
+      "Bash(PYTHONUNBUFFERED=1 .venv/Scripts/python.exe -u jira_debug_dom.py)"
     ],
     "deny": []
   }

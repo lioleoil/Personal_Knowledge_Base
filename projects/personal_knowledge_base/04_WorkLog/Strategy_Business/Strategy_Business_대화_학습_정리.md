@@ -2327,3 +2327,831 @@
 **대화 길이:** 총 2개 메시지
 
 ---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 122개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 124개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 132개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 135개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 138개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 140개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 141개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 146개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 148개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 155개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 158개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 162개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 165개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 168개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 171개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 175개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 178개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 181개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 184개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 186개 메시지
+
+---
+
+### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이
+**날짜:** 2026-04-08 | **파일:** 080f1277-a131-4215-bf49-dba6e3d13c47.jsonl
+
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Marc Andreessen은 자기성찰에 대해 잘못 이해하고 있다 설명: - 벤처투자자 마카앤드리슨이 자기성찰(Introspection)을 20세기 초 Freud가 만든 개념으로 규정하며 이를 부정했으나, 이는 수천 년의 철학 전통... 토픽: 비즈니스/스타트업 - 마...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### Caveat: The messages below were generated by the user while running local comman
+**날짜:** 2026-04-11 | **파일:** ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl
+
+**맥락 요약:** <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user e...
+
+**대화 길이:** 총 189개 메시지
+
+---

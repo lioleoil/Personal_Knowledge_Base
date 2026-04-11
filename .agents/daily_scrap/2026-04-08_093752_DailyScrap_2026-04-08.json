@@ -1,0 +1,15 @@
+{
+  "agent_id": "DailyScrap_2026-04-08",
+  "title": "Daily Scrap — GeekNews 수집",
+  "agent_type": "daily_scrap",
+  "started_at": "2026-04-08T09:37:52",
+  "completed_at": "2026-04-08T09:37:54",
+  "status": "error",
+  "progress": 100,
+  "message": "'cp949' codec can't encode character '\\u2014' in position 102: illegal multibyte sequence",
+  "log": [
+    "09:37:52  기존 수집 URL: 0개",
+    "09:37:54  수집 기사: 60개",
+    "09:37:54  선택 기사: 3개"
+  ]
+}
