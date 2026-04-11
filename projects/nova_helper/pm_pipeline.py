@@ -12,14 +12,14 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-_BASE = Path(__file__).parent.parent
-_PKB  = _BASE / "projects" / "personal_knowledge_base"
-sys.path.insert(0, str(_PKB))
+_BASE    = Path(__file__).parent.parent
+_SCRIPTS = _BASE / ".scripts"
+sys.path.insert(0, str(_SCRIPTS))
 
 from pm_ppt_generator import call_gemini, build_pptx, update_index
 from confluence_plugin import create_pm_page, upload_pptx_attachment, CONFLUENCE_SPACE_KEY
 
-OUTPUT_DIR = _PKB / "05_PM_Outputs"
+OUTPUT_DIR = _BASE / "global" / "05_PM_Outputs"
 
 ICON = {"done": "✅", "running": "⏳", "pending": "○", "error": "❌"}
 
