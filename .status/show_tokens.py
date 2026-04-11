@@ -62,21 +62,24 @@ def load():
             data['week_start'] = saved_week
             data['weekly_used'] = weekly_used
             data['weekly_limit'] = weekly_limit
+            data.setdefault('hourly_buckets', [])
             return data
         else:
-            # 새 5시간 윈도우 — 윈도우 데이터 리셋, 주간 데이터 유지
+            # 새 5시간 윈도우 — 윈도우 데이터 리셋, 주간/버킷 데이터 유지
             return {
                 'date': period, 'used': 0, 'window_limit': 72000,
                 'plan': 'Pro', 'sessions': [], 'transcripts': {},
                 'week_start': saved_week,
                 'weekly_used': weekly_used,
                 'weekly_limit': weekly_limit,
+                'hourly_buckets': data.get('hourly_buckets', []),
             }
 
     return {
         'date': period, 'used': 0, 'window_limit': 72000,
         'plan': 'Pro', 'sessions': [], 'transcripts': {},
         'week_start': week_start, 'weekly_used': 0, 'weekly_limit': 500000,
+        'hourly_buckets': [],
     }
 
 

@@ -11,6 +11,7 @@
 | `global/01_Identity/` | 사용자 정체성 (자기완결적 본질주의자, ESTP) |
 | `global/02_Profile/` | 직업 프로필 (자율주행 어노테이션 PO/PM), 역량맵 |
 | `global/03_Instructions/` | Claude 인터랙션 커스텀 설정 및 효율화 가이드 |
+| `global/04_Permissions/` | 멀티에이전트 권한 파일 (allowed_ops.json, advisor_protocol.md) |
 | `global/05_PM_Outputs/` | PM 스킬 산출물 (OKR, PRD, 로드맵 등) |
 
 핵심 파일:
@@ -98,3 +99,19 @@ log.done('완료')
 - 대용량 파일: Grep으로 위치 확인 → offset+limit Read
 - 서브에이전트: Write/Edit 권한 필요 명시 + 대용량 파일은 Grep 우선 지시
 - 내용 복사: verbatim 금지 → 요약 형태로 append
+
+---
+
+## 멀티에이전트 권한 프로토콜
+
+> 전문: `global/04_Permissions/advisor_protocol.md`
+
+Execution 에이전트가 작업 권한이 필요한 경우 Advisor 에이전트에게 요청한다.
+
+**Advisor 에이전트 권한 규칙:**
+- `global/04_Permissions/allowed_ops.json`에 등록된 작업은 **즉시 자동 승인**
+- `file_delete`(파일 삭제)는 **항상 사용자 동의 필요** — Advisor가 단독으로 승인 불가
+- `allowed_ops.json`에 없는 신규 권한 요청 → 사용자 에스컬레이션 후 승인 시 파일에 추가
+- 에스컬레이션 발생 시 nova_helper Slack 알림 (`NOVA_ESCALATION_CHANNEL` 설정 시)
+
+**이 프로토콜은 모든 규칙, 워크플로우, 자동화 스크립트에 적용된다.**

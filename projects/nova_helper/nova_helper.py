@@ -25,6 +25,51 @@ app = App(client=client)
 NOVA_HELP_URL = "https://stradvision.atlassian.net/servicedesk/customer/portal/45"
 
 
+def notify_advisor_escalation(operation: str, context: str, channel: str = None):
+    """Advisor 에이전트가 사용자 에스컬레이션 시 Slack으로 알림 전송.
+    NOVA_ESCALATION_CHANNEL 환경변수 또는 channel 인자로 대상 채널 지정.
+    """
+    target = channel or os.environ.get("NOVA_ESCALATION_CHANNEL", "")
+    if not target:
+        return
+    client.chat_postMessage(
+        channel=target,
+        blocks=[
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": (
+                        f":warning: *Advisor 에스컬레이션*\n"
+                        f"*작업*: `{operation}`\n"
+                        f"*사유*: {context}\n"
+                        f"사용자 승인이 필요합니다."
+                    ),
+                },
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "승인"},
+                        "style": "primary",
+                        "action_id": "advisor_approve",
+                        "value": operation,
+                    },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "거부"},
+                        "style": "danger",
+                        "action_id": "advisor_deny",
+                        "value": operation,
+                    },
+                ],
+            },
+        ],
+    )
+
+
 @app.command("/nova_help")
 def handle_nova_help(ack, respond):
     ack()
@@ -114,5 +159,34 @@ for _path in sorted(glob.glob(os.path.join(_plugin_dir, "nova_*.py"))):
 
 
 if __name__ == "__main__":
-    print("Nova Helper bot starting...")
-    SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
+    if os.environ.get("NOVA_MODE") == "server":
+        # HTTP 서버 모드 — 서버/컨테이너 환경에서 실행
+        # 필요 패키지: pip install aiohttp slack-bolt[async]
+        import asyncio
+        from aiohttp import web
+        from slack_bolt.adapter.aiohttp import AioHTTPAdapter
+
+        signing_secret = os.environ["SLACK_SIGNING_SECRET"]
+        http_app = App(
+            token=os.environ["SLACK_BOT_TOKEN"],
+            signing_secret=signing_secret,
+        )
+        adapter = AioHTTPAdapter(http_app)
+
+        async def handle_slack(request):
+            return await adapter.handle(request)
+
+        async def handle_health(request):
+            return web.Response(text="ok")
+
+        web_app = web.Application()
+        web_app.router.add_post("/slack/events", handle_slack)
+        web_app.router.add_get("/health", handle_health)
+
+        port = int(os.environ.get("NOVA_PORT", 3000))
+        print(f"Nova Helper bot starting (HTTP mode) on port {port}...")
+        web.run_app(web_app, host="0.0.0.0", port=port)
+    else:
+        # 로컬 Socket 모드 (기본 동작 — SLACK_APP_TOKEN 필요)
+        print("Nova Helper bot starting (Socket mode)...")
+        SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()

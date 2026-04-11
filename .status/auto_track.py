@@ -54,6 +54,23 @@ def count_tokens_from_transcript(transcript_path):
     return total
 
 
+def update_hourly_bucket(data: dict, tokens: int) -> None:
+    """4시간 단위 버킷에 토큰 수를 집계한다.
+    버킷 키 형식: 'YYYY-MM-DD HH:00' (HH는 0, 4, 8, 12, 16, 20 중 하나)
+    최근 42개 버킷(7일치)만 유지한다.
+    """
+    now = datetime.now()
+    bucket_h = (now.hour // 4) * 4
+    bucket_key = now.strftime(f'%Y-%m-%d {bucket_h:02d}:00')
+    buckets = data.setdefault('hourly_buckets', [])
+    for b in buckets:
+        if b['hour'] == bucket_key:
+            b['tokens'] += tokens
+            return
+    buckets.append({'hour': bucket_key, 'tokens': tokens})
+    data['hourly_buckets'] = buckets[-42:]
+
+
 def main():
     # stdin에서 Stop 훅 페이로드 읽기
     payload = {}
@@ -90,6 +107,7 @@ def main():
             'tokens': new_tokens,
             'time': datetime.now().strftime('%H:%M:%S'),
         })
+        update_hourly_bucket(data, new_tokens)
         show_tokens.save(data)
 
     launch_popup()
