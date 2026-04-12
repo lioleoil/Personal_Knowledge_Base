@@ -1192,3 +1192,120 @@
 **대화 길이:** 총 89개 메시지
 
 ---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---
+
+### "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들
+**날짜:** 2026-04-08 | **파일:** 4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl
+
+**맥락 요약:** "C:\Users\psh93\OneDrive\Desktop\ODD" 폴더에 있는 JSON 파일들 구조 분석하고, 엑셀 파일 형태로 추출해서 만들어줘. rawDataKey 1개당 하나의 시트에 정보를 정리하면 좋을 것 같아. 구조를 파악했습니다. JSON 구조: - 최상위: `policy`, `phase`, `rawDataKey`, `task`, `task_...
+
+**대화 길이:** 총 89개 메시지
+
+---

@@ -147,15 +147,11 @@ def _discover_bus_tasks(bus_dir: str) -> list[dict]:
             except Exception:
                 pass
 
-        progress_map = {
-            'manifest':   20,
-            'result':     50,
-            'validation': 70,
-            'advice':     80,
-            'report':     100,
-        }
-        progress = max((progress_map.get(ft, 0) for ft in file_types), default=0)
         verdict_label = f' [{verdict}]' if verdict else ''
+
+        # manifest만 있고 1시간 이상 경과 → stale (포기된 태스크)
+        if file_types == ['manifest'] and (time.time() - latest_mtime) > 3600:
+            bus_status = 'completed'
 
         card = {
             '_path':      latest_path or os.path.join(bus_dir, f'{tid}_manifest.json'),
@@ -165,8 +161,8 @@ def _discover_bus_tasks(bus_dir: str) -> list[dict]:
             'agent_type': 'bus',
             'folder':     _infer_role_from_files(file_types),
             'status':     bus_status,
-            'progress':   progress,
-            'message':    f'파일: {", ".join(file_types)}',
+            'progress':   0,
+            'message':    f'단계: {", ".join(file_types)}',
             'log':        [f'task_id: {tid}', f'domain: {domain}', f'verdict: {verdict or "-"}'],
             'started_at': None,
             'completed_at': None,
@@ -236,19 +232,16 @@ class AgentCard(tk.Frame):
                                   bg=BG_INNER, fg=FG_DIMMER)
         self._time_lbl.pack(side='right')
 
-        # 진행 바
+        # 진행 바 (% 표시 없음)
         style_key = id(self)
         s = ttk.Style()
-        s.configure(f'{style_key}.H.TProgressbar',
+        s.configure(f'{style_key}.Horizontal.TProgressbar',
                     troughcolor='#3A3A50', background=self._color,
-                    thickness=7, borderwidth=0)
+                    thickness=5, borderwidth=0)
         self._prog_var = tk.IntVar(value=0)
         ttk.Progressbar(inner, variable=self._prog_var, maximum=100,
-                        style=f'{style_key}.H.TProgressbar').pack(
-            fill='x', pady=(4, 2))
-        self._pct_lbl = tk.Label(inner, text='0%', font=('Consolas', 8),
-                                 bg=BG_INNER, fg=self._color, anchor='e')
-        self._pct_lbl.pack(fill='x')
+                        style=f'{style_key}.Horizontal.TProgressbar').pack(
+            fill='x', pady=(4, 0))
 
         # 최근 로그
         tk.Label(inner, text='최근 로그', font=('', 8),
@@ -278,7 +271,6 @@ class AgentCard(tk.Frame):
         self._status_lbl.config(text=label, fg=fg)
         self._time_lbl.config(text=ts_short)
         self._prog_var.set(prog)
-        self._pct_lbl.config(text=f'{prog}%', fg=fg)
 
         recent = logs[-3:] if logs else ([message] if message else [])
         self._log_lbl.config(text='\n'.join(recent) or '—')
@@ -289,52 +281,51 @@ class AgentCard(tk.Frame):
 class TokenLineGraph(tk.Frame):
     """
     token_usage.json의 hourly_buckets 기반 라인 그래프.
-    최근 24시간 토큰 사용량을 Canvas로 렌더링.
+    4시간 블록별 토큰 사용량 추이, 마우스 오버 툴팁 포함.
     """
-    HEIGHT = 72
-    PAD_L, PAD_R, PAD_T, PAD_B = 38, 8, 8, 18
+    PAD_L, PAD_R, PAD_T, PAD_B = 44, 36, 10, 36  # PAD_R: 오른쪽 레이블 잘림 방지
 
     def __init__(self, parent):
         super().__init__(parent, bg=BG_CARD, pady=4)
-        tk.Label(self, text='토큰 사용량 (24h)', font=('Consolas', 8),
+        tk.Label(self, text='토큰 사용량 (7일)', font=('Consolas', 9, 'bold'),
                  bg=BG_CARD, fg=FG_DIM).pack(anchor='w', padx=10)
-        self._canvas = tk.Canvas(self, bg=BG_CARD, height=self.HEIGHT,
+        self._canvas = tk.Canvas(self, bg=BG_CARD,
                                  highlightthickness=0)
-        self._canvas.pack(fill='x', padx=8, pady=(0, 4))
+        self._canvas.pack(fill='both', expand=True, padx=8, pady=(0, 4))
         self._canvas.bind('<Configure>', lambda _: self._draw())
+        self._canvas.bind('<Motion>', self._on_hover)
+        self._canvas.bind('<Leave>', self._on_leave)
         self._token_file = os.path.join(STATUS_DIR, 'token_usage.json')
+        self._points: list = []   # [(px, py, bucket), ...]
 
     def refresh(self):
         self._draw()
 
     def _load_buckets(self) -> list[dict]:
+        """hourly_buckets 전체 반환 (최대 42개 = 7일치)."""
         if not os.path.exists(self._token_file):
             return []
         try:
             with open(self._token_file, encoding='utf-8') as f:
                 data = json.load(f)
             buckets = data.get('hourly_buckets', [])
-            # 최근 24h
-            from datetime import timedelta
-            cutoff = (datetime.now() - timedelta(hours=24)).strftime('%Y-%m-%dT%H')
-            return sorted(
-                [b for b in buckets if b.get('hour', '') >= cutoff],
-                key=lambda b: b['hour']
-            )
+            return sorted(buckets, key=lambda b: b.get('hour', ''))
         except Exception:
             return []
 
     def _draw(self):
         c = self._canvas
         c.delete('all')
+        self._points = []
         w = c.winfo_width()
-        if w < 10:
+        h = c.winfo_height()
+        if w < 10 or h < 20:
             return
 
         buckets = self._load_buckets()
         pl, pr, pt, pb = self.PAD_L, self.PAD_R, self.PAD_T, self.PAD_B
         gw = w - pl - pr
-        gh = self.HEIGHT - pt - pb
+        gh = h - pt - pb
 
         # 축
         c.create_line(pl, pt, pl, pt + gh, fill=FG_DIMMER, width=1)
@@ -342,49 +333,96 @@ class TokenLineGraph(tk.Frame):
 
         if not buckets:
             c.create_text(pl + gw // 2, pt + gh // 2,
-                          text='데이터 없음', fill=FG_DIM, font=('Consolas', 8))
+                          text='데이터 없음', fill=FG_DIM, font=('Consolas', 9, 'bold'))
             return
 
         max_tok = max(b.get('tokens', 0) for b in buckets) or 1
 
         # Y축 레이블
-        for frac, label in [(0, '0'), (0.5, fmt(max_tok // 2)), (1.0, fmt(max_tok))]:
+        for frac, lbl in [(0, '0'), (0.5, fmt(max_tok // 2)), (1.0, fmt(max_tok))]:
             y = pt + gh - int(frac * gh)
             c.create_line(pl - 3, y, pl, y, fill=FG_DIMMER)
-            c.create_text(pl - 4, y, text=label, anchor='e',
-                          fill=FG_DIM, font=('Consolas', 7))
+            c.create_text(pl - 4, y, text=lbl, anchor='e',
+                          fill=FG_DIM, font=('Consolas', 8, 'bold'))
 
         # 포인트 좌표 계산
         n = len(buckets)
         step = gw / max(n - 1, 1)
-        points = []
+        raw_points = []
         for i, b in enumerate(buckets):
             x = pl + int(i * step)
             ratio = b.get('tokens', 0) / max_tok
             y = pt + gh - int(ratio * gh)
-            points.append((x, y))
+            raw_points.append((x, y))
+            self._points.append((x, y, b))
 
         # 면적 채우기
-        if len(points) >= 2:
+        if len(raw_points) >= 2:
             poly = [pl, pt + gh]
-            for x, y in points:
+            for x, y in raw_points:
                 poly += [x, y]
-            poly += [points[-1][0], pt + gh]
+            poly += [raw_points[-1][0], pt + gh]
             c.create_polygon(poly, fill='#1A2A3E', outline='')
 
         # 라인
-        if len(points) >= 2:
-            flat = [coord for pt_ in points for coord in pt_]
+        if len(raw_points) >= 2:
+            flat = [coord for px, py in raw_points for coord in (px, py)]
             c.create_line(flat, fill=C_BLUE, width=1.5, smooth=True)
 
-        # 포인트 + X축 레이블
-        for i, (x, y) in enumerate(points):
-            c.create_oval(x - 3, y - 3, x + 3, y + 3,
-                          fill=C_BLUE, outline=BG_CARD)
-            if i % max(1, n // 6) == 0:
-                label = buckets[i]['hour'][-2:]  # HH
-                c.create_text(x, pt + gh + 10, text=label,
-                              fill=FG_DIM, font=('Consolas', 7))
+        # 포인트 + X축 레이블 (최대 7개 레이블, 날짜 변경 시 날짜 표시)
+        label_step = max(1, n // 7)
+        prev_date = None
+        for i, (x, y) in enumerate(raw_points):
+            c.create_oval(x - 3, y - 3, x + 3, y + 3, fill=C_BLUE, outline=BG_CARD)
+            if i % label_step == 0 or i == n - 1:
+                hour_str = buckets[i].get('hour', '')  # 'YYYY-MM-DD HH:00'
+                date_part = hour_str[5:10]              # 'MM-DD'
+                time_part = hour_str[-5:]               # 'HH:00'
+                if date_part != prev_date:
+                    lbl_text = f'{date_part}\n{time_part}'
+                    prev_date = date_part
+                else:
+                    lbl_text = time_part
+                c.create_text(x, pt + gh + 4, text=lbl_text,
+                              fill=FG_DIM, font=('Consolas', 8, 'bold'), anchor='n')
+
+    # ── 툴팁 ──────────────────────────────────────────────────────
+    def _on_hover(self, event):
+        if not self._points:
+            return
+        nearest = min(self._points, key=lambda p: abs(p[0] - event.x))
+        px, py, bucket = nearest
+        if abs(event.x - px) > 28:
+            self._canvas.delete('tip')
+            return
+        hour = bucket.get('hour', '')
+        tokens = bucket.get('tokens', 0)
+        self._show_tip(px, py, f'{hour}  {fmt(tokens)} tok')
+
+    def _show_tip(self, px, py, text):
+        c = self._canvas
+        c.delete('tip')
+        cw  = c.winfo_width()
+        tx  = min(max(px, 55), cw - 55)
+        ty  = max(py - 6, 14)
+        pad = 4
+        t   = c.create_text(tx, ty, text=text, fill=FG_HEAD,
+                             font=('Consolas', 8, 'bold'), anchor='s', tags='tip')
+        bb  = c.bbox(t)
+        if bb:
+            c.create_rectangle(bb[0]-pad, bb[1]-pad, bb[2]+pad, bb[3]+pad,
+                                fill=BG_INNER, outline=FG_DIMMER, tags='tip')
+            c.tag_raise(t)
+        # 수직 가이드 선 + 강조 점
+        pt_pad = self.PAD_T
+        gh     = c.winfo_height() - pt_pad - self.PAD_B
+        c.create_line(px, pt_pad, px, pt_pad + gh,
+                      fill=FG_DIMMER, dash=(2, 3), tags='tip')
+        c.create_oval(px-4, py-4, px+4, py+4,
+                      fill=C_BLUE, outline=FG_HEAD, width=1, tags='tip')
+
+    def _on_leave(self, _):
+        self._canvas.delete('tip')
 
 
 def fmt(n: int) -> str:
@@ -460,11 +498,9 @@ class OpenAICostPanel(tk.Frame):
             row = tk.Frame(self._inner, bg=BG_CARD)
             row.pack(fill='x', pady=1)
 
-            # 모델명
             tk.Label(row, text=model, font=('Consolas', 8),
                      bg=BG_CARD, fg='#79DCFF', width=22, anchor='w').pack(side='left')
 
-            # 미니 바
             bar_w = 120
             filled_w = max(2, int(bar_w * pct / 100))
             bar_frame = tk.Frame(row, bg=BG_INNER, width=bar_w, height=10)
@@ -473,21 +509,50 @@ class OpenAICostPanel(tk.Frame):
             color = C_GREEN if pct < 33 else C_YELLOW if pct < 66 else C_ORANGE if pct < 85 else C_RED
             tk.Frame(bar_frame, bg=color, width=filled_w, height=10).pack(side='left')
 
-            # 비용 + 토큰
             summary = f'{fmt_cost(cost)}  {calls}회  in {fmt(in_tok)} out {fmt(out_tok)}'
             tk.Label(row, text=summary, font=('Consolas', 8),
                      bg=BG_CARD, fg=FG_MAIN).pack(side='left', padx=6)
 
 
+class TokenWindow(tk.Toplevel):
+    """토큰 사용량 그래프 독립 창."""
+
+    def __init__(self, master):
+        super().__init__(master)
+        self.title('Token Usage')
+        self.configure(bg=BG_DARK)
+        self.resizable(True, True)
+        self.minsize(400, 120)
+        self._graph = TokenLineGraph(self)
+        self._graph.pack(fill='both', expand=True, padx=16, pady=12)
+        self._center()
+        self._start_polling()
+
+    def _start_polling(self):
+        threading.Thread(target=self._poll, daemon=True).start()
+
+    def _poll(self):
+        while True:
+            self.after(0, self._graph.refresh)
+            time.sleep(POLL_INTERVAL)
+
+    def _center(self):
+        w, h = 560, 158
+        self.update_idletasks()
+        sw = self.winfo_screenwidth()
+        sh = self.winfo_screenheight()
+        self.geometry(f'{w}x{h}+{sw - w - 40}+{sh // 2 + 370}')
+
+
 class MonitorApp(tk.Tk):
     def __init__(self):
         super().__init__()
+        ttk.Style(self).theme_use('clam')
         self.title('Claude Agent Monitor')
         self.configure(bg=BG_DARK)
         self.resizable(True, True)
 
         self._cards: dict[str, AgentCard] = {}   # path → card
-        self._hide_completed = False
         self._last_agents: list = []
         self._build_ui()
         self._center()
@@ -499,16 +564,24 @@ class MonitorApp(tk.Tk):
         hdr.pack(fill='x')
         tk.Label(hdr, text='Claude Agent Monitor', font=('', 14, 'bold'),
                  bg=BG_DARK, fg=FG_HEAD).pack(side='left')
+        tk.Label(hdr, text='실행 중인 에이전트', font=('Consolas', 9),
+                 bg=BG_DARK, fg=FG_DIM).pack(side='left', padx=(10, 0))
 
         self._clock = tk.Label(hdr, text='', font=('Consolas', 9),
                                bg=BG_DARK, fg=FG_DIM)
         self._clock.pack(side='right')
 
-        self._toggle_btn = tk.Label(hdr, text='완료 숨기기',
-                                    font=('Consolas', 9), bg=BG_DARK,
-                                    fg=FG_DIM, cursor='hand2', padx=8)
-        self._toggle_btn.pack(side='right')
-        self._toggle_btn.bind('<Button-1>', self._toggle_completed)
+        self._cleanup_btn = tk.Label(hdr, text='버스 정리',
+                                     font=('Consolas', 9), bg=BG_DARK,
+                                     fg=FG_DIM, cursor='hand2', padx=8)
+        self._cleanup_btn.pack(side='right')
+        self._cleanup_btn.bind('<Button-1>', self._cleanup_bus)
+
+        self._refresh_btn = tk.Label(hdr, text='새로고침',
+                                     font=('Consolas', 9), bg=BG_DARK,
+                                     fg=FG_DIM, cursor='hand2', padx=8)
+        self._refresh_btn.pack(side='right')
+        self._refresh_btn.bind('<Button-1>', self._immediate_refresh)
 
         # 스크롤 가능한 카드 영역
         scroll_outer = tk.Frame(self, bg=BG_DARK)
@@ -526,6 +599,11 @@ class MonitorApp(tk.Tk):
         self._canvas_window = self._canvas.create_window(
             (0, 0), window=self._card_frame, anchor='nw')
 
+        self._empty_lbl = tk.Label(self._card_frame,
+                                   text='실행 중인 에이전트 없음',
+                                   font=('Consolas', 12), bg=BG_DARK,
+                                   fg=FG_DIM, pady=40)
+
         self._card_frame.bind('<Configure>', self._on_frame_resize)
         self._canvas.bind('<Configure>', self._on_canvas_resize)
         self._canvas.bind_all('<MouseWheel>', self._on_mousewheel)
@@ -537,6 +615,7 @@ class MonitorApp(tk.Tk):
         # OpenAI 비용 패널
         self._openai_panel = OpenAICostPanel(self)
         self._openai_panel.pack(fill='x')
+
 
         # 푸터
         ftr = tk.Frame(self, bg=BG_DARK, padx=20, pady=6)
@@ -561,40 +640,41 @@ class MonitorApp(tk.Tk):
             self.after(0, lambda n=now, a=agents: self._refresh_ui(n, a))
             time.sleep(POLL_INTERVAL)
 
-    def _toggle_completed(self, _=None):
-        self._hide_completed = not self._hide_completed
-        self._toggle_btn.config(
-            text='완료 보기' if self._hide_completed else '완료 숨기기',
-            fg=C_BLUE if self._hide_completed else FG_DIM,
-        )
-        self._repack_cards(self._last_agents)
-
     def _repack_cards(self, agents: list):
-        """현재 숨기기 설정에 따라 카드를 순서대로 다시 배치."""
+        """실행 중인 에이전트 카드만 배치. 없으면 빈 상태 메시지 표시."""
         for card in self._cards.values():
             card.pack_forget()
+        self._empty_lbl.pack_forget()
+
+        any_running = False
         for data in agents:
             path   = data['_path']
             status = data.get('status', 'waiting')
-            if self._hide_completed and status == 'completed':
+            if status != 'running':
                 continue
             if path in self._cards:
                 self._cards[path].pack(fill='x', pady=(0, 8))
+                any_running = True
+
+        if not any_running:
+            self._empty_lbl.pack(pady=40)
 
     def _refresh_ui(self, now: str, agents: list):
         self._clock.config(text=now)
         self._last_agents = agents
 
-        current_paths = {d['_path'] for d in agents}
+        running_paths = {d['_path'] for d in agents if d.get('status') == 'running'}
 
-        # 사라진 카드 제거
+        # 더 이상 running이 아닌 카드 제거
         for path in list(self._cards):
-            if path not in current_paths:
+            if path not in running_paths:
                 self._cards[path].destroy()
                 del self._cards[path]
 
-        # 카드 생성/갱신 (pack은 _repack_cards 에서 처리)
+        # running 에이전트 카드만 생성/갱신 (pack은 _repack_cards 에서 처리)
         for data in agents:
+            if data.get('status') != 'running':
+                continue
             path = data['_path']
             if path not in self._cards:
                 self._cards[path] = AgentCard(self._card_frame, data)
@@ -610,10 +690,54 @@ class MonitorApp(tk.Tk):
         running = sum(1 for d in agents if d.get('status') == 'running')
         done    = sum(1 for d in agents if d.get('status') == 'completed')
         error   = sum(1 for d in agents if d.get('status') == 'error')
-        hidden  = done if self._hide_completed else 0
-        suffix  = f'  |  {hidden}개 숨김' if hidden else ''
         self._summary.config(
-            text=f'에이전트 {total}개  |  진행 중 {running}  |  완료 {done}  |  오류 {error}{suffix}')
+            text=f'실행 중 {running}개 표시  |  작업 집계: 완료 {done}  오류 {error}  전체 {total}')
+
+    def _immediate_refresh(self, _=None):
+        now    = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        agents = discover_agents()
+        self._refresh_ui(now, agents)
+
+    def _cleanup_bus(self, _=None):
+        """manifest만 있고 1시간 이상 경과한 stale bus task 파일 삭제."""
+        from tkinter import messagebox
+        bus_dir = os.path.join(PROJECT_ROOT, '.agents', 'bus')
+        if not os.path.exists(bus_dir):
+            messagebox.showinfo('버스 정리', '버스 디렉토리 없음')
+            return
+
+        task_files: dict[str, list[str]] = {}
+        for fname in os.listdir(bus_dir):
+            if not fname.endswith('.json'):
+                continue
+            parts = fname[:-5].split('_', 1)
+            if len(parts) == 2:
+                task_files.setdefault(parts[0], []).append(fname)
+
+        stale: list[str] = []
+        for tid, fnames in task_files.items():
+            ftypes = [f[:-5].split('_', 1)[1] for f in fnames if '_' in f[:-5]]
+            mtimes = [os.path.getmtime(os.path.join(bus_dir, f)) for f in fnames]
+            if sorted(ftypes) == ['manifest'] and (time.time() - max(mtimes)) > 3600:
+                stale.extend(fnames)
+
+        if not stale:
+            messagebox.showinfo('버스 정리', '정리할 stale 태스크 없음')
+            return
+
+        preview = '\n'.join(stale[:10])
+        if len(stale) > 10:
+            preview += f'\n... 외 {len(stale)-10}개'
+        if messagebox.askyesno('버스 정리', f'{len(stale)}개 파일 삭제하시겠습니까?\n\n{preview}'):
+            deleted = 0
+            for fname in stale:
+                try:
+                    os.remove(os.path.join(bus_dir, fname))
+                    deleted += 1
+                except Exception:
+                    pass
+            messagebox.showinfo('버스 정리', f'{deleted}개 파일 삭제 완료')
+            self._immediate_refresh()
 
     def _start_polling(self):
         threading.Thread(target=self._poll, daemon=True).start()
@@ -627,5 +751,23 @@ class MonitorApp(tk.Tk):
 
 
 if __name__ == '__main__':
-    ttk.Style().theme_use('clam')
-    MonitorApp().mainloop()
+    # Windows: 중복 실행 방지 — 기존 인스턴스 종료 후 재시작
+    import ctypes, signal
+    _mutex = ctypes.windll.kernel32.CreateMutexW(None, True, 'ClaudeAgentMonitor')
+    if ctypes.windll.kernel32.GetLastError() == 183:  # ERROR_ALREADY_EXISTS
+        # 기존 창 찾아 종료
+        hwnd = ctypes.windll.user32.FindWindowW(None, 'Claude Agent Monitor')
+        if hwnd:
+            pid = ctypes.c_ulong()
+            ctypes.windll.user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+            h = ctypes.windll.kernel32.OpenProcess(1, False, pid.value)
+            ctypes.windll.kernel32.TerminateProcess(h, 0)
+            ctypes.windll.kernel32.CloseHandle(h)
+        time.sleep(0.4)
+        # 새 mutex 획득
+        ctypes.windll.kernel32.CloseHandle(_mutex)
+        _mutex = ctypes.windll.kernel32.CreateMutexW(None, True, 'ClaudeAgentMonitor')
+
+    app = MonitorApp()
+    TokenWindow(app)
+    app.mainloop()

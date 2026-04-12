@@ -146,19 +146,7 @@ def display(data):
     wb, wcolor = bar(wpct, width=40)
 
     print()
-    rolling_4h = get_4h_window_usage(data)
-    rpct = min(rolling_4h / limit * 100, 100) if limit > 0 else 0
-    rb, rcolor = bar(rpct)
-
     print(f'{BOLD}{WHITE}  [ Claude Token Usage ]  {GRAY}[{plan} | 윈도우: {period}~]{R}')
-    print(f'  {GRAY}4h 롤링{R}   {rb}  {rcolor}{BOLD}{rpct:.1f}%{R}')
-    print(f'  {GRAY}사용: {rcolor}{BOLD}{fmt(rolling_4h)}{R}{GRAY} / {fmt(limit)}  남은: {WHITE}{fmt(limit - rolling_4h)}{R}')
-
-    if rpct >= 90:
-        print(f'  {RED}{BOLD}[!] 4h 윈도우 90% 초과 — 속도 제한 임박{R}')
-    elif rpct >= 75:
-        print(f'  {YELLOW}[!] 4h 윈도우 75% 도달 — 잔여 {fmt(limit - rolling_4h)}{R}')
-
     print(f'  {GRAY}주간({week_start}~){R}  {wb}  {wcolor}{BOLD}{wpct:.1f}%{R}')
     print(f'  {GRAY}주간: {wcolor}{BOLD}{fmt(weekly_used)}{R}{GRAY} / {fmt(weekly_limit)}  남은: {WHITE}{fmt(weekly_limit - weekly_used)}{R}')
 
