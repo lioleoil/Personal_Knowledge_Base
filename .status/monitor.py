@@ -393,6 +393,92 @@ def fmt(n: int) -> str:
     return str(n)
 
 
+def fmt_cost(v: float) -> str:
+    if v >= 1.0:   return f'${v:.3f}'
+    if v >= 0.001: return f'${v:.4f}'
+    return f'${v:.6f}'
+
+
+class OpenAICostPanel(tk.Frame):
+    """
+    openai_usage.json 기반 모델별 비용 패널.
+    파일이 없으면 표시하지 않고 높이 0으로 유지.
+    """
+    USAGE_FILE = os.path.join(STATUS_DIR, 'openai_usage.json')
+
+    def __init__(self, parent):
+        super().__init__(parent, bg=BG_DARK)
+        self._inner: tk.Frame | None = None
+        self.refresh()
+
+    def refresh(self):
+        data = self._load()
+        if not data or not data.get('models'):
+            if self._inner:
+                self._inner.destroy()
+                self._inner = None
+            return
+        self._rebuild(data)
+
+    def _load(self) -> dict | None:
+        if not os.path.exists(self.USAGE_FILE):
+            return None
+        try:
+            with open(self.USAGE_FILE, encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            return None
+
+    def _rebuild(self, data: dict):
+        if self._inner:
+            self._inner.destroy()
+        self._inner = tk.Frame(self, bg=BG_CARD, padx=12, pady=8)
+        self._inner.pack(fill='x', padx=16, pady=(0, 4))
+
+        # 헤더
+        hdr = tk.Frame(self._inner, bg=BG_CARD)
+        hdr.pack(fill='x')
+        tk.Label(hdr, text='OpenAI API 비용', font=('Consolas', 8, 'bold'),
+                 bg=BG_CARD, fg='#BB86FC').pack(side='left')
+        total = data.get('total_cost_usd', 0.0)
+        updated = data.get('updated_at', '')
+        tk.Label(hdr, text=f'누적 {fmt_cost(total)}   {updated}',
+                 font=('Consolas', 8), bg=BG_CARD, fg=FG_DIM).pack(side='right')
+
+        # 모델별 행
+        models = data.get('models', {})
+        all_costs = [md.get('cost_usd', 0) for md in models.values()] or [1]
+        max_cost = max(all_costs) or 1
+
+        for model, md in sorted(models.items(), key=lambda x: -x[1].get('cost_usd', 0)):
+            cost    = md.get('cost_usd', 0.0)
+            calls   = md.get('calls', 0)
+            in_tok  = md.get('input_tokens', 0)
+            out_tok = md.get('output_tokens', 0)
+            pct     = cost / max_cost * 100
+
+            row = tk.Frame(self._inner, bg=BG_CARD)
+            row.pack(fill='x', pady=1)
+
+            # 모델명
+            tk.Label(row, text=model, font=('Consolas', 8),
+                     bg=BG_CARD, fg='#79DCFF', width=22, anchor='w').pack(side='left')
+
+            # 미니 바
+            bar_w = 120
+            filled_w = max(2, int(bar_w * pct / 100))
+            bar_frame = tk.Frame(row, bg=BG_INNER, width=bar_w, height=10)
+            bar_frame.pack(side='left', padx=4)
+            bar_frame.pack_propagate(False)
+            color = C_GREEN if pct < 33 else C_YELLOW if pct < 66 else C_ORANGE if pct < 85 else C_RED
+            tk.Frame(bar_frame, bg=color, width=filled_w, height=10).pack(side='left')
+
+            # 비용 + 토큰
+            summary = f'{fmt_cost(cost)}  {calls}회  in {fmt(in_tok)} out {fmt(out_tok)}'
+            tk.Label(row, text=summary, font=('Consolas', 8),
+                     bg=BG_CARD, fg=FG_MAIN).pack(side='left', padx=6)
+
+
 class MonitorApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -444,9 +530,13 @@ class MonitorApp(tk.Tk):
         self._canvas.bind('<Configure>', self._on_canvas_resize)
         self._canvas.bind_all('<MouseWheel>', self._on_mousewheel)
 
-        # 토큰 라인 그래프
+        # 토큰 라인 그래프 (Claude)
         self._token_graph = TokenLineGraph(self)
         self._token_graph.pack(fill='x', padx=16, pady=(0, 4))
+
+        # OpenAI 비용 패널
+        self._openai_panel = OpenAICostPanel(self)
+        self._openai_panel.pack(fill='x')
 
         # 푸터
         ftr = tk.Frame(self, bg=BG_DARK, padx=20, pady=6)
@@ -513,6 +603,7 @@ class MonitorApp(tk.Tk):
 
         self._repack_cards(agents)
         self._token_graph.refresh()
+        self._openai_panel.refresh()
 
         # 상태 요약
         total   = len(agents)

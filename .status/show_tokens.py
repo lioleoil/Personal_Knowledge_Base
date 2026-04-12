@@ -178,6 +178,21 @@ def display(data):
     print()
 
 
+def display_openai_summary() -> None:
+    """OpenAI 비용 요약 — openai_cost_tracker가 있을 때만 출력."""
+    try:
+        import importlib.util
+        tracker_path = os.path.join(STATUS_DIR, 'openai_cost_tracker.py')
+        if not os.path.exists(tracker_path):
+            return
+        spec = importlib.util.spec_from_file_location('openai_cost_tracker', tracker_path)
+        mod  = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.display()
+    except Exception:
+        pass
+
+
 if __name__ == '__main__':
     # UTF-8 출력 설정 (Windows 터미널 대응)
     import io
@@ -195,3 +210,4 @@ if __name__ == '__main__':
     else:
         data = load()
     display(data)
+    display_openai_summary()

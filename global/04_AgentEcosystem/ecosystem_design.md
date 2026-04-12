@@ -26,12 +26,12 @@ FAIL → Advisor Agent → 솔루션 → Execution 재실행
 
 ## 에이전트 역할 요약
 
-| 에이전트 | Role Rules | 권한 | 제약 |
-|---|---|---|---|
-| **Execution** | `agents/role_rules__execution.md` | Read/Write/Edit/Bash + spawn | 사용자 직접 보고 불가 |
-| **Validation** | `agents/role_rules__validation.md` | Read-only + validation.json | 결과 수정 불가 |
-| **Advisor** | `agents/role_rules__advisor.md` | Read-only + advice.json | 직접 실행 불가 |
-| **Reporter** | `agents/role_rules__reporter.md` | Read-only + report.json | PASS 후에만 활성 |
+| 에이전트 | 모델 | Role Rules | 권한 | 제약 |
+|---|---|---|---|---|
+| **Execution** | claude-sonnet-4-6 | `agents/role_rules__execution.md` | Read/Write/Edit/Bash + spawn | 사용자 직접 보고 불가 |
+| **Validation** | codex-1 (OpenAI) | `agents/role_rules__validation.md` | Read-only + validation.json | 결과 수정 불가 |
+| **Advisor** | claude-opus-4-6 | `agents/role_rules__advisor.md` | Read-only + advice.json | 직접 실행 불가 |
+| **Reporter** | codex-1 (OpenAI) | `agents/role_rules__reporter.md` | Read-only + report.json | PASS 후에만 활성 |
 
 ### Domain Sub-Agents
 

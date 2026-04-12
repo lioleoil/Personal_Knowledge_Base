@@ -45,6 +45,7 @@ def _load_dotenv():
     for env_path in [
         os.path.join(PROJECT_ROOT, 'projects', 'nova_helper', '.env'),
         os.path.join(PROJECT_ROOT, '.env'),
+        os.path.join(PROJECT_ROOT, '.scripts', '.env'),
     ]:
         if os.path.exists(env_path):
             with open(env_path, encoding='utf-8') as f:
@@ -84,6 +85,85 @@ MAX_ADVISOR_CALLS = 3
 # 버스 파일 대기 설정
 BUS_POLL_INTERVAL = 3    # 초
 BUS_POLL_TIMEOUT  = 600  # 10분
+
+# ── 에이전트 모델 배정 (기본값) ────────────────────────────────────────
+_AGENT_MODELS_DEFAULT = {
+    'execution':  'claude-sonnet-4-6',
+    'validation': 'gpt-4.1',
+    'advisor':    'claude-opus-4-6',
+    'reporter':   'gpt-4.1-mini',
+}
+_AGENT_PROVIDERS_DEFAULT = {
+    'execution':  'anthropic',
+    'validation': 'openai',
+    'advisor':    'anthropic',
+    'reporter':   'openai',
+}
+
+_MODEL_CONFIG_PATH = os.path.join(
+    PROJECT_ROOT, 'global', '04_AgentEcosystem', 'model_config.json'
+)
+
+# ── 외부 설정 파일 로드 ──────────────────────────────────────────────
+def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
+    """model_config.json 로드. 실패 시 하드코딩 기본값 반환.
+    반환: (AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
+           MODEL_COSTS, DOMAIN_PRESETS, PRESETS)
+    """
+    try:
+        with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
+            cfg = json.load(f)
+        agents_cfg = cfg.get('agents', {})
+
+        agent_models = {
+            role: v['model']
+            for role, v in agents_cfg.items() if 'model' in v
+        }
+        agent_providers = {
+            role: v.get('provider', _AGENT_PROVIDERS_DEFAULT.get(role, 'anthropic'))
+            for role, v in agents_cfg.items()
+        }
+        agent_params = {
+            role: {k: v[k] for k in ('temperature', 'max_tokens') if k in v}
+            for role, v in agents_cfg.items()
+        }
+        costs          = {k: v for k, v in cfg.get('model_costs', {}).items()
+                          if not k.startswith('_')}
+        domain_presets = {k: v for k, v in cfg.get('domain_presets', {}).items()
+                          if not k.startswith('_')}
+        presets        = {k: v for k, v in cfg.get('_presets', {}).items()
+                          if not k.startswith('_')}
+        return (
+            {**_AGENT_MODELS_DEFAULT,    **agent_models},
+            {**_AGENT_PROVIDERS_DEFAULT, **agent_providers},
+            agent_params,
+            costs,
+            domain_presets,
+            presets,
+        )
+    except Exception:
+        return (_AGENT_MODELS_DEFAULT.copy(), _AGENT_PROVIDERS_DEFAULT.copy(),
+                {}, {}, {}, {})
+
+(AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
+ MODEL_COSTS, DOMAIN_PRESETS, PRESETS) = _load_model_config()
+
+
+def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
+    """domain + role → (model, provider, params).
+    도메인 프리셋이 있으면 프리셋 설정 우선, 없으면 agents 기본값 사용.
+    """
+    preset_name = DOMAIN_PRESETS.get(domain, 'default')
+    if preset_name != 'default' and preset_name in PRESETS:
+        role_cfg = PRESETS[preset_name].get(role, {})
+        model    = role_cfg.get('model',    AGENT_MODELS.get(role, ''))
+        provider = role_cfg.get('provider', AGENT_PROVIDERS.get(role, 'anthropic'))
+        params   = {k: role_cfg[k] for k in ('temperature', 'max_tokens') if k in role_cfg}
+    else:
+        model    = AGENT_MODELS.get(role, '')
+        provider = AGENT_PROVIDERS.get(role, 'anthropic')
+        params   = AGENT_PARAMS.get(role, {})
+    return model, provider, params
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -215,7 +295,76 @@ def make_reporter_prompt(task_id: str, domain: str) -> str:
         f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
     )
 
-# ── claude CLI 실행 ────────────────────────────────────────────────
+# ── Anthropic SDK 직접 호출 ────────────────────────────────────────
+
+def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
+                        model: str = 'claude-sonnet-4-6',
+                        timeout: int = 600,
+                        params: dict | None = None) -> tuple[bool, str]:
+    """
+    Anthropic Python SDK로 Claude 호출 (temperature, max_tokens 완전 지원).
+    CLI 우회 → API 직접 연결. ANTHROPIC_API_KEY 또는 CLAUDE_API_KEY 필요.
+    반환: (성공 여부, 텍스트)
+    """
+    try:
+        import anthropic as _anthropic  # noqa: PLC0415
+    except ImportError:
+        log.add(f'[{label}] anthropic 패키지 없음 — pip install anthropic')
+        return False, ''
+
+    api_key = (os.environ.get('ANTHROPIC_API_KEY')
+               or os.environ.get('CLAUDE_API_KEY'))
+    if not api_key:
+        log.add(f'[{label}] ANTHROPIC_API_KEY 없음 — .env 설정 필요')
+        return False, ''
+
+    p = params or {}
+    temperature = p.get('temperature', 1.0)
+    max_tokens  = p.get('max_tokens', 4096)
+
+    log.add(f'[{label}] Anthropic SDK ({model}, temp={temperature}) 실행 시작')
+    try:
+        client = _anthropic.Anthropic(api_key=api_key)
+        message = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            messages=[{'role': 'user', 'content': prompt}],
+        )
+        result     = message.content[0].text if message.content else ''
+        usage_in   = getattr(message.usage, 'input_tokens', 0)
+        usage_out  = getattr(message.usage, 'output_tokens', 0)
+        log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
+                f'토큰 in={usage_in} out={usage_out})')
+        return True, result
+    except Exception as e:
+        log.add(f'[{label}] 오류: {e}')
+        return False, ''
+
+
+def run_agent(prompt: str, label: str, log: AgentLog,
+              role: str, domain: str, timeout: int = 600) -> tuple[bool, str]:
+    """
+    domain + role 기반으로 model_config.json 프리셋을 해석하고 적합한
+    실행 함수(run_anthropic_agent / run_openai_agent)를 자동 선택.
+    모든 에이전트 호출의 단일 진입점.
+    """
+    model, provider, params = get_domain_config(domain, role)
+    preset_name = DOMAIN_PRESETS.get(domain, 'default')
+    log.add(f'[{label}] {model} (provider={provider}, preset={preset_name})')
+
+    if provider == 'anthropic':
+        return run_anthropic_agent(prompt, label, log, model=model,
+                                   params=params, timeout=timeout)
+    elif provider == 'openai':
+        return run_openai_agent(prompt, label, log, model=model,
+                                params=params, timeout=timeout)
+    else:
+        log.add(f'[{label}] 알 수 없는 provider: {provider}')
+        return False, ''
+
+
+# ── claude CLI 실행 (레거시 폴백) ──────────────────────────────────
 
 def find_claude_cli() -> str | None:
     """claude CLI 경로 탐색."""
@@ -242,9 +391,10 @@ def find_claude_cli() -> str | None:
 
 
 def run_claude_agent(prompt: str, label: str, log: AgentLog,
-                     timeout: int = 600) -> tuple[bool, str]:
+                     timeout: int = 600, model: str | None = None) -> tuple[bool, str]:
     """
     claude -p <prompt> 를 서브프로세스로 실행.
+    model 지정 시 --model <id> 플래그 추가.
     반환: (성공 여부, stdout 텍스트)
     """
     claude = find_claude_cli()
@@ -257,6 +407,8 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         '--dangerously-skip-permissions',
         '-p', prompt,
     ]
+    if model:
+        cmd += ['--model', model]
 
     log.add(f'[{label}] claude 실행 시작')
     try:
@@ -287,6 +439,87 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         return False, ''
 
 
+def run_openai_agent(prompt: str, label: str, log: AgentLog,
+                     model: str = 'gpt-4.1', timeout: int = 600,
+                     params: dict | None = None) -> tuple[bool, str]:
+    """
+    OpenAI API 호출.
+    - gpt-*/o* 계열: Chat Completions API
+    - codex-* 계열: Responses API
+    params: model_config.json에서 로드된 temperature/max_tokens 등.
+    OPENAI_API_KEY 환경변수 필요.
+    반환: (성공 여부, stdout 텍스트)
+    """
+    try:
+        import openai  # noqa: PLC0415
+    except ImportError:
+        log.add(f'[{label}] openai 패키지 없음 — pip install openai')
+        return False, ''
+
+    api_key = os.environ.get('OPENAI_API_KEY')
+    if not api_key:
+        log.add(f'[{label}] OPENAI_API_KEY 없음 — .env 설정 필요')
+        return False, ''
+
+    p = params or {}
+    temperature = p.get('temperature')
+    max_tokens  = p.get('max_tokens')
+    log.add(f'[{label}] OpenAI({model}, temp={temperature}) 실행 시작')
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        usage_in = usage_out = 0
+
+        if model.startswith('codex'):
+            # Responses API (codex-1 등) — temperature/max_tokens 미지원
+            response = client.responses.create(model=model, input=prompt)
+            result = response.output_text or ''
+            if hasattr(response, 'usage') and response.usage:
+                usage_in  = getattr(response.usage, 'input_tokens', 0)
+                usage_out = getattr(response.usage, 'output_tokens', 0)
+        else:
+            # Chat Completions API (gpt-4.1, gpt-4.1-mini, o3 등)
+            kwargs: dict = {
+                'model': model,
+                'messages': [{'role': 'user', 'content': prompt}],
+            }
+            if temperature is not None:
+                kwargs['temperature'] = temperature
+            if max_tokens is not None:
+                kwargs['max_tokens'] = max_tokens
+            response = client.chat.completions.create(**kwargs)
+            result = response.choices[0].message.content or ''
+            if hasattr(response, 'usage') and response.usage:
+                usage_in  = getattr(response.usage, 'prompt_tokens', 0)
+                usage_out = getattr(response.usage, 'completion_tokens', 0)
+
+        log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
+                f'토큰 in={usage_in} out={usage_out})')
+
+        # 비용 추적
+        _track_openai_usage(model, usage_in, usage_out, label)
+
+        return True, result
+    except Exception as e:
+        log.add(f'[{label}] 오류: {e}')
+        return False, ''
+
+
+def _track_openai_usage(model: str, input_tokens: int, output_tokens: int,
+                        task_name: str) -> None:
+    """OpenAI 토큰 사용량을 .status/openai_usage.json에 기록."""
+    try:
+        tracker_path = os.path.join(PROJECT_ROOT, '.status', 'openai_cost_tracker.py')
+        if os.path.exists(tracker_path):
+            import importlib.util
+            spec = importlib.util.spec_from_file_location('openai_cost_tracker', tracker_path)
+            mod  = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            mod.track_usage(model, input_tokens, output_tokens, task_name,
+                            model_costs=MODEL_COSTS)
+    except Exception:
+        pass  # 추적 실패는 비중단
+
+
 def wait_for_bus_file(bus: AgentBus, file_type: BusFile,
                       timeout: int = BUS_POLL_TIMEOUT) -> dict | None:
     """버스 파일이 생성될 때까지 폴링. 타임아웃 시 None 반환."""
@@ -307,11 +540,69 @@ def dry_run(task: str, domain: str):
     print(json.dumps(manifest, ensure_ascii=True, indent=2))
     print(f'\nManifest: {bus._path(BusFile.MANIFEST)}')
 
+    preset_name = DOMAIN_PRESETS.get(domain, 'default')
+    print(f'\n=== 모델 배정 (domain={domain}, preset={preset_name}) ===')
+    total_cost = 0.0
+    for role in ('execution', 'validation', 'advisor', 'reporter'):
+        model, provider, params = get_domain_config(domain, role)
+        temp = params.get('temperature', '-')
+        mtok = params.get('max_tokens', '-')
+        rate = MODEL_COSTS.get(model, {})
+        # 역할별 평균 토큰 추정 (태스크 1회 기준)
+        tok_est = {'execution': (4000, 1500), 'validation': (3000, 500),
+                   'advisor': (3000, 800), 'reporter': (2000, 1000)}
+        freq    = 0.3 if role == 'advisor' else 1.0
+        ti, to  = tok_est.get(role, (2000, 500))
+        cost    = ((ti * rate.get('input', 0) + to * rate.get('output', 0))
+                   / 1_000_000 * freq) if rate else 0
+        total_cost += cost
+        print(f'  {role:<12} {model:<30} provider={provider:<10} '
+              f'temp={temp}  max_tokens={mtok}  est=${cost:.4f}')
+    print(f'  {"─"*78}')
+    print(f'  {"태스크당 추정 비용":<12} {"":30}                                  ${total_cost:.4f}')
+
     print('\n=== Execution Agent 프롬프트 미리보기 ===')
     print(make_execution_prompt(task, domain, bus.task_id,
                                 bus._path(BusFile.MANIFEST)))
     print('\n--dry-run 없이 실행하면 수행됩니다.')
     print(f'  자동 실행: python .scripts/orchestrator.py --task "{task}" --domain {domain} --auto')
+
+
+def compare_domains():
+    """모든 도메인의 모델 배정과 예상 비용을 비교 출력 (--compare 플래그용)."""
+    tok_est = {'execution': (4000, 1500), 'validation': (3000, 500),
+               'advisor': (3000, 800),    'reporter': (2000, 1000)}
+    freq_map = {'advisor': 0.3}
+
+    print('\n=== 도메인별 모델 배정 비교 ===\n')
+    print(f'{"도메인":<22} {"프리셋":<16} {"Execution":<30} {"Advisor":<22} '
+          f'{"Validation":<16} {"Reporter":<16} {"$/task":<8}')
+    print('─' * 134)
+
+    for domain in list(DOMAIN_MAP.keys()) + ['(default)']:
+        real_domain = domain if domain != '(default)' else list(DOMAIN_MAP.keys())[0]
+        preset_name = DOMAIN_PRESETS.get(real_domain, 'default') if domain != '(default)' else 'default'
+
+        row = {}
+        total = 0.0
+        for role in ('execution', 'validation', 'advisor', 'reporter'):
+            if domain == '(default)':
+                m, _, p = get_domain_config(list(DOMAIN_MAP.keys())[2], role)
+            else:
+                m, _, p = get_domain_config(domain, role)
+            row[role] = m.replace('claude-', '').replace('-4-6', '').replace('-4-5-20251001', '-haiku')
+            rate  = MODEL_COSTS.get(m, {})
+            freq  = freq_map.get(role, 1.0)
+            ti, to = tok_est[role]
+            total += (ti * rate.get('input', 0) + to * rate.get('output', 0)) / 1_000_000 * freq
+
+        print(f'{domain:<22} {preset_name:<16} {row["execution"]:<30} '
+              f'{row["advisor"]:<22} {row["validation"]:<16} {row["reporter"]:<16} '
+              f'${total:.4f}')
+
+    print('\n─ 가격 기준 ─')
+    for model, costs in MODEL_COSTS.items():
+        print(f'  {model:<32} in=${costs["input"]}/1M  out=${costs["output"]}/1M')
 
 # ── 작업 목록 ──────────────────────────────────────────────────────
 
@@ -367,7 +658,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
         prompt = make_execution_prompt(task, domain, bus.task_id,
                                        manifest_path, exec_retries)
-        ok, stdout = run_claude_agent(prompt, f'Execution#{exec_retries+1}', log)
+        ok, stdout = run_agent(prompt, f'Execution#{exec_retries+1}', log,
+                               role='execution', domain=domain)
 
         if not ok:
             exec_retries += 1
@@ -394,7 +686,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
         # ── 2. Validation ──────────────────────────────────────
         val_prompt = make_validation_prompt(bus.task_id, domain)
-        ok, val_stdout = run_claude_agent(val_prompt, 'Validation', log)
+        ok, val_stdout = run_agent(val_prompt, 'Validation', log,
+                                   role='validation', domain=domain)
 
         validation = bus.read(BusFile.VALIDATION)
         if validation is None and f'VALIDATION_DONE:{bus.task_id}' in (val_stdout or ''):
@@ -430,7 +723,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
                 advisor_calls += 1
                 log.update(progress=60, message=f'Advisor 호출 ({advisor_calls}/{MAX_ADVISOR_CALLS})')
                 adv_prompt = make_advisor_prompt(bus.task_id, advisor_calls)
-                run_claude_agent(adv_prompt, f'Advisor#{advisor_calls}', log)
+                run_agent(adv_prompt, f'Advisor#{advisor_calls}', log,
+                          role='advisor', domain=domain)
 
                 advice = bus.read(BusFile.ADVICE)
                 if advice and advice.get('escalate_to_user'):
@@ -459,7 +753,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     # ── 4. Reporter ─────────────────────────────────────────────
     if bus and verdict == 'PASS':
         rep_prompt = make_reporter_prompt(bus.task_id, domain)
-        ok, rep_stdout = run_claude_agent(rep_prompt, 'Reporter', log)
+        ok, rep_stdout = run_agent(rep_prompt, 'Reporter', log,
+                                   role='reporter', domain=domain)
 
         report = bus.read(BusFile.REPORT)
         if report is None and rep_stdout:
@@ -637,13 +932,19 @@ def main():
                         help='--tasks와 함께 사용: 병렬 실행 (기본: 순차)')
     # 공통 옵션
     parser.add_argument('--dry-run',    action='store_true', help='Manifest+프롬프트 미리보기')
-    parser.add_argument('--auto',       action='store_true', help='claude CLI 자동 실행 모드')
+    parser.add_argument('--auto',       action='store_true', help='SDK/API 자동 실행 모드')
     parser.add_argument('--no-confirm', action='store_true', help='--auto 실행 전 확인 생략')
     parser.add_argument('--list',       action='store_true', help='bus 작업 목록 조회')
+    parser.add_argument('--compare',    action='store_true',
+                        help='전체 도메인 모델 배정·비용 비교표 출력')
     args = parser.parse_args()
 
     if args.list:
         list_tasks()
+        return
+
+    if args.compare:
+        compare_domains()
         return
 
     # --tasks (복수 도메인) vs --task (단일 도메인)
@@ -719,16 +1020,10 @@ def main():
         return
 
     if args.auto:
-        # claude CLI 존재 여부 확인
-        claude = find_claude_cli()
-        if not claude:
-            print('\n[오류] claude CLI를 찾을 수 없습니다.')
-            print('Claude Code가 PATH에 등록되었는지 확인하세요.')
-            print('수동 모드: --dry-run 후 출력된 프롬프트를 직접 실행')
-            return
-
-        print(f'\nclaude CLI: {claude}')
-        print(f'도메인: {args.domain}')
+        preset = DOMAIN_PRESETS.get(args.domain, 'default')
+        exec_model, _, _ = get_domain_config(args.domain, 'execution')
+        print(f'\n도메인: {args.domain}  (preset={preset})')
+        print(f'Execution 모델: {exec_model}')
         print(f'작업: {args.task}')
         print(f'최대 Execution 재시도: {MAX_EXECUTION_RETRIES}회')
         print(f'최대 Advisor 호출: {MAX_ADVISOR_CALLS}회')
