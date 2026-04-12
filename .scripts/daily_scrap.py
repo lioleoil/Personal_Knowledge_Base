@@ -11,7 +11,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from agent_log import AgentLog, PROJECT_ROOT
 
 import requests
+import urllib3
 from bs4 import BeautifulSoup
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ── 상수 ──────────────────────────────────────────────────────────────────────
 HADA_BASE = "https://news.hada.io"
@@ -58,11 +61,18 @@ def scrape_articles(max_pages: int = MAX_PAGES) -> list[dict]:
 
     for page in range(1, max_pages + 1):
         url = f"{HADA_BASE}/?page={page}"
-        try:
-            resp = requests.get(url, timeout=10, headers=headers, verify=False)
-            resp.raise_for_status()
-        except Exception as e:
-            print(f"[WARN] page {page} fetch error: {e}", flush=True)
+        resp = None
+        for attempt in range(2):  # 실패 시 1회 재시도
+            try:
+                resp = requests.get(url, timeout=15, headers=headers, verify=False)
+                resp.raise_for_status()
+                break
+            except Exception as e:
+                if attempt == 0:
+                    time.sleep(3)
+                else:
+                    print(f"[WARN] page {page} fetch error: {e}", flush=True)
+        if resp is None:
             break
 
         soup = BeautifulSoup(resp.text, "html.parser")

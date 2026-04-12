@@ -134,7 +134,8 @@ def main():
             timeout=120, encoding="utf-8", errors="replace"
         )
         if result.returncode != 0:
-            log.error(f"수집 실패: {result.stderr[:300]}")
+            detail = (result.stderr or result.stdout or '')[:500]
+            log.error(f"수집 실패: {detail}")
             return
 
         # 2. 스테이징 읽기
