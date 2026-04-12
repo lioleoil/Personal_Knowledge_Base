@@ -99,21 +99,32 @@ _MODEL_CONFIG_PATH = os.path.join(
 )
 
 # ── 외부 설정 파일 로드 (코드 수정 없이 모델 교체) ──────────────────────
-def _load_model_config() -> tuple[dict, dict]:
-    """model_config.json 로드. 실패 시 기본값 반환."""
+def _load_model_config() -> tuple[dict, dict, dict]:
+    """model_config.json 로드. 실패 시 기본값 반환.
+    반환: (AGENT_MODELS, MODEL_COSTS, AGENT_PARAMS)
+    AGENT_PARAMS 구조: {'validation': {'temperature': 0.1, 'max_tokens': 1024}, ...}
+    """
     try:
         with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
             cfg = json.load(f)
-        agents = {
+        agents_cfg = cfg.get('agents', {})
+        agent_models = {
             role: v['model']
-            for role, v in cfg.get('agents', {}).items()
+            for role, v in agents_cfg.items()
+            if 'model' in v
+        }
+        agent_params = {
+            role: {
+                k: v[k] for k in ('temperature', 'max_tokens') if k in v
+            }
+            for role, v in agents_cfg.items()
         }
         costs = cfg.get('model_costs', {})
-        return {**_AGENT_MODELS_DEFAULT, **agents}, costs
+        return {**_AGENT_MODELS_DEFAULT, **agent_models}, costs, agent_params
     except Exception:
-        return _AGENT_MODELS_DEFAULT.copy(), {}
+        return _AGENT_MODELS_DEFAULT.copy(), {}, {}
 
-AGENT_MODELS, MODEL_COSTS = _load_model_config()
+AGENT_MODELS, MODEL_COSTS, AGENT_PARAMS = _load_model_config()
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -321,11 +332,13 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
 
 
 def run_openai_agent(prompt: str, label: str, log: AgentLog,
-                     model: str = 'gpt-4.1', timeout: int = 600) -> tuple[bool, str]:
+                     model: str = 'gpt-4.1', timeout: int = 600,
+                     params: dict | None = None) -> tuple[bool, str]:
     """
     OpenAI API 호출.
     - gpt-*/o* 계열: Chat Completions API
     - codex-* 계열: Responses API
+    params: model_config.json에서 로드된 temperature/max_tokens 등.
     OPENAI_API_KEY 환경변수 필요.
     반환: (성공 여부, stdout 텍스트)
     """
@@ -340,24 +353,32 @@ def run_openai_agent(prompt: str, label: str, log: AgentLog,
         log.add(f'[{label}] OPENAI_API_KEY 없음 — .env 설정 필요')
         return False, ''
 
-    log.add(f'[{label}] OpenAI({model}) 실행 시작')
+    p = params or {}
+    temperature = p.get('temperature')
+    max_tokens  = p.get('max_tokens')
+    log.add(f'[{label}] OpenAI({model}, temp={temperature}) 실행 시작')
     try:
         client = openai.OpenAI(api_key=api_key)
         usage_in = usage_out = 0
 
         if model.startswith('codex'):
-            # Responses API (codex-1 등)
+            # Responses API (codex-1 등) — temperature/max_tokens 미지원
             response = client.responses.create(model=model, input=prompt)
             result = response.output_text or ''
             if hasattr(response, 'usage') and response.usage:
                 usage_in  = getattr(response.usage, 'input_tokens', 0)
                 usage_out = getattr(response.usage, 'output_tokens', 0)
         else:
-            # Chat Completions API (gpt-4.1, o3 등)
-            response = client.chat.completions.create(
-                model=model,
-                messages=[{'role': 'user', 'content': prompt}],
-            )
+            # Chat Completions API (gpt-4.1, gpt-4.1-mini, o3 등)
+            kwargs: dict = {
+                'model': model,
+                'messages': [{'role': 'user', 'content': prompt}],
+            }
+            if temperature is not None:
+                kwargs['temperature'] = temperature
+            if max_tokens is not None:
+                kwargs['max_tokens'] = max_tokens
+            response = client.chat.completions.create(**kwargs)
             result = response.choices[0].message.content or ''
             if hasattr(response, 'usage') and response.usage:
                 usage_in  = getattr(response.usage, 'prompt_tokens', 0)
@@ -500,7 +521,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
         # ── 2. Validation ──────────────────────────────────────
         val_prompt = make_validation_prompt(bus.task_id, domain)
         ok, val_stdout = run_openai_agent(val_prompt, 'Validation', log,
-                                         model=AGENT_MODELS['validation'])
+                                         model=AGENT_MODELS['validation'],
+                                         params=AGENT_PARAMS.get('validation'))
 
         validation = bus.read(BusFile.VALIDATION)
         if validation is None and f'VALIDATION_DONE:{bus.task_id}' in (val_stdout or ''):
@@ -567,7 +589,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     if bus and verdict == 'PASS':
         rep_prompt = make_reporter_prompt(bus.task_id, domain)
         ok, rep_stdout = run_openai_agent(rep_prompt, 'Reporter', log,
-                                         model=AGENT_MODELS['reporter'])
+                                         model=AGENT_MODELS['reporter'],
+                                         params=AGENT_PARAMS.get('reporter'))
 
         report = bus.read(BusFile.REPORT)
         if report is None and rep_stdout:
