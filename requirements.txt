@@ -1,0 +1,16 @@
+# Multi-Agent Ecosystem — 공용 의존성
+# 설치: pip install -r requirements.txt
+
+# ── Anthropic (Execution, Advisor 에이전트) ─────────────────────────
+anthropic>=0.40.0
+
+# ── OpenAI (Validation, Reporter 에이전트) ──────────────────────────
+openai>=1.0.0
+
+# ── Slack (nova_helper) ─────────────────────────────────────────────
+slack-bolt
+requests
+
+# ── 공통 유틸리티 ───────────────────────────────────────────────────
+python-dotenv
+markdown

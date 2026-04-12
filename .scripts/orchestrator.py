@@ -336,10 +336,26 @@ def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
         usage_out  = getattr(message.usage, 'output_tokens', 0)
         log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
                 f'토큰 in={usage_in} out={usage_out})')
+        _track_anthropic_usage(usage_in + usage_out, label)
         return True, result
     except Exception as e:
         log.add(f'[{label}] 오류: {e}')
         return False, ''
+
+
+def _track_anthropic_usage(tokens: int, task_name: str) -> None:
+    """Anthropic 에이전트 토큰을 token_usage.json에 집계 (show_tokens.add_session 재사용)."""
+    try:
+        show_tokens_path = os.path.join(PROJECT_ROOT, '.status', 'show_tokens.py')
+        if not os.path.exists(show_tokens_path):
+            return
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('show_tokens', show_tokens_path)
+        mod  = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.add_session(tokens, f'agent:{task_name}')
+    except Exception:
+        pass  # 추적 실패는 비중단
 
 
 def run_agent(prompt: str, label: str, log: AgentLog,
@@ -590,7 +606,7 @@ def compare_domains():
                 m, _, p = get_domain_config(list(DOMAIN_MAP.keys())[2], role)
             else:
                 m, _, p = get_domain_config(domain, role)
-            row[role] = m.replace('claude-', '').replace('-4-6', '').replace('-4-5-20251001', '-haiku')
+            row[role] = m.replace('claude-', '').replace('-4-6', '').replace('-4-5-20251001', '')
             rate  = MODEL_COSTS.get(m, {})
             freq  = freq_map.get(role, 1.0)
             ti, to = tok_est[role]
