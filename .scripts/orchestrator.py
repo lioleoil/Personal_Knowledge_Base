@@ -45,6 +45,7 @@ def _load_dotenv():
     for env_path in [
         os.path.join(PROJECT_ROOT, 'projects', 'nova_helper', '.env'),
         os.path.join(PROJECT_ROOT, '.env'),
+        os.path.join(PROJECT_ROOT, '.scripts', '.env'),
     ]:
         if os.path.exists(env_path):
             with open(env_path, encoding='utf-8') as f:
@@ -84,6 +85,14 @@ MAX_ADVISOR_CALLS = 3
 # 버스 파일 대기 설정
 BUS_POLL_INTERVAL = 3    # 초
 BUS_POLL_TIMEOUT  = 600  # 10분
+
+# ── 에이전트 모델 배정 ────────────────────────────────────────────────
+AGENT_MODELS = {
+    'execution':  'claude-sonnet-4-6',
+    'validation': 'codex-1',           # OpenAI GPT-5 Codex
+    'advisor':    'claude-opus-4-6',
+    'reporter':   'codex-1',           # OpenAI GPT-5 Codex
+}
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -242,9 +251,10 @@ def find_claude_cli() -> str | None:
 
 
 def run_claude_agent(prompt: str, label: str, log: AgentLog,
-                     timeout: int = 600) -> tuple[bool, str]:
+                     timeout: int = 600, model: str | None = None) -> tuple[bool, str]:
     """
     claude -p <prompt> 를 서브프로세스로 실행.
+    model 지정 시 --model <id> 플래그 추가.
     반환: (성공 여부, stdout 텍스트)
     """
     claude = find_claude_cli()
@@ -257,6 +267,8 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         '--dangerously-skip-permissions',
         '-p', prompt,
     ]
+    if model:
+        cmd += ['--model', model]
 
     log.add(f'[{label}] claude 실행 시작')
     try:
@@ -282,6 +294,39 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
     except subprocess.TimeoutExpired:
         log.add(f'[{label}] 타임아웃 ({timeout}s)')
         return False, ''
+    except Exception as e:
+        log.add(f'[{label}] 오류: {e}')
+        return False, ''
+
+
+def run_openai_agent(prompt: str, label: str, log: AgentLog,
+                     model: str = 'codex-1', timeout: int = 600) -> tuple[bool, str]:
+    """
+    OpenAI Responses API (codex-1 등) 호출.
+    OPENAI_API_KEY 환경변수 필요.
+    반환: (성공 여부, stdout 텍스트)
+    """
+    try:
+        import openai  # noqa: PLC0415
+    except ImportError:
+        log.add(f'[{label}] openai 패키지 없음 — pip install openai')
+        return False, ''
+
+    api_key = os.environ.get('OPENAI_API_KEY')
+    if not api_key:
+        log.add(f'[{label}] OPENAI_API_KEY 없음 — .env 설정 필요')
+        return False, ''
+
+    log.add(f'[{label}] OpenAI({model}) 실행 시작')
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        response = client.responses.create(
+            model=model,
+            input=prompt,
+        )
+        result = response.output_text or ''
+        log.add(f'[{label}] 완료 (출력 {len(result)} chars)')
+        return True, result
     except Exception as e:
         log.add(f'[{label}] 오류: {e}')
         return False, ''
@@ -367,7 +412,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
         prompt = make_execution_prompt(task, domain, bus.task_id,
                                        manifest_path, exec_retries)
-        ok, stdout = run_claude_agent(prompt, f'Execution#{exec_retries+1}', log)
+        ok, stdout = run_claude_agent(prompt, f'Execution#{exec_retries+1}', log,
+                                      model=AGENT_MODELS['execution'])
 
         if not ok:
             exec_retries += 1
@@ -394,7 +440,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
         # ── 2. Validation ──────────────────────────────────────
         val_prompt = make_validation_prompt(bus.task_id, domain)
-        ok, val_stdout = run_claude_agent(val_prompt, 'Validation', log)
+        ok, val_stdout = run_openai_agent(val_prompt, 'Validation', log,
+                                         model=AGENT_MODELS['validation'])
 
         validation = bus.read(BusFile.VALIDATION)
         if validation is None and f'VALIDATION_DONE:{bus.task_id}' in (val_stdout or ''):
@@ -430,7 +477,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
                 advisor_calls += 1
                 log.update(progress=60, message=f'Advisor 호출 ({advisor_calls}/{MAX_ADVISOR_CALLS})')
                 adv_prompt = make_advisor_prompt(bus.task_id, advisor_calls)
-                run_claude_agent(adv_prompt, f'Advisor#{advisor_calls}', log)
+                run_claude_agent(adv_prompt, f'Advisor#{advisor_calls}', log,
+                                 model=AGENT_MODELS['advisor'])
 
                 advice = bus.read(BusFile.ADVICE)
                 if advice and advice.get('escalate_to_user'):
@@ -459,7 +507,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     # ── 4. Reporter ─────────────────────────────────────────────
     if bus and verdict == 'PASS':
         rep_prompt = make_reporter_prompt(bus.task_id, domain)
-        ok, rep_stdout = run_claude_agent(rep_prompt, 'Reporter', log)
+        ok, rep_stdout = run_openai_agent(rep_prompt, 'Reporter', log,
+                                         model=AGENT_MODELS['reporter'])
 
         report = bus.read(BusFile.REPORT)
         if report is None and rep_stdout:
