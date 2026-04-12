@@ -794,12 +794,18 @@ class MonitorApp(tk.Tk):
         self._token_graph.refresh()
         self._openai_panel.refresh()
 
-        # 상태 요약 — 최근 24시간 기준
-        cutoff  = time.time() - 86400
-        recent  = [d for d in agents if d.get('_mtime', 0) >= cutoff]
-        running = sum(1 for d in agents  if d.get('status') == 'running')
-        done    = sum(1 for d in recent  if d.get('status') == 'completed')
-        error   = sum(1 for d in recent  if d.get('status') == 'error')
+        # 상태 요약 — 최근 24시간 기준 (로그 내 타임스탬프 우선, fallback _mtime)
+        cutoff_ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cutoff_ts_24h = (datetime.now() - __import__('datetime').timedelta(hours=24)).strftime('%Y-%m-%d %H:%M:%S')
+        def _is_recent(d: dict) -> bool:
+            ts = d.get('completed_at') or d.get('started_at') or ''
+            if ts:
+                return ts >= cutoff_ts_24h
+            return d.get('_mtime', 0) >= time.time() - 86400
+        recent  = [d for d in agents if _is_recent(d)]
+        running = sum(1 for d in agents if d.get('status') == 'running')
+        done    = sum(1 for d in recent if d.get('status') == 'completed')
+        error   = sum(1 for d in recent if d.get('status') == 'error')
         self._summary.config(
             text=f'실행 중 {running}개  |  최근 24h: 완료 {done}  오류 {error}')
 
