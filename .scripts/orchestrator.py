@@ -1028,6 +1028,293 @@ def run_parallel(task_domain_pairs: list[tuple[str, str]],
     print('='*60)
     log.done(f'병렬 완료: {len(results)}개 도메인')
 
+# ── Full Pipeline (User Interface → Advisor → Eval → 승인 게이트) ──
+
+def make_user_interface_prompt(task: str, domain: str, task_id: str) -> str:
+    return (
+        f'당신은 User Interface Agent입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__user_interface.md")}\n\n'
+        f'Task ID: {task_id}\nDomain: {domain}\n\n'
+        f'사용자 요청: {task}\n\n'
+        f'수행 순서:\n'
+        f'1. 요청을 구조화하여 AgentBus.write_requirement()로 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'2. 에이전트 내부 소통은 터미널 출력 금지 — 로그만\n'
+        f'3. 완료 후 "REQUIREMENT_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_plan_prompt(task_id: str, domain: str, task: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
+        f'Plan Schema: {_abs("global/04_AgentEcosystem/protocol/advisor_plan_schema.md")}\n\n'
+        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n\n'
+        f'수행 순서 [Phase 1-2]:\n'
+        f'1. 로컬 컨텍스트 파악: global/01_Identity, 02_Profile, 03_Instructions 읽기\n'
+        f'2. .agents/advisor/learnings/ 이전 학습 파일 읽기 (mtime 내림차순 최신 10건만)\n'
+        f'3. advisor_plan_{task_id}.md 작성 → global/05_PM_Outputs/ 저장\n'
+        f'4. AgentBus.write_advisor_plan()으로 버스 파일 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'5. 완료 후 "ADVISOR_PLAN_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_evaluation_prompt(task_id: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
+        f'Evaluation Schema: {_abs("global/04_AgentEcosystem/protocol/evaluation_schema.md")}\n\n'
+        f'Task ID: {task_id}\n\n'
+        f'수행 순서 [Phase 4-5]:\n'
+        f'1. .agents/bus/{task_id}_manifest.json + _result.json + _validation.json 분석\n'
+        f'2. advisor_plan 파일이 있으면 플랜 대비 결과 비교\n'
+        f'3. 10항목 평가 (code_quality, agent_utilization, parallelization,\n'
+        f'   token_cost, retry_waste, comm_efficiency, completion_rate,\n'
+        f'   duration, issue_resolution, autonomy)\n'
+        f'4. AgentBus.write_evaluation()으로 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'5. 완료 후 "EVALUATION_DONE:{task_id}:{{total_score}}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_learning_prompt(task_id: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n\n'
+        f'Task ID: {task_id}\n\n'
+        f'수행 순서 [Phase 6 — 자기개선]:\n'
+        f'1. .agents/bus/{task_id}_evaluation.json 분석\n'
+        f'2. 낮은 점수 항목의 근본 원인 파악\n'
+        f'3. AgentBus.write_learning()으로 patterns 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'4. {os.path.join(PROJECT_ROOT, ".agents", "advisor", "learnings")}/를 생성하고\n'
+        f'   학습 파일을 {{YYYYMMDD}}_{task_id}.json으로 복사 저장\n'
+        f'5. 완료 후 "LEARNING_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def git_commit_and_pr(task_id: str, task_summary: str, branch_name: str,
+                      log: AgentLog) -> str | None:
+    """평가 승인 후 git commit + PR 생성. PR URL 반환."""
+    import subprocess as _sp
+
+    def _run(cmd: list[str]) -> tuple[int, str]:
+        r = _sp.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
+        return r.returncode, (r.stdout + r.stderr).strip()
+
+    # feat/{task_id} 브랜치 생성 (없으면 신규, 있으면 체크아웃)
+    rc, _ = _run(['git', 'checkout', '-b', branch_name])
+    if rc != 0:
+        rc, out = _run(['git', 'checkout', branch_name])
+        if rc != 0:
+            log.add(f'브랜치 체크아웃 실패: {out}')
+            return None
+    log.add(f'브랜치 전환: {branch_name}')
+
+    # git add (버스 파일 제외, 주요 변경 파일만)
+    rc, out = _run(['git', 'add', '-A', '--', ':(exclude).agents/bus/*'])
+    log.add(f'git add: rc={rc}')
+
+    # git commit
+    commit_msg = f'feat({task_id}): {task_summary[:60]}'
+    rc, out = _run(['git', 'commit', '-m', commit_msg])
+    if rc != 0:
+        log.add(f'git commit 실패: {out}')
+        return None
+    log.add(f'git commit 완료: {commit_msg}')
+
+    # git push
+    rc, out = _run(['git', 'push', '-u', 'origin', branch_name])
+    if rc != 0:
+        log.add(f'git push 실패: {out}')
+        return None
+    log.add('git push 완료')
+
+    # gh pr create
+    rc, out = _run([
+        'gh', 'pr', 'create',
+        '--title', commit_msg,
+        '--body', f'Task ID: {task_id}\n\nAuto-generated by Orchestrator full pipeline.',
+        '--head', branch_name,
+    ])
+    if rc != 0:
+        log.add(f'gh pr create 실패: {out}')
+        return None
+
+    pr_url = out.strip().split()[-1]
+    log.add(f'PR 생성: {pr_url}')
+    return pr_url
+
+
+def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
+    """
+    User Interface → Advisor Plan → Execution·Validation 루프 →
+    Advisor 평가 → 사용자 승인 게이트 → commit/PR
+    """
+    preset = get_domain_preset(domain)
+    adv_model    = preset.get('advisor_model',   'claude-opus-4-6')
+    temp_adv     = preset.get('temperature_advisor', 0.2)
+    max_tok_adv  = preset.get('max_tokens_advisor',  4096)
+    ui_cfg       = _MODEL_CONFIG.get('agents', {}).get('user_interface', {})
+    ui_model     = ui_cfg.get('model', 'claude-haiku-4-5-20251001')
+    ui_temp      = ui_cfg.get('temperature', 0.3)
+    ui_max_tok   = ui_cfg.get('max_tokens', 1024)
+
+    bus = AgentBus()
+    task_id = bus.task_id
+    log.add(f'Full Pipeline 시작: task_id={task_id}')
+
+    # ── Step 1: User Interface — requirement 구조화 ────────────────
+    log.update(progress=5, message='User Interface: 요구사항 구조화')
+    ui_prompt = make_user_interface_prompt(task, domain, task_id)
+    _run_agent(ui_prompt, 'UserInterface', log,
+               model=ui_model, temperature=ui_temp, max_tokens=ui_max_tok)
+
+    req = bus.read(BusFile.REQUIREMENT)
+    if req is None:
+        # fallback: 기본 requirement 작성
+        bus.write_requirement(
+            raw_request=task,
+            structured={'goal': task, 'domain': domain,
+                        'constraints': [], 'expected_outputs': []},
+        )
+        req = bus.read(BusFile.REQUIREMENT)
+
+    # ── Step 2: Advisor — 컨텍스트 파악 + 플랜 수립 ───────────────
+    log.update(progress=10, message='Advisor: 플랜 수립 중')
+    plan_prompt = make_advisor_plan_prompt(task_id, domain, task)
+    _run_agent(plan_prompt, 'AdvisorPlan', log,
+               model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+
+    advisor_plan = bus.read(BusFile.ADVISOR_PLAN)
+    if advisor_plan:
+        plan_path = advisor_plan.get('plan_md_path', '')
+        print(f'\n[Advisor 플랜] {plan_path}')
+
+    # ── Step 3: Execution ↔ Validation 루프 (기존 run_auto 재사용) ─
+    log.update(progress=20, message='Execution 루프 시작')
+    run_auto(task, domain, no_confirm=True, log=log)
+
+    # 루프 종료 후 verdict 확인
+    validation = bus.read(BusFile.VALIDATION)
+    verdict = validation.get('verdict', 'FAIL') if validation else 'FAIL'
+    log.add(f'Execution 루프 완료: verdict={verdict}')
+
+    if verdict != 'PASS':
+        log.error(f'파이프라인 종료 (verdict={verdict}) — 승인 게이트 도달 불가')
+        return
+
+    # ── Step 4: Advisor — 결과 리뷰 + 10항목 평가 ─────────────────
+    log.update(progress=80, message='Advisor: 결과 평가 중')
+    eval_prompt = make_advisor_evaluation_prompt(task_id)
+    _run_agent(eval_prompt, 'AdvisorEval', log,
+               model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+
+    evaluation = bus.read(BusFile.EVALUATION)
+    if evaluation is None:
+        log.add('evaluation.json 없음 — 평가 생략')
+        evaluation = {'total_score': 0, 'grade': '?', 'commit_ready': False,
+                      'summary': '평가 미완료', 'improvement_items': []}
+
+    # ── Step 5: 사용자 승인 게이트 ────────────────────────────────
+    _print_evaluation(task_id, evaluation)
+
+    while True:
+        decision = input('\napprove / reject / feedback 중 선택: ').strip().lower()
+        if decision in ('approve', 'a'):
+            bus.write_user_decision('approve')
+            log.add('사용자 승인: approve')
+            break
+        elif decision in ('reject', 'r'):
+            bus.write_user_decision('reject')
+            log.add('사용자 거절: reject')
+            print('거절됨. 파이프라인 종료.')
+
+            # Phase 6: 자기개선
+            _run_advisor_learning(task_id, adv_model, temp_adv, max_tok_adv, log)
+            return
+        else:
+            # feedback → Execution 재시도
+            bus.write_user_decision('feedback', feedback=decision)
+            log.add(f'피드백: {decision}')
+            print('피드백 반영 — Execution 재실행 중...')
+            run_auto(task + f'\n[추가 피드백] {decision}',
+                     domain, no_confirm=True, log=log)
+
+            # 재평가
+            eval_prompt2 = make_advisor_evaluation_prompt(task_id)
+            _run_agent(eval_prompt2, 'AdvisorEval#2', log,
+                       model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+            evaluation = bus.read(BusFile.EVALUATION) or evaluation
+            _print_evaluation(task_id, evaluation)
+
+    # ── Step 6: commit + PR ────────────────────────────────────────
+    branch_name = f'feat/{task_id}'
+
+    pr_url = git_commit_and_pr(task_id, task, branch_name, log)
+    if pr_url:
+        print(f'\nPR 생성 완료: {pr_url}')
+    else:
+        print('\ngit commit/PR 실패 — 로그 확인: .agents/')
+
+    # Phase 6: 자기개선
+    _run_advisor_learning(task_id, adv_model, temp_adv, max_tok_adv, log)
+    log.done('Full Pipeline 완료')
+
+
+def _print_evaluation(task_id: str, evaluation: dict):
+    """평가 보고서를 터미널에 출력."""
+    scores = evaluation.get('scores', {})
+    print(f'\n{"="*60}')
+    print(f'=== 에이전트 평가 보고서 (Task: {task_id}) ===')
+    print(f'총점: {evaluation.get("total_score", "?")}/100  등급: {evaluation.get("grade", "?")}')
+    print()
+
+    groups = [
+        ('[효율성]', ['code_quality', 'agent_utilization', 'parallelization']),
+        ('[경제성]', ['token_cost', 'retry_waste', 'comm_efficiency']),
+        ('[생산성]', ['completion_rate', 'duration', 'issue_resolution', 'autonomy']),
+    ]
+    labels = {
+        'code_quality': '코드 품질', 'agent_utilization': '에이전트 활용',
+        'parallelization': '병렬화 효율', 'token_cost': '토큰 비용',
+        'retry_waste': '재시도 낭비', 'comm_efficiency': '소통 효율',
+        'completion_rate': '태스크 완결률', 'duration': '소요 시간',
+        'issue_resolution': '이슈 해결', 'autonomy': '자율성',
+    }
+    for group_name, keys in groups:
+        print(group_name)
+        for k in keys:
+            item = scores.get(k, {})
+            s = item.get('score', '-')
+            ev = item.get('evidence', '')
+            print(f'  {labels.get(k, k):<12}: {s}/10 — {ev}')
+        print()
+
+    print(f'요약: {evaluation.get("summary", "-")}')
+    impr = evaluation.get('improvement_items', [])
+    if impr:
+        print(f'개선 항목: {", ".join(impr)}')
+    print(f'커밋 준비: {"O" if evaluation.get("commit_ready") else "X"}')
+    print('='*60)
+
+
+def _run_advisor_learning(task_id: str, model: str, temperature: float,
+                          max_tokens: int, log: AgentLog):
+    """Phase 6 자기개선 실행."""
+    os.makedirs(os.path.join(PROJECT_ROOT, '.agents', 'advisor', 'learnings'),
+                exist_ok=True)
+    learn_prompt = make_advisor_learning_prompt(task_id)
+    _run_agent(learn_prompt, 'AdvisorLearning', log,
+               model=model, temperature=temperature, max_tokens=max_tokens)
+    log.add('Phase 6 자기개선 완료')
+
+
 # ── 메인 ──────────────────────────────────────────────────────────
 
 def main():
@@ -1045,12 +1332,14 @@ def main():
     parser.add_argument('--parallel',   action='store_true',
                         help='--tasks와 함께 사용: 병렬 실행 (기본: 순차)')
     # 공통 옵션
-    parser.add_argument('--dry-run',    action='store_true', help='Manifest+프롬프트 미리보기')
-    parser.add_argument('--auto',       action='store_true', help='SDK/API 자동 실행 모드')
-    parser.add_argument('--no-confirm', action='store_true', help='--auto 실행 전 확인 생략')
-    parser.add_argument('--list',       action='store_true', help='bus 작업 목록 조회')
-    parser.add_argument('--compare',    action='store_true',
+    parser.add_argument('--dry-run',       action='store_true', help='Manifest+프롬프트 미리보기')
+    parser.add_argument('--auto',          action='store_true', help='SDK/API 자동 실행 모드')
+    parser.add_argument('--no-confirm',    action='store_true', help='--auto 실행 전 확인 생략')
+    parser.add_argument('--list',          action='store_true', help='bus 작업 목록 조회')
+    parser.add_argument('--compare',       action='store_true',
                         help='전체 도메인 모델 배정·비용 비교표 출력')
+    parser.add_argument('--full-pipeline', action='store_true',
+                        help='UserInterface→Advisor→Eval→승인 게이트→commit/PR 전체 플로우')
     args = parser.parse_args()
 
     if args.list:
@@ -1131,6 +1420,23 @@ def main():
 
     if args.dry_run:
         dry_run(args.task, args.domain)
+        return
+
+    if args.full_pipeline:
+        log = AgentLog(
+            agent_id=f'Orchestrator_Full_{datetime.now().strftime("%Y-%m-%d_%H%M%S")}',
+            title=f'Full Pipeline — {args.domain}',
+            agent_type='orchestrator',
+        )
+        log.add(f'Full Pipeline 시작: {args.task}')
+        try:
+            run_full_pipeline(args.task, args.domain, args.no_confirm, log)
+        except KeyboardInterrupt:
+            log.error('사용자 중단 (Ctrl+C)')
+            print('\n중단됨.')
+        except Exception as e:
+            log.error(f'Full Pipeline 오류: {e}')
+            raise
         return
 
     if args.auto:
