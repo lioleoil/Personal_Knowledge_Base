@@ -809,111 +809,60 @@ class MonitorApp(tk.Tk):
         self._refresh_ui(now, agents)
 
     def _cleanup_bus(self, _=None):
-        """버스 정리: 불필요한 에이전트를 종료하고 모니터에서 제거.
+        """버스 정리: stale bus task 파일 삭제.
 
-        [bus/] stale task 파일 삭제:
-          (1) manifest-only + 1시간 경과
-          (2) evaluation 또는 user_decision 존재 (완료 태스크)
-        [에이전트 카드] 응답 없는 실행 중 에이전트 종료 후 모니터에서 숨김:
-          status==running + completed_at==null + 1시간 이상 경과
+        (1) manifest-only + 1시간 경과 (stale)
+        (2) evaluation 또는 user_decision 존재 (완료 태스크)
+
+        에이전트 로그 파일(.agents/<subtype>/*.json)은 건드리지 않음.
+        stale running 항목은 _refresh_ui 자동 필터가 처리.
         """
-        import subprocess as sp
         from tkinter import messagebox
 
-        bus_files_to_del: list[str] = []
-        agents_to_dismiss: list[str] = []   # _path 목록
-
-        # ── bus/ stale 파일 ──────────────────────────────────
         bus_dir = os.path.join(PROJECT_ROOT, '.agents', 'bus')
-        if os.path.exists(bus_dir):
-            task_files: dict[str, list[str]] = {}
-            for fname in os.listdir(bus_dir):
-                if not fname.endswith('.json'):
-                    continue
-                tid, ftype = _parse_bus_fname(fname)
-                if tid:
-                    task_files.setdefault(tid, []).append(fname)
-            for tid, fnames in task_files.items():
-                ftypes = set()
-                for f in fnames:
-                    _, ft = _parse_bus_fname(f)
-                    if ft:
-                        ftypes.add(ft)
-                mtimes = [os.path.getmtime(os.path.join(bus_dir, f)) for f in fnames]
-                age = time.time() - max(mtimes)
-                is_stale = (ftypes == {'manifest'} and age > 3600)
-                is_done  = bool(ftypes & {'evaluation', 'user_decision'})
-                if is_stale or is_done:
-                    bus_files_to_del.extend(fnames)
-
-        # ── 응답 없는 실행 중 에이전트 감지 ─────────────────
-        agents_root = os.path.join(PROJECT_ROOT, '.agents')
-        if os.path.exists(agents_root):
-            for subname in os.listdir(agents_root):
-                if subname == 'bus':
-                    continue
-                subdir = os.path.join(agents_root, subname)
-                if not os.path.isdir(subdir):
-                    continue
-                for fname in os.listdir(subdir):
-                    if not fname.endswith('.json'):
-                        continue
-                    fpath = os.path.join(subdir, fname)
-                    if fpath in self._dismissed_paths:
-                        continue
-                    try:
-                        with open(fpath, encoding='utf-8') as f:
-                            data = json.load(f)
-                        status       = data.get('status', '')
-                        completed_at = data.get('completed_at')
-                        age          = time.time() - os.path.getmtime(fpath)
-                        if status == 'running' and completed_at is None and age > 3600:
-                            agents_to_dismiss.append(fpath)
-                    except Exception:
-                        continue
-
-        if not bus_files_to_del and not agents_to_dismiss:
+        if not os.path.exists(bus_dir):
             messagebox.showinfo('버스 정리', '정리할 항목 없음')
             return
 
-        lines = []
-        if bus_files_to_del:
-            lines.append(f'[버스 파일] {len(bus_files_to_del)}개 삭제')
-        if agents_to_dismiss:
-            lines.append(f'[응답 없는 에이전트] {len(agents_to_dismiss)}개 종료·제거')
-            for p in agents_to_dismiss[:5]:
-                lines.append(f'  • {os.path.basename(p)}')
-            if len(agents_to_dismiss) > 5:
-                lines.append(f'  ... 외 {len(agents_to_dismiss)-5}개')
+        task_files: dict[str, list[str]] = {}
+        for fname in os.listdir(bus_dir):
+            if not fname.endswith('.json'):
+                continue
+            tid, ftype = _parse_bus_fname(fname)
+            if tid:
+                task_files.setdefault(tid, []).append(fname)
 
-        if not messagebox.askyesno('버스 정리', '\n'.join(lines) + '\n\n실행하시겠습니까?'):
+        to_del: list[str] = []
+        for tid, fnames in task_files.items():
+            ftypes = set()
+            for f in fnames:
+                _, ft = _parse_bus_fname(f)
+                if ft:
+                    ftypes.add(ft)
+            mtimes = [os.path.getmtime(os.path.join(bus_dir, f)) for f in fnames]
+            age = time.time() - max(mtimes)
+            is_stale = (ftypes == {'manifest'} and age > 3600)
+            is_done  = bool(ftypes & {'evaluation', 'user_decision'})
+            if is_stale or is_done:
+                to_del.extend(fnames)
+
+        if not to_del:
+            messagebox.showinfo('버스 정리', '정리할 항목 없음')
             return
 
-        # bus 파일 삭제
-        for fname in bus_files_to_del:
-            try:
-                os.remove(os.path.join(bus_dir, fname))
-            except Exception:
-                pass
-
-        # 에이전트 종료 시도 (PID 저장된 경우) + dismissed에 추가
-        for fpath in agents_to_dismiss:
-            try:
-                with open(fpath, encoding='utf-8') as f:
-                    data = json.load(f)
-                pid = data.get('pid')
-                if pid:
-                    try:
-                        sp.run(['taskkill', '/PID', str(pid), '/F'],
-                               capture_output=True)
-                    except Exception:
-                        pass
-            except Exception:
-                pass
-            self._dismissed_paths.add(fpath)
-
-        messagebox.showinfo('버스 정리', '완료')
-        self._immediate_refresh()
+        preview = '\n'.join(to_del[:10])
+        if len(to_del) > 10:
+            preview += f'\n... 외 {len(to_del)-10}개'
+        if messagebox.askyesno('버스 정리', f'{len(to_del)}개 파일 삭제하시겠습니까?\n\n{preview}'):
+            deleted = 0
+            for fname in to_del:
+                try:
+                    os.remove(os.path.join(bus_dir, fname))
+                    deleted += 1
+                except Exception:
+                    pass
+            messagebox.showinfo('버스 정리', f'{deleted}개 파일 삭제 완료')
+            self._immediate_refresh()
 
     def _start_polling(self):
         threading.Thread(target=self._poll, daemon=True).start()
