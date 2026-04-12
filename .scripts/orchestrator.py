@@ -124,21 +124,12 @@ _MODEL_CONFIG_PATH = os.path.join(
     PROJECT_ROOT, 'global', '04_AgentEcosystem', 'model_config.json'
 )
 
-# ── 외부 설정 파일 로드 ──────────────────────────────────────────────
 def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
-    """model_config.json 로드. 실패 시 하드코딩 기본값 반환.
-    반환: (AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
-           MODEL_COSTS, DOMAIN_PRESETS, PRESETS)
-    """
     try:
         with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
             cfg = json.load(f)
         agents_cfg = cfg.get('agents', {})
-
-        agent_models = {
-            role: v['model']
-            for role, v in agents_cfg.items() if 'model' in v
-        }
+        agent_models = {role: v['model'] for role, v in agents_cfg.items() if 'model' in v}
         agent_providers = {
             role: v.get('provider', _AGENT_PROVIDERS_DEFAULT.get(role, 'anthropic'))
             for role, v in agents_cfg.items()
@@ -147,32 +138,23 @@ def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
             role: {k: v[k] for k in ('temperature', 'max_tokens') if k in v}
             for role, v in agents_cfg.items()
         }
-        costs          = {k: v for k, v in cfg.get('model_costs', {}).items()
-                          if not k.startswith('_')}
-        domain_presets = {k: v for k, v in cfg.get('domain_presets', {}).items()
-                          if not k.startswith('_')}
-        presets        = {k: v for k, v in cfg.get('_presets', {}).items()
-                          if not k.startswith('_')}
+        costs          = {k: v for k, v in cfg.get('model_costs', {}).items() if not k.startswith('_')}
+        domain_presets = {k: v for k, v in cfg.get('domain_presets', {}).items() if not k.startswith('_')}
+        presets        = {k: v for k, v in cfg.get('_presets', {}).items() if not k.startswith('_')}
         return (
-            {**_AGENT_MODELS_DEFAULT,    **agent_models},
+            {**_AGENT_MODELS_DEFAULT, **agent_models},
             {**_AGENT_PROVIDERS_DEFAULT, **agent_providers},
-            agent_params,
-            costs,
-            domain_presets,
-            presets,
+            agent_params, costs, domain_presets, presets,
         )
     except Exception:
-        return (_AGENT_MODELS_DEFAULT.copy(), _AGENT_PROVIDERS_DEFAULT.copy(),
-                {}, {}, {}, {})
+        return (_AGENT_MODELS_DEFAULT.copy(), _AGENT_PROVIDERS_DEFAULT.copy(), {}, {}, {}, {})
 
 (AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
  MODEL_COSTS, DOMAIN_PRESETS, PRESETS) = _load_model_config()
 
 
 def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
-    """domain + role → (model, provider, params).
-    도메인 프리셋이 있으면 프리셋 설정 우선, 없으면 agents 기본값 사용.
-    """
+    """domain + role → (model, provider, params)."""
     preset_name = DOMAIN_PRESETS.get(domain, 'default')
     if preset_name != 'default' and preset_name in PRESETS:
         role_cfg = PRESETS[preset_name].get(role, {})
@@ -184,6 +166,33 @@ def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
         provider = AGENT_PROVIDERS.get(role, 'anthropic')
         params   = AGENT_PARAMS.get(role, {})
     return model, provider, params
+
+
+# ── auto-domain 키워드 라우팅 ──────────────────────────────────────────
+DOMAIN_KEYWORDS: dict[str, list[str]] = {
+    'nova_helper':        ['nova', 'slack', 'bolt', 'bot', '봇'],
+    'nova_log_analytics': ['로그', 'log', '이상탐지', 'anomaly', 'pipeline', '파이프라인', 'analytics', '분석'],
+    'pkb_worklog':        ['worklog', '대화', '분류', 'pkb', '정리', 'knowledge', '로그분류', '워크로그'],
+    'sv_dqat':            ['dqat', '어노테이션', 'annotation', 'labelit', 'quality', 'qa', '품질'],
+    'sv_lakehouse':       ['lakehouse', 'lake', 'sv_lakehouse', 'warehouse'],
+    'daily_scrap':        ['스크랩', 'scrap', 'geeknews', '뉴스', 'news', 'daily'],
+}
+
+def detect_domain(task: str) -> str:
+    """태스크 설명에서 키워드 매칭으로 도메인 자동 판단. 매칭 없으면 pkb_worklog."""
+    task_lower = task.lower()
+    scores: dict[str, int] = {}
+    for domain, keywords in DOMAIN_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in task_lower)
+        if score:
+            scores[domain] = score
+    if scores:
+        best = max(scores, key=lambda d: scores[d])
+        print(f'[auto-domain] "{best}" 선택 (점수: {scores})')
+        return best
+    print('[auto-domain] 매칭 없음 → pkb_worklog 기본값 사용')
+    return 'pkb_worklog'
+
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -1340,6 +1349,8 @@ def main():
                         help='전체 도메인 모델 배정·비용 비교표 출력')
     parser.add_argument('--full-pipeline', action='store_true',
                         help='UserInterface→Advisor→Eval→승인 게이트→commit/PR 전체 플로우')
+    parser.add_argument('--auto-domain',   action='store_true',
+                        help='도메인 자동 판단 (태스크 키워드 기반). --domain 지정 불필요')
     args = parser.parse_args()
 
     if args.list:
@@ -1407,6 +1418,10 @@ def main():
     if not args.task:
         parser.print_help()
         return
+
+    # --auto-domain: 키워드 기반 도메인 자동 판단
+    if args.auto_domain:
+        args.domain = detect_domain(args.task)
 
     # ── 단일 도메인 ────────────────────────────────────────────────
 

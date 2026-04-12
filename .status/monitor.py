@@ -100,16 +100,30 @@ def discover_agents() -> list[dict]:
     return results
 
 
+_BUS_FTYPES = [
+    'user_decision', 'advisor_plan', 'validation', 'requirement',
+    'manifest', 'result', 'advice', 'report', 'evaluation', 'learning',
+]
+
+def _parse_bus_fname(fname: str):
+    """파일명에서 (task_id, ftype) 추출. task_id에 '_'가 포함된 경우도 처리."""
+    stem = fname[:-5]  # .json 제거
+    for ftype in _BUS_FTYPES:
+        suffix = '_' + ftype
+        if stem.endswith(suffix):
+            return stem[:-len(suffix)], ftype
+    return None, None
+
+
 def _discover_bus_tasks(bus_dir: str) -> list[dict]:
     """bus/ 디렉터리에서 task_id별로 가장 최신 파일을 읽어 요약 카드 생성."""
     task_files: dict[str, list[str]] = {}
     for fname in os.listdir(bus_dir):
         if not fname.endswith('.json'):
             continue
-        parts = fname[:-5].split('_', 1)
-        if len(parts) != 2:
+        tid, ftype = _parse_bus_fname(fname)
+        if tid is None:
             continue
-        tid, ftype = parts
         task_files.setdefault(tid, []).append(fname)
 
     cards = []
@@ -128,8 +142,9 @@ def _discover_bus_tasks(bus_dir: str) -> list[dict]:
             if mtime > latest_mtime:
                 latest_mtime = mtime
                 latest_path = fpath
-            ftype = fname[:-5].split('_', 1)[1] if '_' in fname[:-5] else ''
-            file_types.append(ftype)
+            _, ftype = _parse_bus_fname(fname)
+            if ftype:
+                file_types.append(ftype)
 
             try:
                 with open(fpath, 'r', encoding='utf-8') as f:
@@ -349,14 +364,21 @@ class TokenLineGraph(tk.Frame):
         n = len(buckets)
         step = gw / max(n - 1, 1)
         raw_points = []
+        sdk_points = []
         for i, b in enumerate(buckets):
             x = pl + int(i * step)
             ratio = b.get('tokens', 0) / max_tok
             y = pt + gh - int(ratio * gh)
             raw_points.append((x, y))
             self._points.append((x, y, b))
+            sdk_tok = b.get('sdk_tokens', 0)
+            if sdk_tok:
+                sdk_ratio = sdk_tok / max_tok
+                sdk_points.append((x, pt + gh - int(sdk_ratio * gh)))
+            else:
+                sdk_points.append(None)
 
-        # 면적 채우기
+        # 면적 채우기 (전체 CLI)
         if len(raw_points) >= 2:
             poly = [pl, pt + gh]
             for x, y in raw_points:
@@ -364,10 +386,32 @@ class TokenLineGraph(tk.Frame):
             poly += [raw_points[-1][0], pt + gh]
             c.create_polygon(poly, fill='#1A2A3E', outline='')
 
-        # 라인
+        # 라인 — 전체 (파란색)
         if len(raw_points) >= 2:
             flat = [coord for px, py in raw_points for coord in (px, py)]
             c.create_line(flat, fill=C_BLUE, width=1.5, smooth=True)
+
+        # SDK 라인 — agent_sdk 세션만 (오렌지)
+        sdk_valid = [(x, y) for x, y in zip(
+            [p[0] for p in raw_points],
+            [p[1] if p else None for p in sdk_points]
+        ) if y is not None]
+        if len(sdk_valid) >= 2:
+            flat_sdk = [coord for px, py in sdk_valid for coord in (px, py)]
+            c.create_line(flat_sdk, fill=C_ORANGE, width=2, smooth=True)
+        for px, py in sdk_valid:
+            c.create_oval(px - 3, py - 3, px + 3, py + 3,
+                          fill=C_ORANGE, outline=BG_CARD)
+
+        # 범례 (SDK 라인이 있을 때만)
+        if sdk_valid:
+            lx = pl + gw - 2
+            c.create_line(lx - 18, pt + 6, lx, pt + 6, fill=C_BLUE, width=2)
+            c.create_text(lx - 20, pt + 6, text='CLI', fill=C_BLUE,
+                          font=('Consolas', 7, 'bold'), anchor='e')
+            c.create_line(lx - 18, pt + 16, lx, pt + 16, fill=C_ORANGE, width=2)
+            c.create_text(lx - 20, pt + 16, text='SDK', fill=C_ORANGE,
+                          font=('Consolas', 7, 'bold'), anchor='e')
 
         # 포인트 + X축 레이블 (최대 7개 레이블, 날짜 변경 시 날짜 표시)
         label_step = max(1, n // 7)
@@ -397,7 +441,11 @@ class TokenLineGraph(tk.Frame):
             return
         hour = bucket.get('hour', '')
         tokens = bucket.get('tokens', 0)
-        self._show_tip(px, py, f'{hour}  {fmt(tokens)} tok')
+        sdk = bucket.get('sdk_tokens', 0)
+        tip = f'{hour}  {fmt(tokens)} tok'
+        if sdk:
+            tip += f'  (SDK {fmt(sdk)})'
+        self._show_tip(px, py, tip)
 
     def _show_tip(self, px, py, text):
         c = self._canvas
@@ -699,7 +747,10 @@ class MonitorApp(tk.Tk):
         self._refresh_ui(now, agents)
 
     def _cleanup_bus(self, _=None):
-        """manifest만 있고 1시간 이상 경과한 stale bus task 파일 삭제."""
+        """완료/stale bus task 파일 삭제.
+        조건: (1) manifest-only + 1시간 경과 (stale)
+              (2) evaluation 또는 user_decision 파일이 있는 완료된 태스크
+        """
         from tkinter import messagebox
         bus_dir = os.path.join(PROJECT_ROOT, '.agents', 'bus')
         if not os.path.exists(bus_dir):
@@ -710,19 +761,30 @@ class MonitorApp(tk.Tk):
         for fname in os.listdir(bus_dir):
             if not fname.endswith('.json'):
                 continue
-            parts = fname[:-5].split('_', 1)
-            if len(parts) == 2:
-                task_files.setdefault(parts[0], []).append(fname)
+            tid, ftype = _parse_bus_fname(fname)
+            if tid:
+                task_files.setdefault(tid, []).append(fname)
 
         stale: list[str] = []
         for tid, fnames in task_files.items():
-            ftypes = [f[:-5].split('_', 1)[1] for f in fnames if '_' in f[:-5]]
+            ftypes = set()
+            for f in fnames:
+                _, ft = _parse_bus_fname(f)
+                if ft:
+                    ftypes.add(ft)
             mtimes = [os.path.getmtime(os.path.join(bus_dir, f)) for f in fnames]
-            if sorted(ftypes) == ['manifest'] and (time.time() - max(mtimes)) > 3600:
+            age = time.time() - max(mtimes)
+
+            # stale: manifest만 있고 1시간 이상 경과
+            is_stale = (ftypes == {'manifest'} and age > 3600)
+            # 완료: evaluation 또는 user_decision 존재
+            is_done = bool(ftypes & {'evaluation', 'user_decision'})
+
+            if is_stale or is_done:
                 stale.extend(fnames)
 
         if not stale:
-            messagebox.showinfo('버스 정리', '정리할 stale 태스크 없음')
+            messagebox.showinfo('버스 정리', '정리할 태스크 없음')
             return
 
         preview = '\n'.join(stale[:10])
