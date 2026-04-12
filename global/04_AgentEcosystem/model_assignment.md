@@ -164,3 +164,17 @@ python .scripts/orchestrator.py \
 ```bash
 pip install anthropic openai   # SDK 의존성
 ```
+
+---
+
+## cross_vendor 프리셋 라우팅
+
+`orchestrator.py`의 `_run_agent()` 함수가 모델명 prefix로 자동 라우팅 (full-pipeline 전용):
+
+```python
+def _is_openai_model(model: str) -> bool:
+    return model.startswith(('codex-', 'gpt-', 'o1', 'o3', 'o4'))
+```
+
+- `codex-*`, `gpt-*`, `o1/o3/o4` → `run_openai_agent()` (Responses API + Chat Completions)
+- `claude-*` → `run_anthropic_agent()` (Anthropic SDK) → CLI fallback

@@ -108,6 +108,57 @@ def add_session(tokens, task_name):
     return data
 
 
+def _update_hourly_bucket(data: dict, tokens: int, source: str = 'cli') -> None:
+    """4시간 단위 버킷에 토큰 수를 집계. 최근 42개(7일치) 유지.
+    source='agent_sdk' 이면 버킷의 sdk_tokens 필드에도 추가 집계.
+    """
+    now = datetime.now()
+    bucket_h = (now.hour // 4) * 4
+    bucket_key = now.strftime(f'%Y-%m-%d {bucket_h:02d}:00')
+    buckets = data.setdefault('hourly_buckets', [])
+    for b in buckets:
+        if b['hour'] == bucket_key:
+            b['tokens'] += tokens
+            if source == 'agent_sdk':
+                b['sdk_tokens'] = b.get('sdk_tokens', 0) + tokens
+            return
+    new_b: dict = {'hour': bucket_key, 'tokens': tokens}
+    if source == 'agent_sdk':
+        new_b['sdk_tokens'] = tokens
+    buckets.append(new_b)
+    data['hourly_buckets'] = buckets[-42:]
+
+
+def add_agent_tokens(input_tokens: int, output_tokens: int,
+                     task_name: str, model: str = '') -> None:
+    """Anthropic SDK 에이전트 호출 토큰을 token_usage.json에 집계.
+    hourly_buckets까지 업데이트하여 monitor.py 그래프에 반영된다.
+    """
+    total = input_tokens + output_tokens
+    if total <= 0:
+        return
+    data = load()
+    data['used'] = data.get('used', 0) + total
+    data['weekly_used'] = data.get('weekly_used', 0) + total
+
+    session: dict = {
+        'task': task_name,
+        'tokens': total,
+        'time': datetime.now().strftime('%H:%M:%S'),
+        'source': 'agent_sdk',
+    }
+    if model:
+        session['model'] = model
+    if input_tokens:
+        session['input_tokens'] = input_tokens
+    if output_tokens:
+        session['output_tokens'] = output_tokens
+    data.setdefault('sessions', []).append(session)
+
+    _update_hourly_bucket(data, total, source='agent_sdk')
+    save(data)
+
+
 def bar(pct, width=40):
     filled = int(width * pct / 100)
     empty = width - filled
@@ -146,19 +197,7 @@ def display(data):
     wb, wcolor = bar(wpct, width=40)
 
     print()
-    rolling_4h = get_4h_window_usage(data)
-    rpct = min(rolling_4h / limit * 100, 100) if limit > 0 else 0
-    rb, rcolor = bar(rpct)
-
     print(f'{BOLD}{WHITE}  [ Claude Token Usage ]  {GRAY}[{plan} | 윈도우: {period}~]{R}')
-    print(f'  {GRAY}4h 롤링{R}   {rb}  {rcolor}{BOLD}{rpct:.1f}%{R}')
-    print(f'  {GRAY}사용: {rcolor}{BOLD}{fmt(rolling_4h)}{R}{GRAY} / {fmt(limit)}  남은: {WHITE}{fmt(limit - rolling_4h)}{R}')
-
-    if rpct >= 90:
-        print(f'  {RED}{BOLD}[!] 4h 윈도우 90% 초과 — 속도 제한 임박{R}')
-    elif rpct >= 75:
-        print(f'  {YELLOW}[!] 4h 윈도우 75% 도달 — 잔여 {fmt(limit - rolling_4h)}{R}')
-
     print(f'  {GRAY}주간({week_start}~){R}  {wb}  {wcolor}{BOLD}{wpct:.1f}%{R}')
     print(f'  {GRAY}주간: {wcolor}{BOLD}{fmt(weekly_used)}{R}{GRAY} / {fmt(weekly_limit)}  남은: {WHITE}{fmt(weekly_limit - weekly_used)}{R}')
 

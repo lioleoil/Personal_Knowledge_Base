@@ -1,7 +1,8 @@
 # Multi-Agent Ecosystem — 설계 및 R&R 정의서
 
-> **버전**: 1.1 | **최종 수정**: 2026-04-11  
-> 이 문서는 Personal Knowledge Base 워크스페이스의 Multi-Agent Ecosystem 전체 설계, 역할 정의, 워크플로우, 통신 프로토콜, 권한 정책을 단일 참조 문서로 통합합니다.
+> **버전**: 1.2 | **최종 수정**: 2026-04-12  
+> 이 문서는 Personal Knowledge Base 워크스페이스의 Multi-Agent Ecosystem 전체 설계, 역할 정의, 워크플로우, 통신 프로토콜, 권한 정책을 단일 참조 문서로 통합합니다.  
+> 빠른 구조도 참조: **[ARCHITECTURE_MAP.md](ARCHITECTURE_MAP.md)**
 
 ---
 
@@ -10,10 +11,11 @@
 1. [설계 철학](#1-설계-철학)
 2. [전체 아키텍처](#2-전체-아키텍처)
 3. [에이전트 R&R 정의](#3-에이전트-rr-정의)
+   - 3.0 User Interface Agent (**신규**)
    - 3.1 Orchestrator
    - 3.2 Execution Agent
    - 3.3 Validation Agent
-   - 3.4 Advisor Agent
+   - 3.4 Advisor Agent (**PM 역할 격상**)
    - 3.5 Reporter Agent
    - 3.6 Domain Sub-Agents
 4. [Agent Bus 통신 프로토콜](#4-agent-bus-통신-프로토콜)
@@ -47,10 +49,53 @@
 - **파일 기반 버스 선택 이유**: Python subprocess 간 공유 메모리 불가. 파일은 프로세스 경계를 넘어 상태 영속 가능. 장애 후 재시작 시 중간 상태 복구 가능.
 - **Peer 레벨 Validation 선택 이유**: Execution이 자기 결과를 검증하면 편향 발생. 독립 Validation이 객관적 교차 검토 보장.
 - **Advisor 조건부 활성 이유**: 매 사이클 Advisor 참여 시 토큰 낭비. FAIL/막힘 상황에서만 호출하여 비용 최적화.
+- **User Interface Agent 추가 이유**: 사용자-에이전트 소통 창구 표준화. 내부 로그가 터미널에 노출되지 않도록 분리.
+- **Advisor PM 격상 이유**: 반응형 개입만으로는 작업 품질 보장 불충분. 사전 플랜 수립·사후 평가를 통해 자기개선 루프 구현.
 
 ---
 
-## 2. 전체 아키텍처
+## 2. 전체 아키텍처 (v2.0)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     USER INTERFACE AGENT (Haiku)                    │
+│  - 사용자 요구사항 수신 → 구조화 → Advisor로 전달                    │
+│  - 에이전트 소통은 터미널 미출력, 로그 파일만 기록                    │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ requirement.json
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    ADVISOR AGENT (PM / Opus 4.6)                    │
+│  Phase 1: 컨텍스트 파악 (로컬 + WebSearch)                          │
+│  Phase 2: 플랜 수립 → global/05_PM_Outputs/advisor_plan_*.md        │
+│  Phase 3: Execution·Validation 루프 감독                            │
+│  Phase 4: 결과 리뷰                                                 │
+│  Phase 5: 10항목 평가 보고서 생성 → 사용자 승인 게이트              │
+│  Phase 6: 로그 분석 → 자기개선 (learnings/)                        │
+└──────┬───────────────────────────────────────────────┬──────────────┘
+       │ advisor_plan.json                              │ advice.json
+       ▼                                               │
+┌──────────────────────────┐               ┌───────────┴─────────────┐
+│   EXECUTION AGENT        │◄─────────────►│  VALIDATION AGENT       │
+│   (Sonnet/Haiku by       │  피드백 루프   │  (gpt-4.1 / codex-1)   │
+│    domain preset)        │               │  PASS/FAIL/INSUFFICIENT │
+│   - Domain Sub-Agent     │               └─────────────────────────┘
+│     spawn                │                           │ PASS
+└──────────────────────────┘                           ▼
+                                            ADVISOR REVIEW & EVAL
+                                                       │ evaluation.json
+                                            사용자 승인 게이트
+                                            approve → commit → PR
+                                            거절 → 파이프라인 종료
+                                            피드백 → 보완 후 재평가
+
+[주간 회고 — 매주 토요일 15:00]
+.scripts/retrospective.py
+  → 주간 로그 + 평가 보고서 분석
+  → global/05_PM_Outputs/retrospective_{YYYY-MM-DD}.md 저장
+```
+
+### v1.x 기본 아키텍처 (--auto 모드)
 
 ```
 사용자 요청
@@ -106,6 +151,24 @@
 ---
 
 ## 3. 에이전트 R&R 정의
+
+### 3.0 User Interface Agent (**신규 — v1.2**)
+
+**Role Rules**: `global/04_AgentEcosystem/agents/role_rules__user_interface.md`
+
+| 항목 | 내용 |
+|---|---|
+| **목적** | 사용자 자연어 요청 수신 → 구조화 → Advisor 전달. 평가 보고서 포워딩. |
+| **모델** | `claude-haiku-4-5-20251001` (경량) |
+| **권한** | Read (입력/보고서) + Write (`_requirement.json`, `_user_decision.json`) |
+| **제약** | 에이전트 내부 소통 터미널 출력 금지. 실행 작업 수행 불가. |
+
+**핵심 책임**:
+1. 사용자 요청 구조화 → `_requirement.json`
+2. Advisor 플랜 도착 시 사용자에게 포워딩
+3. 평가 보고서 출력 + 승인/거절/피드백 수집 → `_user_decision.json`
+
+---
 
 ### 3.1 Orchestrator
 
@@ -288,6 +351,11 @@
 | `<id>_report.json` | Bus | Reporter | 최종 보고 요약 |
 | `<id>_permission_request.json` | Execution → Advisor | Execution | 권한 요청 |
 | `<id>_granted_permissions.json` | Advisor → Execution | Advisor | 승인된 권한 목록 |
+| `<id>_requirement.json` | UserInterface → Advisor | UserInterface | 구조화된 사용자 요구사항 (**v1.2**) |
+| `<id>_advisor_plan.json` | Advisor → Execution | Advisor | 플랜 + 에이전트별 지시 (**v1.2**) |
+| `<id>_evaluation.json` | Advisor → User | Advisor | 10항목 평가 보고서 (**v1.2**) |
+| `<id>_user_decision.json` | User → Advisor | UserInterface | 승인/거절/피드백 (**v1.2**) |
+| `<id>_learning.json` | Advisor 내부 | Advisor | 자기개선 메모 (**v1.2**) |
 
 **Python 유틸리티**:
 - `AgentBus` 클래스: `.scripts/agent_bus.py`
@@ -456,7 +524,15 @@ Workspace/
 │   │   ├── <task_id>_advice.json
 │   │   ├── <task_id>_report.json
 │   │   ├── <task_id>_permission_request.json
-│   │   └── <task_id>_granted_permissions.json
+│   │   ├── <task_id>_granted_permissions.json
+│   │   ├── <task_id>_requirement.json      # v1.2
+│   │   ├── <task_id>_advisor_plan.json     # v1.2
+│   │   ├── <task_id>_evaluation.json       # v1.2
+│   │   ├── <task_id>_user_decision.json    # v1.2
+│   │   └── <task_id>_learning.json         # v1.2
+│   ├── advisor/
+│   │   └── learnings/               # Advisor 자기개선 메모 (v1.2)
+│   │       └── {YYYYMMDD}_{task_id}.json
 │   ├── orchestrator/                # Orchestrator 실행 로그
 │   ├── daily_scrap/                 # Daily Scrap 에이전트 로그
 │   └── classify/                    # Classify 에이전트 로그
@@ -464,7 +540,8 @@ Workspace/
 ├── .scripts/
 │   ├── agent_bus.py                 # Bus R/W 유틸리티 (AgentBus)
 │   ├── permission_bus.py            # 권한 버스 유틸리티 (PermissionBus)
-│   ├── orchestrator.py              # 메인 진입점 CLI
+│   ├── orchestrator.py              # 메인 진입점 CLI (--full-pipeline 추가)
+│   ├── retrospective.py             # 주간 회고 스크립트 (v1.2)
 │   ├── agent_log.py                 # AgentLog 유틸리티
 │   └── classify.py                  # 대화 분류 스크립트
 │
@@ -481,9 +558,10 @@ Workspace/
         ├── ecosystem_design.md      # 아키텍처 overview (빠른 참조)
         ├── allowed_permissions.json # 권한 레지스트리
         ├── agents/
+        │   ├── role_rules__user_interface.md  # v1.2 신규
         │   ├── role_rules__execution.md
         │   ├── role_rules__validation.md
-        │   ├── role_rules__advisor.md
+        │   ├── role_rules__advisor.md         # v1.2 PM 역할 격상
         │   ├── role_rules__reporter.md
         │   └── domains/
         │       ├── role_rules__nova_helper.md
@@ -491,7 +569,9 @@ Workspace/
         │       ├── role_rules__pkb_worklog.md
         │       └── role_rules__sv.md
         └── protocol/
-            └── task_manifest_schema.md
+            ├── task_manifest_schema.md
+            ├── evaluation_schema.md           # v1.2 신규
+            └── advisor_plan_schema.md         # v1.2 신규
 ```
 
 ---
@@ -592,6 +672,7 @@ python .status/monitor.py
 |---|---|---|
 | 1.0 | 2026-04-11 | 최초 작성: 4에이전트 생태계 + 6도메인 설계 |
 | 1.1 | 2026-04-11 | 권한 위임 시스템 추가, 병렬 실행 정책 추가, Slack 에스컬레이션 알림 추가 |
+| 1.2 | 2026-04-12 | User Interface Agent 추가, Advisor PM 격상(6단계 라이프사이클), 10항목 평가 보고서, 사용자 승인 게이트, Advisor 자기개선 루프, 주간 회고 스크립트, 새 BusFile 타입 5종 추가, orchestrator.py --full-pipeline 플래그 |
 
 ---
 

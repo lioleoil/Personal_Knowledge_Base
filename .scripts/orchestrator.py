@@ -34,11 +34,13 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from typing import Optional
 
 PROJECT_ROOT = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 )
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '.scripts'))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '.status'))
 
 # .env 자동 로드 (nova_helper/.env 우선, 루트 .env 차선)
 def _load_dotenv():
@@ -61,6 +63,7 @@ _load_dotenv()
 from agent_bus import AgentBus, BusFile
 from agent_log import AgentLog
 from permission_bus import PermissionBus
+import show_tokens as _show_tokens
 
 _PERM_BUS = PermissionBus()
 
@@ -77,6 +80,23 @@ def check_permission(perm_type: str, task_id: str = 'orchestrator', context: str
 # ── 상수 ──────────────────────────────────────────────────────────
 TOKEN_USAGE_PATH = os.path.join(PROJECT_ROOT, '.status', 'token_usage.json')
 TOKEN_PARALLEL_THRESHOLD = 10_000
+
+# ── 모델 설정 로드 ─────────────────────────────────────────────────
+_MODEL_CONFIG_PATH = os.path.join(PROJECT_ROOT, '.scripts', 'model_config.json')
+
+def _load_model_config() -> dict:
+    try:
+        with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+_MODEL_CONFIG = _load_model_config()
+
+def get_domain_preset(domain: str) -> dict:
+    """도메인에 맞는 모델 프리셋 반환. 매핑 없으면 default."""
+    preset_name = _MODEL_CONFIG.get('domain_presets', {}).get(domain, 'default')
+    return _MODEL_CONFIG.get('presets', {}).get(preset_name, {})
 
 # 에스컬레이션 한도 (플랜 설계 기준)
 MAX_EXECUTION_RETRIES = 5
@@ -104,21 +124,12 @@ _MODEL_CONFIG_PATH = os.path.join(
     PROJECT_ROOT, 'global', '04_AgentEcosystem', 'model_config.json'
 )
 
-# ── 외부 설정 파일 로드 ──────────────────────────────────────────────
 def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
-    """model_config.json 로드. 실패 시 하드코딩 기본값 반환.
-    반환: (AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
-           MODEL_COSTS, DOMAIN_PRESETS, PRESETS)
-    """
     try:
         with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
             cfg = json.load(f)
         agents_cfg = cfg.get('agents', {})
-
-        agent_models = {
-            role: v['model']
-            for role, v in agents_cfg.items() if 'model' in v
-        }
+        agent_models = {role: v['model'] for role, v in agents_cfg.items() if 'model' in v}
         agent_providers = {
             role: v.get('provider', _AGENT_PROVIDERS_DEFAULT.get(role, 'anthropic'))
             for role, v in agents_cfg.items()
@@ -127,32 +138,23 @@ def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
             role: {k: v[k] for k in ('temperature', 'max_tokens') if k in v}
             for role, v in agents_cfg.items()
         }
-        costs          = {k: v for k, v in cfg.get('model_costs', {}).items()
-                          if not k.startswith('_')}
-        domain_presets = {k: v for k, v in cfg.get('domain_presets', {}).items()
-                          if not k.startswith('_')}
-        presets        = {k: v for k, v in cfg.get('_presets', {}).items()
-                          if not k.startswith('_')}
+        costs          = {k: v for k, v in cfg.get('model_costs', {}).items() if not k.startswith('_')}
+        domain_presets = {k: v for k, v in cfg.get('domain_presets', {}).items() if not k.startswith('_')}
+        presets        = {k: v for k, v in cfg.get('_presets', {}).items() if not k.startswith('_')}
         return (
-            {**_AGENT_MODELS_DEFAULT,    **agent_models},
+            {**_AGENT_MODELS_DEFAULT, **agent_models},
             {**_AGENT_PROVIDERS_DEFAULT, **agent_providers},
-            agent_params,
-            costs,
-            domain_presets,
-            presets,
+            agent_params, costs, domain_presets, presets,
         )
     except Exception:
-        return (_AGENT_MODELS_DEFAULT.copy(), _AGENT_PROVIDERS_DEFAULT.copy(),
-                {}, {}, {}, {})
+        return (_AGENT_MODELS_DEFAULT.copy(), _AGENT_PROVIDERS_DEFAULT.copy(), {}, {}, {}, {})
 
 (AGENT_MODELS, AGENT_PROVIDERS, AGENT_PARAMS,
  MODEL_COSTS, DOMAIN_PRESETS, PRESETS) = _load_model_config()
 
 
 def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
-    """domain + role → (model, provider, params).
-    도메인 프리셋이 있으면 프리셋 설정 우선, 없으면 agents 기본값 사용.
-    """
+    """domain + role → (model, provider, params)."""
     preset_name = DOMAIN_PRESETS.get(domain, 'default')
     if preset_name != 'default' and preset_name in PRESETS:
         role_cfg = PRESETS[preset_name].get(role, {})
@@ -164,6 +166,33 @@ def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
         provider = AGENT_PROVIDERS.get(role, 'anthropic')
         params   = AGENT_PARAMS.get(role, {})
     return model, provider, params
+
+
+# ── auto-domain 키워드 라우팅 ──────────────────────────────────────────
+DOMAIN_KEYWORDS: dict[str, list[str]] = {
+    'nova_helper':        ['nova', 'slack', 'bolt', 'bot', '봇'],
+    'nova_log_analytics': ['로그', 'log', '이상탐지', 'anomaly', 'pipeline', '파이프라인', 'analytics', '분석'],
+    'pkb_worklog':        ['worklog', '대화', '분류', 'pkb', '정리', 'knowledge', '로그분류', '워크로그'],
+    'sv_dqat':            ['dqat', '어노테이션', 'annotation', 'labelit', 'quality', 'qa', '품질'],
+    'sv_lakehouse':       ['lakehouse', 'lake', 'sv_lakehouse', 'warehouse'],
+    'daily_scrap':        ['스크랩', 'scrap', 'geeknews', '뉴스', 'news', 'daily'],
+}
+
+def detect_domain(task: str) -> str:
+    """태스크 설명에서 키워드 매칭으로 도메인 자동 판단. 매칭 없으면 pkb_worklog."""
+    task_lower = task.lower()
+    scores: dict[str, int] = {}
+    for domain, keywords in DOMAIN_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in task_lower)
+        if score:
+            scores[domain] = score
+    if scores:
+        best = max(scores, key=lambda d: scores[d])
+        print(f'[auto-domain] "{best}" 선택 (점수: {scores})')
+        return best
+    print('[auto-domain] 매칭 없음 → pkb_worklog 기본값 사용')
+    return 'pkb_worklog'
+
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -455,6 +484,47 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         return False, ''
 
 
+def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
+                        model: str = 'claude-sonnet-4-6',
+                        temperature: float = 0.3,
+                        max_tokens: int = 8192) -> tuple[bool, str, int, int]:
+    """Anthropic SDK로 에이전트 실행.
+    반환: (성공 여부, 응답 텍스트, input_tokens, output_tokens)
+    SDK 불가 시 run_claude_agent() CLI fallback — token 수는 0, 0 반환.
+    """
+    try:
+        import anthropic as _anthropic
+    except ImportError:
+        log.add(f'[{label}] anthropic SDK 없음 — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+    api_key = os.environ.get('CLAUDE_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
+    if not api_key:
+        log.add(f'[{label}] API 키 없음 — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+    log.add(f'[{label}] SDK 실행 (model={model}, temp={temperature})')
+    try:
+        client = _anthropic.Anthropic(api_key=api_key)
+        message = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            messages=[{'role': 'user', 'content': prompt}],
+        )
+        text = message.content[0].text if message.content else ''
+        in_tok = message.usage.input_tokens
+        out_tok = message.usage.output_tokens
+        log.add(f'[{label}] 완료 ({in_tok:,}in / {out_tok:,}out tokens)')
+        return True, text, in_tok, out_tok
+    except Exception as e:
+        log.add(f'[{label}] SDK 오류: {e} — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+
 def run_openai_agent(prompt: str, label: str, log: AgentLog,
                      model: str = 'gpt-4.1', timeout: int = 600,
                      params: dict | None = None) -> tuple[bool, str]:
@@ -510,10 +580,7 @@ def run_openai_agent(prompt: str, label: str, log: AgentLog,
 
         log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
                 f'토큰 in={usage_in} out={usage_out})')
-
-        # 비용 추적
         _track_openai_usage(model, usage_in, usage_out, label)
-
         return True, result
     except Exception as e:
         log.add(f'[{label}] 오류: {e}')
@@ -533,7 +600,34 @@ def _track_openai_usage(model: str, input_tokens: int, output_tokens: int,
             mod.track_usage(model, input_tokens, output_tokens, task_name,
                             model_costs=MODEL_COSTS)
     except Exception:
-        pass  # 추적 실패는 비중단
+        pass
+
+
+def _is_openai_model(model: str) -> bool:
+    """모델 이름으로 OpenAI 라우팅 여부 판별."""
+    return model.startswith(('codex-', 'gpt-', 'o1', 'o3', 'o4'))
+
+
+def _run_agent(prompt: str, label: str, log: AgentLog,
+               model: str = 'claude-sonnet-4-6',
+               temperature: float = 0.3,
+               max_tokens: int = 8192) -> tuple[bool, str]:
+    """모델명에 따라 Anthropic SDK / OpenAI API / CLI fallback 라우팅.
+    full-pipeline 전용. run_auto는 run_agent() 사용.
+    반환: (성공 여부, 응답 텍스트)
+    """
+    if _is_openai_model(model):
+        return run_openai_agent(prompt, label, log,
+                                model=model, params={'max_tokens': max_tokens})
+
+    ok, stdout, in_tok, out_tok = run_anthropic_agent(
+        prompt, label, log, model=model,
+        temperature=temperature, max_tokens=max_tokens,
+    )
+    if in_tok + out_tok > 0:
+        _show_tokens.add_agent_tokens(in_tok, out_tok,
+                                      task_name=label, model=model)
+    return ok, stdout
 
 
 def wait_for_bus_file(bus: AgentBus, file_type: BusFile,
@@ -564,7 +658,6 @@ def dry_run(task: str, domain: str):
         temp = params.get('temperature', '-')
         mtok = params.get('max_tokens', '-')
         rate = MODEL_COSTS.get(model, {})
-        # 역할별 평균 토큰 추정 (태스크 1회 기준)
         tok_est = {'execution': (4000, 1500), 'validation': (3000, 500),
                    'advisor': (3000, 800), 'reporter': (2000, 1000)}
         freq    = 0.3 if role == 'advisor' else 1.0
@@ -652,6 +745,20 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     exec_retries   = 0
     advisor_calls  = 0
     bus: AgentBus | None = None
+
+    # 도메인 프리셋 로드
+    preset = get_domain_preset(domain)
+    exec_model   = preset.get('execution_model',   'claude-sonnet-4-6')
+    val_model    = preset.get('validation_model',  'claude-sonnet-4-6')
+    adv_model    = preset.get('advisor_model',     'claude-sonnet-4-6')
+    rep_model    = preset.get('reporter_model',    'claude-sonnet-4-6')
+    temp_exec    = preset.get('temperature_execution', 0.3)
+    temp_adv     = preset.get('temperature_advisor',   0.2)
+    max_tok_exec = preset.get('max_tokens_execution',  8192)
+    max_tok_val  = preset.get('max_tokens_validation', 4096)
+    max_tok_adv  = preset.get('max_tokens_advisor',    4096)
+    max_tok_rep  = preset.get('max_tokens_reporter',   8192)
+    log.add(f'프리셋: exec={exec_model} adv={adv_model}')
 
     # ── 1. Execution 루프 ────────────────────────────────────────
     while exec_retries <= MAX_EXECUTION_RETRIES:
@@ -930,6 +1037,293 @@ def run_parallel(task_domain_pairs: list[tuple[str, str]],
     print('='*60)
     log.done(f'병렬 완료: {len(results)}개 도메인')
 
+# ── Full Pipeline (User Interface → Advisor → Eval → 승인 게이트) ──
+
+def make_user_interface_prompt(task: str, domain: str, task_id: str) -> str:
+    return (
+        f'당신은 User Interface Agent입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__user_interface.md")}\n\n'
+        f'Task ID: {task_id}\nDomain: {domain}\n\n'
+        f'사용자 요청: {task}\n\n'
+        f'수행 순서:\n'
+        f'1. 요청을 구조화하여 AgentBus.write_requirement()로 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'2. 에이전트 내부 소통은 터미널 출력 금지 — 로그만\n'
+        f'3. 완료 후 "REQUIREMENT_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_plan_prompt(task_id: str, domain: str, task: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
+        f'Plan Schema: {_abs("global/04_AgentEcosystem/protocol/advisor_plan_schema.md")}\n\n'
+        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n\n'
+        f'수행 순서 [Phase 1-2]:\n'
+        f'1. 로컬 컨텍스트 파악: global/01_Identity, 02_Profile, 03_Instructions 읽기\n'
+        f'2. .agents/advisor/learnings/ 이전 학습 파일 읽기 (mtime 내림차순 최신 10건만)\n'
+        f'3. advisor_plan_{task_id}.md 작성 → global/05_PM_Outputs/ 저장\n'
+        f'4. AgentBus.write_advisor_plan()으로 버스 파일 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'5. 완료 후 "ADVISOR_PLAN_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_evaluation_prompt(task_id: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
+        f'Evaluation Schema: {_abs("global/04_AgentEcosystem/protocol/evaluation_schema.md")}\n\n'
+        f'Task ID: {task_id}\n\n'
+        f'수행 순서 [Phase 4-5]:\n'
+        f'1. .agents/bus/{task_id}_manifest.json + _result.json + _validation.json 분석\n'
+        f'2. advisor_plan 파일이 있으면 플랜 대비 결과 비교\n'
+        f'3. 10항목 평가 (code_quality, agent_utilization, parallelization,\n'
+        f'   token_cost, retry_waste, comm_efficiency, completion_rate,\n'
+        f'   duration, issue_resolution, autonomy)\n'
+        f'4. AgentBus.write_evaluation()으로 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'5. 완료 후 "EVALUATION_DONE:{task_id}:{{total_score}}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def make_advisor_learning_prompt(task_id: str) -> str:
+    return (
+        f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
+        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n\n'
+        f'Task ID: {task_id}\n\n'
+        f'수행 순서 [Phase 6 — 자기개선]:\n'
+        f'1. .agents/bus/{task_id}_evaluation.json 분석\n'
+        f'2. 낮은 점수 항목의 근본 원인 파악\n'
+        f'3. AgentBus.write_learning()으로 patterns 저장\n'
+        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
+        f'4. {os.path.join(PROJECT_ROOT, ".agents", "advisor", "learnings")}/를 생성하고\n'
+        f'   학습 파일을 {{YYYYMMDD}}_{task_id}.json으로 복사 저장\n'
+        f'5. 완료 후 "LEARNING_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
+        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+    )
+
+
+def git_commit_and_pr(task_id: str, task_summary: str, branch_name: str,
+                      log: AgentLog) -> str | None:
+    """평가 승인 후 git commit + PR 생성. PR URL 반환."""
+    import subprocess as _sp
+
+    def _run(cmd: list[str]) -> tuple[int, str]:
+        r = _sp.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
+        return r.returncode, (r.stdout + r.stderr).strip()
+
+    # feat/{task_id} 브랜치 생성 (없으면 신규, 있으면 체크아웃)
+    rc, _ = _run(['git', 'checkout', '-b', branch_name])
+    if rc != 0:
+        rc, out = _run(['git', 'checkout', branch_name])
+        if rc != 0:
+            log.add(f'브랜치 체크아웃 실패: {out}')
+            return None
+    log.add(f'브랜치 전환: {branch_name}')
+
+    # git add (버스 파일 제외, 주요 변경 파일만)
+    rc, out = _run(['git', 'add', '-A', '--', ':(exclude).agents/bus/*'])
+    log.add(f'git add: rc={rc}')
+
+    # git commit
+    commit_msg = f'feat({task_id}): {task_summary[:60]}'
+    rc, out = _run(['git', 'commit', '-m', commit_msg])
+    if rc != 0:
+        log.add(f'git commit 실패: {out}')
+        return None
+    log.add(f'git commit 완료: {commit_msg}')
+
+    # git push
+    rc, out = _run(['git', 'push', '-u', 'origin', branch_name])
+    if rc != 0:
+        log.add(f'git push 실패: {out}')
+        return None
+    log.add('git push 완료')
+
+    # gh pr create
+    rc, out = _run([
+        'gh', 'pr', 'create',
+        '--title', commit_msg,
+        '--body', f'Task ID: {task_id}\n\nAuto-generated by Orchestrator full pipeline.',
+        '--head', branch_name,
+    ])
+    if rc != 0:
+        log.add(f'gh pr create 실패: {out}')
+        return None
+
+    pr_url = out.strip().split()[-1]
+    log.add(f'PR 생성: {pr_url}')
+    return pr_url
+
+
+def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
+    """
+    User Interface → Advisor Plan → Execution·Validation 루프 →
+    Advisor 평가 → 사용자 승인 게이트 → commit/PR
+    """
+    preset = get_domain_preset(domain)
+    adv_model    = preset.get('advisor_model',   'claude-opus-4-6')
+    temp_adv     = preset.get('temperature_advisor', 0.2)
+    max_tok_adv  = preset.get('max_tokens_advisor',  4096)
+    ui_cfg       = _MODEL_CONFIG.get('agents', {}).get('user_interface', {})
+    ui_model     = ui_cfg.get('model', 'claude-haiku-4-5-20251001')
+    ui_temp      = ui_cfg.get('temperature', 0.3)
+    ui_max_tok   = ui_cfg.get('max_tokens', 1024)
+
+    bus = AgentBus()
+    task_id = bus.task_id
+    log.add(f'Full Pipeline 시작: task_id={task_id}')
+
+    # ── Step 1: User Interface — requirement 구조화 ────────────────
+    log.update(progress=5, message='User Interface: 요구사항 구조화')
+    ui_prompt = make_user_interface_prompt(task, domain, task_id)
+    _run_agent(ui_prompt, 'UserInterface', log,
+               model=ui_model, temperature=ui_temp, max_tokens=ui_max_tok)
+
+    req = bus.read(BusFile.REQUIREMENT)
+    if req is None:
+        # fallback: 기본 requirement 작성
+        bus.write_requirement(
+            raw_request=task,
+            structured={'goal': task, 'domain': domain,
+                        'constraints': [], 'expected_outputs': []},
+        )
+        req = bus.read(BusFile.REQUIREMENT)
+
+    # ── Step 2: Advisor — 컨텍스트 파악 + 플랜 수립 ───────────────
+    log.update(progress=10, message='Advisor: 플랜 수립 중')
+    plan_prompt = make_advisor_plan_prompt(task_id, domain, task)
+    _run_agent(plan_prompt, 'AdvisorPlan', log,
+               model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+
+    advisor_plan = bus.read(BusFile.ADVISOR_PLAN)
+    if advisor_plan:
+        plan_path = advisor_plan.get('plan_md_path', '')
+        print(f'\n[Advisor 플랜] {plan_path}')
+
+    # ── Step 3: Execution ↔ Validation 루프 (기존 run_auto 재사용) ─
+    log.update(progress=20, message='Execution 루프 시작')
+    run_auto(task, domain, no_confirm=True, log=log)
+
+    # 루프 종료 후 verdict 확인
+    validation = bus.read(BusFile.VALIDATION)
+    verdict = validation.get('verdict', 'FAIL') if validation else 'FAIL'
+    log.add(f'Execution 루프 완료: verdict={verdict}')
+
+    if verdict != 'PASS':
+        log.error(f'파이프라인 종료 (verdict={verdict}) — 승인 게이트 도달 불가')
+        return
+
+    # ── Step 4: Advisor — 결과 리뷰 + 10항목 평가 ─────────────────
+    log.update(progress=80, message='Advisor: 결과 평가 중')
+    eval_prompt = make_advisor_evaluation_prompt(task_id)
+    _run_agent(eval_prompt, 'AdvisorEval', log,
+               model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+
+    evaluation = bus.read(BusFile.EVALUATION)
+    if evaluation is None:
+        log.add('evaluation.json 없음 — 평가 생략')
+        evaluation = {'total_score': 0, 'grade': '?', 'commit_ready': False,
+                      'summary': '평가 미완료', 'improvement_items': []}
+
+    # ── Step 5: 사용자 승인 게이트 ────────────────────────────────
+    _print_evaluation(task_id, evaluation)
+
+    while True:
+        decision = input('\napprove / reject / feedback 중 선택: ').strip().lower()
+        if decision in ('approve', 'a'):
+            bus.write_user_decision('approve')
+            log.add('사용자 승인: approve')
+            break
+        elif decision in ('reject', 'r'):
+            bus.write_user_decision('reject')
+            log.add('사용자 거절: reject')
+            print('거절됨. 파이프라인 종료.')
+
+            # Phase 6: 자기개선
+            _run_advisor_learning(task_id, adv_model, temp_adv, max_tok_adv, log)
+            return
+        else:
+            # feedback → Execution 재시도
+            bus.write_user_decision('feedback', feedback=decision)
+            log.add(f'피드백: {decision}')
+            print('피드백 반영 — Execution 재실행 중...')
+            run_auto(task + f'\n[추가 피드백] {decision}',
+                     domain, no_confirm=True, log=log)
+
+            # 재평가
+            eval_prompt2 = make_advisor_evaluation_prompt(task_id)
+            _run_agent(eval_prompt2, 'AdvisorEval#2', log,
+                       model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+            evaluation = bus.read(BusFile.EVALUATION) or evaluation
+            _print_evaluation(task_id, evaluation)
+
+    # ── Step 6: commit + PR ────────────────────────────────────────
+    branch_name = f'feat/{task_id}'
+
+    pr_url = git_commit_and_pr(task_id, task, branch_name, log)
+    if pr_url:
+        print(f'\nPR 생성 완료: {pr_url}')
+    else:
+        print('\ngit commit/PR 실패 — 로그 확인: .agents/')
+
+    # Phase 6: 자기개선
+    _run_advisor_learning(task_id, adv_model, temp_adv, max_tok_adv, log)
+    log.done('Full Pipeline 완료')
+
+
+def _print_evaluation(task_id: str, evaluation: dict):
+    """평가 보고서를 터미널에 출력."""
+    scores = evaluation.get('scores', {})
+    print(f'\n{"="*60}')
+    print(f'=== 에이전트 평가 보고서 (Task: {task_id}) ===')
+    print(f'총점: {evaluation.get("total_score", "?")}/100  등급: {evaluation.get("grade", "?")}')
+    print()
+
+    groups = [
+        ('[효율성]', ['code_quality', 'agent_utilization', 'parallelization']),
+        ('[경제성]', ['token_cost', 'retry_waste', 'comm_efficiency']),
+        ('[생산성]', ['completion_rate', 'duration', 'issue_resolution', 'autonomy']),
+    ]
+    labels = {
+        'code_quality': '코드 품질', 'agent_utilization': '에이전트 활용',
+        'parallelization': '병렬화 효율', 'token_cost': '토큰 비용',
+        'retry_waste': '재시도 낭비', 'comm_efficiency': '소통 효율',
+        'completion_rate': '태스크 완결률', 'duration': '소요 시간',
+        'issue_resolution': '이슈 해결', 'autonomy': '자율성',
+    }
+    for group_name, keys in groups:
+        print(group_name)
+        for k in keys:
+            item = scores.get(k, {})
+            s = item.get('score', '-')
+            ev = item.get('evidence', '')
+            print(f'  {labels.get(k, k):<12}: {s}/10 — {ev}')
+        print()
+
+    print(f'요약: {evaluation.get("summary", "-")}')
+    impr = evaluation.get('improvement_items', [])
+    if impr:
+        print(f'개선 항목: {", ".join(impr)}')
+    print(f'커밋 준비: {"O" if evaluation.get("commit_ready") else "X"}')
+    print('='*60)
+
+
+def _run_advisor_learning(task_id: str, model: str, temperature: float,
+                          max_tokens: int, log: AgentLog):
+    """Phase 6 자기개선 실행."""
+    os.makedirs(os.path.join(PROJECT_ROOT, '.agents', 'advisor', 'learnings'),
+                exist_ok=True)
+    learn_prompt = make_advisor_learning_prompt(task_id)
+    _run_agent(learn_prompt, 'AdvisorLearning', log,
+               model=model, temperature=temperature, max_tokens=max_tokens)
+    log.add('Phase 6 자기개선 완료')
+
+
 # ── 메인 ──────────────────────────────────────────────────────────
 
 def main():
@@ -947,12 +1341,16 @@ def main():
     parser.add_argument('--parallel',   action='store_true',
                         help='--tasks와 함께 사용: 병렬 실행 (기본: 순차)')
     # 공통 옵션
-    parser.add_argument('--dry-run',    action='store_true', help='Manifest+프롬프트 미리보기')
-    parser.add_argument('--auto',       action='store_true', help='SDK/API 자동 실행 모드')
-    parser.add_argument('--no-confirm', action='store_true', help='--auto 실행 전 확인 생략')
-    parser.add_argument('--list',       action='store_true', help='bus 작업 목록 조회')
-    parser.add_argument('--compare',    action='store_true',
+    parser.add_argument('--dry-run',       action='store_true', help='Manifest+프롬프트 미리보기')
+    parser.add_argument('--auto',          action='store_true', help='SDK/API 자동 실행 모드')
+    parser.add_argument('--no-confirm',    action='store_true', help='--auto 실행 전 확인 생략')
+    parser.add_argument('--list',          action='store_true', help='bus 작업 목록 조회')
+    parser.add_argument('--compare',       action='store_true',
                         help='전체 도메인 모델 배정·비용 비교표 출력')
+    parser.add_argument('--full-pipeline', action='store_true',
+                        help='UserInterface→Advisor→Eval→승인 게이트→commit/PR 전체 플로우')
+    parser.add_argument('--auto-domain',   action='store_true',
+                        help='도메인 자동 판단 (태스크 키워드 기반). --domain 지정 불필요')
     args = parser.parse_args()
 
     if args.list:
@@ -1021,6 +1419,10 @@ def main():
         parser.print_help()
         return
 
+    # --auto-domain: 키워드 기반 도메인 자동 판단
+    if args.auto_domain:
+        args.domain = detect_domain(args.task)
+
     # ── 단일 도메인 ────────────────────────────────────────────────
 
     # 토큰 예산 표시
@@ -1033,6 +1435,23 @@ def main():
 
     if args.dry_run:
         dry_run(args.task, args.domain)
+        return
+
+    if args.full_pipeline:
+        log = AgentLog(
+            agent_id=f'Orchestrator_Full_{datetime.now().strftime("%Y-%m-%d_%H%M%S")}',
+            title=f'Full Pipeline — {args.domain}',
+            agent_type='orchestrator',
+        )
+        log.add(f'Full Pipeline 시작: {args.task}')
+        try:
+            run_full_pipeline(args.task, args.domain, args.no_confirm, log)
+        except KeyboardInterrupt:
+            log.error('사용자 중단 (Ctrl+C)')
+            print('\n중단됨.')
+        except Exception as e:
+            log.error(f'Full Pipeline 오류: {e}')
+            raise
         return
 
     if args.auto:

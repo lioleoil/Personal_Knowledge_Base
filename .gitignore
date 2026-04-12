@@ -32,6 +32,11 @@ venv/
 dist/
 build/
 
+# Agent runtime data
+.agents/jira_chrome_profile/
+.agents/bus/
+.agents/orchestrator/
+
 # OS
 .DS_Store
 Thumbs.db

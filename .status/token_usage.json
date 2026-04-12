@@ -1,284 +1,81 @@
 {
-  "date": "2026-04-12 04:00",
-  "used": 192022,
+  "date": "2026-04-12 20:00",
+  "used": 86148,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
     {
       "task": "자동 추적",
-      "tokens": 1139,
-      "time": "05:28:41"
+      "tokens": 18769,
+      "time": "20:02:37"
     },
     {
       "task": "자동 추적",
-      "tokens": 3164,
-      "time": "05:29:59"
+      "tokens": 3138,
+      "time": "20:04:21"
     },
     {
       "task": "자동 추적",
-      "tokens": 2568,
-      "time": "06:00:42"
+      "tokens": 810,
+      "time": "20:04:34"
     },
     {
       "task": "자동 추적",
-      "tokens": 22750,
-      "time": "06:12:09"
+      "tokens": 16916,
+      "time": "20:08:15"
     },
     {
       "task": "자동 추적",
-      "tokens": 3300,
-      "time": "06:14:13"
+      "tokens": 10334,
+      "time": "20:12:56"
     },
     {
       "task": "자동 추적",
-      "tokens": 1606,
-      "time": "06:16:21"
+      "tokens": 4213,
+      "time": "20:18:54"
     },
     {
       "task": "자동 추적",
-      "tokens": 3708,
-      "time": "06:18:27"
+      "tokens": 3432,
+      "time": "20:21:45"
     },
     {
       "task": "자동 추적",
-      "tokens": 3387,
-      "time": "06:20:49"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 1970,
-      "time": "06:26:43"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 28469,
-      "time": "06:31:16"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 196,
-      "time": "06:31:20"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3280,
-      "time": "06:31:40"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 134,
-      "time": "06:31:43"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 5264,
-      "time": "06:32:26"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 6927,
-      "time": "06:34:43"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 5395,
-      "time": "06:36:53"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 2055,
-      "time": "06:37:10"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 318,
-      "time": "06:37:15"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 2628,
-      "time": "06:38:31"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 2727,
-      "time": "06:38:51"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 4055,
-      "time": "06:40:30"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 182,
-      "time": "06:40:34"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 5947,
-      "time": "06:41:25"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 204,
-      "time": "06:41:29"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3569,
-      "time": "06:42:56"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 166,
-      "time": "06:43:26"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 642,
-      "time": "06:43:44"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 626,
-      "time": "06:46:45"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 8855,
-      "time": "06:47:39"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 2574,
-      "time": "06:48:36"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 260,
-      "time": "06:49:35"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3289,
-      "time": "06:50:37"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 7088,
-      "time": "06:54:38"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 288,
-      "time": "06:57:45"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 5716,
-      "time": "06:59:17"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 864,
-      "time": "07:00:09"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 780,
-      "time": "07:00:19"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 136,
-      "time": "07:00:22"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 117,
-      "time": "07:00:28"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 10890,
-      "time": "07:01:41"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3017,
-      "time": "07:01:59"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 15725,
-      "time": "07:03:51"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 171,
-      "time": "07:04:26"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 118,
-      "time": "07:04:29"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3640,
-      "time": "07:05:10"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 179,
-      "time": "07:06:37"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 108,
-      "time": "07:06:40"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3464,
-      "time": "07:07:31"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 175,
-      "time": "07:08:52"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 4588,
-      "time": "07:09:27"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 415,
-      "time": "07:10:21"
-    },
-    {
-      "task": "자동 추적",
-      "tokens": 3189,
-      "time": "07:11:18"
+      "tokens": 28536,
+      "time": "20:28:36"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl": 192022
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\14a4ea62-eb3c-4bb8-a64f-6f8ec7bdfcbc.jsonl": 85338,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\75bf4607-3fcb-471d-945d-08a796c9d3ff.jsonl": 810
   },
   "week_start": "2026-04-06",
-  "weekly_used": 432113,
+  "weekly_used": 1150596,
   "weekly_limit": 855485,
   "hourly_buckets": [
     {
       "hour": "2026-04-11 16:00",
-      "tokens": 239202
+      "tokens": 239052
     },
     {
       "hour": "2026-04-12 04:00",
-      "tokens": 192022
+      "tokens": 335579
+    },
+    {
+      "hour": "2026-04-12 08:00",
+      "tokens": 367355
+    },
+    {
+      "hour": "2026-04-12 12:00",
+      "tokens": 61881
+    },
+    {
+      "hour": "2026-04-12 16:00",
+      "tokens": 59692
+    },
+    {
+      "hour": "2026-04-12 20:00",
+      "tokens": 86148
     }
   ]
 }

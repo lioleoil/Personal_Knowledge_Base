@@ -1,0 +1,21 @@
+{
+  "date": "2026-04-12",
+  "count": 3,
+  "articles": [
+    {
+      "title": "Google AI Edge Gallery - 완전 오프라인 LLM 갤러리 앱 오픈소스",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=28242"
+    },
+    {
+      "title": "프랑스, 미국 기술 의존 줄이기 위해 Windows 대신 Linux로 전환",
+      "topic": "개발/오픈소스",
+      "url": "https://news.hada.io/topic?id=28403"
+    },
+    {
+      "title": "Anthropic의 최강 보안 AI \"Claude Mythos\", 일반 공개 대신 선택된 파트너에게만 제한 배포",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=28293"
+    }
+  ]
+}
