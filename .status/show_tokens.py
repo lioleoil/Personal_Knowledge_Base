@@ -108,6 +108,57 @@ def add_session(tokens, task_name):
     return data
 
 
+def _update_hourly_bucket(data: dict, tokens: int, source: str = 'cli') -> None:
+    """4시간 단위 버킷에 토큰 수를 집계. 최근 42개(7일치) 유지.
+    source='agent_sdk' 이면 버킷의 sdk_tokens 필드에도 추가 집계.
+    """
+    now = datetime.now()
+    bucket_h = (now.hour // 4) * 4
+    bucket_key = now.strftime(f'%Y-%m-%d {bucket_h:02d}:00')
+    buckets = data.setdefault('hourly_buckets', [])
+    for b in buckets:
+        if b['hour'] == bucket_key:
+            b['tokens'] += tokens
+            if source == 'agent_sdk':
+                b['sdk_tokens'] = b.get('sdk_tokens', 0) + tokens
+            return
+    new_b: dict = {'hour': bucket_key, 'tokens': tokens}
+    if source == 'agent_sdk':
+        new_b['sdk_tokens'] = tokens
+    buckets.append(new_b)
+    data['hourly_buckets'] = buckets[-42:]
+
+
+def add_agent_tokens(input_tokens: int, output_tokens: int,
+                     task_name: str, model: str = '') -> None:
+    """Anthropic SDK 에이전트 호출 토큰을 token_usage.json에 집계.
+    hourly_buckets까지 업데이트하여 monitor.py 그래프에 반영된다.
+    """
+    total = input_tokens + output_tokens
+    if total <= 0:
+        return
+    data = load()
+    data['used'] = data.get('used', 0) + total
+    data['weekly_used'] = data.get('weekly_used', 0) + total
+
+    session: dict = {
+        'task': task_name,
+        'tokens': total,
+        'time': datetime.now().strftime('%H:%M:%S'),
+        'source': 'agent_sdk',
+    }
+    if model:
+        session['model'] = model
+    if input_tokens:
+        session['input_tokens'] = input_tokens
+    if output_tokens:
+        session['output_tokens'] = output_tokens
+    data.setdefault('sessions', []).append(session)
+
+    _update_hourly_bucket(data, total, source='agent_sdk')
+    save(data)
+
+
 def bar(pct, width=40):
     filled = int(width * pct / 100)
     empty = width - filled

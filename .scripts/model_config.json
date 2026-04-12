@@ -1,5 +1,14 @@
 {
   "_comment": "도메인별 모델 프리셋. domain_presets 한 줄 수정으로 즉시 반영.",
+  "agents": {
+    "user_interface": {
+      "model": "claude-haiku-4-5-20251001",
+      "provider": "anthropic",
+      "temperature": 0.3,
+      "max_tokens": 1024,
+      "_comment": "사용자 대화 창구 — 경량 모델로 비용 최소화"
+    }
+  },
   "domain_presets": {
     "daily_scrap":        "cost_optimized",
     "pkb_worklog":        "cost_optimized",

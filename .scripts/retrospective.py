@@ -283,7 +283,7 @@ def main():
         log.done(f'회고 보고서 저장: {out_path}')
         print(f'\n저장 완료: {out_path}')
     else:
-        log.add('dry-run — 저장 생략')
+        log.done('dry-run 완료 — 저장 생략')
         print('\n[dry-run] 저장 생략')
 
     print('\n' + '='*60)

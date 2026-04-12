@@ -1,13 +1,19 @@
 """
 Agent Bus — 에이전트 간 통신 유틸리티
-Task Manifest / Result / Validation / Advice / Report JSON 파일 R/W
+Task Manifest / Result / Validation / Advice / Report / Requirement /
+Advisor Plan / Evaluation / User Decision / Learning JSON 파일 R/W
 
 버스 파일 위치: PROJECT_ROOT/.agents/bus/
-  <task_id>_manifest.json    Execution → Domain
-  <task_id>_result.json      Domain → Execution
-  <task_id>_validation.json  Validation Agent 판정
-  <task_id>_advice.json      Advisor Agent 솔루션
-  <task_id>_report.json      Reporter Agent 최종 요약
+  <task_id>_manifest.json      Execution → Domain
+  <task_id>_result.json        Domain → Execution
+  <task_id>_validation.json    Validation Agent 판정
+  <task_id>_advice.json        Advisor Agent 솔루션
+  <task_id>_report.json        Reporter Agent 최종 요약
+  <task_id>_requirement.json   UserInterface → Advisor (사용자 요구사항)
+  <task_id>_advisor_plan.json  Advisor → Execution (플랜 + 지시)
+  <task_id>_evaluation.json    Advisor → User (10항목 평가 보고서)
+  <task_id>_user_decision.json User → Advisor (승인/거절/피드백)
+  <task_id>_learning.json      Advisor 자기개선 메모
 
 사용 예:
   from agent_bus import AgentBus, BusFile
@@ -27,11 +33,16 @@ BUS_DIR = os.path.join(PROJECT_ROOT, '.agents', 'bus')
 
 
 class BusFile(str, Enum):
-    MANIFEST   = 'manifest'
-    RESULT     = 'result'
-    VALIDATION = 'validation'
-    ADVICE     = 'advice'
-    REPORT     = 'report'
+    MANIFEST      = 'manifest'
+    RESULT        = 'result'
+    VALIDATION    = 'validation'
+    ADVICE        = 'advice'
+    REPORT        = 'report'
+    REQUIREMENT   = 'requirement'    # UserInterface → Advisor
+    ADVISOR_PLAN  = 'advisor_plan'   # Advisor → Execution (플랜 + 지시)
+    EVALUATION    = 'evaluation'     # Advisor → User (10항목 평가 보고서)
+    USER_DECISION = 'user_decision'  # User → Advisor (승인/거절/피드백)
+    LEARNING      = 'learning'       # Advisor 자기개선 메모
 
 
 class AgentBus:
@@ -150,6 +161,83 @@ class AgentBus:
             'report_path': report_path,
         })
 
+    # ── Requirement (UserInterface → Advisor) ─────────────────────
+
+    def write_requirement(
+        self,
+        raw_request: str,
+        structured: dict,  # {goal, domain, constraints, expected_outputs}
+        source: str = 'user_interface',
+    ) -> str:
+        return self._write(BusFile.REQUIREMENT, {
+            'raw_request': raw_request,
+            'structured':  structured,
+            'source':      source,
+        })
+
+    # ── Advisor Plan (Advisor → Execution) ───────────────────────
+
+    def write_advisor_plan(
+        self,
+        plan_md_path: str,
+        context_summary: str,
+        agent_instructions: dict,  # {execution: '...', validation: '...', ...}
+        expected_outputs: list[str] | None = None,
+        quality_criteria: list[str] | None = None,
+    ) -> str:
+        return self._write(BusFile.ADVISOR_PLAN, {
+            'plan_md_path':       plan_md_path,
+            'context_summary':    context_summary,
+            'agent_instructions': agent_instructions,
+            'expected_outputs':   expected_outputs or [],
+            'quality_criteria':   quality_criteria or [],
+        })
+
+    # ── Evaluation (Advisor → User) ───────────────────────────────
+
+    def write_evaluation(
+        self,
+        scores: dict,      # {code_quality: {score, evidence, issues}, ...}
+        total_score: int,
+        summary: str,
+        improvement_items: list[str] | None = None,
+        commit_ready: bool = False,
+    ) -> str:
+        grade_map = [(90, 'S'), (80, 'A'), (70, 'B'), (60, 'C')]
+        grade = next((g for threshold, g in grade_map if total_score >= threshold), 'D')
+        return self._write(BusFile.EVALUATION, {
+            'scores':            scores,
+            'total_score':       total_score,
+            'grade':             grade,
+            'summary':           summary,
+            'improvement_items': improvement_items or [],
+            'commit_ready':      commit_ready,
+        })
+
+    # ── User Decision (User → Advisor) ────────────────────────────
+
+    def write_user_decision(
+        self,
+        decision: str,   # 'approve' | 'reject' | 'feedback'
+        feedback: str = '',
+    ) -> str:
+        return self._write(BusFile.USER_DECISION, {
+            'decision': decision,
+            'feedback': feedback,
+        })
+
+    # ── Learning (Advisor 자기개선) ───────────────────────────────
+
+    def write_learning(
+        self,
+        patterns: list[dict],   # [{category, observation, recommendation}]
+        source_task_ids: list[str] | None = None,
+    ) -> str:
+        return self._write(BusFile.LEARNING, {
+            'patterns':        patterns,
+            'source_task_ids': source_task_ids or [self.task_id],
+        })
+
     # ── 조회 헬퍼 ─────────────────────────────────────────────────
 
     @classmethod
@@ -174,16 +262,21 @@ class AgentBus:
     def get_task_status(cls, task_id: str) -> dict:
         """주어진 task_id의 현재 상태를 요약 반환."""
         bus = cls(task_id)
-        manifest   = bus.read(BusFile.MANIFEST)
-        result     = bus.read(BusFile.RESULT)
-        validation = bus.read(BusFile.VALIDATION)
-        advice     = bus.read(BusFile.ADVICE)
-        report     = bus.read(BusFile.REPORT)
+        manifest     = bus.read(BusFile.MANIFEST)
+        result       = bus.read(BusFile.RESULT)
+        validation   = bus.read(BusFile.VALIDATION)
+        advice       = bus.read(BusFile.ADVICE)
+        report       = bus.read(BusFile.REPORT)
+        evaluation   = bus.read(BusFile.EVALUATION)
+        user_decision = bus.read(BusFile.USER_DECISION)
         return {
-            'task_id':    task_id,
-            'domain':     manifest.get('domain', '?') if manifest else '?',
-            'has_result': result is not None,
-            'verdict':    validation.get('verdict') if validation else None,
-            'has_advice': advice is not None,
-            'reported':   report is not None,
+            'task_id':       task_id,
+            'domain':        manifest.get('domain', '?') if manifest else '?',
+            'has_result':    result is not None,
+            'verdict':       validation.get('verdict') if validation else None,
+            'has_advice':    advice is not None,
+            'reported':      report is not None,
+            'eval_grade':    evaluation.get('grade') if evaluation else None,
+            'eval_score':    evaluation.get('total_score') if evaluation else None,
+            'user_decision': user_decision.get('decision') if user_decision else None,
         }

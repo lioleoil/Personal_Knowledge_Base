@@ -1,40 +1,61 @@
 {
-  "date": "2026-04-12 08:00",
-  "used": 362423,
+  "date": "2026-04-12 20:00",
+  "used": 86148,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
     {
       "task": "자동 추적",
-      "tokens": 339233,
-      "time": "10:08:32"
+      "tokens": 18769,
+      "time": "20:02:37"
     },
     {
       "task": "자동 추적",
-      "tokens": 3232,
-      "time": "10:19:47"
+      "tokens": 3138,
+      "time": "20:04:21"
     },
     {
       "task": "자동 추적",
-      "tokens": 5618,
-      "time": "10:21:25"
+      "tokens": 810,
+      "time": "20:04:34"
     },
     {
       "task": "자동 추적",
-      "tokens": 14340,
-      "time": "10:25:04"
+      "tokens": 16916,
+      "time": "20:08:15"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 10334,
+      "time": "20:12:56"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 4213,
+      "time": "20:18:54"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 3432,
+      "time": "20:21:45"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 28536,
+      "time": "20:28:36"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl": 362423
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\14a4ea62-eb3c-4bb8-a64f-6f8ec7bdfcbc.jsonl": 85338,
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\75bf4607-3fcb-471d-945d-08a796c9d3ff.jsonl": 810
   },
   "week_start": "2026-04-06",
-  "weekly_used": 938093,
+  "weekly_used": 1150596,
   "weekly_limit": 855485,
   "hourly_buckets": [
     {
       "hour": "2026-04-11 16:00",
-      "tokens": 239202
+      "tokens": 239052
     },
     {
       "hour": "2026-04-12 04:00",
@@ -42,7 +63,19 @@
     },
     {
       "hour": "2026-04-12 08:00",
-      "tokens": 362423
+      "tokens": 367355
+    },
+    {
+      "hour": "2026-04-12 12:00",
+      "tokens": 61881
+    },
+    {
+      "hour": "2026-04-12 16:00",
+      "tokens": 59692
+    },
+    {
+      "hour": "2026-04-12 20:00",
+      "tokens": 86148
     }
   ]
 }
