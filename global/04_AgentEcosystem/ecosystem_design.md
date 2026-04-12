@@ -26,12 +26,14 @@ FAIL → Advisor Agent → 솔루션 → Execution 재실행
 
 ## 에이전트 역할 요약
 
-| 에이전트 | 모델 | Role Rules | 권한 | 제약 |
+| 에이전트 | Role Rules | 권한 | 모델 (cross_vendor) | 제약 |
 |---|---|---|---|---|
-| **Execution** | claude-sonnet-4-6 | `agents/role_rules__execution.md` | Read/Write/Edit/Bash + spawn | 사용자 직접 보고 불가 |
-| **Validation** | codex-1 (OpenAI) | `agents/role_rules__validation.md` | Read-only + validation.json | 결과 수정 불가 |
-| **Advisor** | claude-opus-4-6 | `agents/role_rules__advisor.md` | Read-only + advice.json | 직접 실행 불가 |
-| **Reporter** | codex-1 (OpenAI) | `agents/role_rules__reporter.md` | Read-only + report.json | PASS 후에만 활성 |
+| **Execution** | `agents/role_rules__execution.md` | Read/Write/Edit/Bash + spawn | `claude-sonnet-4-6` | 사용자 직접 보고 불가 |
+| **Validation** | `agents/role_rules__validation.md` | Read-only + validation.json | `codex-1` (OpenAI) | 결과 수정 불가 |
+| **Advisor** | `agents/role_rules__advisor.md` | Read-only + advice.json | `claude-opus-4-6` | 직접 실행 불가 |
+| **Reporter** | `agents/role_rules__reporter.md` | Read-only + report.json | `codex-1` (OpenAI) | PASS 후에만 활성 |
+
+> 모델 배정 상세: `model_assignment.md` | 프리셋 설정: `.scripts/model_config.json`
 
 ### Domain Sub-Agents
 

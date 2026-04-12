@@ -34,11 +34,13 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from typing import Optional
 
 PROJECT_ROOT = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 )
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '.scripts'))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '.status'))
 
 # .env 자동 로드 (nova_helper/.env 우선, 루트 .env 차선)
 def _load_dotenv():
@@ -61,6 +63,7 @@ _load_dotenv()
 from agent_bus import AgentBus, BusFile
 from agent_log import AgentLog
 from permission_bus import PermissionBus
+import show_tokens as _show_tokens
 
 _PERM_BUS = PermissionBus()
 
@@ -77,6 +80,23 @@ def check_permission(perm_type: str, task_id: str = 'orchestrator', context: str
 # ── 상수 ──────────────────────────────────────────────────────────
 TOKEN_USAGE_PATH = os.path.join(PROJECT_ROOT, '.status', 'token_usage.json')
 TOKEN_PARALLEL_THRESHOLD = 10_000
+
+# ── 모델 설정 로드 ─────────────────────────────────────────────────
+_MODEL_CONFIG_PATH = os.path.join(PROJECT_ROOT, '.scripts', 'model_config.json')
+
+def _load_model_config() -> dict:
+    try:
+        with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+_MODEL_CONFIG = _load_model_config()
+
+def get_domain_preset(domain: str) -> dict:
+    """도메인에 맞는 모델 프리셋 반환. 매핑 없으면 default."""
+    preset_name = _MODEL_CONFIG.get('domain_presets', {}).get(domain, 'default')
+    return _MODEL_CONFIG.get('presets', {}).get(preset_name, {})
 
 # 에스컬레이션 한도 (플랜 설계 기준)
 MAX_EXECUTION_RETRIES = 5
@@ -455,6 +475,47 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         return False, ''
 
 
+def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
+                        model: str = 'claude-sonnet-4-6',
+                        temperature: float = 0.3,
+                        max_tokens: int = 8192) -> tuple[bool, str, int, int]:
+    """Anthropic SDK로 에이전트 실행.
+    반환: (성공 여부, 응답 텍스트, input_tokens, output_tokens)
+    SDK 불가 시 run_claude_agent() CLI fallback — token 수는 0, 0 반환.
+    """
+    try:
+        import anthropic as _anthropic
+    except ImportError:
+        log.add(f'[{label}] anthropic SDK 없음 — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+    api_key = os.environ.get('CLAUDE_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
+    if not api_key:
+        log.add(f'[{label}] API 키 없음 — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+    log.add(f'[{label}] SDK 실행 (model={model}, temp={temperature})')
+    try:
+        client = _anthropic.Anthropic(api_key=api_key)
+        message = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            messages=[{'role': 'user', 'content': prompt}],
+        )
+        text = message.content[0].text if message.content else ''
+        in_tok = message.usage.input_tokens
+        out_tok = message.usage.output_tokens
+        log.add(f'[{label}] 완료 ({in_tok:,}in / {out_tok:,}out tokens)')
+        return True, text, in_tok, out_tok
+    except Exception as e:
+        log.add(f'[{label}] SDK 오류: {e} — CLI fallback')
+        ok, stdout = run_claude_agent(prompt, label, log)
+        return ok, stdout, 0, 0
+
+
 def run_openai_agent(prompt: str, label: str, log: AgentLog,
                      model: str = 'gpt-4.1', timeout: int = 600,
                      params: dict | None = None) -> tuple[bool, str]:
@@ -510,10 +571,7 @@ def run_openai_agent(prompt: str, label: str, log: AgentLog,
 
         log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
                 f'토큰 in={usage_in} out={usage_out})')
-
-        # 비용 추적
         _track_openai_usage(model, usage_in, usage_out, label)
-
         return True, result
     except Exception as e:
         log.add(f'[{label}] 오류: {e}')
@@ -533,7 +591,34 @@ def _track_openai_usage(model: str, input_tokens: int, output_tokens: int,
             mod.track_usage(model, input_tokens, output_tokens, task_name,
                             model_costs=MODEL_COSTS)
     except Exception:
-        pass  # 추적 실패는 비중단
+        pass
+
+
+def _is_openai_model(model: str) -> bool:
+    """모델 이름으로 OpenAI 라우팅 여부 판별."""
+    return model.startswith(('codex-', 'gpt-', 'o1', 'o3', 'o4'))
+
+
+def _run_agent(prompt: str, label: str, log: AgentLog,
+               model: str = 'claude-sonnet-4-6',
+               temperature: float = 0.3,
+               max_tokens: int = 8192) -> tuple[bool, str]:
+    """모델명에 따라 Anthropic SDK / OpenAI API / CLI fallback 라우팅.
+    full-pipeline 전용. run_auto는 run_agent() 사용.
+    반환: (성공 여부, 응답 텍스트)
+    """
+    if _is_openai_model(model):
+        return run_openai_agent(prompt, label, log,
+                                model=model, params={'max_tokens': max_tokens})
+
+    ok, stdout, in_tok, out_tok = run_anthropic_agent(
+        prompt, label, log, model=model,
+        temperature=temperature, max_tokens=max_tokens,
+    )
+    if in_tok + out_tok > 0:
+        _show_tokens.add_agent_tokens(in_tok, out_tok,
+                                      task_name=label, model=model)
+    return ok, stdout
 
 
 def wait_for_bus_file(bus: AgentBus, file_type: BusFile,
@@ -564,7 +649,6 @@ def dry_run(task: str, domain: str):
         temp = params.get('temperature', '-')
         mtok = params.get('max_tokens', '-')
         rate = MODEL_COSTS.get(model, {})
-        # 역할별 평균 토큰 추정 (태스크 1회 기준)
         tok_est = {'execution': (4000, 1500), 'validation': (3000, 500),
                    'advisor': (3000, 800), 'reporter': (2000, 1000)}
         freq    = 0.3 if role == 'advisor' else 1.0
@@ -652,6 +736,20 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     exec_retries   = 0
     advisor_calls  = 0
     bus: AgentBus | None = None
+
+    # 도메인 프리셋 로드
+    preset = get_domain_preset(domain)
+    exec_model   = preset.get('execution_model',   'claude-sonnet-4-6')
+    val_model    = preset.get('validation_model',  'claude-sonnet-4-6')
+    adv_model    = preset.get('advisor_model',     'claude-sonnet-4-6')
+    rep_model    = preset.get('reporter_model',    'claude-sonnet-4-6')
+    temp_exec    = preset.get('temperature_execution', 0.3)
+    temp_adv     = preset.get('temperature_advisor',   0.2)
+    max_tok_exec = preset.get('max_tokens_execution',  8192)
+    max_tok_val  = preset.get('max_tokens_validation', 4096)
+    max_tok_adv  = preset.get('max_tokens_advisor',    4096)
+    max_tok_rep  = preset.get('max_tokens_reporter',   8192)
+    log.add(f'프리셋: exec={exec_model} adv={adv_model}')
 
     # ── 1. Execution 루프 ────────────────────────────────────────
     while exec_retries <= MAX_EXECUTION_RETRIES:

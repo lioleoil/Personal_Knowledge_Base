@@ -1,0 +1,62 @@
+{
+  "_comment": "도메인별 모델 프리셋. domain_presets 한 줄 수정으로 즉시 반영.",
+  "domain_presets": {
+    "daily_scrap":        "cost_optimized",
+    "pkb_worklog":        "cost_optimized",
+    "nova_helper":        "default",
+    "nova_log_analytics": "cross_vendor",
+    "sv_dqat":            "cross_vendor",
+    "sv_lakehouse":       "cross_vendor"
+  },
+  "presets": {
+    "cost_optimized": {
+      "execution_model":       "claude-haiku-4-5-20251001",
+      "advisor_model":         "claude-sonnet-4-6",
+      "validation_model":      "claude-haiku-4-5-20251001",
+      "reporter_model":        "claude-haiku-4-5-20251001",
+      "temperature_execution": 0.3,
+      "temperature_advisor":   0.2,
+      "max_tokens_execution":  4096,
+      "max_tokens_advisor":    2048,
+      "max_tokens_validation": 2048,
+      "max_tokens_reporter":   4096
+    },
+    "default": {
+      "execution_model":       "claude-sonnet-4-6",
+      "advisor_model":         "claude-sonnet-4-6",
+      "validation_model":      "claude-sonnet-4-6",
+      "reporter_model":        "claude-sonnet-4-6",
+      "temperature_execution": 0.3,
+      "temperature_advisor":   0.2,
+      "max_tokens_execution":  8192,
+      "max_tokens_advisor":    4096,
+      "max_tokens_validation": 4096,
+      "max_tokens_reporter":   8192
+    },
+    "quality_max": {
+      "execution_model":       "claude-opus-4-6",
+      "advisor_model":         "claude-opus-4-6",
+      "validation_model":      "claude-sonnet-4-6",
+      "reporter_model":        "claude-sonnet-4-6",
+      "temperature_execution": 0.3,
+      "temperature_advisor":   0.2,
+      "max_tokens_execution":  16384,
+      "max_tokens_advisor":    8192,
+      "max_tokens_validation": 8192,
+      "max_tokens_reporter":   8192
+    },
+    "cross_vendor": {
+      "_comment": "Config B — Advisor:Opus(심층분석), Execution:Sonnet(복잡작업), Validation/Reporter:codex-1(이종vendor 교차검증)",
+      "execution_model":       "claude-sonnet-4-6",
+      "advisor_model":         "claude-opus-4-6",
+      "validation_model":      "codex-1",
+      "reporter_model":        "codex-1",
+      "temperature_execution": 0.3,
+      "temperature_advisor":   0.2,
+      "max_tokens_execution":  8192,
+      "max_tokens_advisor":    4096,
+      "max_tokens_validation": 4096,
+      "max_tokens_reporter":   8192
+    }
+  }
+}

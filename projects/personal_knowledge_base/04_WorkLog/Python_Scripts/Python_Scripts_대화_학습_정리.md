@@ -7519,3 +7519,48 @@ _(내용 없음)_
 **대화 길이:** 총 2개 메시지
 
 ---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-05 | **파일:** 14887d38-1bb8-42fe-bf6f-d1a59dbf3dfa.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 In bash, use the bash activation script instead of the PowerShell `.ps1`:  ```bash source /c/Users/psh93/On...
+
+**대화 길이:** 총 8개 메시지
+
+---
+
+### chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘.
+**날짜:** 2026-04-11 | **파일:** 3da321a9-fb3e-47f7-ab04-9ac5cf5646a6.jsonl
+
+**맥락 요약:** chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘. Chrome 브라우저 확장 프로그램이 연결되어 있지 않습니다.  브라우저 자동화를 사용하려면 다음을 확인해주세요:  1. **Claude 브라우저 확장 프로그램 설치** — [https://claude.ai/chrome](https://clau...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-11 | **파일:** 4545761c-3611-474b-88cb-c92cfcac7726.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 The shell here is **bash**, not PowerShell, so the `.ps1` activation script won't work directly.  To activa...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘.
+**날짜:** 2026-04-11 | **파일:** 86512aa8-97c9-4194-99dc-070187e5bd96.jsonl
+
+**맥락 요약:** chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘. Chrome 브라우저 확장 프로그램이 연결되어 있지 않습니다.  **해결 방법:**  1. **확장 프로그램 설치** — [claude.ai/chrome](https://claude.ai/chrome) 에서 Claude 브라우저 확장 프로그램을...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘.
+**날짜:** 2026-04-11 | **파일:** d46d5ada-e55a-4f03-8cdf-d2c042d2b41a.jsonl
+
+**맥락 요약:** chrome 브라우저를 사용해서 https://example.com 을 열고 페이지 제목과 본문 첫 줄을 알려줘. Chrome 브라우저 확장 프로그램이 연결되어 있지 않습니다.  다음을 확인해 주세요:  1. **Claude 브라우저 확장 프로그램** 설치 여부 — [chrome.google.com](https://claude.ai/chrome) 에서 설치...
+
+**대화 길이:** 총 2개 메시지
+
+---

@@ -1,6 +1,6 @@
 {
   "date": "2026-04-12 08:00",
-  "used": 348083,
+  "used": 362423,
   "window_limit": 72000,
   "plan": "Pro",
   "sessions": [
@@ -18,13 +18,18 @@
       "task": "자동 추적",
       "tokens": 5618,
       "time": "10:21:25"
+    },
+    {
+      "task": "자동 추적",
+      "tokens": 14340,
+      "time": "10:25:04"
     }
   ],
   "transcripts": {
-    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl": 348083
+    "C:\\Users\\psh93\\.claude\\projects\\C--Users-psh93-OneDrive-Desktop-Workspace\\ea2d5657-355d-457b-9995-697ea7caa2c8.jsonl": 362423
   },
   "week_start": "2026-04-06",
-  "weekly_used": 923753,
+  "weekly_used": 938093,
   "weekly_limit": 855485,
   "hourly_buckets": [
     {
@@ -37,7 +42,7 @@
     },
     {
       "hour": "2026-04-12 08:00",
-      "tokens": 348083
+      "tokens": 362423
     }
   ]
 }
