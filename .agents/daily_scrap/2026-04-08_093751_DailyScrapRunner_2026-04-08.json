@@ -1,0 +1,11 @@
+{
+  "agent_id": "DailyScrapRunner_2026-04-08",
+  "title": "Daily Scrap 전체 실행",
+  "agent_type": "daily_scrap",
+  "started_at": "2026-04-08T09:37:51",
+  "completed_at": "2026-04-08T09:37:55",
+  "status": "error",
+  "progress": 10,
+  "message": "수집 실패: C:\\Users\\psh93\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\urllib3\\connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'news.hada.io'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-",
+  "log": []
+}

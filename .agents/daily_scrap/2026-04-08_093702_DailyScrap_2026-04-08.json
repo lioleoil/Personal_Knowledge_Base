@@ -1,0 +1,14 @@
+{
+  "agent_id": "DailyScrap_2026-04-08",
+  "title": "Daily Scrap — GeekNews 수집",
+  "agent_type": "daily_scrap",
+  "started_at": "2026-04-08T09:37:02",
+  "completed_at": "2026-04-08T09:37:03",
+  "status": "error",
+  "progress": 20,
+  "message": "기사 수집 실패 — 페이지 구조 확인 필요",
+  "log": [
+    "09:37:02  기존 수집 URL: 0개",
+    "09:37:03  수집 기사: 0개"
+  ]
+}

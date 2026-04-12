@@ -1305,3 +1305,1920 @@
 **대화 길이:** 총 2개 메시지
 
 ---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+**날짜:** 2026-04-07 | **파일:** 46c5af1b-c16e-44c2-aac5-73020a0d0093.jsonl
+
+**맥락 요약:** & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\Activate.ps1 Please run /login · API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth...
+
+**대화 길이:** 총 16개 메시지
+
+---
+
+### 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+**날짜:** 2026-04-05 | **파일:** aaa26468-50d3-4abf-9bed-1dfbc7b568e4.jsonl
+
+**맥락 요약:** 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature Validation.ipynb' 'c:\Users\psh93\Downloads\Scoring Weight Tuning Simulation.ipynb' 'c:\Users\psh93\Downloads\anomaly_d...
+
+**대화 길이:** 총 2개 메시지
+
+---
+
+### 현재 터미널에서 확인되는 오류 조치해줘.
+**날짜:** 2026-04-05 | **파일:** e9998121-7361-41f7-a687-3905ec6310d1.jsonl
+
+**맥락 요약:** 현재 터미널에서 확인되는 오류 조치해줘. Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your exist...
+
+**대화 길이:** 총 2개 메시지
+
+---
