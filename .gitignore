@@ -14,6 +14,11 @@
 .claude/ide/
 .claude/file-history/
 
+# Agent runtime outputs (generated files, not source)
+.agents/bus/
+.status/token_usage.json
+.status/openai_usage.json
+
 # Embedded git repos (managed separately)
 projects/sv_dqat/
 projects/sv_lakehouse/
