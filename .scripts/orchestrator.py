@@ -86,13 +86,34 @@ MAX_ADVISOR_CALLS = 3
 BUS_POLL_INTERVAL = 3    # 초
 BUS_POLL_TIMEOUT  = 600  # 10분
 
-# ── 에이전트 모델 배정 ────────────────────────────────────────────────
-AGENT_MODELS = {
+# ── 에이전트 모델 배정 (기본값) ────────────────────────────────────────
+_AGENT_MODELS_DEFAULT = {
     'execution':  'claude-sonnet-4-6',
-    'validation': 'codex-1',           # OpenAI GPT-5 Codex
+    'validation': 'gpt-4.1',
     'advisor':    'claude-opus-4-6',
-    'reporter':   'codex-1',           # OpenAI GPT-5 Codex
+    'reporter':   'gpt-4.1',
 }
+
+_MODEL_CONFIG_PATH = os.path.join(
+    PROJECT_ROOT, 'global', '04_AgentEcosystem', 'model_config.json'
+)
+
+# ── 외부 설정 파일 로드 (코드 수정 없이 모델 교체) ──────────────────────
+def _load_model_config() -> tuple[dict, dict]:
+    """model_config.json 로드. 실패 시 기본값 반환."""
+    try:
+        with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
+            cfg = json.load(f)
+        agents = {
+            role: v['model']
+            for role, v in cfg.get('agents', {}).items()
+        }
+        costs = cfg.get('model_costs', {})
+        return {**_AGENT_MODELS_DEFAULT, **agents}, costs
+    except Exception:
+        return _AGENT_MODELS_DEFAULT.copy(), {}
+
+AGENT_MODELS, MODEL_COSTS = _load_model_config()
 
 DOMAIN_MAP = {
     'nova_helper':        {
@@ -300,9 +321,11 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
 
 
 def run_openai_agent(prompt: str, label: str, log: AgentLog,
-                     model: str = 'codex-1', timeout: int = 600) -> tuple[bool, str]:
+                     model: str = 'gpt-4.1', timeout: int = 600) -> tuple[bool, str]:
     """
-    OpenAI Responses API (codex-1 등) 호출.
+    OpenAI API 호출.
+    - gpt-*/o* 계열: Chat Completions API
+    - codex-* 계열: Responses API
     OPENAI_API_KEY 환경변수 필요.
     반환: (성공 여부, stdout 텍스트)
     """
@@ -320,16 +343,52 @@ def run_openai_agent(prompt: str, label: str, log: AgentLog,
     log.add(f'[{label}] OpenAI({model}) 실행 시작')
     try:
         client = openai.OpenAI(api_key=api_key)
-        response = client.responses.create(
-            model=model,
-            input=prompt,
-        )
-        result = response.output_text or ''
-        log.add(f'[{label}] 완료 (출력 {len(result)} chars)')
+        usage_in = usage_out = 0
+
+        if model.startswith('codex'):
+            # Responses API (codex-1 등)
+            response = client.responses.create(model=model, input=prompt)
+            result = response.output_text or ''
+            if hasattr(response, 'usage') and response.usage:
+                usage_in  = getattr(response.usage, 'input_tokens', 0)
+                usage_out = getattr(response.usage, 'output_tokens', 0)
+        else:
+            # Chat Completions API (gpt-4.1, o3 등)
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{'role': 'user', 'content': prompt}],
+            )
+            result = response.choices[0].message.content or ''
+            if hasattr(response, 'usage') and response.usage:
+                usage_in  = getattr(response.usage, 'prompt_tokens', 0)
+                usage_out = getattr(response.usage, 'completion_tokens', 0)
+
+        log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
+                f'토큰 in={usage_in} out={usage_out})')
+
+        # 비용 추적
+        _track_openai_usage(model, usage_in, usage_out, label)
+
         return True, result
     except Exception as e:
         log.add(f'[{label}] 오류: {e}')
         return False, ''
+
+
+def _track_openai_usage(model: str, input_tokens: int, output_tokens: int,
+                        task_name: str) -> None:
+    """OpenAI 토큰 사용량을 .status/openai_usage.json에 기록."""
+    try:
+        tracker_path = os.path.join(PROJECT_ROOT, '.status', 'openai_cost_tracker.py')
+        if os.path.exists(tracker_path):
+            import importlib.util
+            spec = importlib.util.spec_from_file_location('openai_cost_tracker', tracker_path)
+            mod  = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            mod.track_usage(model, input_tokens, output_tokens, task_name,
+                            model_costs=MODEL_COSTS)
+    except Exception:
+        pass  # 추적 실패는 비중단
 
 
 def wait_for_bus_file(bus: AgentBus, file_type: BusFile,
