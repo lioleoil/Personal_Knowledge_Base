@@ -299,7 +299,13 @@ def make_execution_prompt(task: str, domain: str, task_id: str, bus_path: str,
         f'   EXECUTION_DONE:{task_id}\n\n'
         f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 자동 처리함.\n'
         f'   AgentBus Python 코드를 응답에 포함하지 말 것.\n'
-        f'   결과 텍스트만 출력하고 마지막에 EXECUTION_DONE 신호를 붙일 것.'
+        f'   결과 텍스트만 출력하고 마지막에 EXECUTION_DONE 신호를 붙일 것.\n\n'
+        f'[글로벌 룰] 확인 불가 시 사실 그대로 명시:\n'
+        f'   - URL·외부 리소스를 직접 읽을 수 없으면 반드시 "URL 접근 불가 — 수행 불가"를 명시하고 중단\n'
+        f'   - 파일·데이터 없으면 "없음"을 있는 그대로 보고\n'
+        f'   - 결론 도출 불가 시 "판단 불가"를 명시\n'
+        f'   - 추측 내용은 반드시 "[추측]" 레이블 후 제공\n'
+        f'   - 이 룰은 어떠한 이유로도 면제되지 않는다'
     )
 
 def make_validation_prompt(task_id: str, domain: str,
