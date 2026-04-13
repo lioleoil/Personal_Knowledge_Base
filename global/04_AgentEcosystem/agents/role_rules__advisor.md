@@ -37,6 +37,13 @@ PM 역할. 작업 시작부터 감독·기획·평가·승인까지 전 라이�
   - global/05_PM_Outputs/ (최근 3개 파일)
   - 도메인 관련 디렉터리 탐색
 
+PKB 지식 검색 (RAG):
+  - python .scripts/pkb_search.py --query "{task 키워드}" --top 5 --json
+  - 반환된 top-5 청크를 플랜의 배경 컨텍스트 섹션에 포함
+  - 인덱스가 없을 경우 (META_FILE 없음) 검색 생략 후 계속
+  - 관련 SYNTHESIS.md 파일이 있으면 추가로 읽기:
+    projects/personal_knowledge_base/04_WorkLog/{카테고리}/SYNTHESIS.md
+
 외부 지식:
   - WebSearch: 도메인 전문 지식, 최신 패턴, Best Practice
   - WebFetch: 관련 공식 문서

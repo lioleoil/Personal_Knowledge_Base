@@ -38,6 +38,13 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+try:
+    import anthropic as _anthropic
+    _LLM_AVAILABLE = True
+except ImportError:
+    _LLM_AVAILABLE = False
+    _anthropic = None
+
 # Windows 터미널 UTF-8 출력 설정
 if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -46,6 +53,7 @@ BASE            = Path(__file__).parent.parent
 WORKLOG         = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog'  # 대화 로그 + 마크다운 전용
 AGENTS_ROOT     = BASE / '.agents' / 'classify'  # classify 에이전트 로그 위치
 CLAUDE_PROJECTS = Path.home() / '.claude' / 'projects'
+PROCESSED_FILES = AGENTS_ROOT / 'processed_files.json'
 
 # 현재 프로젝트 ID (프로젝트 디렉토리명 → 슬래시 → 언더스코어 변환 기반)
 CURRENT_PROJECT = 'C--Users-psh93-OneDrive-Desktop-Workspace'
@@ -181,13 +189,54 @@ CATEGORIES = [
 ]
 
 
-def classify_conversation(title: str, content: str) -> tuple[str, int]:
-    """카테고리 결정. 반환: (카테고리명, 최고점수)"""
+def _llm_classify(title: str, content: str) -> tuple[str | None, list, float]:
+    """Haiku API로 LLM 기반 분류. 반환: (카테고리명 or None, 태그 리스트, 신뢰도)"""
+    cat_names = [c['name'] for c in CATEGORIES]
+    text_sample = (title + '\n' + content)[:800]
+
+    prompt = (
+        f"다음 대화를 분석하여 가장 적합한 카테고리를 선택하세요.\n\n"
+        f"카테고리 목록: {', '.join(cat_names)}\n\n"
+        f"대화 제목: {title}\n"
+        f"대화 내용(일부): {text_sample}\n\n"
+        "JSON 형식으로만 답하세요:\n"
+        '{\"category\": \"<카테고리명>\", \"tags\": [\"<태그1>\", \"<태그2>\"], \"confidence\": <0.0-1.0>}\n\n'
+        "규칙:\n"
+        "- category는 위 목록 중 하나 (정확히 일치)\n"
+        "- tags는 대화의 핵심 주제 키워드 2-5개\n"
+        "- confidence는 분류 확신도\n"
+        "- 불확실하면 Misc 선택"
+    )
+
+    try:
+        client = _anthropic.Anthropic()
+        msg = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=200,
+            messages=[{'role': 'user', 'content': prompt}]
+        )
+        raw = msg.content[0].text.strip()
+        m = re.search(r'\{.*\}', raw, re.DOTALL)
+        if m:
+            data = json.loads(m.group())
+            cat = data.get('category', 'Misc')
+            if cat not in [c['name'] for c in CATEGORIES]:
+                cat = 'Misc'
+            tags = [str(t) for t in data.get('tags', [])][:5]
+            conf = float(data.get('confidence', 0.5))
+            return cat, tags, conf
+    except Exception as e:
+        print(f'  [LLM 분류 오류] {e} → 키워드 방식 fallback')
+    return None, [], 0.0
+
+
+def _keyword_classify(title: str, content: str) -> tuple[str, int]:
+    """기존 키워드 카운팅 방식 분류. 반환: (카테고리명, 최고점수)"""
     text = (title + ' ' + content).lower()
-    scores = {}
+    scores: dict[str, int] = {}
     matched_keywords: dict[str, list[str]] = {}
 
-    for cat in CATEGORIES[:-1]:  # Misc 제외하고 점수 계산
+    for cat in CATEGORIES[:-1]:
         hits = [(kw, text.count(kw.lower())) for kw in cat['keywords'] if text.count(kw.lower()) > 0]
         score = sum(cnt for _, cnt in hits)
         if score > 0:
@@ -197,18 +246,77 @@ def classify_conversation(title: str, content: str) -> tuple[str, int]:
     if not scores:
         return 'Misc', 0
 
-    # 점수 로그 출력 (근소차 10점 이하면 경고)
     sorted_scores = sorted(scores.items(), key=lambda x: -x[1])
     best, best_score = sorted_scores[0]
     if len(sorted_scores) >= 2:
         second_score = sorted_scores[1][1]
-        margin = best_score - second_score
-        if margin <= 10:
+        if best_score - second_score <= 10:
             print(f'  [분류 주의] 점수 근소차: {sorted_scores[0][0]}({best_score}) vs {sorted_scores[1][0]}({second_score}) — 수동 검토 권장')
     top_kws = ', '.join(matched_keywords.get(best, []))
     print(f'  [분류 점수] {best}: {best_score}점 | 주요 키워드: {top_kws}')
-
     return best, best_score
+
+
+def classify_conversation(title: str, content: str) -> tuple[str, int, list]:
+    """카테고리 결정. LLM 우선, 실패 시 키워드 방식 fallback.
+    반환: (카테고리명, 점수/신뢰도*100, 태그 리스트)"""
+    if _LLM_AVAILABLE:
+        cat, tags, conf = _llm_classify(title, content)
+        if cat is not None:
+            score = int(conf * 100)
+            tags_str = ' '.join(f'#{t}' for t in tags) if tags else '없음'
+            print(f'  [LLM 분류] {cat}: 신뢰도 {conf:.0%} | 태그: {tags_str}')
+            return cat, score, tags
+
+    cat, score = _keyword_classify(title, content)
+    return cat, score, []
+
+
+def generate_summary(conv: dict) -> dict:
+    """Haiku로 구조화된 대화 요약 생성. 반환: {learned, action, keywords}"""
+    if not _LLM_AVAILABLE:
+        snippet = conv['content'][:200].replace('\n', ' ').strip()
+        if len(conv['content']) > 200:
+            snippet += '...'
+        return {'learned': snippet, 'action': '', 'keywords': []}
+
+    text_sample = (conv['title'] + '\n' + conv['content'])[:1200]
+    prompt = (
+        f"다음 Claude Code 대화를 분석하여 핵심을 추출하세요.\n\n"
+        f"대화 제목: {conv['title']}\n"
+        f"대화 내용(일부): {text_sample}\n\n"
+        "JSON 형식으로만 답하세요:\n"
+        "{\n"
+        "  \"learned\": \"<1-2문장: 이 대화에서 배운 것 또는 해결한 것>\",\n"
+        "  \"action\": \"<결정/후속 액션, 없으면 빈 문자열>\",\n"
+        "  \"keywords\": [\"<핵심 기술 키워드 최대 5개>\"]\n"
+        "}\n\n"
+        "핵심만 간결하게. 한국어로."
+    )
+
+    try:
+        client = _anthropic.Anthropic()
+        msg = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=350,
+            messages=[{'role': 'user', 'content': prompt}]
+        )
+        raw = msg.content[0].text.strip()
+        m = re.search(r'\{.*\}', raw, re.DOTALL)
+        if m:
+            data = json.loads(m.group())
+            return {
+                'learned': str(data.get('learned', ''))[:300],
+                'action': str(data.get('action', ''))[:200],
+                'keywords': [str(k) for k in data.get('keywords', [])][:5],
+            }
+    except Exception as e:
+        print(f'  [요약 생성 오류] {e} → 스니펫 방식 fallback')
+
+    snippet = conv['content'][:200].replace('\n', ' ').strip()
+    if len(conv['content']) > 200:
+        snippet += '...'
+    return {'learned': snippet, 'action': '', 'keywords': []}
 
 
 def save_keyword_to_category(category_name: str, keyword: str):
@@ -464,20 +572,20 @@ def append_to_worklog(conv: dict, category: str):
     date = conv['date']
     source = conv['source_file']
     msg_count = conv['msg_count']
-    snippet = conv['content'][:200].replace('\n', ' ').strip()
-    if len(conv['content']) > 200:
-        snippet += '...'
 
-    section = f"""
-### {title}
-**날짜:** {date} | **파일:** {source}
+    summary = generate_summary(conv)
 
-**맥락 요약:** {snippet}
+    tags = conv.get('tags', [])
+    tags_part = (' | **태그:** ' + ' '.join(f'#{t}' for t in tags)) if tags else ''
 
-**대화 길이:** 총 {msg_count}개 메시지
-
----
-"""
+    section = f'\n### {title}\n'
+    section += f'**날짜:** {date} | **파일:** {source} | **메시지:** {msg_count}개{tags_part}\n\n'
+    section += f'**배운 것:** {summary["learned"]}\n'
+    if summary.get('action'):
+        section += f'**결정/액션:** {summary["action"]}\n'
+    if summary.get('keywords'):
+        section += f'**핵심 키워드:** {", ".join(summary["keywords"])}\n'
+    section += '\n---\n'
 
     with open(target, 'a', encoding='utf-8') as f:
         f.write(section)
@@ -485,13 +593,37 @@ def append_to_worklog(conv: dict, category: str):
     print(f'  ✓ [{category}] {title[:40]} → {cat_info["file"]}')
 
 
-POPUP_THRESHOLD = 2  # 최고 점수가 이 값 이하이면 팝업 표시
+POPUP_THRESHOLD = 50  # LLM 신뢰도*100 또는 키워드 점수가 이 값 이하이면 팝업 표시
+
+
+def _load_processed_files() -> set:
+    """처리 완료된 JSONL 파일명 목록 로드"""
+    if PROCESSED_FILES.exists():
+        try:
+            data = json.loads(PROCESSED_FILES.read_text(encoding='utf-8'))
+            return set(data.get('processed', []))
+        except Exception:
+            pass
+    return set()
+
+
+def _save_processed_files(processed: set):
+    """처리 완료된 JSONL 파일명 목록 저장"""
+    PROCESSED_FILES.parent.mkdir(parents=True, exist_ok=True)
+    data = {'processed': sorted(processed), 'updated': datetime.now().isoformat()}
+    PROCESSED_FILES.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
 def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True):
     results = {}
+    processed_ids = _load_processed_files()
+    newly_processed: set = set()
 
     for jf in jsonl_files:
+        if not dry_run and jf.name in processed_ids:
+            print(f'\n  (이미 처리됨, 건너뜀): {jf.name}')
+            continue
+
         print(f'\n파일 처리: {jf.name}')
         try:
             conversations = extract_conversations_jsonl(jf)
@@ -504,7 +636,8 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
             continue
 
         for conv in conversations:
-            category, score = classify_conversation(conv['title'], conv['content'])
+            category, score, tags = classify_conversation(conv['title'], conv['content'])
+            conv['tags'] = tags  # 태그를 conv에 저장 (append_to_worklog에서 사용)
 
             needs_review = (category == 'Misc' or score <= POPUP_THRESHOLD)
             if needs_review and interactive and not dry_run:
@@ -515,9 +648,13 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
 
             if dry_run:
                 marker = ' ⚠ 검토필요' if needs_review else ''
-                print(f'  [{category:20s}] {conv["date"]}  {conv["title"][:50]}{marker}')
+                tags_str = ' '.join(f'#{t}' for t in tags) if tags else ''
+                print(f'  [{category:20s}] {conv["date"]}  {conv["title"][:50]}{marker}  {tags_str}')
             else:
                 append_to_worklog(conv, category)
+
+        if not dry_run:
+            newly_processed.add(jf.name)
 
     print('\n─────────────────────────────')
     print('분류 결과 요약:')
@@ -526,10 +663,13 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
     print(f'  {"합계":25s}: {sum(len(v) for v in results.values()):3d}개')
 
     if not dry_run:
+        if newly_processed:
+            _save_processed_files(processed_ids | newly_processed)
+            print(f'\n✓ 처리 기록 저장: {len(newly_processed)}개 파일')
         update_index = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog' / 'update_index.py'
         if update_index.exists():
             subprocess.run([sys.executable, str(update_index)], check=False)
-            print('\n✓ INDEX.md 갱신 완료')
+            print('✓ INDEX.md 갱신 완료')
 
 
 if __name__ == '__main__':

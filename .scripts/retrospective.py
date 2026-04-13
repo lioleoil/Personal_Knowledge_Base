@@ -290,6 +290,21 @@ def main():
     _safe_print(md + '\n')
     print('='*60)
 
+    # 5. PKB Wiki 합성 (dry-run이 아닐 때만)
+    if not args.dry_run:
+        wiki_script = os.path.join(PROJECT_ROOT, '.scripts', 'pkb_wiki_synthesize.py')
+        if os.path.exists(wiki_script):
+            print('\nPKB 지식 합성 시작...')
+            import subprocess
+            result = subprocess.run(
+                [sys.executable, wiki_script, '--all', '--min-entries', '2'],
+                capture_output=True, text=True, encoding='utf-8',
+            )
+            if result.stdout:
+                print(result.stdout)
+            if result.returncode != 0 and result.stderr:
+                print(f'  [합성 경고] {result.stderr[:300]}')
+
 
 if __name__ == '__main__':
     main()
