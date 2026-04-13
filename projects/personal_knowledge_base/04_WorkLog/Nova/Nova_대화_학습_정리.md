@@ -177,7 +177,23 @@
 
 **맥락/질문:** 이 자료를 바탕으로 Nova 서비스의 로드맵을 만들어줘. 프레젠테이션을 위한 깔끔한 시각적 도표가 있으면 좋겠어.
 
-**핵심 답변/결론:** from datetime import datetime import matplotlib.pyplot as plt  # Roadmap data phases = [     ("25Y Q4", "Nova ODD Labeling Statistics Dashboard\nInfra improvement\nManual Data Transfer", 0, 3),     ("26Y Q1", "Data Yield Dashboard\nCollection KPI Dashboard\nUnstructured Data Staging\nUser Policy & Management", 3, 3),     ("26Y Q2+", "Query Service\nCDC & Automation\nUsage Analytics", 6, 3), ]  # Plot fig, ax = plt.subplots(figsize=(10, 4))  y_positions = range(len(phases)) for i, (label, desc, start, duration) in enumerate(phases):     ax.barh(i, duration, left=start)     ax.te...
+**핵심 답변/결론:** from datetime import datetime
+ import matplotlib.pyplot as plt
+ 
+ # Roadmap data
+ phases = [
+     ("25Y Q4", "Nova ODD Labeling Statistics Dashboard\nInfra improvement\nManual Data Transfer", 0, 3),
+     ("26Y Q1", "Data Yield Dashboard\nCollection KPI Dashboard\nUnstructured Data Staging\nUser Policy & Management", 3, 3),
+     ("26Y Q2+", "Query Service\nCDC & Automation\nUsage Analytics", 6, 3),
+ ]
+ 
+ # Plot
+ fig, ax = plt.subplots(figsize=(10, 4))
+ 
+ y_positions = range(len(phases))
+ for i, (label, desc, start, duration) in enumerate(phases):
+     ax.barh(i, duration, left=start)
+     ax.te...
 
 **대화 길이:** 총 6개 메시지 (질문 2개)
 
@@ -263,7 +279,16 @@
 ### dbt intermediate 모델 활용
 **날짜:** 2026-01-03 | **파일:** conversations-005.json
 
-**맥락/질문:** dbt intermediate model이 다음과 같이 있을 떄 어떻게 활용할 수 있어?  version: 2  models:   - name: int_labelit__invalid_dataset     description: 'Invalid datasets from Labelit which have %Delete%, %Workload%, or %Test% in their names'     columns:       - name: _id         description: 'Primary identifier from MongoDB ObjectId converted to STRING'         data_type: varchar(255)         data_tests:...
+**맥락/질문:** dbt intermediate model이 다음과 같이 있을 떄 어떻게 활용할 수 있어?  version: 2
+ 
+ models:
+   - name: int_labelit__invalid_dataset
+     description: 'Invalid datasets from Labelit which have %Delete%, %Workload%, or %Test% in their names'
+     columns:
+       - name: _id
+         description: 'Primary identifier from MongoDB ObjectId converted to STRING'
+         data_type: varchar(255)
+         data_tests:...
 
 **핵심 답변/결론:** 핵심부터 정리한다.   이 **dbt intermediate model (`int_labelit__invalid_dataset`)**은 *“의사결정과 품질 통제를 위한 기준 레이어”*로 쓰는 게 가장 효율적이다. 단순한 필터링 결과가 아니라, **후속 모델·지표·운영 룰의 기준 테이블**로 설계할 수 있다.  ---  ## 1. 이 모델의 역할 정의 (왜 intermediate인가)  이 모델은 다음 3가지를 동시에 만족한다.  1. **의미적 정규화**    - `%Delete%`, `%Workload%`, `%Test%` 같은 *문자 패턴 로직*을    - `invalid_type`이라는 **명시적 도메인 값**으로 고정  2. **재사용 가능한 기준 테이블**    - raw/staging 모델에서 매번 `LIKE '%Delete%'` 반복 제거    - downstream에서는 **조인만 하면 됨**  3. **데이터 품질 차단선 (Guardrail)**    - “이 데이터는 쓰면 안 된다”를 SQL이 아니라 **모델 레벨에서 선언**  ---  ## 2. 가장 정석적인 활용: downstream exclusion 기준  ### 2.1 Fact /...
 

@@ -197,7 +197,22 @@
 ### 불필요한 데이터 제거
 **날짜:** 2024-11-26 | **파일:** conversations-000.json
 
-**맥락/질문:** "object": [     {       "name": "car",       "score": -1,       "objectness": -1,       "class_confidence": -1,       "truncated": 0,       "occluded": 0.5,       "tracking_id": 5,       "tracking_age": -1,       "bbox2d_valid": 1,       "bbox2d": {         "x1": 1100.5135283208565,         "y1": 569.4656941972372,         "x2": 1206.5654688571801,         "y2": 621.4690533571447...
+**맥락/질문:** "object": [
+     {
+       "name": "car",
+       "score": -1,
+       "objectness": -1,
+       "class_confidence": -1,
+       "truncated": 0,
+       "occluded": 0.5,
+       "tracking_id": 5,
+       "tracking_age": -1,
+       "bbox2d_valid": 1,
+       "bbox2d": {
+         "x1": 1100.5135283208565,
+         "y1": 569.4656941972372,
+         "x2": 1206.5654688571801,
+         "y2": 621.4690533571447...
 
 **핵심 답변/결론:** JSON 데이터를 Pandas DataFrame으로 변환하고, OD 및 SOD 클래스 그룹화 및 처리를 수행하는 Python 코드를 작성할 수 있습니다. 아래는 JSON 데이터를 지정된 형식으로 처리한 뒤 데이터 프레임으로 변환하고, 필요한 클래스 리스트에 따라 데이터를 그룹화 및 저장하는 코드입니다.  ### 코드 작성 ```python import os import json import pandas as pd from tqdm import tqdm  # JSON 파일 경로 및 출력 경로 json_directory = r'C:\Users\Seonghwan.PARK\Downloads\labels' output_directory = r'C:\Users\Seonghwan.PARK\Desktop'  # 출력 디렉토리가 존재하지 않으면 생성 if not os.path.exists(output_directory):     os.makedirs(output_directory)  # OD 그룹 클래스 리스트 od_class_list = [     "car_2D", "car_3D", "truck_2D", "truck_3D", "truck_head_2D", "truck_he...
 
@@ -219,7 +234,20 @@
 ### 객체 크기 계산
 **날짜:** 2024-12-10 | **파일:** conversations-001.json
 
-**맥락/질문:** "name": "car",       "bbox3d_valid": 1,       "bbox3d": {         "x": 6.54618713822024,         "y": 5.0533518774521715,         "z": -1.724487131488192,         "w": 1.415812436515916,         "h": 1.4639039403934517,         "l": 3.2058702048744947,         "yaw": 1.5618146727379891,         "pitch": 0.00017976517291828413,         "roll": 0.05001149684051681       },       "image_...
+**맥락/질문:** "name": "car",
+       "bbox3d_valid": 1,
+       "bbox3d": {
+         "x": 6.54618713822024,
+         "y": 5.0533518774521715,
+         "z": -1.724487131488192,
+         "w": 1.415812436515916,
+         "h": 1.4639039403934517,
+         "l": 3.2058702048744947,
+         "yaw": 1.5618146727379891,
+         "pitch": 0.00017976517291828413,
+         "roll": 0.05001149684051681
+       },
+       "image_...
 
 **핵심 답변/결론:** 각 객체의 이미지 상 크기를 계산한 결과는 다음과 같습니다:  1. **mvc_front**      - 너비 (width): 835.88 픽셀      - 높이 (height): 523.35 픽셀    2. **svc_front**      - 너비 (width): 311.83 픽셀      - 높이 (height): 212.55 픽셀    3. **svc_left**      - 너비 (width): 336.52 픽셀      - 높이 (height): 224.55 픽셀    이 계산은 각 bbox2d의 \(x2 - x1\)로 너비를, \(y2 - y1\)로 높이를 구했습니다.
 
@@ -230,7 +258,8 @@
 ### Urlfetch Daily Limit Exceeded
 **날짜:** 2024-12-15 | **파일:** conversations-001.json
 
-**맥락/질문:** Exception: Service invoked too many times for one day: urlfetch. fetchDataAndWriteToSheet_FV	@ fetchDataAndWriteToSheet_FV.gs:43
+**맥락/질문:** Exception: Service invoked too many times for one day: urlfetch.
+ fetchDataAndWriteToSheet_FV	@ fetchDataAndWriteToSheet_FV.gs:43
 
 **대화 길이:** 총 1개 메시지 (질문 1개)
 
@@ -482,7 +511,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -527,7 +557,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -572,7 +603,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -617,7 +649,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -662,7 +695,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -707,7 +741,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -752,7 +787,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -797,7 +833,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -842,7 +879,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -887,7 +925,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -932,7 +971,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -977,7 +1017,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1022,7 +1063,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1067,7 +1109,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1112,7 +1155,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1157,7 +1201,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1202,7 +1247,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1247,7 +1293,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1292,7 +1339,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1337,7 +1385,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1382,7 +1431,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1427,7 +1477,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1472,7 +1523,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1517,7 +1569,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1562,7 +1615,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1607,7 +1661,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1652,7 +1707,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1697,7 +1753,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1742,7 +1799,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1787,7 +1845,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1832,7 +1891,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1877,7 +1937,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1922,7 +1983,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -1967,7 +2029,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2012,7 +2075,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2057,7 +2121,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2102,7 +2167,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2147,7 +2213,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2192,7 +2259,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2237,7 +2305,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2282,7 +2351,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2327,7 +2397,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2372,7 +2443,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2417,7 +2489,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2462,7 +2535,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2507,7 +2581,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2552,7 +2627,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2597,7 +2673,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2642,7 +2719,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2687,7 +2765,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2732,7 +2811,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2777,7 +2857,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2831,7 +2912,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2894,7 +2976,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -2948,7 +3031,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3011,7 +3095,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3083,7 +3168,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3155,7 +3241,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3236,7 +3323,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3308,7 +3396,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3389,7 +3478,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3461,7 +3551,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3533,7 +3624,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3605,7 +3697,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3677,7 +3770,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3749,7 +3843,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3821,7 +3916,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3893,7 +3989,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -3965,7 +4062,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4037,7 +4135,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4109,7 +4208,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4181,7 +4281,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4253,7 +4354,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4325,7 +4427,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4397,7 +4500,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4469,7 +4573,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4541,7 +4646,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4613,7 +4719,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4685,7 +4792,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4757,7 +4865,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4829,7 +4938,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4901,7 +5011,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -4973,7 +5084,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5045,7 +5157,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5117,7 +5230,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5189,7 +5303,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5261,7 +5376,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5333,7 +5449,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5405,7 +5522,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5477,7 +5595,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5549,7 +5668,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5621,7 +5741,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5693,7 +5814,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5765,7 +5887,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5837,7 +5960,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5909,7 +6033,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -5981,7 +6106,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6053,7 +6179,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6125,7 +6252,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6197,7 +6325,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6269,7 +6398,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6341,7 +6471,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6413,7 +6544,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6485,7 +6617,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6557,7 +6690,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6629,7 +6763,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6701,7 +6836,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6773,7 +6909,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6845,7 +6982,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6917,7 +7055,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -6989,7 +7128,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7061,7 +7201,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7133,7 +7274,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7205,7 +7347,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7277,7 +7420,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7349,7 +7493,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7421,7 +7566,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7493,7 +7639,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7565,7 +7712,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7637,7 +7785,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7709,7 +7858,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7781,7 +7931,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7853,7 +8004,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7925,7 +8077,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -7997,7 +8150,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8069,7 +8223,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8141,7 +8296,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8213,7 +8369,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8285,7 +8442,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8357,7 +8515,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8429,7 +8588,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8510,7 +8670,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8600,7 +8761,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8681,7 +8843,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8762,7 +8925,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8843,7 +9007,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -8924,7 +9089,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9005,7 +9171,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9086,7 +9253,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9167,7 +9335,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9248,7 +9417,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9329,7 +9499,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9410,7 +9581,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
@@ -9491,7 +9663,8 @@ _(내용 없음)_
 ### 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenCla
 **날짜:** 2026-04-08 | **파일:** 08615e0e-1657-4867-bd44-cae519252613.jsonl
 
-**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.   이를 기...
+**맥락 요약:** 다음 기사를 한국어 3줄로 요약해줘. 각 줄은 '- '로 시작. 세 줄만 출력.  제목: Claude Code 소스 유출로 탄생한 OpenClaude — GPT-4o, Gemini, Ollama 등 200개 모델을 Claude Code UI로 설명: 2026년 3월 31일, Claude Code의 소스코드가 npm 소스맵을 통해 노출됐습니다.  
+ 이를 기...
 
 **대화 길이:** 총 2개 메시지
 
