@@ -29,9 +29,15 @@ Multi-Agent Orchestrator
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
+
+# Windows CP949 콘솔에서 UTF-8 문자(em dash 등) 출력 오류 방지
+if sys.stdout.encoding and sys.stdout.encoding.lower() in ('cp949', 'cp950', 'gbk', 'euc-kr'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from typing import Optional
@@ -44,10 +50,11 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, '.status'))
 
 # .env 자동 로드 (nova_helper/.env 우선, 루트 .env 차선)
 def _load_dotenv():
+    # 루트 .env 우선, 이후 보조 .env 병합 (break 없이 전부 읽음)
     for env_path in [
-        os.path.join(PROJECT_ROOT, 'projects', 'nova_helper', '.env'),
         os.path.join(PROJECT_ROOT, '.env'),
         os.path.join(PROJECT_ROOT, '.scripts', '.env'),
+        os.path.join(PROJECT_ROOT, 'projects', 'nova_helper', '.env'),
     ]:
         if os.path.exists(env_path):
             with open(env_path, encoding='utf-8') as f:
@@ -55,8 +62,9 @@ def _load_dotenv():
                     line = line.strip()
                     if line and not line.startswith('#') and '=' in line:
                         k, _, v = line.partition('=')
-                        os.environ.setdefault(k.strip(), v.strip())
-            break
+                        key, val = k.strip(), v.strip()
+                        if val and not os.environ.get(key):
+                            os.environ[key] = val
 
 _load_dotenv()
 
@@ -82,21 +90,6 @@ TOKEN_USAGE_PATH = os.path.join(PROJECT_ROOT, '.status', 'token_usage.json')
 TOKEN_PARALLEL_THRESHOLD = 10_000
 
 # ── 모델 설정 로드 ─────────────────────────────────────────────────
-_MODEL_CONFIG_PATH = os.path.join(PROJECT_ROOT, '.scripts', 'model_config.json')
-
-def _load_model_config() -> dict:
-    try:
-        with open(_MODEL_CONFIG_PATH, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return {}
-
-_MODEL_CONFIG = _load_model_config()
-
-def get_domain_preset(domain: str) -> dict:
-    """도메인에 맞는 모델 프리셋 반환. 매핑 없으면 default."""
-    preset_name = _MODEL_CONFIG.get('domain_presets', {}).get(domain, 'default')
-    return _MODEL_CONFIG.get('presets', {}).get(preset_name, {})
 
 # 에스컬레이션 한도 (플랜 설계 기준)
 MAX_EXECUTION_RETRIES = 5
@@ -108,9 +101,9 @@ BUS_POLL_TIMEOUT  = 600  # 10분
 
 # ── 에이전트 모델 배정 (기본값) ────────────────────────────────────────
 _AGENT_MODELS_DEFAULT = {
-    'execution':  'claude-sonnet-4-6',
+    'execution':  'claude-sonnet-4-5',
     'validation': 'gpt-4.1',
-    'advisor':    'claude-opus-4-6',
+    'advisor':    'claude-opus-4-5',
     'reporter':   'gpt-4.1-mini',
 }
 _AGENT_PROVIDERS_DEFAULT = {
@@ -153,10 +146,39 @@ def _load_model_config() -> tuple[dict, dict, dict, dict, dict, dict]:
  MODEL_COSTS, DOMAIN_PRESETS, PRESETS) = _load_model_config()
 
 
-def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
-    """domain + role → (model, provider, params)."""
+def get_domain_preset(domain: str) -> dict:
+    """도메인 프리셋을 flat dict(구 스키마)로 반환. run_auto/run_full_pipeline 공용."""
     preset_name = DOMAIN_PRESETS.get(domain, 'default')
     if preset_name != 'default' and preset_name in PRESETS:
+        p = PRESETS[preset_name]
+        def _m(role):    return p.get(role, {}).get('model',       AGENT_MODELS.get(role, ''))
+        def _tmp(role):  return p.get(role, {}).get('temperature', AGENT_PARAMS.get(role, {}).get('temperature', 0.3))
+        def _mx(role, d): return p.get(role, {}).get('max_tokens', AGENT_PARAMS.get(role, {}).get('max_tokens', d))
+    else:
+        def _m(role):    return AGENT_MODELS.get(role, '')
+        def _tmp(role):  return AGENT_PARAMS.get(role, {}).get('temperature', 0.3)
+        def _mx(role, d): return AGENT_PARAMS.get(role, {}).get('max_tokens', d)
+    return {
+        'execution_model':       _m('execution'),
+        'validation_model':      _m('validation'),
+        'advisor_model':         _m('advisor'),
+        'reporter_model':        _m('reporter'),
+        'temperature_execution': _tmp('execution'),
+        'temperature_advisor':   _tmp('advisor'),
+        'max_tokens_execution':  _mx('execution',  8192),
+        'max_tokens_validation': _mx('validation', 4096),
+        'max_tokens_advisor':    _mx('advisor',    4096),
+        'max_tokens_reporter':   _mx('reporter',   8192),
+    }
+
+
+def get_domain_config(domain: str, role: str) -> tuple[str, str, dict]:
+    """domain + role → (model, provider, params).
+    preset_name == 'default'도 _presets.default 항목이 있으면 그것을 사용한다.
+    _presets에 없는 preset_name이면 agents 블록 기본값으로 폴백.
+    """
+    preset_name = DOMAIN_PRESETS.get(domain, 'default')
+    if preset_name in PRESETS:
         role_cfg = PRESETS[preset_name].get(role, {})
         model    = role_cfg.get('model',    AGENT_MODELS.get(role, ''))
         provider = role_cfg.get('provider', AGENT_PROVIDERS.get(role, 'anthropic'))
@@ -271,105 +293,69 @@ def make_execution_prompt(task: str, domain: str, task_id: str, bus_path: str,
         f'Protocol: {_abs("global/04_AgentEcosystem/protocol/task_manifest_schema.md")}\n\n'
         f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n\n'
         f'수행 순서:\n'
-        f'1. Manifest 읽기: {bus_path}\n'
-        f'2. context_files 참고하여 작업 수행\n'
-        f'3. 결과를 AgentBus.write_result()로 저장\n'
-        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
-        f'4. 완료 후 "EXECUTION_DONE:{task_id}" 를 마지막 줄에 출력\n\n'
-        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+        f'1. 위 Task를 충분히 분석하고 작업을 수행한다\n'
+        f'2. 작업 결과를 마크다운 형식으로 상세히 출력한다\n'
+        f'3. 응답 마지막 줄에 반드시 다음 신호를 출력한다:\n'
+        f'   EXECUTION_DONE:{task_id}\n\n'
+        f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 자동 처리함.\n'
+        f'   AgentBus Python 코드를 응답에 포함하지 말 것.\n'
+        f'   결과 텍스트만 출력하고 마지막에 EXECUTION_DONE 신호를 붙일 것.'
     )
 
-def make_validation_prompt(task_id: str, domain: str) -> str:
+def make_validation_prompt(task_id: str, domain: str,
+                            manifest_content: str = '', result_content: str = '') -> str:
     return (
-        f'당신은 Validation Agent입니다.\n\n'
-        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__validation.md")}\n'
-        f'Protocol: {_abs("global/04_AgentEcosystem/protocol/task_manifest_schema.md")}\n\n'
-        f'Task ID: {task_id}\n\n'
-        f'수행 순서:\n'
-        f'1. Manifest 읽기: .agents/bus/{task_id}_manifest.json\n'
-        f'2. Result 읽기: .agents/bus/{task_id}_result.json\n'
-        f'3. Role Rules 기준 3단계 검증 수행\n'
-        f'4. AgentBus.write_validation()으로 verdict 저장\n'
-        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
-        f'5. 완료 후 "VALIDATION_DONE:{task_id}:{{PASS|FAIL|INSUFFICIENT}}" 를 마지막 줄에 출력\n\n'
-        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+        f'당신은 Validation Agent입니다. 아래 실행 결과를 검증하고 판정을 내려야 합니다.\n\n'
+        f'=== Task Manifest ===\n{manifest_content or "(없음)"}\n\n'
+        f'=== Execution Result ===\n{result_content or "(없음)"}\n\n'
+        f'검증 기준:\n'
+        f'1. Task 요구사항이 충족되었는가?\n'
+        f'2. 결과물의 품질이 충분한가?\n'
+        f'3. 오류나 누락된 항목이 없는가?\n\n'
+        f'판정 이유를 간략히 서술한 후, 아래 두 블록을 순서대로 출력하라:\n\n'
+        f'1) 통과한 검증 항목을 JSON 형식으로 출력:\n'
+        f'PASSED_CHECKS_JSON:{{"passed_checks":["항목1","항목2",...]}}\n\n'
+        f'2) 응답 마지막 줄에 판정 신호:\n'
+        f'  VALIDATION_DONE:{task_id}:PASS\n'
+        f'  VALIDATION_DONE:{task_id}:FAIL\n'
+        f'  VALIDATION_DONE:{task_id}:INSUFFICIENT\n\n'
+        f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 자동 처리함.\n'
+        f'   AgentBus Python 코드를 응답에 포함하지 말 것.\n'
+        f'   PASSED_CHECKS_JSON과 VALIDATION_DONE 신호를 반드시 출력할 것.'
     )
 
-def make_advisor_prompt(task_id: str, call_count: int) -> str:
+def make_advisor_prompt(task_id: str, call_count: int,
+                         manifest_content: str = '', result_content: str = '',
+                         validation_content: str = '') -> str:
     return (
         f'당신은 Advisor Agent입니다. [호출 {call_count}회차]\n\n'
-        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n\n'
-        f'Task ID: {task_id}\n\n'
-        f'수행 순서:\n'
-        f'1. Manifest/Result/Validation 읽기 (.agents/bus/{task_id}_*.json)\n'
-        f'2. 근본 원인 분석\n'
-        f'3. AgentBus.write_advice()로 솔루션 저장\n'
-        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
-        f'4. 완료 후 "ADVICE_DONE:{task_id}:{{escalate|retry}}" 를 마지막 줄에 출력\n\n'
-        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+        f'=== Task Manifest ===\n{manifest_content or "(없음)"}\n\n'
+        f'=== Execution Result ===\n{result_content or "(없음)"}\n\n'
+        f'=== Validation 판정 ===\n{validation_content or "(없음)"}\n\n'
+        f'수행:\n'
+        f'1. Validation이 FAIL/INSUFFICIENT인 근본 원인 분석\n'
+        f'2. Execution 재시도 시 개선할 구체적 액션 플랜 제시\n\n'
+        f'분석 후, 응답 마지막 줄에 아래 형식 중 하나를 출력하라:\n'
+        f'  ADVICE_DONE:{task_id}:retry\n'
+        f'  ADVICE_DONE:{task_id}:escalate\n\n'
+        f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 처리함.\n'
+        f'   AgentBus Python 코드를 응답에 포함하지 말 것.'
     )
 
-def make_reporter_prompt(task_id: str, domain: str) -> str:
+def make_reporter_prompt(task_id: str, domain: str,
+                          manifest_content: str = '', result_content: str = '') -> str:
     return (
         f'당신은 Reporter Agent입니다.\n\n'
-        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__reporter.md")}\n\n'
-        f'Task ID: {task_id}\n\n'
-        f'수행 순서:\n'
-        f'1. Manifest/Result/Validation 읽기 (.agents/bus/{task_id}_*.json)\n'
-        f'2. 마크다운 보고서 작성\n'
-        f'3. AgentBus.write_report()로 저장\n'
-        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
-        f'4. 필요 시 global/05_PM_Outputs/{{domain}}_report_{datetime.now().strftime("%Y-%m-%d")}.md 저장\n'
-        f'5. 보고서 내용을 stdout에 출력\n\n'
-        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+        f'=== Task Manifest ===\n{manifest_content or "(없음)"}\n\n'
+        f'=== Execution Result ===\n{result_content or "(없음)"}\n\n'
+        f'위 실행 결과를 바탕으로 사용자에게 전달할 마크다운 보고서를 작성하라.\n'
+        f'보고서는 명확하고 구조적이어야 하며 핵심 결과, 인사이트, 다음 액션을 포함해야 한다.\n\n'
+        f'보고서 전문을 stdout에 출력하라.\n'
+        f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 처리함.\n'
+        f'   AgentBus Python 코드를 응답에 포함하지 말 것.'
     )
 
-# ── Anthropic SDK 직접 호출 ────────────────────────────────────────
-
-def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
-                        model: str = 'claude-sonnet-4-6',
-                        timeout: int = 600,
-                        params: dict | None = None) -> tuple[bool, str]:
-    """
-    Anthropic Python SDK로 Claude 호출 (temperature, max_tokens 완전 지원).
-    CLI 우회 → API 직접 연결. ANTHROPIC_API_KEY 또는 CLAUDE_API_KEY 필요.
-    반환: (성공 여부, 텍스트)
-    """
-    try:
-        import anthropic as _anthropic  # noqa: PLC0415
-    except ImportError:
-        log.add(f'[{label}] anthropic 패키지 없음 — pip install anthropic')
-        return False, ''
-
-    api_key = (os.environ.get('ANTHROPIC_API_KEY')
-               or os.environ.get('CLAUDE_API_KEY'))
-    if not api_key:
-        log.add(f'[{label}] ANTHROPIC_API_KEY 없음 — .env 설정 필요')
-        return False, ''
-
-    p = params or {}
-    temperature = p.get('temperature', 1.0)
-    max_tokens  = p.get('max_tokens', 4096)
-
-    log.add(f'[{label}] Anthropic SDK ({model}, temp={temperature}) 실행 시작')
-    try:
-        client = _anthropic.Anthropic(api_key=api_key)
-        message = client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=[{'role': 'user', 'content': prompt}],
-        )
-        result     = message.content[0].text if message.content else ''
-        usage_in   = getattr(message.usage, 'input_tokens', 0)
-        usage_out  = getattr(message.usage, 'output_tokens', 0)
-        log.add(f'[{label}] 완료 (출력 {len(result)} chars, '
-                f'토큰 in={usage_in} out={usage_out})')
-        _track_anthropic_usage(usage_in + usage_out, label)
-        return True, result
-    except Exception as e:
-        log.add(f'[{label}] 오류: {e}')
-        return False, ''
+# ── Anthropic SDK 직접 호출 (단일 정의) ───────────────────────────
 
 
 def _track_anthropic_usage(tokens: int, task_name: str) -> None:
@@ -399,8 +385,12 @@ def run_agent(prompt: str, label: str, log: AgentLog,
     log.add(f'[{label}] {model} (provider={provider}, preset={preset_name})')
 
     if provider == 'anthropic':
-        return run_anthropic_agent(prompt, label, log, model=model,
-                                   params=params, timeout=timeout)
+        temperature = params.get('temperature', 0.3) if params else 0.3
+        max_tokens  = params.get('max_tokens', 4096) if params else 4096
+        ok, stdout, _, _ = run_anthropic_agent(prompt, label, log, model=model,
+                                               temperature=temperature,
+                                               max_tokens=max_tokens)
+        return ok, stdout
     elif provider == 'openai':
         return run_openai_agent(prompt, label, log, model=model,
                                 params=params, timeout=timeout)
@@ -485,7 +475,7 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
 
 
 def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
-                        model: str = 'claude-sonnet-4-6',
+                        model: str = 'claude-sonnet-4-5',
                         temperature: float = 0.3,
                         max_tokens: int = 8192) -> tuple[bool, str, int, int]:
     """Anthropic SDK로 에이전트 실행.
@@ -500,6 +490,10 @@ def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
         return ok, stdout, 0, 0
 
     api_key = os.environ.get('CLAUDE_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
+    # env에 없으면 .env 파일에서 직접 읽기 (setdefault 타이밍 이슈 방어)
+    if not api_key:
+        _load_dotenv()
+        api_key = os.environ.get('CLAUDE_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
     if not api_key:
         log.add(f'[{label}] API 키 없음 — CLI fallback')
         ok, stdout = run_claude_agent(prompt, label, log)
@@ -609,7 +603,7 @@ def _is_openai_model(model: str) -> bool:
 
 
 def _run_agent(prompt: str, label: str, log: AgentLog,
-               model: str = 'claude-sonnet-4-6',
+               model: str = 'claude-sonnet-4-5',
                temperature: float = 0.3,
                max_tokens: int = 8192) -> tuple[bool, str]:
     """모델명에 따라 Anthropic SDK / OpenAI API / CLI fallback 라우팅.
@@ -734,7 +728,8 @@ def list_tasks():
 
 # ── Auto 파이프라인 ────────────────────────────────────────────────
 
-def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
+def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog,
+             shared_task_id: str | None = None):
     """Execution → Validation → (Advisor) → Reporter 자동 실행."""
 
     # ── 0. 권한 사전 체크 ────────────────────────────────────────
@@ -748,10 +743,10 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # 도메인 프리셋 로드
     preset = get_domain_preset(domain)
-    exec_model   = preset.get('execution_model',   'claude-sonnet-4-6')
-    val_model    = preset.get('validation_model',  'claude-sonnet-4-6')
-    adv_model    = preset.get('advisor_model',     'claude-sonnet-4-6')
-    rep_model    = preset.get('reporter_model',    'claude-sonnet-4-6')
+    exec_model   = preset.get('execution_model',   'claude-sonnet-4-5')
+    val_model    = preset.get('validation_model',  'claude-sonnet-4-5')
+    adv_model    = preset.get('advisor_model',     'claude-sonnet-4-5')
+    rep_model    = preset.get('reporter_model',    'claude-sonnet-4-5')
     temp_exec    = preset.get('temperature_execution', 0.3)
     temp_adv     = preset.get('temperature_advisor',   0.2)
     max_tok_exec = preset.get('max_tokens_execution',  8192)
@@ -764,7 +759,9 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
     while exec_retries <= MAX_EXECUTION_RETRIES:
         # Manifest 생성 (재시도 시 새 bus 유지, retry_count 갱신)
         if bus is None:
-            bus = build_manifest(task, domain, retry_count=exec_retries)
+            bus = build_manifest(task, domain,
+                                 task_id=shared_task_id,
+                                 retry_count=exec_retries)
         else:
             # 재시도: 기존 task_id 유지, retry_count만 갱신
             bus.write_manifest(
@@ -792,33 +789,63 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
             time.sleep(2)
             continue
 
-        # result.json 대기 (에이전트가 직접 쓰지 않은 경우 stdout 파싱 시도)
+        # result.json 확인 — SDK 모드에서는 orchestrator가 직접 생성
         result_data = bus.read(BusFile.RESULT)
         if result_data is None:
-            log.add('result.json 없음 — stdout에서 파싱 시도')
-            # stdout에 "EXECUTION_DONE:<task_id>" 확인
-            if f'EXECUTION_DONE:{bus.task_id}' not in stdout:
+            if ok and stdout.strip():
+                # SDK 응답이 있으면 orchestrator가 result.json 자동 저장
+                has_done_signal = f'EXECUTION_DONE:{bus.task_id}' in stdout
+                status = 'success' if has_done_signal else 'partial'
+                log.add(f'SDK 응답으로 result.json 자동 생성 (status={status})')
+                bus.write_result(
+                    domain, status,
+                    [{'type': f'{domain}_result',
+                      'summary': stdout[:300],
+                      'content': stdout}],
+                )
+                result_data = bus.read(BusFile.RESULT)
+            else:
                 log.add('EXECUTION_DONE 신호 없음 — Execution 실패로 처리')
                 exec_retries += 1
                 continue
 
-            # 결과 없이 신호만 있으면 기본 result 작성
-            bus.write_result(domain, 'partial', [], errors=['result.json 미작성'])
-
         log.update(progress=40, message='Execution 완료 — Validation 진행')
 
         # ── 2. Validation ──────────────────────────────────────
-        val_prompt = make_validation_prompt(bus.task_id, domain)
+        # 컨텍스트를 인라인으로 전달 (SDK 모드에서 파일 I/O 불가)
+        _manifest_data = bus.read(BusFile.MANIFEST) or {}
+        _manifest_str  = json.dumps(_manifest_data, ensure_ascii=False, indent=2)
+        _result_str    = json.dumps(result_data, ensure_ascii=False, indent=2) if result_data else (stdout or '')[:3000]
+
+        val_prompt = make_validation_prompt(bus.task_id, domain, _manifest_str, _result_str)
         ok, val_stdout = run_agent(val_prompt, 'Validation', log,
                                    role='validation', domain=domain)
 
+        # stdout에서 verdict + passed_checks 파싱 (SDK 모드: 파일 미작성)
+        _VALID_VERDICTS = {'PASS', 'FAIL', 'INSUFFICIENT'}
         validation = bus.read(BusFile.VALIDATION)
-        if validation is None and f'VALIDATION_DONE:{bus.task_id}' in (val_stdout or ''):
-            # stdout 파싱으로 verdict 추출
+        if validation is None:
+            # passed_checks 파싱
+            passed_checks = []
+            _pc_match = re.search(r'PASSED_CHECKS_JSON:\s*(\{.*?"passed_checks"\s*:\s*\[.*?\].*?\})',
+                                   val_stdout or '', re.DOTALL)
+            if _pc_match:
+                try:
+                    passed_checks = json.loads(_pc_match.group(1)).get('passed_checks', [])
+                except (json.JSONDecodeError, Exception):
+                    pass
+
+            # verdict 파싱
             match_str = f'VALIDATION_DONE:{bus.task_id}:'
-            idx = val_stdout.find(match_str)
-            verdict = val_stdout[idx + len(match_str):].split()[0] if idx >= 0 else 'INSUFFICIENT'
-            bus.write_validation(verdict, advisor_needed=(verdict == 'FAIL'))
+            idx = (val_stdout or '').find(match_str)
+            if idx >= 0:
+                raw = val_stdout[idx + len(match_str):].split()[0].strip().upper()
+                parsed_verdict = raw if raw in _VALID_VERDICTS else 'INSUFFICIENT'
+            else:
+                parsed_verdict = 'INSUFFICIENT'
+            bus.write_validation(parsed_verdict,
+                                  advisor_needed=(parsed_verdict == 'FAIL'),
+                                  passed_checks=passed_checks)
             validation = bus.read(BusFile.VALIDATION)
 
         if validation is None:
@@ -826,6 +853,10 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
             validation = {'verdict': 'INSUFFICIENT', 'advisor_needed': False}
 
         verdict = validation.get('verdict', 'INSUFFICIENT')
+        if verdict not in _VALID_VERDICTS:
+            log.add(f'verdict 값 비정상({verdict!r}) — INSUFFICIENT 처리')
+            verdict = 'INSUFFICIENT'
+            validation['verdict'] = verdict
         log.add(f'Validation 판정: {verdict}')
 
         # ── 3. 판정 분기 ─────────────────────────────────────
@@ -845,21 +876,36 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
             if validation.get('advisor_needed') and advisor_calls < MAX_ADVISOR_CALLS:
                 advisor_calls += 1
                 log.update(progress=60, message=f'Advisor 호출 ({advisor_calls}/{MAX_ADVISOR_CALLS})')
-                adv_prompt = make_advisor_prompt(bus.task_id, advisor_calls)
-                run_agent(adv_prompt, f'Advisor#{advisor_calls}', log,
-                          role='advisor', domain=domain)
+                _validation_str = json.dumps(validation, ensure_ascii=False, indent=2)
+                adv_prompt = make_advisor_prompt(bus.task_id, advisor_calls,
+                                                 _manifest_str, _result_str, _validation_str)
+                ok_adv, adv_stdout = run_agent(adv_prompt, f'Advisor#{advisor_calls}', log,
+                                               role='advisor', domain=domain)
 
                 advice = bus.read(BusFile.ADVICE)
+                # Advisor 결과 stdout에서 파싱 (SDK 모드)
+                if advice is None and adv_stdout:
+                    adv_match = f'ADVICE_DONE:{bus.task_id}:'
+                    adv_idx = adv_stdout.find(adv_match)
+                    adv_action = 'retry'
+                    if adv_idx >= 0:
+                        adv_raw = adv_stdout[adv_idx + len(adv_match):].split()[0].strip().lower()
+                        adv_action = adv_raw if adv_raw in ('retry', 'escalate') else 'retry'
+                    bus.write_advice(
+                        root_cause=adv_stdout[:500],
+                        solutions=[{'action': adv_stdout[:1000], 'target_agent': 'execution', 'priority': 'high'}],
+                        escalate_to_user=(adv_action == 'escalate'),
+                    )
+                    advice = bus.read(BusFile.ADVICE)
+
                 if advice and advice.get('escalate_to_user'):
-                    # 사용자 에스컬레이션
                     log.error('Advisor: 사용자 에스컬레이션 필요')
                     _escalate_to_user(bus, log)
                     return
 
-                exec_retries += 1  # Advisor 후 재시도
+                exec_retries += 1
                 log.add('Advisor 완료 — Execution 재시도')
             else:
-                # Advisor 한도 초과 또는 advisor_needed=false
                 if advisor_calls >= MAX_ADVISOR_CALLS:
                     log.error(f'Advisor 최대 호출 ({MAX_ADVISOR_CALLS}회) 후에도 FAIL')
                     _escalate_to_user(bus, log)
@@ -875,7 +921,11 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── 4. Reporter ─────────────────────────────────────────────
     if bus and verdict == 'PASS':
-        rep_prompt = make_reporter_prompt(bus.task_id, domain)
+        _manifest_data = bus.read(BusFile.MANIFEST) or {}
+        _manifest_str  = json.dumps(_manifest_data, ensure_ascii=False, indent=2)
+        _result_data   = bus.read(BusFile.RESULT)
+        _result_str    = json.dumps(_result_data, ensure_ascii=False, indent=2) if _result_data else ''
+        rep_prompt = make_reporter_prompt(bus.task_id, domain, _manifest_str, _result_str)
         ok, rep_stdout = run_agent(rep_prompt, 'Reporter', log,
                                    role='reporter', domain=domain)
 
@@ -1071,22 +1121,34 @@ def make_advisor_plan_prompt(task_id: str, domain: str, task: str) -> str:
     )
 
 
-def make_advisor_evaluation_prompt(task_id: str) -> str:
+def make_advisor_evaluation_prompt(task_id: str, manifest_content: str = '',
+                                    result_content: str = '',
+                                    validation_content: str = '') -> str:
     return (
         f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
-        f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
-        f'Evaluation Schema: {_abs("global/04_AgentEcosystem/protocol/evaluation_schema.md")}\n\n'
+        f'=== Task Manifest ===\n{manifest_content or "(없음)"}\n\n'
+        f'=== Execution Result (요약) ===\n{result_content or "(없음)"}\n\n'
+        f'=== Validation 결과 ===\n{validation_content or "(없음)"}\n\n'
         f'Task ID: {task_id}\n\n'
-        f'수행 순서 [Phase 4-5]:\n'
-        f'1. .agents/bus/{task_id}_manifest.json + _result.json + _validation.json 분석\n'
-        f'2. advisor_plan 파일이 있으면 플랜 대비 결과 비교\n'
-        f'3. 10항목 평가 (code_quality, agent_utilization, parallelization,\n'
-        f'   token_cost, retry_waste, comm_efficiency, completion_rate,\n'
-        f'   duration, issue_resolution, autonomy)\n'
-        f'4. AgentBus.write_evaluation()으로 저장\n'
-        f'   from agent_bus import AgentBus; bus = AgentBus("{task_id}")\n'
-        f'5. 완료 후 "EVALUATION_DONE:{task_id}:{{total_score}}" 를 마지막 줄에 출력\n\n'
-        f'AgentBus import: sys.path.insert(0, "{_abs(".scripts")}")'
+        f'위 내용을 분석하여 10항목 평가를 수행하라:\n'
+        f'  code_quality, agent_utilization, parallelization, token_cost,\n'
+        f'  retry_waste, comm_efficiency, completion_rate,\n'
+        f'  duration, issue_resolution, autonomy\n\n'
+        f'각 항목을 0~10점으로 평가하고, 아래 JSON 형식으로 출력하라:\n\n'
+        f'EVALUATION_JSON:{{\n'
+        f'  "scores": {{\n'
+        f'    "code_quality": {{"score": 0, "evidence": "...", "issues": []}},\n'
+        f'    "completion_rate": {{"score": 0, "evidence": "...", "issues": []}},\n'
+        f'    ... (나머지 8항목 동일 형식)\n'
+        f'  }},\n'
+        f'  "total_score": 0,\n'
+        f'  "commit_ready": false,\n'
+        f'  "improvement_items": ["개선항목1", "개선항목2"]\n'
+        f'}}\n\n'
+        f'그 다음 줄에 반드시 아래 신호를 출력하라:\n'
+        f'EVALUATION_DONE:{task_id}:{{total_score}}\n\n'
+        f'※ SDK 직접 호출 모드: 파일 저장은 orchestrator가 자동 처리함.\n'
+        f'   AgentBus Python 코드를 응답에 포함하지 말 것.'
     )
 
 
@@ -1166,13 +1228,12 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
     Advisor 평가 → 사용자 승인 게이트 → commit/PR
     """
     preset = get_domain_preset(domain)
-    adv_model    = preset.get('advisor_model',   'claude-opus-4-6')
+    adv_model    = preset.get('advisor_model',   'claude-opus-4-5')
     temp_adv     = preset.get('temperature_advisor', 0.2)
     max_tok_adv  = preset.get('max_tokens_advisor',  4096)
-    ui_cfg       = _MODEL_CONFIG.get('agents', {}).get('user_interface', {})
-    ui_model     = ui_cfg.get('model', 'claude-haiku-4-5-20251001')
-    ui_temp      = ui_cfg.get('temperature', 0.3)
-    ui_max_tok   = ui_cfg.get('max_tokens', 1024)
+    ui_model     = AGENT_MODELS.get('user_interface', 'claude-haiku-4-5-20251001')
+    ui_temp      = AGENT_PARAMS.get('user_interface', {}).get('temperature', 0.3)
+    ui_max_tok   = AGENT_PARAMS.get('user_interface', {}).get('max_tokens', 1024)
 
     bus = AgentBus()
     task_id = bus.task_id
@@ -1207,9 +1268,9 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── Step 3: Execution ↔ Validation 루프 (기존 run_auto 재사용) ─
     log.update(progress=20, message='Execution 루프 시작')
-    run_auto(task, domain, no_confirm=True, log=log)
+    run_auto(task, domain, no_confirm=True, log=log, shared_task_id=task_id)
 
-    # 루프 종료 후 verdict 확인
+    # 루프 종료 후 verdict 확인 (동일 task_id bus에서 읽음)
     validation = bus.read(BusFile.VALIDATION)
     verdict = validation.get('verdict', 'FAIL') if validation else 'FAIL'
     log.add(f'Execution 루프 완료: verdict={verdict}')
@@ -1220,11 +1281,54 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── Step 4: Advisor — 결과 리뷰 + 10항목 평가 ─────────────────
     log.update(progress=80, message='Advisor: 결과 평가 중')
-    eval_prompt = make_advisor_evaluation_prompt(task_id)
-    _run_agent(eval_prompt, 'AdvisorEval', log,
-               model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+    _manifest_eval  = json.dumps(bus.read(BusFile.MANIFEST)  or {}, ensure_ascii=False)[:2000]
+    _result_eval    = json.dumps(bus.read(BusFile.RESULT)    or {}, ensure_ascii=False)[:2000]
+    _validation_eval= json.dumps(bus.read(BusFile.VALIDATION)or {}, ensure_ascii=False)[:1000]
+    eval_prompt = make_advisor_evaluation_prompt(
+        task_id,
+        manifest_content=_manifest_eval,
+        result_content=_result_eval,
+        validation_content=_validation_eval,
+    )
+    ok_eval, eval_stdout = _run_agent(eval_prompt, 'AdvisorEval', log,
+                                       model=adv_model, temperature=temp_adv,
+                                       max_tokens=max_tok_adv)
 
     evaluation = bus.read(BusFile.EVALUATION)
+    if evaluation is None and eval_stdout:
+        # EVALUATION_DONE:{task_id}:{total_score} 신호 파싱
+        _eval_match_str = f'EVALUATION_DONE:{task_id}:'
+        _eval_idx = eval_stdout.find(_eval_match_str)
+        if _eval_idx >= 0:
+            _raw_score = eval_stdout[_eval_idx + len(_eval_match_str):].split()[0].strip()
+            try:
+                _total_score = int(_raw_score)
+            except (ValueError, IndexError):
+                _total_score = 0
+            # EVALUATION_JSON:{...} 블록 파싱
+            _json_match = re.search(r'EVALUATION_JSON:\s*(\{[\s\S]*?\})\s*\n', eval_stdout)
+            if _json_match:
+                try:
+                    _eval_data = json.loads(_json_match.group(1))
+                    bus.write_evaluation(
+                        scores=_eval_data.get('scores', {}),
+                        total_score=_total_score,
+                        improvement_items=_eval_data.get('improvement_items', []),
+                        commit_ready=_eval_data.get('commit_ready', _total_score >= 70),
+                    )
+                    log.add(f'evaluation.json 저장 완료 (score={_total_score})')
+                except (json.JSONDecodeError, Exception) as _e:
+                    bus.write_evaluation(scores={}, total_score=_total_score,
+                                          improvement_items=[],
+                                          commit_ready=(_total_score >= 70))
+                    log.add(f'evaluation.json 기본 저장 (score={_total_score}, err={_e})')
+            else:
+                bus.write_evaluation(scores={}, total_score=_total_score,
+                                      improvement_items=[],
+                                      commit_ready=(_total_score >= 70))
+                log.add(f'evaluation.json 저장 (EVALUATION_JSON 블록 없음, score={_total_score})')
+        evaluation = bus.read(BusFile.EVALUATION)
+
     if evaluation is None:
         log.add('evaluation.json 없음 — 평가 생략')
         evaluation = {'total_score': 0, 'grade': '?', 'commit_ready': False,
@@ -1232,6 +1336,12 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── Step 5: 사용자 승인 게이트 ────────────────────────────────
     _print_evaluation(task_id, evaluation)
+
+    if no_confirm:
+        bus.write_user_decision('approve')
+        log.add('사용자 승인: auto-approve (no_confirm)')
+        print('\n[자동 승인] --no-confirm 플래그로 자동 처리됨')
+        return
 
     while True:
         decision = input('\napprove / reject / feedback 중 선택: ').strip().lower()
@@ -1256,9 +1366,38 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
                      domain, no_confirm=True, log=log)
 
             # 재평가
-            eval_prompt2 = make_advisor_evaluation_prompt(task_id)
-            _run_agent(eval_prompt2, 'AdvisorEval#2', log,
-                       model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
+            _manifest_eval2   = json.dumps(bus.read(BusFile.MANIFEST)  or {}, ensure_ascii=False)[:2000]
+            _result_eval2     = json.dumps(bus.read(BusFile.RESULT)    or {}, ensure_ascii=False)[:2000]
+            _validation_eval2 = json.dumps(bus.read(BusFile.VALIDATION)or {}, ensure_ascii=False)[:1000]
+            eval_prompt2 = make_advisor_evaluation_prompt(
+                task_id,
+                manifest_content=_manifest_eval2,
+                result_content=_result_eval2,
+                validation_content=_validation_eval2,
+            )
+            ok_eval2, eval_stdout2 = _run_agent(eval_prompt2, 'AdvisorEval#2', log,
+                                                 model=adv_model, temperature=temp_adv,
+                                                 max_tokens=max_tok_adv)
+            # stdout 파싱하여 evaluation.json 저장
+            if eval_stdout2:
+                _em2 = f'EVALUATION_DONE:{task_id}:'
+                _ei2 = eval_stdout2.find(_em2)
+                if _ei2 >= 0:
+                    try:
+                        _ts2 = int(eval_stdout2[_ei2 + len(_em2):].split()[0].strip())
+                    except (ValueError, IndexError):
+                        _ts2 = 0
+                    _jm2 = re.search(r'EVALUATION_JSON:\s*(\{[\s\S]*?\})\s*\n', eval_stdout2)
+                    if _jm2:
+                        try:
+                            _ed2 = json.loads(_jm2.group(1))
+                            bus.write_evaluation(scores=_ed2.get('scores', {}),
+                                                  total_score=_ts2,
+                                                  improvement_items=_ed2.get('improvement_items', []),
+                                                  commit_ready=_ed2.get('commit_ready', _ts2 >= 70))
+                        except (json.JSONDecodeError, Exception):
+                            bus.write_evaluation(scores={}, total_score=_ts2,
+                                                  improvement_items=[], commit_ready=(_ts2 >= 70))
             evaluation = bus.read(BusFile.EVALUATION) or evaluation
             _print_evaluation(task_id, evaluation)
 
