@@ -1305,28 +1305,37 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
                 _total_score = int(_raw_score)
             except (ValueError, IndexError):
                 _total_score = 0
-            # EVALUATION_JSON:{...} 블록 파싱
-            _json_match = re.search(r'EVALUATION_JSON:\s*(\{[\s\S]*?\})\s*\n', eval_stdout)
-            if _json_match:
-                try:
-                    _eval_data = json.loads(_json_match.group(1))
-                    bus.write_evaluation(
-                        scores=_eval_data.get('scores', {}),
-                        total_score=_total_score,
-                        improvement_items=_eval_data.get('improvement_items', []),
-                        commit_ready=_eval_data.get('commit_ready', _total_score >= 70),
-                    )
-                    log.add(f'evaluation.json 저장 완료 (score={_total_score})')
-                except (json.JSONDecodeError, Exception) as _e:
-                    bus.write_evaluation(scores={}, total_score=_total_score,
-                                          improvement_items=[],
-                                          commit_ready=(_total_score >= 70))
-                    log.add(f'evaluation.json 기본 저장 (score={_total_score}, err={_e})')
-            else:
-                bus.write_evaluation(scores={}, total_score=_total_score,
-                                      improvement_items=[],
-                                      commit_ready=(_total_score >= 70))
-                log.add(f'evaluation.json 저장 (EVALUATION_JSON 블록 없음, score={_total_score})')
+            # EVALUATION_JSON:{...} 블록 파싱 — EVALUATION_JSON: 이후 ~ EVALUATION_DONE: 이전 추출
+            _eval_data = {}
+            _ej_idx = eval_stdout.find('EVALUATION_JSON:')
+            if _ej_idx >= 0:
+                _ej_raw = eval_stdout[_ej_idx + len('EVALUATION_JSON:'):_eval_idx].strip()
+                # 중첩 JSON: 첫 '{' 부터 균형 맞는 '}' 까지 추출
+                _brace_start = _ej_raw.find('{')
+                if _brace_start >= 0:
+                    _depth, _end = 0, -1
+                    for _ci, _ch in enumerate(_ej_raw[_brace_start:], _brace_start):
+                        if _ch == '{': _depth += 1
+                        elif _ch == '}':
+                            _depth -= 1
+                            if _depth == 0: _end = _ci + 1; break
+                    if _end > 0:
+                        try:
+                            _eval_data = json.loads(_ej_raw[_brace_start:_end])
+                        except (json.JSONDecodeError, Exception):
+                            _eval_data = {}
+            _summary = _eval_data.get('summary', f'총점 {_total_score}점')
+            try:
+                bus.write_evaluation(
+                    scores=_eval_data.get('scores', {}),
+                    total_score=_total_score,
+                    summary=_summary,
+                    improvement_items=_eval_data.get('improvement_items', []),
+                    commit_ready=_eval_data.get('commit_ready', _total_score >= 70),
+                )
+                log.add(f'evaluation.json 저장 완료 (score={_total_score})')
+            except Exception as _e:
+                log.add(f'evaluation.json 저장 실패: {_e}')
         evaluation = bus.read(BusFile.EVALUATION)
 
     if evaluation is None:
@@ -1387,17 +1396,29 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
                         _ts2 = int(eval_stdout2[_ei2 + len(_em2):].split()[0].strip())
                     except (ValueError, IndexError):
                         _ts2 = 0
-                    _jm2 = re.search(r'EVALUATION_JSON:\s*(\{[\s\S]*?\})\s*\n', eval_stdout2)
-                    if _jm2:
-                        try:
-                            _ed2 = json.loads(_jm2.group(1))
-                            bus.write_evaluation(scores=_ed2.get('scores', {}),
-                                                  total_score=_ts2,
-                                                  improvement_items=_ed2.get('improvement_items', []),
-                                                  commit_ready=_ed2.get('commit_ready', _ts2 >= 70))
-                        except (json.JSONDecodeError, Exception):
-                            bus.write_evaluation(scores={}, total_score=_ts2,
-                                                  improvement_items=[], commit_ready=(_ts2 >= 70))
+                    _ed2, _ej2_idx = {}, eval_stdout2.find('EVALUATION_JSON:')
+                    if _ej2_idx >= 0:
+                        _ej2_raw = eval_stdout2[_ej2_idx + len('EVALUATION_JSON:'):_ei2].strip()
+                        _bs2 = _ej2_raw.find('{')
+                        if _bs2 >= 0:
+                            _d2, _e2 = 0, -1
+                            for _ci2, _ch2 in enumerate(_ej2_raw[_bs2:], _bs2):
+                                if _ch2 == '{': _d2 += 1
+                                elif _ch2 == '}':
+                                    _d2 -= 1
+                                    if _d2 == 0: _e2 = _ci2 + 1; break
+                            if _e2 > 0:
+                                try: _ed2 = json.loads(_ej2_raw[_bs2:_e2])
+                                except (json.JSONDecodeError, Exception): pass
+                    try:
+                        bus.write_evaluation(
+                            scores=_ed2.get('scores', {}),
+                            total_score=_ts2,
+                            summary=_ed2.get('summary', f'총점 {_ts2}점'),
+                            improvement_items=_ed2.get('improvement_items', []),
+                            commit_ready=_ed2.get('commit_ready', _ts2 >= 70),
+                        )
+                    except Exception: pass
             evaluation = bus.read(BusFile.EVALUATION) or evaluation
             _print_evaluation(task_id, evaluation)
 
