@@ -283,16 +283,88 @@ def build_manifest(task: str, domain: str, task_id: str | None = None,
 def _abs(rel_path: str) -> str:
     return os.path.join(PROJECT_ROOT, rel_path).replace('\\', '/')
 
+
+# ── URL 사전 수집 ───────────────────────────────────────────────────────────
+
+def prefetch_urls(task: str, max_chars: int = 6000) -> dict[str, str]:
+    """태스크 텍스트에서 URL을 추출하고 내용을 미리 가져온다.
+    반환: {url: content_or_error}
+    실패 시 content = "접근 불가: <reason>" — 에이전트에게 정직하게 전달.
+    """
+    import urllib.request
+    import urllib.error
+    import html
+
+    url_pattern = r'https?://[^\s\)\]\>"\'<,]+'
+    urls = list(dict.fromkeys(re.findall(url_pattern, task)))  # 순서 유지 중복 제거
+    if not urls:
+        return {}
+
+    result: dict[str, str] = {}
+    for url in urls:
+        try:
+            fetch_url = url
+            # GitHub Gist: HTML 페이지 대신 raw 텍스트 직접 취득
+            if 'gist.github.com' in url and '/raw' not in url:
+                fetch_url = url.rstrip('/') + '/raw'
+
+            req = urllib.request.Request(
+                fetch_url,
+                headers={'User-Agent': 'Mozilla/5.0 (compatible; PKB-Pipeline/1.0)'},
+            )
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                charset = 'utf-8'
+                ct = resp.headers.get('Content-Type', '')
+                if 'charset=' in ct:
+                    charset = ct.split('charset=')[-1].split(';')[0].strip()
+                raw = resp.read().decode(charset, errors='replace')
+
+            # HTML이면 태그 제거 후 텍스트만 남김
+            if raw.lstrip().startswith('<!') or '<html' in raw[:500].lower():
+                raw = re.sub(r'<script[\s\S]*?</script>', '', raw, flags=re.IGNORECASE)
+                raw = re.sub(r'<style[\s\S]*?</style>',  '', raw, flags=re.IGNORECASE)
+                raw = re.sub(r'<[^>]+>', ' ', raw)
+                raw = html.unescape(raw)
+                raw = re.sub(r'[ \t]{2,}', ' ', raw)
+                raw = re.sub(r'\n{3,}', '\n\n', raw).strip()
+
+            result[url] = raw[:max_chars] + ('...(truncated)' if len(raw) > max_chars else '')
+
+        except urllib.error.HTTPError as e:
+            result[url] = f'접근 불가: HTTP {e.code} {e.reason}'
+        except urllib.error.URLError as e:
+            result[url] = f'접근 불가: {e.reason}'
+        except Exception as e:
+            result[url] = f'접근 불가: {str(e)[:120]}'
+
+    return result
+
+
+def _url_context_section(url_map: dict[str, str]) -> str:
+    """prefetch_urls 결과를 프롬프트 삽입용 텍스트 블록으로 변환."""
+    if not url_map:
+        return ''
+    lines = ['\n=== 사전 수집된 URL 콘텐츠 ===']
+    for url, content in url_map.items():
+        lines.append(f'\n[URL] {url}')
+        lines.append(content)
+        lines.append('─' * 40)
+    lines.append('=== URL 콘텐츠 끝 ===\n')
+    return '\n'.join(lines)
+
+
 def make_execution_prompt(task: str, domain: str, task_id: str, bus_path: str,
-                           retry_count: int = 0) -> str:
+                           retry_count: int = 0, url_context: dict[str, str] | None = None) -> str:
     retry_note = f'\n[재시도 {retry_count}회차]' if retry_count else ''
+    url_section = _url_context_section(url_context or {})
     return (
         f'당신은 Execution Agent + {domain} Domain Agent입니다.{retry_note}\n\n'
         f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__execution.md")}\n'
         f'Domain Rules: {_abs(DOMAIN_MAP[domain]["role_rules"])}\n'
         f'Protocol: {_abs("global/04_AgentEcosystem/protocol/task_manifest_schema.md")}\n\n'
-        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n\n'
-        f'수행 순서:\n'
+        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n'
+        f'{url_section}'
+        f'\n수행 순서:\n'
         f'1. 위 Task를 충분히 분석하고 작업을 수행한다\n'
         f'2. 작업 결과를 마크다운 형식으로 상세히 출력한다\n'
         f'3. 응답 마지막 줄에 반드시 다음 신호를 출력한다:\n'
@@ -670,9 +742,19 @@ def dry_run(task: str, domain: str):
     print(f'  {"─"*78}')
     print(f'  {"태스크당 추정 비용":<12} {"":30}                                  ${total_cost:.4f}')
 
+    print('\n=== URL 프리페치 ===')
+    url_map = prefetch_urls(task)
+    if url_map:
+        for url, content in url_map.items():
+            preview = content[:100].replace('\n', ' ')
+            print(f'  {url} → {len(content)}자 ({preview}...)')
+    else:
+        print('  (URL 없음)')
+
     print('\n=== Execution Agent 프롬프트 미리보기 ===')
     print(make_execution_prompt(task, domain, bus.task_id,
-                                bus._path(BusFile.MANIFEST)))
+                                bus._path(BusFile.MANIFEST),
+                                url_context=url_map))
     print('\n--dry-run 없이 실행하면 수행됩니다.')
     print(f'  자동 실행: python .scripts/orchestrator.py --task "{task}" --domain {domain} --auto')
 
@@ -735,7 +817,8 @@ def list_tasks():
 # ── Auto 파이프라인 ────────────────────────────────────────────────
 
 def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog,
-             shared_task_id: str | None = None):
+             shared_task_id: str | None = None,
+             prefetched_urls: dict[str, str] | None = None):
     """Execution → Validation → (Advisor) → Reporter 자동 실행."""
 
     # ── 0. 권한 사전 체크 ────────────────────────────────────────
@@ -746,6 +829,15 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog,
     exec_retries   = 0
     advisor_calls  = 0
     bus: AgentBus | None = None
+
+    # ── URL 사전 수집 (상위에서 이미 했으면 재사용) ──────────────────
+    _url_map = prefetched_urls if prefetched_urls is not None else prefetch_urls(task)
+    if _url_map:
+        for _u, _c in _url_map.items():
+            if _c.startswith('접근 불가'):
+                log.add(f'[URL prefetch] {_u} → {_c}')
+            else:
+                log.add(f'[URL prefetch] {_u} → {len(_c)}자 수집 완료')
 
     # 도메인 프리셋 로드
     preset = get_domain_preset(domain)
@@ -783,7 +875,8 @@ def run_auto(task: str, domain: str, no_confirm: bool, log: AgentLog,
                    message=f'Execution 실행 중 (시도 {exec_retries + 1})')
 
         prompt = make_execution_prompt(task, domain, bus.task_id,
-                                       manifest_path, exec_retries)
+                                       manifest_path, exec_retries,
+                                       url_context=_url_map)
         ok, stdout = run_agent(prompt, f'Execution#{exec_retries+1}', log,
                                role='execution', domain=domain)
 
@@ -1110,13 +1203,15 @@ def make_user_interface_prompt(task: str, domain: str, task_id: str) -> str:
     )
 
 
-def make_advisor_plan_prompt(task_id: str, domain: str, task: str) -> str:
+def make_advisor_plan_prompt(task_id: str, domain: str, task: str,
+                              url_section: str = '') -> str:
     return (
         f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
         f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
         f'Plan Schema: {_abs("global/04_AgentEcosystem/protocol/advisor_plan_schema.md")}\n\n'
-        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n\n'
-        f'수행 순서 [Phase 1-2]:\n'
+        f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n'
+        f'{url_section}'
+        f'\n수행 순서 [Phase 1-2]:\n'
         f'1. 로컬 컨텍스트 파악: global/01_Identity, 02_Profile, 03_Instructions 읽기\n'
         f'2. .agents/advisor/learnings/ 이전 학습 파일 읽기 (mtime 내림차순 최신 10건만)\n'
         f'3. advisor_plan_{task_id}.md 작성 → global/05_PM_Outputs/ 저장\n'
@@ -1245,6 +1340,16 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
     task_id = bus.task_id
     log.add(f'Full Pipeline 시작: task_id={task_id}')
 
+    # ── URL 사전 수집 (전 단계 공통) ──────────────────────────────
+    log.update(progress=2, message='URL 사전 수집 중')
+    _fp_url_map = prefetch_urls(task)
+    if _fp_url_map:
+        for _u, _c in _fp_url_map.items():
+            if _c.startswith('접근 불가'):
+                log.add(f'[URL prefetch] {_u} → {_c}')
+            else:
+                log.add(f'[URL prefetch] {_u} → {len(_c)}자 수집 완료')
+
     # ── Step 1: User Interface — requirement 구조화 ────────────────
     log.update(progress=5, message='User Interface: 요구사항 구조화')
     ui_prompt = make_user_interface_prompt(task, domain, task_id)
@@ -1263,7 +1368,9 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── Step 2: Advisor — 컨텍스트 파악 + 플랜 수립 ───────────────
     log.update(progress=10, message='Advisor: 플랜 수립 중')
-    plan_prompt = make_advisor_plan_prompt(task_id, domain, task)
+    _url_section_for_advisor = _url_context_section(_fp_url_map)
+    plan_prompt = make_advisor_plan_prompt(task_id, domain, task,
+                                           url_section=_url_section_for_advisor)
     _run_agent(plan_prompt, 'AdvisorPlan', log,
                model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
 
@@ -1274,7 +1381,8 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
 
     # ── Step 3: Execution ↔ Validation 루프 (기존 run_auto 재사용) ─
     log.update(progress=20, message='Execution 루프 시작')
-    run_auto(task, domain, no_confirm=True, log=log, shared_task_id=task_id)
+    run_auto(task, domain, no_confirm=True, log=log, shared_task_id=task_id,
+             prefetched_urls=_fp_url_map)
 
     # 루프 종료 후 verdict 확인 (동일 task_id bus에서 읽음)
     validation = bus.read(BusFile.VALIDATION)
@@ -1662,12 +1770,14 @@ def main():
         bus = build_manifest(args.task, args.domain)
         log.add(f'Manifest: {bus._path(BusFile.MANIFEST)}')
         log.update(progress=20, message='Manifest 완료 — 수동 실행 대기')
+        _dry_url_map = prefetch_urls(args.task)
 
         print(f'\nTask ID: {bus.task_id}')
         print(f'Manifest: {bus._path(BusFile.MANIFEST)}')
         print('\n--- Execution Agent 프롬프트 ---')
         print(make_execution_prompt(args.task, args.domain, bus.task_id,
-                                    bus._path(BusFile.MANIFEST)))
+                                    bus._path(BusFile.MANIFEST),
+                                    url_context=_dry_url_map))
         print('\n자동 실행: python .scripts/orchestrator.py'
               f' --task "{args.task}" --domain {args.domain} --auto')
 
