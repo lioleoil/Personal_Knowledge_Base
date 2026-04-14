@@ -43,6 +43,7 @@ def chunk_markdown(filepath: Path) -> list[dict]:
     # ### 헤더로 분리
     sections = re.split(r'\n(?=### )', text)
     chunks = []
+    seen_ids: set = set()
     for sec in sections:
         sec = sec.strip()
         if not sec or len(sec) < 30:
@@ -55,8 +56,17 @@ def chunk_markdown(filepath: Path) -> list[dict]:
         date_m = re.search(r'\*\*날짜:\*\* (\d{4}-\d{2}-\d{2})', sec)
         date = date_m.group(1) if date_m else ''
 
+        # 중복 ID 방지: 같은 헤더가 여러 번 나올 때 suffix 추가
+        base_id = f'{category}::{filepath.stem}::{header[:60]}'
+        chunk_id = base_id
+        suffix = 1
+        while chunk_id in seen_ids:
+            chunk_id = f'{base_id}__{suffix}'
+            suffix += 1
+        seen_ids.add(chunk_id)
+
         chunks.append({
-            'id': f'{category}::{filepath.stem}::{header[:60]}',
+            'id': chunk_id,
             'text': sec[:1500],  # 임베딩용 최대 길이
             'metadata': {
                 'category': category,

@@ -1,16 +1,28 @@
-# Multi-Agent Ecosystem — 공용 의존성
-# 설치: pip install -r requirements.txt
+# Workspace 공통 의존성
+# 설치: .venv\Scripts\pip install -r requirements.txt
+# 업데이트: 2026-04-14
 
-# ── Anthropic (Execution, Advisor 에이전트) ─────────────────────────
-anthropic>=0.40.0
+# ── LLM 클라이언트 ──────────────────────────────────────────────────────
+anthropic>=0.84.0
+openai>=2.0.0
 
-# ── OpenAI (Validation, Reporter 에이전트) ──────────────────────────
-openai>=1.0.0
+# ── RAG / 벡터 인덱스 (pkb_embed.py, pkb_search.py) ────────────────────
+chromadb>=0.6.0
+sentence-transformers>=3.0.0
 
-# ── Slack (nova_helper) ─────────────────────────────────────────────
-slack-bolt
-requests
+# ── Slack (nova_helper) ─────────────────────────────────────────────────
+slack-bolt>=1.27.0
+slack-sdk>=3.41.0
+flask>=3.0.0
 
-# ── 공통 유틸리티 ───────────────────────────────────────────────────
-python-dotenv
+# ── Google AI (doc_gen.py, pm_ppt_generator.py) ─────────────────────────
+google-genai>=1.0.0
+
+# ── 문서 생성 (pm_ppt_generator.py) ─────────────────────────────────────
+python-pptx>=1.0.0
+
+# ── 유틸리티 ────────────────────────────────────────────────────────────
+requests>=2.32.0
+python-dotenv>=1.0.0
+beautifulsoup4>=4.14.0
 markdown
