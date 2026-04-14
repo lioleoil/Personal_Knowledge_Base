@@ -104,9 +104,11 @@ def _get_openai_ef():
 
 
 def _get_default_ef():
-    """ChromaDB 기본 임베딩 (sentence-transformers all-MiniLM-L6-v2)"""
+    """다국어 임베딩 (paraphrase-multilingual-MiniLM-L12-v2) — 한국어 지원"""
     import chromadb.utils.embedding_functions as ef
-    return ef.DefaultEmbeddingFunction()
+    return ef.SentenceTransformerEmbeddingFunction(
+        model_name='paraphrase-multilingual-MiniLM-L12-v2'
+    )
 
 
 def get_embedding_function():

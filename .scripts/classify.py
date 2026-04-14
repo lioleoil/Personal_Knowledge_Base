@@ -573,6 +573,14 @@ def append_to_worklog(conv: dict, category: str):
     source = conv['source_file']
     msg_count = conv['msg_count']
 
+    # 중복 체크: 동일 title+date+source 조합이 이미 존재하면 skip
+    existing = target.read_text(encoding='utf-8') if target.exists() else ''
+    dup_marker = f'**날짜:** {date} | **파일:** {source}'
+    title_marker = f'### {title}'
+    if title_marker in existing and dup_marker in existing:
+        print(f'  ⏭ [{category}] 중복 skip: {title[:40]}')
+        return
+
     summary = generate_summary(conv)
 
     tags = conv.get('tags', [])
