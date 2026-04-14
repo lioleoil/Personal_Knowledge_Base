@@ -1,22 +1,39 @@
 # Nova 지식 합성
 
-> 마지막 갱신: 2026-04-18 06:06 | 기반 항목 수: 30
+> 마지막 갱신: 2026-04-14 19:38 | 기반 항목 수: 30
 
 ---
 
 ## 핵심 지식
 
-- (2026-04-12) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
-- (2026-04-12) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
-- (2026-04-12) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
-- (2026-04-12) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
-- (2026-04-12) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+1. **bash 환경에서 PowerShell `.ps1` 스크립트는 직접 실행 불가** — `& c:\...\Activate.ps1` 명령은 PowerShell 전용 문법이며, bash/Git Bash/WSL 환경에서는 동작하지 않음. bash에서는 대신 `source .venv/Scripts/activate` (Windows Git Bash) 또는 `source .venv/bin/activate` (Linux/WSL) 를 사용해야 함.
+
+2. **sv_lakehouse 프로젝트의 가상환경 경로** — `c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\` 에 위치하며, 활성화 방식은 실행 셸 환경에 따라 달라짐.
+
+3. **API 사용량 한도 초과 문제 발생** — `98492c00` 파일 그룹의 대화에서 "You've hit your limit · resets 3pm" 메시지가 반복 등장함. 오후 3시(Asia 기준 추정)에 리셋되는 API 쿼터 제한에 걸린 상황이 작업 흐름을 중단시킨 것으로 보임.
+
+4. **동일 오류가 3일 연속(2026-04-11 ~ 04-13) 반복 발생** — 같은 PowerShell 활성화 오류가 서로 다른 날짜와 파일에 걸쳐 반복됨. 환경 설정을 한 번 고정하지 않고 매번 임시 해결을 시도한 것으로 판단됨.
+
+5. **두 개의 독립적인 문제가 혼재** — `0d4b1a5b` / `6861d98a` 파일 그룹은 "bash에서 .ps1 실행 오류" 문제이고, `98492c00` 파일 그룹은 "API 한도 초과" 문제임. 두 문제가 같은 날 동시에 발생하여 작업 지연이 가중된 것으로 보임.
+
+---
 
 ## 반복 등장 패턴
-- (API 없음 — 수동 작성 필요)
+
+- **PowerShell vs bash 환경 혼용 오류** — 30개 로그 전체에 걸쳐 동일한 `Activate.ps1` 경로가 반복 등장. 근본 원인(셸 환경 미통일)이 해결되지 않은 채 반복 재발 중.
+- **API 한도 초과 메시지** — `98492c00` 파일 그룹(2026-04-12) 에서 동일 메시지가 10회 이상 반복 등장. 작업 세션 중 한도 초과 후에도 계속 요청을 시도한 것으로 추정.
+- **짧은 메시지 수(2~4개)의 세션 반복** — 각 파일당 메시지 수가 2~4개로 매우 짧음. 오류 발생 → 세션 종료 → 재시도 패턴이 반복되고 있음.
+
+---
 
 ## 미해결 질문
-- (API 없음 — 수동 작성 필요)
+
+- **sv_lakehouse 개발 환경을 bash로 통일할 것인가, PowerShell로 통일할 것인가?** — 명확한 환경 표준이 정해지지 않은 상태.
+- **API 한도 초과의 원인이 nova_helper Slack 봇의 과도한 호출인가, 개인 개발 세션의 과다 사용인가?** — 로그만으로는 호출 주체 특정 불가.
+- **OneDrive 경로(`OneDrive\Desktop\...`) 에 프로젝트를 두는 것이 적절한가?** — OneDrive 실시간 동기화가 `.venv` 폴더와 충돌할 가능성 있음. 검토 필요.
+
+---
 
 ## 관련 카테고리
-- (API 없음 — 수동 작성 필요)
+
+- **Nova Lakehouse 개발환경 설정** — 가상환경, Python 의

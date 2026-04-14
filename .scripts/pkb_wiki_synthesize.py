@@ -23,6 +23,17 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+# .env 로드
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent.parent / '.env')
+except ImportError:
+    pass
+
+# Windows 터미널 UTF-8 출력
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 BASE    = Path(__file__).parent.parent
 WORKLOG = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog'
 
