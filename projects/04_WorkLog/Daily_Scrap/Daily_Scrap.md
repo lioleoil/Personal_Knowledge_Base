@@ -3,6 +3,35 @@
 
 ---
 
+## 2026-04-14
+
+### [Show GN: mux – AI 코딩 세션을 라이브 프리뷰로 전환하는 tmux 세션 매니저](https://news.hada.io/topic?id=28504)
+**토픽:** AI/LLM | **출처:** news.hada.io
+
+- mux는 Claude Code, Codex, Aider 등 AI CLI 툴을 여러 tmux 세션에서 동시에 실행할 때 세션 현황을 한눈에 파악할 수 있게 해주는 tmux 세션 매니저다.
+- 각 AI 코딩 세션의 실행 상태를 라이브 프리뷰 형태로 시각화하여, 어떤 세션에서 무엇이 진행 중인지 쉽게 모니터링할 수 있다.
+- 여러 AI 에이전트를 병렬로 운용하는 워크플로우에서 세션 관리 복잡성을 줄여주는 도구로, AI 코딩 작업의 생산성 향상을 목적으로 한다.
+
+---
+
+### [GitButler — GitHub 공동창업자가 만든 AI 시대를 위한 Git 재설계, a16z $1,700만 Series A 투자 유치](https://news.hada.io/topic?id=28488)
+**토픽:** 비즈니스/스타트업 | **출처:** news.hada.io
+
+- GitHub 공동창업자 Scott Chacon이 AI 시대에 맞게 Git을 재설계한 새로운 Git 클라이언트 GitButler를 개발했다.
+- GitButler는 기존 Git의 복잡한 브랜치 관리 방식을 개선해 AI 기반 개발 워크플로우에 최적화된 경험을 제공한다.
+- a16z(Andreessen Horowitz)로부터 1,700만 달러 규모의 Series A 투자를 유치하며 성장 가능성을 인정받았다.
+
+---
+
+### [pip install torch 한 줄로 끝낸다 — Python 패키징의 오랜 숙제, 드디어 풀리나](https://news.hada.io/topic?id=28490)
+**토픽:** 개발/오픈소스 | **출처:** news.hada.io
+
+- NVIDIA·Astral·Quansight가 연합하여 CPU와 GPU 환경을 모두 지원하는 차세대 Python 패키징 표준 'Wheel Next'를 발표했다.
+- 기존에는 `pip install torch` 한 줄로 해결되지 않던 GPU 의존성 문제를 표준화된 방식으로 해결하는 것이 핵심 목표다.
+- 이 표준이 정착되면 환경에 따라 복잡했던 PyTorch 등 대형 패키지 설치 과정이 크게 단순화될 것으로 기대된다.
+
+---
+
 ## 2026-04-12
 
 ### [Google AI Edge Gallery - 완전 오프라인 LLM 갤러리 앱 오픈소스](https://news.hada.io/topic?id=28242)

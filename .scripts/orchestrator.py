@@ -353,6 +353,78 @@ def _url_context_section(url_map: dict[str, str]) -> str:
     return '\n'.join(lines)
 
 
+def prefetch_pkb(task: str, top: int = 5) -> str:
+    """pkb_search.py로 관련 PKB 청크를 검색해 프롬프트용 텍스트 블록으로 반환.
+    인덱스 없음 또는 오류 시 빈 문자열 반환.
+    """
+    import subprocess, json as _json
+    search_script = _abs('.scripts/pkb_search.py')
+    # venv Python은 chromadb DLL 오류 가능 → 글로벌 Python 우선 사용
+    _global_py = r'C:\Users\psh93\AppData\Local\Programs\Python\Python313\python.exe'
+    import os as _os
+    py = _global_py if _os.path.exists(_global_py) else sys.executable
+    try:
+        # VIRTUAL_ENV 환경변수 제거: venv가 subprocess에 전파되어 충돌 방지
+        import os as _os2
+        clean_env = {k: v for k, v in _os2.environ.items()
+                     if k not in ('VIRTUAL_ENV', 'VIRTUAL_ENV_PROMPT')}
+        # PATH에서 venv Scripts 경로 제거
+        from pathlib import Path as _Path2
+        venv_scripts = str(_Path2(PROJECT_ROOT) / '.venv' / 'Scripts')
+        clean_env['PATH'] = _os2.pathsep.join(
+            p for p in clean_env.get('PATH', '').split(_os2.pathsep)
+            if venv_scripts.lower() not in p.lower()
+        )
+        result = subprocess.run(
+            [py, search_script, '--query', task, '--top', str(top), '--json'],
+            capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=30,
+            cwd=str(PROJECT_ROOT), env=clean_env,
+        )
+        if result.returncode != 0 or not result.stdout.strip():
+            return ''
+        # venv 활성화 훅 등의 노이즈 제거: 첫 '[' 이후만 파싱
+        raw = result.stdout
+        bracket = raw.find('[')
+        if bracket == -1:
+            return ''
+        hits = _json.loads(raw[bracket:])
+        if not hits:
+            return ''
+        lines = ['\n=== PKB 사전 검색 결과 (RAG) ===']
+        for i, h in enumerate(hits, 1):
+            lines.append(
+                f'\n[{i}] {h.get("category", "")} / {h.get("header", "")[:60]}'
+                f'  (관련도: {h.get("score", 0):.3f})'
+            )
+            lines.append(h.get('text', '')[:300])
+
+        # 관련도 상위 카테고리의 SYNTHESIS.md 포함
+        from pathlib import Path as _Path
+        _root = _Path(PROJECT_ROOT)
+        seen_cats: set = set()
+        for h in hits[:3]:
+            cat = h.get('category', '')
+            if cat and cat not in seen_cats:
+                seen_cats.add(cat)
+                synthesis = (_root / 'projects' / 'personal_knowledge_base'
+                             / '04_WorkLog' / cat / 'SYNTHESIS.md')
+                if synthesis.exists():
+                    content = synthesis.read_text(encoding='utf-8')
+                    # 핵심 지식 + 미해결 질문 섹션만 추출 (최대 800자)
+                    for section_title in ('## 핵심 지식', '## 미해결 질문'):
+                        m = re.search(
+                            rf'{re.escape(section_title)}\n(.*?)(?=\n## |\Z)',
+                            content, re.DOTALL
+                        )
+                        if m:
+                            lines.append(f'\n[SYNTHESIS: {cat} {section_title}]')
+                            lines.append(m.group(1).strip()[:800])
+        lines.append('\n=== PKB 검색 끝 ===\n')
+        return '\n'.join(lines)
+    except Exception:
+        return ''
+
+
 def make_execution_prompt(task: str, domain: str, task_id: str, bus_path: str,
                            retry_count: int = 0, url_context: dict[str, str] | None = None) -> str:
     retry_note = f'\n[재시도 {retry_count}회차]' if retry_count else ''
@@ -750,6 +822,14 @@ def dry_run(task: str, domain: str):
             print(f'  {url} → {len(content)}자 ({preview}...)')
     else:
         print('  (URL 없음)')
+
+    print('\n=== PKB RAG 검색 ===')
+    pkb_section = prefetch_pkb(task) if domain == 'pkb_worklog' else ''
+    if pkb_section:
+        preview = pkb_section[:300].replace('\n', ' ')
+        print(f'  검색 완료 ({len(pkb_section)}자) — {preview}...')
+    else:
+        print('  (pkb_worklog 도메인 아님 또는 인덱스 없음)')
 
     print('\n=== Execution Agent 프롬프트 미리보기 ===')
     print(make_execution_prompt(task, domain, bus.task_id,
@@ -1204,13 +1284,15 @@ def make_user_interface_prompt(task: str, domain: str, task_id: str) -> str:
 
 
 def make_advisor_plan_prompt(task_id: str, domain: str, task: str,
-                              url_section: str = '') -> str:
+                              url_section: str = '',
+                              pkb_section: str = '') -> str:
     return (
         f'당신은 Advisor Agent (PM 역할)입니다.\n\n'
         f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__advisor.md")}\n'
         f'Plan Schema: {_abs("global/04_AgentEcosystem/protocol/advisor_plan_schema.md")}\n\n'
         f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n'
         f'{url_section}'
+        f'{pkb_section}'
         f'\n수행 순서 [Phase 1-2]:\n'
         f'1. 로컬 컨텍스트 파악: global/01_Identity, 02_Profile, 03_Instructions 읽기\n'
         f'2. .agents/advisor/learnings/ 이전 학습 파일 읽기 (mtime 내림차순 최신 10건만)\n'
@@ -1367,10 +1449,13 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
         req = bus.read(BusFile.REQUIREMENT)
 
     # ── Step 2: Advisor — 컨텍스트 파악 + 플랜 수립 ───────────────
-    log.update(progress=10, message='Advisor: 플랜 수립 중')
+    log.update(progress=10, message='Advisor: PKB 검색 중')
+    _pkb_section = prefetch_pkb(task) if domain == 'pkb_worklog' else ''
+    log.update(progress=12, message='Advisor: 플랜 수립 중')
     _url_section_for_advisor = _url_context_section(_fp_url_map)
     plan_prompt = make_advisor_plan_prompt(task_id, domain, task,
-                                           url_section=_url_section_for_advisor)
+                                           url_section=_url_section_for_advisor,
+                                           pkb_section=_pkb_section)
     _run_agent(plan_prompt, 'AdvisorPlan', log,
                model=adv_model, temperature=temp_adv, max_tokens=max_tok_adv)
 
