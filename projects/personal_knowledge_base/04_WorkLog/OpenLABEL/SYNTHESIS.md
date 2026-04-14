@@ -1,6 +1,6 @@
 # OpenLABEL 지식 합성
 
-> 마지막 갱신: 2026-04-14 19:39 | 기반 항목 수: 30
+> 마지막 갱신: 2026-04-14 19:51 | 기반 항목 수: 30
 
 ---
 
@@ -8,26 +8,26 @@
 
 ## 핵심 지식
 
-1. **OpenLABEL 최상위 필드 구조**: 스키마가 정의하는 최상위 필드는 총 13개이며, 필수(`required`) 필드는 `metadata` 단 하나뿐이다. 나머지 필드(`objects`, `frames`, `streams`, `coordinate_systems`, `frame_intervals` 등)는 선택적이나, 실질적 데이터 표현을 위해 조건부로 필요하다.
+1. **OpenLABEL 최상위 스키마는 13개 필드이며, 유일한 필수 필드는 `metadata`다.** 나머지 필드(`frames`, `objects`, `streams`, `coordinate_systems` 등)는 조건부 필수 또는 선택 필드이며, 커스텀 확장 필드도 허용된다.
 
-2. **SV → OpenLABEL 필드 매핑 핵심 규칙**: SV의 `bbox3d Cuboid` 변환 시 축 매핑이 직관과 다르다. `width→sy`, `height→sz`, `length→sx`로 변환해야 하며, 회전은 쿼터니언 `(w, x, y, z)` 형식으로 LCS 좌표계 기준 radian 단위 float(18)로 표현한다.
+2. **SV → OpenLABEL 변환 시 3D bbox 좌표 매핑 규칙은 `width→sy`, `height→sz`, `length→sx`이며, 좌표계는 VCS(Vehicle Coordinate System) 기준으로 정렬해야 한다.** 회전은 쿼터니언 `(w, x, y, z)` 4값으로 표현하고 단위는 radian, float(18)을 사용한다.
 
-3. **`transformations` 위치는 전역 구조가 표준**: `transformations`를 각 프레임 하위에 반복 배치하지 않고, `openlabel` 상위 전역 구조에 두는 이유는 **데이터 정규화(normalization)** 때문이다. 프레임마다 동일한 변환 행렬을 중복 기재하는 것은 OpenLABEL 설계 원칙에 반한다.
+3. **`transformations` 필드는 프레임 하위가 아니라 전역 구조 상위에 배치하는 것이 표준이다.** 이유는 데이터 정규화(normalization)로, 프레임마다 중복 저장을 방지하기 위함이다. 단, ASAM 공식 샘플에는 프레임마다 포함된 예시도 존재한다.
 
-4. **멀티 프레임 시퀀스 정렬 기준**: 비전 퍼셉션(객체 탐지) 관점과 차량 제어 소프트웨어 관점 모두 **frame timestamp 기준 정렬**이 원칙이다. 단, GPS처럼 저주기(low-frequency) 센서는 timestamp 보간(interpolation) 또는 nearest-frame 매핑 전략이 별도로 필요하다.
+4. **변환 스크립트에서 템플릿 JSON 파일 경로는 `__file__` 기준 상대경로로 설정해야 한다.** 실행 환경(CWD)이 달라져도 스크립트가 올바른 경로를 참조할 수 있도록 하기 위해서다. (`Path(__file__).parent / "template.json"` 패턴 사용)
 
-5. **`object_data_pointers` 역할**: 객체 데이터를 직접 중복 저장하지 않고, 프레임·스트림·좌표계 맥락에서 "어느 프레임의 어떤 데이터가 이 객체에 속하는지"를 참조(reference)하는 포인터 구조다. 실제 데이터는 `object_data`에 위치한다.
+5. **멀티 프레임 시퀀스 정렬 기준은 목적에 따라 다르다.** 비전 퍼셉션(객체 탐지) 관점은 `timestamp` 오름차순 정렬이 기본이고, 차량 제어 소프트웨어 관점은 센서 스트림 동기화(deskewing, 보간)를 우선 처리해야 한다. GPS 같은 저주기 센서는 별도 보간 전략이 필요하다.
 
-6. **변환 스크립트 경로 관리**: 템플릿 JSON을 다른 폴더에서 읽을 때 `__file__` 기준 상대경로(`os.path.join(os.path.dirname(__file__), ...)`)로 설정해야 실행 위치에 관계없이 안정적으로 동작한다.
+6. **`object_data_pointers`는 `object_data`를 중복 저장하지 않고, 프레임/스트림/좌표계 맥락에서 해당 데이터의 위치를 참조(pointer)하는 방식으로 동작한다.** 하위 필드로는 `frame_intervals`, `attribute_pointers`, `element_data_pointers` 등이 포함된다.
 
 ---
 
 ## 반복 등장 패턴
 
-- **포맷 검증 반복**: OpenLABEL 샘플/예시 JSON을 작성한 뒤 "이 포맷이 적절한가"를 재확인하는 흐름이 여러 대화([17], [22], [27])에서 반복됨. 한 번에 완성되지 않고 필드 누락 → 수정 → 재검토 사이클이 지속적으로 발생함.
+- **포맷 검증 반복 요청**: OpenLABEL full structure 예시가 스펙에 맞는지 반복적으로 검토 요청됨 (로그 [17], [22], [14]). 특히 필수 필드 누락, 커스텀 필드 허용 여부, 조건부 필수 필드 혼동이 주요 오류 원인이었음.
 
-- **좌표계 혼선**: VCS, LCS 등 좌표계 명칭과 축 방향 매핑([16], [9], [11])이 반복적으로 등장하며, 변환 스크립트 버그의 주요 원인으로 작용함.
+- **SV 포맷 ↔ OpenLABEL 매핑 작업**: 변환 스크립트 작성 → 버그 수정 → 경로 문제 해결의 반복 사이클이 여러 세션에 걸쳐 진행됨 (로그 [20], [16], [15], [12]).
 
-- **스크립트 버그 수정 루프**: `image_info` 미생성([15]), `width/height/length` 축 매핑 오류([16]), 경로 오류([12]) 등 변환 스크립트에서 크고 작은 버그가 반복 발생하고 있음.
+- **영문 용어 정확성 확인**: `conversion script` vs `migration script`, `convert`의 명사형(`conversion`) 등 문서 작성 중 영문 표현의 정확성을 재확인하는 패턴이 반복됨 (로그 [25], [23]).
 
-- **용어 정의 요구**: `conversion script` vs `migration script`, `convert`의 명사형, 한국어 클래스명 등 **명칭/용어 통일** 이슈가 반복
+- **좌표계 및 단위 정의 혼란**: Width/Length/Height의 OpenLABEL 내 sx/sy/sz 매핑, LCS vs VCS 좌표계 구분, radian 단위 표기 등이 여러 대화에

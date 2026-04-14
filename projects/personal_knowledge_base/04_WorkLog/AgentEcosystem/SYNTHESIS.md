@@ -1,34 +1,36 @@
 # AgentEcosystem 지식 합성
 
-> 마지막 갱신: 2026-04-14 19:36 | 기반 항목 수: 30
+> 마지막 갱신: 2026-04-14 19:48 | 기반 항목 수: 20
 
 ---
 
+# AgentEcosystem 위키 합성 문서
+
 ## 핵심 지식
 
-1. **Agent 역할 분리 구조**: 이 생태계는 최소 3가지 역할로 명확히 분리되어 운영된다 — `User Interface Agent`(사용자 입출력 처리), `Advisor Agent / PM 역할`(방향 결정 및 조율), `Execution Agent + Domain Agent`(실제 작업 수행 및 도메인 특화 처리). 각 역할은 독립적인 `role_rules` 파일로 정의된다.
+1. **Multi-Agent 역할 분리 구조가 실제 운영 중**: User Interface Agent, Advisor Agent (PM 역할), Execution Agent + Domain Agent(pkb_worklog) 세 레이어로 구성되며, 각 역할별 `role_rules` 파일이 `04_AgentEcosystem/agents/` 경로에 분리 저장된다.
 
-2. **Bus 기반 태스크 보고서 저장 경로**: full pipeline으로 실행된 태스크의 결과물은 `.agents/bus/{task_id}_report.json` 경로에 저장된다. 예: task ID `9dea7c73`의 "Waza 도입 및 활용 전략 리포트"는 `.agents/bus/9dea7c73_report.json`에 저장 및 완료 확인됨 (완료 시각 2026-04-14 00:33).
+2. **Orchestrator + Bus 패턴으로 태스크 흐름 관리**: 태스크는 `.agents/bus/{task_id}_report.json` 형태로 저장되고, orchestrator 스크립트(`.scripts/orchestrator`)가 파이프라인을 조율한다. 실제 완료된 태스크 예시: `9dea7c73` (Waza 도입 전략 리포트, 2026-04-14 00:33).
 
-3. **Domain Agent 결합 패턴**: Execution Agent는 단독으로 동작하지 않고 특정 도메인 Agent와 결합하여 인스턴스화된다. 현재 확인된 결합: `Execution Agent + pkb_worklog Domain Agent`. 이는 작업 실행 로직과 도메인 지식을 분리하면서도 런타임에 합성하는 설계 방식이다.
+3. **Advisor Agent가 반응형 → 능동형으로 전환 설계됨**: v2.0 보완 계획(2026-04-12)에서 기존 Advisor가 반응형 Validation 역할에 머물던 구조를 능동적 PM 역할로 격상하는 방향으로 승인된 구현 계획이 존재한다.
 
-4. **Role Rules 파일 위치 규칙**: 모든 Agent의 역할 규칙은 `C:/Users/psh93/OneDrive/Desktop/Workspace/global/04_AgentEcosystem/agents/role_rules__{agent_type}` 경로에 파일로 관리된다. Agent 초기화 시 해당 파일을 시스템 프롬프트로 로드하는 방식으로 동작한다.
+4. **비용 최적화를 위한 Haiku Execution 프리셋 운영**: `daily_scrap`, `pkb_worklog` 도메인에 `cost_optimized` 프리셋을 자동 적용하는 테스트가 진행되었으며, 예상 효과 보고서(Q1)가 작성되었다.
 
-5. **Daily Scrap 연동**: `.agents/daily_scrap/` 디렉토리에 날짜+시간 기반 파일명(`2026-04-13_100433_DailyScrap...`)으로 스크랩 데이터가 저장되며, IDE에서 직접 열어 Agent 컨텍스트로 투입하는 워크플로우가 존재한다.
+5. **트리거/스케줄 설정이 실행 누락의 반복 원인**: 매일 오전 9시 데일리 스크랩 트리거가 등록되지 않아 2026-04-04 이후 4일간 실행 공백이 발생했다. 트리거 등록은 구두 지시만으로는 반영되지 않으며, 명시적 등록 단계가 필요하다.
 
-6. **대화 로그 중복 수집 문제**: 동일한 파일(동일 UUID)이 30개 로그 중 반복 등장한다 (예: `22e6248e`, `29f311db`, `3ed1532c` 등이 각각 3회씩 중복). 로그 수집 파이프라인에서 중복 제거 로직이 누락되어 있거나, 요약 트리거가 과도하게 발동되고 있다.
+6. **Claude Code 웹 예약 실행 기능이 생태계 자동화 후보로 검토됨**: code.claude.com의 클라우드 예약 기능(로컬 PC 꺼져 있어도 백그라운드 실행)이 데일리 스크랩 등 반복 업무 자동화 대안으로 2026-04-11에 스크랩되었다.
 
 ---
 
 ## 반복 등장 패턴
 
-- **User Interface Agent가 가장 빈번히 활성화**: 30개 로그 중 약 18개가 UI Agent 세션 — 사용자와의 상호작용이 생태계 활동의 주된 진입점임을 의미
-- **동일 UUID 세션의 반복 수집**: 같은 `.jsonl` 파일이 2~3회씩 중복 인덱싱됨 — 파이프라인의 멱등성(idempotency) 미확보
-- **pkb_worklog 도메인이 Execution에 고정 결합**: 현재 로그 범위 내에서 Execution Agent는 항상 `pkb_worklog`와 결합 — 다른 도메인 결합 사례는 아직 미확인
-- **full pipeline 태스크 결과 추적 패턴**: 사용자가 직접 보고서 위치를 질의하는 행동 → 현재 태스크 상태를 능동적으로 노출하는 대시보드 또는 알림 메커니즘 부재
+- **User Interface Agent 세션이 압도적으로 많음**: 20개 로그 중 8개가 UI Agent 세션 → 사용자 진입점이 UI Agent로 고정되어 있으나, 세션이 짧고 분절되는 경향이 있음
+- **`role_rules` 파일 경로가 매 세션 시스템 프롬프트에 반복 포함**: 에이전트 초기화 시마다 로컬 파일 경로를 명시적으로 주입하는 방식 사용 중
+- **승인된 구현 계획(`approved implementation plan`) 패턴**: 설계 변경 시 계획 문서를 먼저 작성 → 승인 후 실행하는 워크플로가 2회(v1.0, v2.0) 반복됨
+- **로컬 커맨드 실행 로그가 대화에 혼입**: `local-command-caveat` 태그가 붙은 세션이 2개 존재 → 에이전트가 CLI 실행 결과를 컨텍스트로 받는 구조
 
 ---
 
 ## 미해결 질문
 
-- **중복 로그 수집의 원인**: 동일 UUID가 반복 수집되는 것이 수집 스크립트 버
+- **트리거 등록의 영속성 보장 방법이 확정되지 않음**: 오전 9시 스크랩 트리거를 "지금 설정"했다는 응답이 있었으나, 재시작 후에도 유지되는지, 어떤 레이어(OS cron / Claude Code 스케줄 / 자체

@@ -1,39 +1,42 @@
 # Nova 지식 합성
 
-> 마지막 갱신: 2026-04-14 19:38 | 기반 항목 수: 30
+> 마지막 갱신: 2026-04-14 19:51 | 기반 항목 수: 30
 
 ---
 
+# Nova 주제 위키 합성 문서
+
 ## 핵심 지식
 
-1. **bash 환경에서 PowerShell `.ps1` 스크립트는 직접 실행 불가** — `& c:\...\Activate.ps1` 명령은 PowerShell 전용 문법이며, bash/Git Bash/WSL 환경에서는 동작하지 않음. bash에서는 대신 `source .venv/Scripts/activate` (Windows Git Bash) 또는 `source .venv/bin/activate` (Linux/WSL) 를 사용해야 함.
+1. **sv_lakehouse 프로젝트 venv 활성화는 bash 셸 기준으로 해야 한다**
+   PowerShell 활성화 스크립트(`.ps1`)는 bash 환경에서 동작하지 않음. Windows Git Bash 또는 WSL 환경에서는 반드시 `source /c/Users/psh93/.../activate` 방식으로 실행해야 하며, `& ...Activate.ps1` 형식은 사용 불가. 이 문제가 2026-04-04 ~ 2026-04-13 사이에 10회 이상 반복됨 → **환경 설정을 한 번 고정해두지 않으면 계속 재발하는 구조적 문제**
 
-2. **sv_lakehouse 프로젝트의 가상환경 경로** — `c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\` 에 위치하며, 활성화 방식은 실행 셸 환경에 따라 달라짐.
+2. **Nova는 Lakehouse + Dashboard로 구성된 통합 사내 데이터 서비스다**
+   - Lakehouse: 데이터 수집·스테이징·변환 파이프라인 담당 (dbt intermediate 모델 포함)
+   - Dashboard: GT 조회, ODD 샘플, 주행통계(누적 주행거리·시간·차량별·국가별) 등 분석 서비스 제공
+   - 2026-03-06 기준으로 Databricks 플랫폼 기반 전환 후 Nova Beta Launch를 준비 중
 
-3. **API 사용량 한도 초과 문제 발생** — `98492c00` 파일 그룹의 대화에서 "You've hit your limit · resets 3pm" 메시지가 반복 등장함. 오후 3시(Asia 기준 추정)에 리셋되는 API 쿼터 제한에 걸린 상황이 작업 흐름을 중단시킨 것으로 보임.
+3. **Nova의 R&R은 Data Engineer / Analytics Engineer로 이원화되어 있다**
+   - Data Engineer: Lakehouse 아키텍처·인프라 설계, 스테이징 파이프라인 구축 (담당: sujin.lim)
+   - Analytics Engineer: 스테이징된 데이터 가공·변환 및 분석 서비스 제공
+   - 두 역할의 범위가 실무에서 혼동되는 경향이 있어 명확한 경계 정의가 필요하다고 검토됨 (2026-02-05)
 
-4. **동일 오류가 3일 연속(2026-04-11 ~ 04-13) 반복 발생** — 같은 PowerShell 활성화 오류가 서로 다른 날짜와 파일에 걸쳐 반복됨. 환경 설정을 한 번 고정하지 않고 매번 임시 해결을 시도한 것으로 판단됨.
+4. **Nova 서비스 개발 프로세스는 Dev / Ops 역할 분리 + Lakehouse 정합 구조로 설계되어 있다**
+   - 사용자 요구사항 수집(Ops) → 분석(Dev & Ops) → 개발 → 배포의 순환 플로우
+   - Nova Help Center가 요구사항 수집 채널 역할
+   - 전체 구조는 Lakehouse + Analytics Service 관점에서 정합적으로 평가됨 (2025-12-30)
 
-5. **두 개의 독립적인 문제가 혼재** — `0d4b1a5b` / `6861d98a` 파일 그룹은 "bash에서 .ps1 실행 오류" 문제이고, `98492c00` 파일 그룹은 "API 한도 초과" 문제임. 두 문제가 같은 날 동시에 발생하여 작업 지연이 가중된 것으로 보임.
+5. **dbt intermediate 모델을 활용한 데이터 정제 레이어가 존재한다**
+   - 예: `int_labelit__invalid_dataset` — Labelit에서 %Delete%, %Workload%, %Test% 포함 데이터셋을 필터링하는 모델
+   - Lakehouse 내 중간 변환 레이어로 사용되며, 최종 mart 모델에 공급되는 구조
+
+6. **데일리 스크랩 자동화 트리거가 설정되지 않은 상태로 운영된 이력이 있다**
+   - 2026-04-08 기준, 마지막 스크랩은 2026-04-04 실행 / 그 이후 트리거 미등록 상태
+   - "매일 오전 9시 실행" 지시가 있었으나 실제 트리거는 등록되지 않았음 → **자동화 설정 후 등록 여부를 반드시 검증해야 함**
 
 ---
 
 ## 반복 등장 패턴
 
-- **PowerShell vs bash 환경 혼용 오류** — 30개 로그 전체에 걸쳐 동일한 `Activate.ps1` 경로가 반복 등장. 근본 원인(셸 환경 미통일)이 해결되지 않은 채 반복 재발 중.
-- **API 한도 초과 메시지** — `98492c00` 파일 그룹(2026-04-12) 에서 동일 메시지가 10회 이상 반복 등장. 작업 세션 중 한도 초과 후에도 계속 요청을 시도한 것으로 추정.
-- **짧은 메시지 수(2~4개)의 세션 반복** — 각 파일당 메시지 수가 2~4개로 매우 짧음. 오류 발생 → 세션 종료 → 재시도 패턴이 반복되고 있음.
-
----
-
-## 미해결 질문
-
-- **sv_lakehouse 개발 환경을 bash로 통일할 것인가, PowerShell로 통일할 것인가?** — 명확한 환경 표준이 정해지지 않은 상태.
-- **API 한도 초과의 원인이 nova_helper Slack 봇의 과도한 호출인가, 개인 개발 세션의 과다 사용인가?** — 로그만으로는 호출 주체 특정 불가.
-- **OneDrive 경로(`OneDrive\Desktop\...`) 에 프로젝트를 두는 것이 적절한가?** — OneDrive 실시간 동기화가 `.venv` 폴더와 충돌할 가능성 있음. 검토 필요.
-
----
-
-## 관련 카테고리
-
-- **Nova Lakehouse 개발환경 설정** — 가상환경, Python 의
+- **venv 활성화 오류 반복 (10회+):** `Activate.ps1`을 bash에서 실행 시도하는 문제가 2026-04-04부터 2026-04-13까지 거의 매일 재발. 근본 원인은 셸 환경 고정 미비
+- **대시보드·서비스 명칭을 영어로 표현하는 작업 반복:** "전사 데이터 대시보드", "주행

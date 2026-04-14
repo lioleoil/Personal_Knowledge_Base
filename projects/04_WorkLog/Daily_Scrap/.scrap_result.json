@@ -1,21 +1,21 @@
 {
-  "date": "2026-04-12",
+  "date": "2026-04-14",
   "count": 3,
   "articles": [
     {
-      "title": "Google AI Edge Gallery - 완전 오프라인 LLM 갤러리 앱 오픈소스",
+      "title": "Show GN: mux – AI 코딩 세션을 라이브 프리뷰로 전환하는 tmux 세션 매니저",
       "topic": "AI/LLM",
-      "url": "https://news.hada.io/topic?id=28242"
+      "url": "https://news.hada.io/topic?id=28504"
     },
     {
-      "title": "프랑스, 미국 기술 의존 줄이기 위해 Windows 대신 Linux로 전환",
+      "title": "GitButler — GitHub 공동창업자가 만든 AI 시대를 위한 Git 재설계, a16z $1,700만 Series A 투자 유치",
+      "topic": "비즈니스/스타트업",
+      "url": "https://news.hada.io/topic?id=28488"
+    },
+    {
+      "title": "pip install torch 한 줄로 끝낸다 — Python 패키징의 오랜 숙제, 드디어 풀리나",
       "topic": "개발/오픈소스",
-      "url": "https://news.hada.io/topic?id=28403"
-    },
-    {
-      "title": "Anthropic의 최강 보안 AI \"Claude Mythos\", 일반 공개 대신 선택된 파트너에게만 제한 배포",
-      "topic": "AI/LLM",
-      "url": "https://news.hada.io/topic?id=28293"
+      "url": "https://news.hada.io/topic?id=28490"
     }
   ]
 }

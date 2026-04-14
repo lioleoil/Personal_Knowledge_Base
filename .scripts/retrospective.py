@@ -295,9 +295,10 @@ def main():
         wiki_script = os.path.join(PROJECT_ROOT, '.scripts', 'pkb_wiki_synthesize.py')
         if os.path.exists(wiki_script):
             print('\nPKB 지식 합성 시작...')
-            import subprocess, shutil
-            # venv DLL 문제 회피: PATH 기반 글로벌 Python 우선 사용
-            _py = shutil.which('python') or sys.executable
+            import subprocess
+            # venv DLL 문제 회피: 글로벌 Python 우선 사용
+            _global_py = r'C:\Users\psh93\AppData\Local\Programs\Python\Python313\python.exe'
+            _py = _global_py if os.path.exists(_global_py) else sys.executable
             result = subprocess.run(
                 [_py, wiki_script, '--all', '--min-entries', '2'],
                 capture_output=True, text=True, encoding='utf-8',

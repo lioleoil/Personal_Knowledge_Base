@@ -19,6 +19,9 @@ import re
 import sys
 from pathlib import Path
 
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 BASE     = Path(__file__).parent.parent
 PKB_IDX  = BASE / '.agents' / 'pkb_index'
 META_FILE = PKB_IDX / 'embed_meta.json'

@@ -1,45 +1,45 @@
 # ODD 지식 합성
 
-> 마지막 갱신: 2026-04-14 19:38 | 기반 항목 수: 30
+> 마지막 갱신: 2026-04-14 19:51 | 기반 항목 수: 17
 
 ---
 
-# ODD - JSON → 엑셀 변환 작업 위키
+# ODD 주제 위키 합성 문서
 
 ## 핵심 지식
 
-1. **작업 목표는 JSON → 다중 시트 엑셀 변환이다**: `C:\Users\psh93\OneDrive\Desktop\ODD` 폴더 내 JSON 파일들을 읽어, `rawDataKey` 1개당 엑셀 1개 시트로 구성하는 것이 핵심 요구사항이다.
+1. **ODD 정보는 메타데이터이며, Meta tag와 ODD는 동치가 아니다**
+   - ODD(Operational Design Domain)는 데이터 내용 자체가 아니라 **데이터가 수집된 환경 조건을 설명하는 메타데이터**다
+   - 반면 "Meta tag = ODD 정보"는 성립하지 않음: Meta tag는 ODD 외에도 다양한 정보를 포함할 수 있음
+   - 실무 적용: raw_data_key 기반 테이블 설계 시 ODD 필드는 메타 레이어로 분리해서 관리
 
-2. **rawDataKey가 시트 분리 기준이다**: JSON 구조 내 `rawDataKey` 필드 값을 기준으로 데이터를 분류하며, 각 키에 해당하는 데이터가 독립 시트에 정리된다.
+2. **OpenODD는 ASAM 표준 기반의 ODD 명세 포맷이며, OpenLABEL의 ontology tag와 역할이 다르다**
+   - OpenODD: 자율주행 시스템이 **작동 가능한 환경 조건**을 정의 (예: `weather.rain: none`, `road.type: urban`)
+   - OpenLABEL ontology tag: 객체/이벤트의 **분류 체계**를 정의
+   - 전환 전략: 내부 XML 포맷 기반 ODD 데이터를 YAML로 변환 후 OpenLABEL과 Merge하는 방식이 현실적
 
-3. **작업 소스는 단일 JSONL 파일이다**: 모든 로그가 동일한 파일(`4f6718f9-c865-497e-806a-42ce968f4bc4.jsonl`)을 참조하고 있으며, 이 파일이 변환 작업의 원본 데이터 소스다.
+3. **ASAM OpenODD의 COD(Conditions of Domain)는 ODD의 세부 조건 집합을 구조화하는 단위다**
+   - OpenX 체계 안에서 ODD → Scenario → Simulation → Label 순서로 계층적으로 연결됨
+   - COD는 이 체계에서 ODD 조건을 분류·구조화하는 핵심 구성 요소
 
-4. **구조 파악이 선행되어야 한다**: 단순 변환이 아니라 "구조를 파악"하는 것이 먼저 요구되었다 — JSON 내 계층 구조, 키 목록, 값 타입 등을 먼저 분석한 후 엑셀 스키마를 설계해야 한다.
+4. **OpenX 시리즈 전환 전략의 실무 매핑 구조**
+   - OpenODD: 내부 XML → YAML 변환 → OpenLABEL Merge
+   - OpenDRIVE: 3D Annotation JSON → `.xodr` 변환 → OpenSCENARIO에서 참조
+   - OpenSCENARIO: 내부 YAML 시나리오 파일 기반으로 작성 (v2.0 DSL 또는 v1.x XML)
+   - OpenLABEL: 시뮬레이션 결과 export 시 action/event가 객체와 매핑되어 출력되는 것이 툴 기본 사양
 
-5. **ODD 도메인 데이터가 대상이다**: 운행설계영역(ODD) 관련 JSON 데이터이므로, 파라미터 항목은 도로 유형, 속도 조건, 환경 조건, 주차/주행 시나리오 등 ODD 속성 값일 가능성이 높다.
+5. **raw_data_key를 Primary Key로 하는 ODD 테이블 구조가 데이터 관리의 기준 단위**
+   - raw_data_key 1개 = 하나의 수집 세션/클립에 대응
+   - YAML 스키마로 필드 타입, nullable, 설명까지 정의해서 관리
+   - 엑셀 추출 시 raw_data_key 1개당 1시트로 구성하는 방식이 가독성 확보에 유리
+
+6. **OpenSCENARIO v1.x(XML)와 v2.0(DSL) 중 내부 YAML 기반 시나리오와의 호환은 v2.0 DSL 방향이 더 적합**
+   - v1.x는 XML 기반으로 YAML과 직접 호환 불가, 변환 레이어 필요
+   - v2.0은 DSL 문법 기반으로 구조적 유연성이 높아 YAML 시나리오 마이그레이션에 유리
+   - OpenDRIVE(`.xodr`)는 XML 문법 기반이며, 확장자만 다를 뿐 표준 XML 파서로 처리 가능
 
 ---
 
 ## 반복 등장 패턴
 
-- **동일 요청이 30회 중복 기록됨**: 모든 로그 엔트리(1~30)가 완전히 동일한 내용으로, 실질적 대화 진전 없이 같은 요청이 반복 저장된 것으로 보인다 → **로그 수집/저장 파이프라인에 중복 버그가 있을 가능성이 높다**
-- **파일 경로 고정**: 항상 동일한 로컬 경로(`Desktop\ODD`)와 동일한 JSONL 파일 ID를 참조한다
-- **요청 패턴**: "구조 분석 → 엑셀 추출 → rawDataKey 기준 시트 분리"의 3단계 워크플로가 일관되게 반복된다
-
----
-
-## 미해결 질문
-
-- **rawDataKey의 실제 목록은 무엇인가?** — 몇 개의 시트가 생성되어야 하는지 미확인
-- **JSON 파일이 단수인가, 복수인가?** — 폴더 내 파일이 1개(JSONL)인지 여러 JSON 파일인지 명확하지 않음
-- **엑셀 변환이 실제로 완료되었는가?** — 로그에 응답 결과나 완료 여부가 기록되지 않아 작업 성공 여부 불명확
-- **중복 로그의 원인은 무엇인가?** — 동일 요청이 30번 기록된 것이 재시도인지, 시스템 오류인지 파악 필요
-
----
-
-## 관련 카테고리
-
-- `OpenODD` — ODD 파라미터 표준 정의 및 JSON 스키마 구조와 직접 연관
-- `주차/주행 ODD 커버리지` — rawDataKey로 분류될 가능성이 있는 도메인 항목
-- `데이터 파이프라인` — JSONL 로그 수집 및 중복 저장 버그 이슈
-- `Python/openpyxl 스크립트` — JSON → 엑셀 변환 구현 도구로 활용 가능
+- **OpenX 표준 전환 필요성 반복 확인**: OpenODD, OpenDRIVE, OpenSCENARIO, OpenLABEL 4종 세트를 내부 포맷에서 표준 포맷으로 전환하는
