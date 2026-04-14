@@ -593,7 +593,9 @@ def append_to_worklog(conv: dict, category: str):
     print(f'  ✓ [{category}] {title[:40]} → {cat_info["file"]}')
 
 
-POPUP_THRESHOLD = 50  # LLM 신뢰도*100 또는 키워드 점수가 이 값 이하이면 팝업 표시
+# 팝업 표시 임계값 — 두 모드의 score 스케일이 다르므로 분리
+LLM_CONFIDENCE_THRESHOLD = 50  # LLM 신뢰도*100 이하 (= 50% 미만) → 팝업
+KEYWORD_SCORE_THRESHOLD   = 2   # 키워드 히트 합산 이하 → 팝업 (기존값 유지)
 
 
 def _load_processed_files() -> set:
@@ -639,7 +641,8 @@ def run(jsonl_files: list[Path], dry_run: bool = False, interactive: bool = True
             category, score, tags = classify_conversation(conv['title'], conv['content'])
             conv['tags'] = tags  # 태그를 conv에 저장 (append_to_worklog에서 사용)
 
-            needs_review = (category == 'Misc' or score <= POPUP_THRESHOLD)
+            threshold = LLM_CONFIDENCE_THRESHOLD if _LLM_AVAILABLE else KEYWORD_SCORE_THRESHOLD
+            needs_review = (category == 'Misc' or score <= threshold)
             if needs_review and interactive and not dry_run:
                 print(f'  [팝업] 검토 필요: {conv["title"][:50]}  (점수={score}, 자동={category})')
                 category = popup_review(conv, category)

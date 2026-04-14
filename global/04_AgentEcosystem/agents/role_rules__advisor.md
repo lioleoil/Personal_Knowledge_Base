@@ -37,12 +37,28 @@ PM 역할. 작업 시작부터 감독·기획·평가·승인까지 전 라이�
   - global/05_PM_Outputs/ (최근 3개 파일)
   - 도메인 관련 디렉터리 탐색
 
-PKB 지식 검색 (RAG):
-  - python .scripts/pkb_search.py --query "{task 키워드}" --top 5 --json
-  - 반환된 top-5 청크를 플랜의 배경 컨텍스트 섹션에 포함
-  - 인덱스가 없을 경우 (META_FILE 없음) 검색 생략 후 계속
-  - 관련 SYNTHESIS.md 파일이 있으면 추가로 읽기:
-    projects/personal_knowledge_base/04_WorkLog/{카테고리}/SYNTHESIS.md
+PKB 지식 검색 (RAG) — 필수 4단계:
+  Step 1. 검색 실행
+    python .scripts/pkb_search.py --query "{task 핵심 키워드}" --top 5 --json
+    → 인덱스 없음 오류 발생 시: 검색 생략 후 Step 4로 바로 진행
+
+  Step 2. 카테고리 추출
+    JSON 결과의 각 항목에서 'category' 필드 수집 (중복 제거)
+    → 최대 상위 3개 카테고리 선정 (score 높은 순)
+
+  Step 3. SYNTHESIS.md 읽기 (카테고리별)
+    선정된 카테고리마다:
+      projects/personal_knowledge_base/04_WorkLog/{category}/SYNTHESIS.md
+    읽기 대상 섹션:
+      - "핵심 지식" → 이미 알고 있는 패턴, 중복 작업 방지
+      - "미해결 질문" → 플랜에서 다뤄야 할 열린 문제
+      - "관련 카테고리" → 추가 검색 필요 여부 판단
+
+  Step 4. 플랜 배경 컨텍스트에 반영
+    advisor_plan.md의 "배경 컨텍스트" 섹션에:
+      - RAG top-3 청크 요약 (카테고리/헤더/관련도)
+      - SYNTHESIS.md "핵심 지식" 중 현 태스크 관련 항목
+      - SYNTHESIS.md "미해결 질문" 중 이번 태스크로 해결 가능한 항목
 
 외부 지식:
   - WebSearch: 도메인 전문 지식, 최신 패턴, Best Practice
