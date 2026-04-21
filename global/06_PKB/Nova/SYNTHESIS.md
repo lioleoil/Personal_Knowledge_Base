@@ -1,3 +1,19 @@
+---
+tags:
+  - nova
+  - data-engineering
+  - lakehouse
+  - databricks
+  - synthesis
+  - pkb
+aliases:
+  - Nova 지식 합성
+  - Nova Wiki
+category: Nova
+source: "[[Nova_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Nova 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:55 | 기반 항목 수: 30
@@ -60,3 +76,15 @@
 - **데이터 엔지니어링**: dbt intermediate 모델, CAN 데이터 처리, 데이터 라이프사이클
 - **배포 운영(DevOps)**: 트리거 스케줄링, Databricks 전환, 파이프라인 테스트 및 알림
 - **사내 커뮤니케이션**: 대시보드 공개 안내, 채널 공지 작성, 영어 명칭 정의
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Nova_대화_학습_정리|Nova 대화 로그 (29건)]]
+- 🔗 [[AgentEcosystem/SYNTHESIS|AgentEcosystem]] — orchestrator, nova_helper 연동 설계
+- 🔗 [[Python_Scripts/SYNTHESIS|Python_Scripts]] — daily_scrap, 자동화 스크립트 패턴
+- 🔗 [[Strategy_Business/SYNTHESIS|Strategy_Business]] — Nova 서비스 전략, KPI/OKR 연계
+- 🔗 [[DQA/SYNTHESIS|DQA]] — Labelit Analytics 파이프라인 (Lakehouse 수신 담당)

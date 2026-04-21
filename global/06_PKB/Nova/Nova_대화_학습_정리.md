@@ -1,6 +1,20 @@
+---
+tags:
+  - nova
+  - data-engineering
+  - lakehouse
+  - databricks
+  - conversation-log
+  - pkb
+category: Nova
+synthesis: "[[SYNTHESIS|Nova 지식 합성]]"
+period: 2024-04-04 ~ 2026-03-06
+---
+
 # Nova 대시보드 & 데이터 플랫폼 — GPT 대화 학습 정리
 
 > 관련 대화 수: **29개 + 재분류 14개** | 기간: 2024-04-04 ~ 2026-03-06
+> 합성 문서: [[SYNTHESIS|Nova 지식 합성]] | 카테고리 인덱스: [[../INDEX|WorkLog INDEX]]
 
 ---
 
