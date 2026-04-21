@@ -1,3 +1,20 @@
+---
+tags:
+  - openlabel
+  - annotation-format
+  - asam
+  - migration
+  - lidar
+  - pkb
+  - synthesis
+aliases:
+  - OpenLABEL 합성
+  - ASAM OpenLABEL
+category: OpenLABEL
+source: "[[OpenLABEL_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # OpenLABEL 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:57 | 기반 항목 수: 30
@@ -47,3 +64,14 @@
 - **ASAM 표준군**: OpenLABEL, OpenODD (ODD taxonomy, 클래스 분류 체계)
 - **Git / 개발 환경**: 변환 스크립트 브랜치 관리, 경로 설정 (`__file__` 기준)
 - **데이터 레이블링 정책 문서**: 클래스명 정의, attribute 명칭 표준화, output format 엑셀 명세
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[OpenLABEL_대화_학습_정리|OpenLABEL 대화 로그 (30건)]]
+- 🔗 [[Gen1_Gen2_Labeling/SYNTHESIS|Gen1_Gen2_Labeling]] — SV → OpenLABEL 마이그레이션, 클래스 매핑
+- 🔗 [[ODD/SYNTHESIS|ODD]] — ASAM OpenODD ↔ OpenLABEL 표준 연계
+- 🔗 [[DQA/SYNTHESIS|DQA]] — 어노테이션 포맷 품질 기준 연계

@@ -1,3 +1,20 @@
+---
+tags:
+  - databricks
+  - poc
+  - zerobus
+  - medallion-architecture
+  - data-engineering
+  - pm-output
+aliases:
+  - Databricks Zerobus 가이드라인
+  - Zerobus 데이터 엔지니어링 가이드
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # 서론: Zerobus 도입과 데이터 파이프라인의 패러다임 전환
 Zerobus의 도입은 단순한 도구의 교체를 넘어, 데이터 수집 패러다임을 '인프라 관리'에서 **'API 중심의 전략적 큐레이션(ELT)'**으로 전환하는 핵심적인 전략적 선택입니다. Zerobus는 `App → Zerobus SDK → Delta Table`이라는 서버리스 기반의 직통 구조로 단순화합니다. 이러한 혁신은 데이터 팀이 인프라 운영의 늪에서 벗어나 비즈니스 가치 창출에 집중하게 함으로써 **'Time-to-Insight(통찰력 확보 시간)'**을 획기적으로 단축합니다.
 이 변화를 식당 운영에 비유하자면, 과거에는 식재료가 들어오는 트럭 문 앞에서 모든 전수 검사를 수행하느라 정작 요리할 시간이 부족했던 **'사전 검증(ETL)'** 방식이었습니다. 반면, Zerobus 체계는 신선한 재료를 주방 창고(Bronze)에 즉시 입고시킨 뒤, 실제 요리 직전(Silver)에 셰프의 전문적인 기준에 맞춰 꼼꼼하게 다듬고 검증하는 **'사후 거버넌스(ELT)'** 방식으로의 진화를 의미합니다. 이러한 아키텍처의 단순화는 필연적으로 데이터 레이어별 역할의 근본적인 변화와 실무자 간의 고도화된 R&R 재정립을 요구합니다.

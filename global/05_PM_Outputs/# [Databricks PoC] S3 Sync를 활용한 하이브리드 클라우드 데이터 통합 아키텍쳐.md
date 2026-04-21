@@ -1,3 +1,20 @@
+---
+tags:
+  - databricks
+  - poc
+  - s3
+  - hybrid-cloud
+  - data-architecture
+  - pm-output
+aliases:
+  - Databricks PoC S3 Sync
+  - S3 하이브리드 클라우드 아키텍처
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # [Databricks PoC] S3 Sync를 활용한 하이브리드 클라우드 데이터 통합 아키텍처
 ## Overview
 - **목적**

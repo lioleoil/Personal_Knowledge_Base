@@ -1,3 +1,20 @@
+---
+tags:
+  - odd
+  - operational-design-domain
+  - autonomous-driving
+  - asam
+  - opendrive
+  - pkb
+  - synthesis
+aliases:
+  - ODD 합성
+  - 운행설계영역
+category: ODD
+source: "[[ODD_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # ODD 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:56 | 기반 항목 수: 17
@@ -50,3 +67,14 @@
 - **데이터 어노테이션 및 레이블링**: OpenLABEL, ontology tag, 3D Annotation JSON 관리
 - **차량 네트워크 (CAN)**: CCAN/PCAN 구조 — ODD 조건 판단에 필요한 차량 상태 데이터 소스
 - **HD Map / 도로 데이터**: OpenDRIVE 기반 정밀 지도, 시나리오 실행의 공간 기반 정보
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[ODD_대화_학습_정리|ODD 대화 로그 (17건)]]
+- 🔗 [[Gen2_Policy/SYNTHESIS|Gen2_Policy]] — ODD v2.7.0 → Gen2 정책 전환 논거
+- 🔗 [[Gen1_Gen2_Labeling/SYNTHESIS|Gen1_Gen2_Labeling]] — ODD 기반 라벨링 성능 측정 전략
+- 🔗 [[OpenLABEL/SYNTHESIS|OpenLABEL]] — ASAM OpenODD ↔ OpenLABEL 표준 연계

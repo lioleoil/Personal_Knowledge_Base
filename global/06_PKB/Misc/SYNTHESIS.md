@@ -1,3 +1,19 @@
+---
+tags:
+  - misc
+  - personal
+  - finance
+  - language
+  - pkb
+  - synthesis
+aliases:
+  - Misc 합성
+  - 기타 지식
+category: Misc
+source: "[[Misc_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Misc 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:55 | 기반 항목 수: 30
@@ -43,3 +59,12 @@
 - **금융·재직 정보**: 스톡옵션, 퇴직연금, 장제비 → `Personal-Finance` 카테고리
 - **언어·어휘**: 중요도 영어 표현, 새벽/여명/황혼/먼동, lateral vs longitudinal → `Language-Reference` 카테고리
 - **이미지 처리**: OCR·데이터프레임 변환, 업스케일링 → `Image-Processing` 카테고리
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Misc_대화_학습_정리|Misc 대화 로그 (30건)]]
+- 🔗 [[Career/SYNTHESIS|Career]] — 재테크·스톡옵션 등 재무 관련 병행 논의

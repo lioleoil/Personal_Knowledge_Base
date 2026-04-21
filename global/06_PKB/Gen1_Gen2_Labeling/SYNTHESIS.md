@@ -1,3 +1,20 @@
+---
+tags:
+  - labeling
+  - gen1
+  - gen2
+  - annotation
+  - performance-measurement
+  - pkb
+  - synthesis
+aliases:
+  - Gen1_Gen2 합성
+  - 라벨링 성능 측정
+category: Gen1_Gen2_Labeling
+source: "[[Gen1_Gen2_Labeling_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Gen1_Gen2_Labeling 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:54 | 기반 항목 수: 30
@@ -66,3 +83,14 @@
 - **Annotation_Class_Definition**: Barrier/Obstacle/Pole/Animal 등 클래스 정의 및 조항 작성
 - **Gen1_Gen2_Transition**: 버전 변환 규칙, 작업 공수 비교 방법론, 성능 측정 전략
 - **Technical_Writing_English**: 라벨링 정책 문서 영문 표현 표준화, 문법 검토
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Gen1_Gen2_Labeling_대화_학습_정리|Gen1_Gen2 대화 로그 (30건)]]
+- 🔗 [[DQA/SYNTHESIS|DQA]] — 검수 자동화, 품질 분석 파이프라인
+- 🔗 [[Gen2_Policy/SYNTHESIS|Gen2_Policy]] — Gen2 Sequence 기반 어노테이션 정책
+- 🔗 [[ODD/SYNTHESIS|ODD]] — Gen2 ODD v2.7.0 → 전환 논거 연계

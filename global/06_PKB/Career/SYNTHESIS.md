@@ -1,3 +1,20 @@
+---
+tags:
+  - career
+  - job-search
+  - resume
+  - analytics-engineer
+  - product-owner
+  - pkb
+  - synthesis
+aliases:
+  - Career 합성
+  - 커리어 지식
+category: Career
+source: "[[Career_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Career 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:53 | 기반 항목 수: 16
@@ -47,3 +64,13 @@
 - **Industry Research** — 코아시아, 빗썸, 크래프톤, 펄어비스, 모라이 등 기업 분석이 커리어 탐색과 직결
 - **Self Development / Personal Branding** — 가치관 분석, 성향 파악 대화는 커리어 포지셔닝 전략과 연결
 - **Data Engineering / Analytics** — Analytics Engineer 포트폴리오 구성은 기술 스택 학습 카테고리와 연계 필요
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Career_대화_학습_정리|Career 대화 로그 (16건)]]
+- 🔗 [[Strategy_Business/SYNTHESIS|Strategy_Business]] — 커리어 의사결정과 비즈니스 전략 연계
+- 🔗 [[Misc/SYNTHESIS|Misc]] — 재테크·스톡옵션 등 재무 관련 병행 논의

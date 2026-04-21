@@ -1,3 +1,20 @@
+---
+tags:
+  - dqa
+  - data-quality
+  - labelit
+  - annotation
+  - autonomous-driving
+  - pkb
+  - synthesis
+aliases:
+  - DQA 합성
+  - 데이터 품질 분석
+category: DQA
+source: "[[DQA_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # DQA 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:53 | 기반 항목 수: 19
@@ -46,3 +63,14 @@
 - **`nova_he` (추정)** — Multi-Agent Ecosystem 설계 플랜에서 언급된 도메인 프로젝트
 - **`LiDAR / Autonomous Driving Data`** — 3D annotation, 실측 차량 데이터 품질 관리
 - **`PKM (Personal Knowledge Management)`** — 대화 로그 자동 요약 및 지식 베이스 구축 시스템 자체
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[DQA_대화_학습_정리|DQA 대화 로그 (19건)]]
+- 🔗 [[Gen1_Gen2_Labeling/SYNTHESIS|Gen1_Gen2_Labeling]] — Labeling Analytics 아키텍처, 검수 파이프라인
+- 🔗 [[Nova/SYNTHESIS|Nova]] — Nova Lakehouse Labelit 커맨드 로그 수신 담당
+- 🔗 [[OpenLABEL/SYNTHESIS|OpenLABEL]] — 어노테이션 포맷·클래스 품질 기준 연계

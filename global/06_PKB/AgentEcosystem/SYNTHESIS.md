@@ -1,3 +1,19 @@
+---
+tags:
+  - agent-ecosystem
+  - orchestrator
+  - multi-agent
+  - claude-code
+  - pkb
+  - synthesis
+aliases:
+  - AgentEcosystem 합성
+  - 에이전트 생태계
+category: AgentEcosystem
+source: "[[AgentEcosystem_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # AgentEcosystem 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:52 | 기반 항목 수: 20
@@ -86,3 +102,14 @@
 - **`cost_optimization / token_tracking`** — Haiku 분리 전략, 모델별 비용 추적 설계
 - **`Claude Code 웹 예약 실행`** — 클라우드 기반 백그라운드 실행 기능, 로컬 트리거 대안으로 검토됨 (2026-04-11 스크랩)
 - **`Orchestrator 스크립트 (.scripts/orchestrator.py)`** — 파이프라인 실행 진입점, 별도 관리 필요
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[AgentEcosystem_대화_학습_정리|AgentEcosystem 대화 로그 (20건)]]
+- 🔗 [[Nova/SYNTHESIS|Nova]] — nova_helper Slack 봇, orchestrator 파이프라인 연동
+- 🔗 [[Python_Scripts/SYNTHESIS|Python_Scripts]] — orchestrator.py, 자동화 스크립트 패턴
+- 🔗 [[Strategy_Business/SYNTHESIS|Strategy_Business]] — Multi-Agent 설계 → KPI/OKR 실행 연계

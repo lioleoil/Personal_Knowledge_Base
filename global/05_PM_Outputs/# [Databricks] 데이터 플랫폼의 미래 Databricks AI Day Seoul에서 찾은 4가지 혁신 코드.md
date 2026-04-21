@@ -1,3 +1,20 @@
+---
+tags:
+  - databricks
+  - ai-days
+  - seoul
+  - data-platform
+  - innovation
+  - pm-output
+aliases:
+  - Databricks 데이터 플랫폼 인사이트
+  - Databricks AI Day 4가지 혁신
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # 데이터 플랫폼의 미래: Databricks AI Day Seoul에서 찾은 4가지 혁신 코드
 ## 도입부: 파편화된 데이터 스택의 한계와 새로운 통합의 시대
 현대 기업의 데이터 환경은 ‘파편화된 사일로(Silo)’라는 고질적인 아키텍처적 한계에 봉착해 있습니다. 데이터 엔지니어링은 복잡한 파이프라인 구축에 매몰되어 있고, 분석가는 반복적인 추출 요청과 지표 설명 업무라는 병목에 갇혀 있습니다. 이러한 분절은 운영 효율성을 저하시킬 뿐만 아니라, 비즈니스 가치 창출로 이어지는 엔드투엔드(E2E) 생명주기를 단절시킵니다.

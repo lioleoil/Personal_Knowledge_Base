@@ -1,3 +1,20 @@
+---
+tags:
+  - python
+  - scripting
+  - automation
+  - sql
+  - dbt
+  - pkb
+  - synthesis
+aliases:
+  - Python_Scripts 합성
+  - Python 자동화
+category: Python_Scripts
+source: "[[Python_Scripts_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Python_Scripts 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:57 | 기반 항목 수: 30
@@ -62,3 +79,13 @@
 - **`Git_Workflow`**: GitHub Enterprise 접근, 브랜치 관리, 파일 삭제 원인 분석, PR merge 방지
 - **`Automation_Pipeline`**: 데일리 스크랩 스케줄, task 보고서 추적, Claude Code 예약 실행
 - **`Dev_Environment`**: Python 설치, PATH 설정, VS Code 확장, PowerShell vs bash 환경 분리
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Python_Scripts_대화_학습_정리|Python_Scripts 대화 로그 (30건)]]
+- 🔗 [[AgentEcosystem/SYNTHESIS|AgentEcosystem]] — orchestrator.py, PKB 자동화 파이프라인
+- 🔗 [[Nova/SYNTHESIS|Nova]] — sv_lakehouse venv, dbt 연동, daily_scrap 스케줄

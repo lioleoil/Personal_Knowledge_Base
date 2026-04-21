@@ -1,3 +1,20 @@
+---
+tags:
+  - databricks
+  - poc
+  - dabs
+  - assets-as-code
+  - deployment-automation
+  - pm-output
+aliases:
+  - Databricks DABs 배포 자동화
+  - DABs 워크플로우 구축
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # 서론: **데이터 자산 관리의 패러다임 시프트, Assets as Code(AaC)**
 현대 데이터 아키텍처가 방대해짐에 따라, 기존의 UI 기반 수동 관리 방식은 운영의 복잡성을 임계점까지 밀어붙이고 있습니다. 수동 설정은 변경 이력의 단절, 환경 간 불일치, 그리고 재현 불가능한 파이프라인을 양산하며, 이는 궁극적으로 데이터 플랫폼의 신뢰성을 잠식하는 기술 부채로 직결됩니다. 이러한 위기를 타개하기 위해 **“Assets as Code(AaC)”를 근간으로 하는 “Shift-left” 전략**을 채택해야 합니다. AaC는 인프라를 넘어 데이터 워크플로우의 모든 구성 요소를 소프트웨어 엔지니어링의 정수인 코드로 관리함으로써 데이터 엔지니어링의 패러다임을 근본적으로 재정의합니다.
 ### **AaC 및 DABs의 전략적 정의**

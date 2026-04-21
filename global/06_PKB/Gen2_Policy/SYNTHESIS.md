@@ -1,3 +1,20 @@
+---
+tags:
+  - gen2
+  - policy
+  - annotation
+  - sequence-based
+  - autonomous-driving
+  - pkb
+  - synthesis
+aliases:
+  - Gen2_Policy 합성
+  - Gen2 어노테이션 정책
+category: Gen2_Policy
+source: "[[Gen2_Policy_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Gen2_Policy 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:54 | 기반 항목 수: 30
@@ -64,3 +81,14 @@
 - **Annotation_Taxonomy**: 클래스 계층 구조(Barrier/Obstacle/Vehicle/Animal), Semantic Variant 개념, Class-Specific Rules
 - **Policy_Versioning**: Git 기반 이력 관리, Policy-as-Code, 버전 변환 규칙(`3D_BoundBox_vA.B.0`)
 - **Label_Quality / DQA**: Occlusion·Truncation·Visibility 기준, 실효성 검증, 검수 기준 문서
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Gen2_Policy_대화_학습_정리|Gen2_Policy 대화 로그 (30건)]]
+- 🔗 [[Gen1_Gen2_Labeling/SYNTHESIS|Gen1_Gen2_Labeling]] — Gen1 vs Gen2 비교, 버전 변환 규칙
+- 🔗 [[ODD/SYNTHESIS|ODD]] — ODD v2.7.0 스펙, Gen2 ODD 매핑
+- 🔗 [[DQA/SYNTHESIS|DQA]] — Occlusion/Truncation 기준, 검수 기준 연계

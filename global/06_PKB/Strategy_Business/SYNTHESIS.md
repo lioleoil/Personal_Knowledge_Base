@@ -1,3 +1,20 @@
+---
+tags:
+  - strategy
+  - business
+  - okr
+  - kpi
+  - data-engineering
+  - pkb
+  - synthesis
+aliases:
+  - Strategy_Business 합성
+  - 전략·비즈니스
+category: Strategy_Business
+source: "[[Strategy_Business_대화_학습_정리]]"
+updated: 2026-04-22
+---
+
 # Strategy_Business 지식 합성
 
 > 마지막 갱신: 2026-04-22 07:58 | 기반 항목 수: 30
@@ -45,3 +62,14 @@
 - **Tech_Vocabulary** — 실무 영어 표현, 기술 용어 정의 (Ingestion, ODD, ASPICE 등)
 - **Automotive_AD** — IMU, MCIP/MTBF, NCAP, ASPICE Pre-Assessment, ODD
 - **Personal_Productivity** — 피어 평가 작성, Git 세팅, 로컬 환경 관리
+
+---
+
+## 연결 노드 (Obsidian Graph)
+
+> PKB 내 직접 연결 문서
+
+- 📄 소스: [[Strategy_Business_대화_학습_정리|Strategy_Business 대화 로그 (30건)]]
+- 🔗 [[Nova/SYNTHESIS|Nova]] — Nova 서비스 전략, Databricks 플랫폼 전환 맥락
+- 🔗 [[Career/SYNTHESIS|Career]] — 커리어 포지셔닝과 비즈니스 전략 연계
+- 🔗 [[AgentEcosystem/SYNTHESIS|AgentEcosystem]] — Multi-Agent 설계 → KPI/OKR 실행 연계

@@ -1,3 +1,19 @@
+---
+tags:
+  - databricks
+  - ai-days
+  - seoul
+  - data-analytics
+  - odd
+  - pm-output
+aliases:
+  - Databricks AI Days Seoul Sujin
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 ## 1. Executive Summary
 본 보고서는 Data Analytics의 E2E 파이프라인과 ODD(Operational Design Domain) 자동화 관점을 통합하여, 데이터 기반 의사결정 구조를 **자율화·자동화·표준화**하는 방향성을 제시합니다.
 핵심은 단순 데이터 활용을 넘어, **인과 기반 의사결정 루프와 자동화된 데이터셋 생성 구조를 결합**하여 플랫폼 환경에서 확장 가능한 분석 체계를 구축하는 것입니다.

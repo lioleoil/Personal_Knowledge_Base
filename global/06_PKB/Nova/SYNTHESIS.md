@@ -88,3 +88,13 @@ updated: 2026-04-22
 - 🔗 [[Python_Scripts/SYNTHESIS|Python_Scripts]] — daily_scrap, 자동화 스크립트 패턴
 - 🔗 [[Strategy_Business/SYNTHESIS|Strategy_Business]] — Nova 서비스 전략, KPI/OKR 연계
 - 🔗 [[DQA/SYNTHESIS|DQA]] — Labelit Analytics 파이프라인 (Lakehouse 수신 담당)
+
+> Databricks PM 산출물 (PoC 문서 및 행사 보고서)
+
+- 📊 [[Databricks PoC S3 Sync|PoC: S3 하이브리드 클라우드 아키텍처]] — Nova Lakehouse S3 연동 통합 설계
+- 📊 [[Databricks Zerobus 가이드라인|PoC: Zerobus 가이드라인]] — 메달리온 아키텍처 전환, DE/AE R&R 재정립
+- 📊 [[Databricks DABs 배포 자동화|PoC: DABs 배포 자동화]] — Assets as Code 기반 워크플로우 구축
+- 📊 [[Databricks AI Days Seoul Jumi|AI Days Seoul 보고서 (Jumi)]] — 세션 참석 보고서
+- 📊 [[Databricks AI Days Seoul Seonghwan|AI Days Seoul 전략 브리핑 (Seonghwan)]] — AI/BI 분석 전략
+- 📊 [[Databricks AI Days Seoul Sujin|AI Days Seoul 보고서 (Sujin)]] — E2E 파이프라인 및 ODD 자동화
+- 📊 [[Databricks 데이터 플랫폼 인사이트|데이터 플랫폼 미래 인사이트]] — Databricks AI Day 4가지 혁신 코드

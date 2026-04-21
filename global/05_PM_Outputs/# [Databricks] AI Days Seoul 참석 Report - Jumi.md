@@ -1,3 +1,18 @@
+---
+tags:
+  - databricks
+  - ai-days
+  - seoul
+  - conference-report
+  - pm-output
+aliases:
+  - Databricks AI Days Seoul Jumi
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # Databricks AI Day Seoul 참석 보고서
 
 ## 1. 보고 목적

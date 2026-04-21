@@ -1,3 +1,20 @@
+---
+tags:
+  - databricks
+  - ai-days
+  - seoul
+  - ai-bi
+  - strategy
+  - pm-output
+aliases:
+  - Databricks AI Days Seoul Seonghwan
+  - AI/BI 전략 브리핑
+category: PM-Output
+project: Nova
+related-synthesis: "[[Nova/SYNTHESIS|Nova 지식 합성]]"
+updated: 2026-04-22
+---
+
 # AI/BI 분석의 진화와 통합 플랫폼의 힘: 전략 브리핑
 
 ## 1. Executive Summary
