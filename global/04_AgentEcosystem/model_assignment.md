@@ -12,7 +12,7 @@
 |---|---|---|---|---|
 | **Execution** | Sonnet 4.6 / temp=0.3 | **Haiku 4.5** / temp=0.3 | Sonnet 4.6 / temp=0.3 | Anthropic SDK |
 | **Validation** | gpt-4.1 / temp=0.1 | gpt-4.1-mini / temp=0.1 | gpt-4.1 / temp=0.1 | OpenAI API |
-| **Advisor** | Opus 4.6 / temp=0.2 | **Sonnet 4.6** / temp=0.2 | Opus 4.6 / temp=0.1 | Anthropic SDK |
+| **Advisor** | Opus 4.7 / temp=0.2 | **Sonnet 4.6** / temp=0.2 | Opus 4.7 / temp=0.1 | Anthropic SDK |
 | **Reporter** | gpt-4.1-mini / temp=0.5 | gpt-4.1-mini / temp=0.5 | gpt-4.1 / temp=0.5 | OpenAI API |
 
 ## 도메인-프리셋 매핑

@@ -65,7 +65,7 @@
                                │ requirement.json
                                ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ADVISOR AGENT (PM / Opus 4.6)                    │
+│                    ADVISOR AGENT (PM / Opus 4.7)                    │
 │  Phase 1: 컨텍스트 파악 (로컬 + WebSearch)                          │
 │  Phase 2: 플랜 수립 → global/05_PM_Outputs/advisor_plan_*.md        │
 │  Phase 3: Execution·Validation 루프 감독                            │

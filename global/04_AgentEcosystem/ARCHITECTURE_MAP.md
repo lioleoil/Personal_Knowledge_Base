@@ -34,7 +34,7 @@
                            │ _requirement.json
                            ▼
 ┌──────────────────────────────────────────────────────────────────────┐
-│  Advisor Agent (PM)                              [Opus 4.6]           │
+│  Advisor Agent (PM)                              [Opus 4.7]           │
 │                                                                      │
 │  Phase 1  컨텍스트 파악                                               │
 │           · global/01_Identity, 02_Profile, 03_Instructions 읽기     │
@@ -114,7 +114,7 @@ Execution Agent
 | 에이전트 | 모델 (기본) | 권한 | Role Rules |
 |---|---|---|---|
 | **User Interface** | Haiku 4.5 | Read + requirement/decision 쓰기 | `agents/role_rules__user_interface.md` |
-| **Advisor (PM)** | Opus 4.6 | Read-only + Bus 5종 + WebSearch | `agents/role_rules__advisor.md` |
+| **Advisor (PM)** | Opus 4.7 | Read-only + Bus 5종 + WebSearch | `agents/role_rules__advisor.md` |
 | **Execution** | Sonnet 4.6 | Read/Write/Edit/Bash + spawn | `agents/role_rules__execution.md` |
 | **Validation** | Sonnet / codex-1 | Read-only + validation.json | `agents/role_rules__validation.md` |
 | **Reporter** | codex-1 / Sonnet | Read-only + report.json | `agents/role_rules__reporter.md` |
@@ -130,9 +130,9 @@ Execution Agent
 | `daily_scrap` | cost_optimized | Haiku 4.5 | Sonnet 4.6 | Haiku 4.5 | Haiku 4.5 |
 | `pkb_worklog` | cost_optimized | Haiku 4.5 | Sonnet 4.6 | Haiku 4.5 | Haiku 4.5 |
 | `nova_helper` | default | Sonnet 4.6 | Sonnet 4.6 | Sonnet 4.6 | Sonnet 4.6 |
-| `nova_log_analytics` | cross_vendor | Sonnet 4.6 | Opus 4.6 | codex-1 | codex-1 |
-| `sv_dqat` | cross_vendor | Sonnet 4.6 | Opus 4.6 | codex-1 | codex-1 |
-| `sv_lakehouse` | cross_vendor | Sonnet 4.6 | Opus 4.6 | codex-1 | codex-1 |
+| `nova_log_analytics` | cross_vendor | Sonnet 4.6 | Opus 4.7 | codex-1 | codex-1 |
+| `sv_dqat` | cross_vendor | Sonnet 4.6 | Opus 4.7 | codex-1 | codex-1 |
+| `sv_lakehouse` | cross_vendor | Sonnet 4.6 | Opus 4.7 | codex-1 | codex-1 |
 
 > 설정 파일: `.scripts/model_config.json`
 

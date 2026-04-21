@@ -11,7 +11,7 @@ flowchart TD
     USER["👤 사용자\n(CLI / 터미널)"]
     ORC["🔧 Orchestrator\norchestrator.py\n토큰 예산 확인 · Manifest 생성 · spawn"]
     UI["💬 User Interface Agent\nHaiku 4.5\n요청 구조화 · 보고서 포워딩 · 승인 수집"]
-    ADV["🧠 Advisor Agent (PM)\nOpus 4.6\nPhase 1 컨텍스트 + Phase 2 플랜\nPhase 4-5 평가 · Phase 6 자기개선"]
+    ADV["🧠 Advisor Agent (PM)\nOpus 4.7\nPhase 1 컨텍스트 + Phase 2 플랜\nPhase 4-5 평가 · Phase 6 자기개선"]
     EXE["⚙️ Execution Agent\nSonnet 4.6 (도메인별)\nManifest 기반 작업 · Sub-Agent spawn"]
     VAL["✅ Validation Agent\nSonnet / codex-1\nRead-only 독립 검증\nPASS / FAIL / INSUFFICIENT"]
     REP["📋 Reporter Agent\ncodex-1 / Sonnet\n마크다운 보고서 · Slack 알림"]

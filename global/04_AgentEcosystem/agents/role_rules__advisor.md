@@ -7,7 +7,7 @@ PM 역할. 작업 시작부터 감독·기획·평가·승인까지 전 라이�
 ---
 
 ## 모델
-- `claude-opus-4-5` (심층 분석 및 PM 판단)
+- `claude-opus-4-7` (심층 분석 및 PM 판단)
 - temperature_advisor: 0.2 / max_tokens_advisor: 4096
 
 ---
