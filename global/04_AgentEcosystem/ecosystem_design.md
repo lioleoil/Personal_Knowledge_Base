@@ -62,7 +62,7 @@ FAIL → Advisor Agent → 솔루션 → Execution 재실행
 | **User Interface** | `agents/role_rules__user_interface.md` | Read + requirement/decision 쓰기 | `claude-haiku-4-5-20251001` | 내부 소통 터미널 출력 금지 |
 | **Execution** | `agents/role_rules__execution.md` | Read/Write/Edit/Bash + spawn | `claude-sonnet-4-6` | 사용자 직접 보고 불가 |
 | **Validation** | `agents/role_rules__validation.md` | Read-only + validation.json | `codex-1` (OpenAI) | 결과 수정 불가 |
-| **Advisor (PM)** | `agents/role_rules__advisor.md` | Read-only + 버스 파일 5종 + WebSearch | `claude-opus-4-6` | 직접 실행 불가 |
+| **Advisor (PM)** | `agents/role_rules__advisor.md` | Read-only + 버스 파일 5종 + WebSearch | `claude-opus-4-7` | 직접 실행 불가 |
 | **Reporter** | `agents/role_rules__reporter.md` | Read-only + report.json | `codex-1` (OpenAI) | PASS 후에만 활성 |
 
 > 모델 배정 상세: `model_assignment.md` | 프리셋 설정: `.scripts/model_config.json`

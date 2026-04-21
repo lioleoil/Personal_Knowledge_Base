@@ -43,8 +43,8 @@
       "max_tokens_reporter":   8192
     },
     "quality_max": {
-      "execution_model":       "claude-opus-4-6",
-      "advisor_model":         "claude-opus-4-6",
+      "execution_model":       "claude-opus-4-7",
+      "advisor_model":         "claude-opus-4-7",
       "validation_model":      "claude-sonnet-4-6",
       "reporter_model":        "claude-sonnet-4-6",
       "temperature_execution": 0.3,
@@ -57,7 +57,7 @@
     "cross_vendor": {
       "_comment": "Config B — Advisor:Opus(심층분석), Execution:Sonnet(복잡작업), Validation/Reporter:codex-1(이종vendor 교차검증)",
       "execution_model":       "claude-sonnet-4-6",
-      "advisor_model":         "claude-opus-4-6",
+      "advisor_model":         "claude-opus-4-7",
       "validation_model":      "codex-1",
       "reporter_model":        "codex-1",
       "temperature_execution": 0.3,

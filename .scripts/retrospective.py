@@ -204,7 +204,7 @@ def generate_retrospective_md(stats: dict, logs: list[dict],
                     f'출력 형식: 마크다운 불릿 리스트 (- 항목)'
                 )
                 msg = client.messages.create(
-                    model='claude-opus-4-6',
+                    model='claude-opus-4-7',
                     max_tokens=512,
                     temperature=0.2,
                     messages=[{'role': 'user', 'content': prompt}],
