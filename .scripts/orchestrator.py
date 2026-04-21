@@ -103,7 +103,7 @@ BUS_POLL_TIMEOUT  = 600  # 10분
 _AGENT_MODELS_DEFAULT = {
     'execution':  'claude-sonnet-4-5',
     'validation': 'gpt-4.1',
-    'advisor':    'claude-opus-4-5',
+    'advisor':    'claude-opus-4-7',
     'reporter':   'gpt-4.1-mini',
 }
 _AGENT_PROVIDERS_DEFAULT = {
@@ -406,8 +406,7 @@ def prefetch_pkb(task: str, top: int = 5) -> str:
             cat = h.get('category', '')
             if cat and cat not in seen_cats:
                 seen_cats.add(cat)
-                synthesis = (_root / 'projects' / 'personal_knowledge_base'
-                             / '04_WorkLog' / cat / 'SYNTHESIS.md')
+                synthesis = (_root / 'global' / '06_PKB' / cat / 'SYNTHESIS.md')
                 if synthesis.exists():
                     content = synthesis.read_text(encoding='utf-8')
                     # 핵심 지식 + 미해결 질문 섹션만 추출 (최대 800자)
@@ -1411,7 +1410,7 @@ def run_full_pipeline(task: str, domain: str, no_confirm: bool, log: AgentLog):
     Advisor 평가 → 사용자 승인 게이트 → commit/PR
     """
     preset = get_domain_preset(domain)
-    adv_model    = preset.get('advisor_model',   'claude-opus-4-5')
+    adv_model    = preset.get('advisor_model',   'claude-opus-4-7')
     temp_adv     = preset.get('temperature_advisor', 0.2)
     max_tok_adv  = preset.get('max_tokens_advisor',  4096)
     ui_model     = AGENT_MODELS.get('user_interface', 'claude-haiku-4-5-20251001')

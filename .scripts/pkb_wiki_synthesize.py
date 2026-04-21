@@ -8,7 +8,7 @@ PKB LLM Wiki Synthesizer
   python .scripts/pkb_wiki_synthesize.py --all --min-entries 3   # 항목 3개 이상인 카테고리만
 
 산출물:
-  projects/personal_knowledge_base/04_WorkLog/{Category}/SYNTHESIS.md
+  global/06_PKB/{Category}/SYNTHESIS.md
   (없으면 생성, 있으면 덮어쓰기)
 
 요구사항:
@@ -35,7 +35,7 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 BASE    = Path(__file__).parent.parent
-WORKLOG = BASE / 'projects' / 'personal_knowledge_base' / '04_WorkLog'
+WORKLOG = BASE / 'global' / '06_PKB'
 
 SYNTHESIS_MODEL = 'claude-sonnet-4-6'
 
@@ -123,7 +123,7 @@ def synthesize_category(category: str, entries: list[dict]) -> str:
         client = anthropic.Anthropic()
         msg = client.messages.create(
             model=SYNTHESIS_MODEL,
-            max_tokens=1200,
+            max_tokens=2500,
             messages=[{'role': 'user', 'content': prompt}]
         )
         return msg.content[0].text.strip()
@@ -182,15 +182,15 @@ def run_all(min_entries: int = 1):
 
 
 def run_single(category: str):
-    """단일 카테고리 합성"""
+    """단일 카테고리 합성 — 디렉터리 없으면 자동 생성"""
     cat_path = WORKLOG / category
     if not cat_path.exists():
-        print(f'카테고리 디렉터리 없음: {cat_path}')
-        sys.exit(1)
+        cat_path.mkdir(parents=True, exist_ok=True)
+        print(f'  [신규] 카테고리 디렉터리 생성: {cat_path.relative_to(BASE)}')
 
     entries = load_entries(cat_path)
     if not entries:
-        print(f'처리할 항목이 없습니다: {category}')
+        print(f'처리할 항목이 없습니다: {category} (마크다운 파일을 {cat_path}에 추가하세요)')
         sys.exit(1)
 
     print(f'처리: {category} ({len(entries)}개 항목)')

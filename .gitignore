@@ -6,6 +6,7 @@
 
 # Claude internal state
 .claude/cache/
+.claude/plugins/cache/
 .claude/sessions/
 .claude/history.jsonl
 .claude/shell-snapshots/
