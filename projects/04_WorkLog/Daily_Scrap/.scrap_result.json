@@ -1,21 +1,21 @@
 {
-  "date": "2026-04-14",
+  "date": "2026-04-17",
   "count": 3,
   "articles": [
     {
-      "title": "Show GN: mux – AI 코딩 세션을 라이브 프리뷰로 전환하는 tmux 세션 매니저",
+      "title": "openai-oauth - ChatGPT 계정으로 OpenAI API를 무료로 사용하기",
       "topic": "AI/LLM",
-      "url": "https://news.hada.io/topic?id=28504"
+      "url": "https://news.hada.io/topic?id=28569"
     },
     {
-      "title": "GitButler — GitHub 공동창업자가 만든 AI 시대를 위한 Git 재설계, a16z $1,700만 Series A 투자 유치",
-      "topic": "비즈니스/스타트업",
-      "url": "https://news.hada.io/topic?id=28488"
-    },
-    {
-      "title": "pip install torch 한 줄로 끝낸다 — Python 패키징의 오랜 숙제, 드디어 풀리나",
+      "title": "OpenHarness - 개인 에이전트 Ohmo를 내장한 오픈 에이전트 하네스",
       "topic": "개발/오픈소스",
-      "url": "https://news.hada.io/topic?id=28490"
+      "url": "https://news.hada.io/topic?id=28531"
+    },
+    {
+      "title": "당신의 백팩은 일부러 나빠졌다",
+      "topic": "비즈니스/스타트업",
+      "url": "https://news.hada.io/topic?id=28573"
     }
   ]
 }

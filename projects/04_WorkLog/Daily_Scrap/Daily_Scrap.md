@@ -3,60 +3,25 @@
 
 ---
 
-## 2026-04-14
+## 2026-04-17
 
-### [Show GN: mux – AI 코딩 세션을 라이브 프리뷰로 전환하는 tmux 세션 매니저](https://news.hada.io/topic?id=28504)
+### [openai-oauth - ChatGPT 계정으로 OpenAI API를 무료로 사용하기](https://news.hada.io/topic?id=28569)
 **토픽:** AI/LLM | **출처:** news.hada.io
 
-- mux는 Claude Code, Codex, Aider 등 AI CLI 툴을 여러 tmux 세션에서 동시에 실행할 때 세션 현황을 한눈에 파악할 수 있게 해주는 tmux 세션 매니저다.
-- 각 AI 코딩 세션의 실행 상태를 라이브 프리뷰 형태로 시각화하여, 어떤 세션에서 무엇이 진행 중인지 쉽게 모니터링할 수 있다.
-- 여러 AI 에이전트를 병렬로 운용하는 워크플로우에서 세션 관리 복잡성을 줄여주는 도구로, AI 코딩 작업의 생산성 향상을 목적으로 한다.
+- ChatGPT 계정의 OAuth 토큰을 활용해 별도 API 크레딧 구매 없이 OpenAI API를 사용할 수 있는 오픈소스 npx openai-oauth 한 줄로 로컬 프록시 서...
 
 ---
 
-### [GitButler — GitHub 공동창업자가 만든 AI 시대를 위한 Git 재설계, a16z $1,700만 Series A 투자 유치](https://news.hada.io/topic?id=28488)
+### [OpenHarness - 개인 에이전트 Ohmo를 내장한 오픈 에이전트 하네스](https://news.hada.io/topic?id=28531)
+**토픽:** 개발/오픈소스 | **출처:** news.hada.io
+
+- LLM을 감싸 실제 에이전트로 만드는 경량 오픈소스 Python 인프라로, 도구 사용·스킬·메모리·멀티 에이전트 조율을 하나의 패키지로 통합 43개 내...
+
+---
+
+### [당신의 백팩은 일부러 나빠졌다](https://news.hada.io/topic?id=28573)
 **토픽:** 비즈니스/스타트업 | **출처:** news.hada.io
 
-- GitHub 공동창업자 Scott Chacon이 AI 시대에 맞게 Git을 재설계한 새로운 Git 클라이언트 GitButler를 개발했다.
-- GitButler는 기존 Git의 복잡한 브랜치 관리 방식을 개선해 AI 기반 개발 워크플로우에 최적화된 경험을 제공한다.
-- a16z(Andreessen Horowitz)로부터 1,700만 달러 규모의 Series A 투자를 유치하며 성장 가능성을 인정받았다.
-
----
-
-### [pip install torch 한 줄로 끝낸다 — Python 패키징의 오랜 숙제, 드디어 풀리나](https://news.hada.io/topic?id=28490)
-**토픽:** 개발/오픈소스 | **출처:** news.hada.io
-
-- NVIDIA·Astral·Quansight가 연합하여 CPU와 GPU 환경을 모두 지원하는 차세대 Python 패키징 표준 'Wheel Next'를 발표했다.
-- 기존에는 `pip install torch` 한 줄로 해결되지 않던 GPU 의존성 문제를 표준화된 방식으로 해결하는 것이 핵심 목표다.
-- 이 표준이 정착되면 환경에 따라 복잡했던 PyTorch 등 대형 패키지 설치 과정이 크게 단순화될 것으로 기대된다.
-
----
-
-## 2026-04-12
-
-### [Google AI Edge Gallery - 완전 오프라인 LLM 갤러리 앱 오픈소스](https://news.hada.io/topic?id=28242)
-**토픽:** AI/LLM | **출처:** news.hada.io
-
-- Google이 인터넷 없이 완전 오프라인으로 LLM을 구동할 수 있는 iOS/안드로이드 앱 'AI Edge Gallery'를 오픈소스로 공개했다.
-- 온디바이스 생성형 AI 실행에 특화되어 프라이빗 환경에서 Gemma 4 패밀리 등의 모델을 로컬로 실행할 수 있다.
-- 외부 서버에 데이터를 전송하지 않아 개인정보 보호가 강화되며, 오프라인 환경에서도 AI 기능을 활용할 수 있다는 점이 핵심 특징이다.
-
----
-
-### [프랑스, 미국 기술 의존 줄이기 위해 Windows 대신 Linux로 전환](https://news.hada.io/topic?id=28403)
-**토픽:** 개발/오픈소스 | **출처:** news.hada.io
-
-- 프랑스 정부는 공공 부문 컴퓨터에서 Microsoft Windows를 Linux로 전환하여 미국 기술 의존도를 줄이고 디지털 주권을 강화하려 하고 있다.
-- 이번 조치는 특정 국가의 독점 소프트웨어에 대한 의존에서 벗어나 오픈소스 기반의 자체적인 디지털 인프라를 구축하려는 전략의 일환이다.
-- 이는 유럽 내 기술 자립 움직임의 흐름과 맞닿아 있으며, 오픈소스 소프트웨어 생태계 확산에도 긍정적인 영향을 줄 것으로 기대된다.
-
----
-
-### [Anthropic의 최강 보안 AI "Claude Mythos", 일반 공개 대신 선택된 파트너에게만 제한 배포](https://news.hada.io/topic?id=28293)
-**토픽:** AI/LLM | **출처:** news.hada.io
-
-- Anthropic은 신규 모델 Claude Mythos를 일반에 공개하지 않고, "프로젝트 글래스윙(Project Glasswing)"이라는 제한적 프리뷰 프로그램을 통해 선별된 파트너에게만 배포하고 있다.
-- Claude Mythos는 보안 분야에 특화된 최강 수준의 AI 모델로, 접근 범위를 엄격히 제한하는 방식으로 출시 전략을 취하고 있다.
-- 이번 제한 배포 방식은 강력한 AI 모델의 오남용을 방지하고 책임 있는 활용을 보장하려는 Anthropic의 안전 중심 철학을 반영한다.
+- 1986년 여성 속옷 회사였던 VF Corporation이 JanSport를 포함한 블루벨을 7억 6,200만 달러에 인수한 뒤, 2000년대까지 The North Face, Eastpak,...
 
 ---
