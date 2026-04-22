@@ -1,21 +1,21 @@
 {
-  "date": "2026-04-17",
+  "date": "2026-04-22",
   "count": 3,
   "articles": [
     {
-      "title": "openai-oauth - ChatGPT 계정으로 OpenAI API를 무료로 사용하기",
+      "title": "프로덕션 환경에서 바이브 코딩을 책임감 있게 하는 법 -  Vibe coding in prod | Code w/ Claude",
       "topic": "AI/LLM",
-      "url": "https://news.hada.io/topic?id=28569"
+      "url": "https://news.hada.io/topic?id=28749"
     },
     {
-      "title": "OpenHarness - 개인 에이전트 Ohmo를 내장한 오픈 에이전트 하네스",
+      "title": "iroh - 공개키 기반 초고속 P2P 네트워크 연결 라이브러리 오픈소스",
       "topic": "개발/오픈소스",
-      "url": "https://news.hada.io/topic?id=28531"
+      "url": "https://news.hada.io/topic?id=28702"
     },
     {
-      "title": "당신의 백팩은 일부러 나빠졌다",
-      "topic": "비즈니스/스타트업",
-      "url": "https://news.hada.io/topic?id=28573"
+      "title": "Claude Opus 4.6과 4.7 사이의 시스템 프롬프트 변경 사항",
+      "topic": "AI/LLM",
+      "url": "https://news.hada.io/topic?id=28713"
     }
   ]
 }

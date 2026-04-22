@@ -3,6 +3,29 @@
 
 ---
 
+## 2026-04-22
+
+### [프로덕션 환경에서 바이브 코딩을 책임감 있게 하는 법 -  Vibe coding in prod | Code w/ Claude](https://news.hada.io/topic?id=28749)
+**토픽:** AI/LLM | **출처:** news.hada.io
+
+- Anthropic의 코딩 에이전트 연구자 Eric이 바이브 코딩(AI에게 코드 작성을 전적으로 맡기는 방식)을 실제 서비스 환경에서 어떻게 안전하게 활용...
+
+---
+
+### [iroh - 공개키 기반 초고속 P2P 네트워크 연결 라이브러리 오픈소스](https://news.hada.io/topic?id=28702)
+**토픽:** 개발/오픈소스 | **출처:** news.hada.io
+
+- p2p that just works : "저 전화기로 연결해줘" 하면 위치와 상관없이 가장 빠른 네트워크 연결을 유지하는 API 제공 네트워크 주소나 IP가 아닌 ...
+
+---
+
+### [Claude Opus 4.6과 4.7 사이의 시스템 프롬프트 변경 사항](https://news.hada.io/topic?id=28713)
+**토픽:** AI/LLM | **출처:** news.hada.io
+
+- Anthropic은 주요 AI 연구소 중 유일하게 채팅 시스템의 시스템 프롬프트를 공개해왔으며, 2026년 4월 16일 출시된 Opus 4.7에서 주목할 만한 프롬...
+
+---
+
 ## 2026-04-17
 
 ### [openai-oauth - ChatGPT 계정으로 OpenAI API를 무료로 사용하기](https://news.hada.io/topic?id=28569)

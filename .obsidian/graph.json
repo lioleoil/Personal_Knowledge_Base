@@ -6,7 +6,36 @@
   "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": false,
-  "colorGroups": [],
+  "colorGroups": [
+    {
+      "query": "Nova",
+      "color": {
+        "a": 1,
+        "rgb": 3475127
+      }
+    },
+    {
+      "query": "Databricks",
+      "color": {
+        "a": 1,
+        "rgb": 6886099
+      }
+    },
+    {
+      "query": "Agent",
+      "color": {
+        "a": 1,
+        "rgb": 10048224
+      }
+    },
+    {
+      "query": "",
+      "color": {
+        "a": 1,
+        "rgb": 5431378
+      }
+    }
+  ],
   "collapse-display": false,
   "showArrow": false,
   "textFadeMultiplier": 0,
@@ -17,6 +46,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.7069023997743942,
-  "close": true
+  "scale": 0.2292013121492513,
+  "close": false
 }
