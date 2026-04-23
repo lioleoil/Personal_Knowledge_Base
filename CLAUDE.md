@@ -50,6 +50,21 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 ---
 
+## KPI 메트릭 설계 — 선행 자료 연결 구조
+
+`docs/policies/` 문서들은 이상 탐지(STEP 8)의 근거 문서인 동시에, KPI 메트릭 설계의 직접 선행 자료다.
+
+| 문서 | 역할 | KPI 연결 포인트 |
+|------|------|----------------|
+| `labeler_focus_drop_policy.md` (v0.9) | STEP 8에 반영된 현행 운영 기준 | `avg_gap > 30s AND gaps_5min > 10` — 생산성 저하 탐지의 출발점 |
+| `labeler_focus_drop_concept_design.md` (v1.0) | 절대값 → percentile 기반 체계 전환 설계 | gap severity 구간(observation·warning·critical·departure) 정의 |
+| `labeler_focus_drop_metric_design.md` (v1.0) | 메트릭 구조 및 산출 원칙 | `warning_gap_count`, `critical_gap_count`, `departure_gap_count`, ratio 지표 — KPI 집계 구조의 청사진 |
+| `focus_drop_v1_refactoring_report.md` | v1.0 전환 리팩토링 보고서 | 기존 탐지 → 메트릭 체계로 전환 시 변경 사항 |
+
+**설계 계보**: v0.9 운영 기준(탐지) → v1.0 개념·메트릭 설계(측정) → KPI 메트릭 분석(집계·리포팅)
+
+---
+
 ## 작업 시 참고
 
 - 노트북 파일은 Databricks Python 형식 (`# COMMAND ----------` 구분자)
