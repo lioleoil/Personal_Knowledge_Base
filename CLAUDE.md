@@ -1,6 +1,7 @@
 # Nova Log Analytics — Claude Code 가이드
 
-Labelit 워크스페이스 커맨드 로그 이상 탐지 시스템.
+Labelit 워크스페이스 커맨드 로그를 기반으로 라벨러 행동 패턴을 분석하는 프로젝트.
+현재는 이상 탐지(anomaly detection)가 구현된 상태이며, 분석 영역 확장 예정.
 Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 ---
@@ -18,6 +19,15 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | `docs/anomaly_detection_guide.md` | STEP별 판정 기준, 임계값, 워크플로우 |
 | `docs/anomaly_detection_scoring.md` | 스코어링 수식, Stage 2 병합 구조 |
 | `docs/anomaly_detection_review.md` | 로직 검토 보고서 — 이슈 수정 이력 및 검증 결과 |
+
+---
+
+## 분석 영역
+
+| 영역 | 상태 | 설명 |
+|------|------|------|
+| 이상 탐지 (Anomaly Detection) | ✅ 구현 완료 | STEP 0–9, 스코어링 v1.2 |
+| (확장 예정) | 🔜 미전개 | — |
 
 ---
 
