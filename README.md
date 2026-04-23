@@ -214,3 +214,4 @@ dbutils.widgets.text("analysis_date", "2026-04-06")
 | `docs/anomaly_detection_review.md` | 스크립트 로직 검토 보고서 — 발견 이슈 5건 및 수정 내역, 최종 검증 결과 |
 | `docs/gen2_command_definitions.md` | Gen2 커맨드 이벤트 정의 |
 | `docs/policies/` | 라벨러 집중도 저하(Focus Drop) 정책 및 메트릭 설계 (STEP 8 근거) |
+| `docs/agents/` | 역할별 규칙 문서 (Labelit Engineer / Nova Engineer / QA Tester) |
