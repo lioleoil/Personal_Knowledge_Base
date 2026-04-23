@@ -90,6 +90,13 @@ nova_log_analytics/
     ├── anomaly_detection_scoring.md                스코어링 수식·검증·튜닝 가이드
     ├── anomaly_detection_review.md                 스크립트 로직 검토 보고서 (v1.1)
     ├── gen2_command_definitions.md                 Gen2 커맨드 정의
+    ├── agents/                                     역할 규칙 및 검증 시나리오
+    │   ├── role_rules__labelit_engineer.md         Labelit Engineer 역할 규칙
+    │   ├── role_rules__nova_engineer.md            Nova Engineer 역할 규칙
+    │   ├── role_rules__qa_tester.md                QA Tester 역할 규칙
+    │   ├── scenario__case1_initialize.md           검증 시나리오 1: Feature workspace 초기 셋업
+    │   ├── scenario__case2_new_command.md          검증 시나리오 2: 신규 기능/커맨드 추가
+    │   └── scenario__case3_ux_change.md            검증 시나리오 3: UI/UX 기반 사용자 플로우 변경
     └── policies/                                   라벨러 행동 정책 (STEP 8 근거)
         ├── labeler_focus_drop_policy.md
         ├── labeler_focus_drop_metric_design.md
