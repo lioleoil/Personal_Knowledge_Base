@@ -1,76 +1,22 @@
----
-tags:
-  - dqa
-  - data-quality
-  - labelit
-  - annotation
-  - autonomous-driving
-  - pkb
-  - synthesis
-aliases:
-  - DQA 합성
-  - 데이터 품질 분석
-category: DQA
-source: "[[DQA_대화_학습_정리]]"
-updated: 2026-04-22
----
-
 # DQA 지식 합성
 
-> 마지막 갱신: 2026-04-22 07:53 | 기반 항목 수: 19
+> 마지막 갱신: 2026-04-25 06:18 | 기반 항목 수: 19
 
 ---
-
-# DQA (Data Quality Analysis) 위키
 
 ## 핵심 지식
 
-1. **라벨링 검수 자동화는 API 기반으로 구현** — `labelit.pro/api/v1→v3` 엔드포인트를 통해 `PRE_ANNOTATED`, `SUBMITTED` 등 Phase별 태스크를 분류하고 처리. 관리자 계정(`Admin Account`)으로 제출하는 워크플로우가 핵심 패턴.
-
-2. **Sampling Inspection이 기본 검수 방식** — 전수 검사가 아닌 샘플링 기반 검수 프로세스를 운영. 3D LiDAR처럼 복잡도 높은 데이터에서는 통계적 가설 검증보다 **데이터 표본 기반 모델링**이 효용성 높다고 판단됨 (2025-09-19 결론).
-
-3. **Cross-Feature Validation 로직 설계** — Scoring v1.0 기준으로 크로스 피처 검증 로직의 논리적 정합성을 평가하는 작업이 수행됨. 단순 오류 탐지를 넘어 **피처 간 의존성 검증**까지 포함한 설계.
-
-4. **Acceptance Criteria는 문서화된 인수 기준** — Acceptance Minute는 납품 산출물이 요구사항에 부합함을 발주자·수주자 간 공식 확인하는 문서. DQA 결과가 이 인수 기준의 근거 데이터로 활용됨.
-
-5. **Multi-Agent Ecosystem으로 확장 설계** — 2026-04-11 기준, DQA 관련 지식이 개인 Knowledge Base의 도메인별 프로젝트(`sv_lakehouse` 등)와 연계되어 Multi-Agent 구조로 자동화 파이프라인 설계 진행 중.
-
-6. **실측 데이터 품질에 물리적 요소(하중)가 영향** — 장비 탑재 차량의 하중 증가가 LiDAR 등 센서 데이터 품질에 직접적 영향을 미침. 데이터 수집 단계부터 품질 변수 관리 필요.
-
----
+- (2026-04-12) https://claude.ai/code/session_01BmJwoQ8VR7J2YuHJipG9Qp 내용 확인하고, 모델 설계대로 반영되었는지
+- (2026-04-11) Here is the approved implementation plan:  # Multi-Agent Ecosystem 설계 플랜  ## Con
+- (2026-04-07) & c:\Users\psh93\OneDrive\Desktop\Workspace\projects\sv_lakehouse\.venv\Scripts\
+- (2026-04-05) 다음의 로직이 논리적으로 설계되었는지 평가해줘.  'c:\Users\psh93\Downloads\Scoring v1.0 Cross-Feature
+- (2026-04-05) 현재 터미널에서 확인되는 오류 조치해줘.
 
 ## 반복 등장 패턴
-
-- **API 인증 오류 반복 발생** — `401 Authentication Error`, OAuth 토큰 만료 문제가 2025-03-10, 2026-04-05, 2026-04-07 등 여러 시점에 걸쳐 지속 등장. 인증 토큰 갱신 자동화가 미완성 상태임을 시사.
-- **labelit.pro API 버전 혼재** — `v1`(2024)과 `v3`(2025)이 코드베이스에 혼재. 버전 전환 시점에서 디버깅 이슈 집중 발생.
-- **Python 스크립트 중심의 검수 자동화** — `PIL`, `requests`, `json`, `os` 조합의 패턴이 2024~2025년 대화에서 반복적으로 등장. 표준화된 스크립트 템플릿으로 굳어진 것으로 보임.
-- **일정 지연 및 리소스 부족** — Databricks PoC 지연(2026-02-09 공지 초안), 브라우저 익스텐션 미연결 등 외부 환경 요인으로 인한 작업 중단 패턴이 반복.
-
----
+- (API 없음 — 수동 작성 필요)
 
 ## 미해결 질문
-
-- **Cross-Feature Validation 로직의 최종 승인 여부** — 2026-04-05 평가 요청 이후 수정 반영 여부 및 Scoring v1.0의 현재 상태 불명확.
-- **3D LiDAR annotation 품질 모델링의 구체적 방법론** — 통계 검증 대신 모델링으로 가는 방향은 결정됐으나, 어떤 모델/지표를 사용할지 기록 없음.
-- **Multi-Agent 설계 플랜의 DQA 모듈 구현 완료 여부** — 2026-04-11 승인된 플랜이 2026-04-12 세션에서 반영 여부 확인 중으로, 결과 미확정.
-- **샘플링 검수 기준(표본 크기, 합격 기준)의 문서화** — 반복적으로 운영하고 있으나 표준화된 기준 문서가 대화 로그에서 확인되지 않음.
-
----
+- (API 없음 — 수동 작성 필요)
 
 ## 관련 카테고리
-
-- **`sv_lakehouse`** — DQA 파이프라인과 Databricks 기반 데이터 레이크하우스 연계
-- **`nova_he` (추정)** — Multi-Agent Ecosystem 설계 플랜에서 언급된 도메인 프로젝트
-- **`LiDAR / Autonomous Driving Data`** — 3D annotation, 실측 차량 데이터 품질 관리
-- **`PKM (Personal Knowledge Management)`** — 대화 로그 자동 요약 및 지식 베이스 구축 시스템 자체
-
----
-
-## 연결 노드 (Obsidian Graph)
-
-> PKB 내 직접 연결 문서
-
-- 📄 소스: [[DQA_대화_학습_정리|DQA 대화 로그 (19건)]]
-- 🔗 [[Gen1_Gen2_Labeling/SYNTHESIS|Gen1_Gen2_Labeling]] — Labeling Analytics 아키텍처, 검수 파이프라인
-- 🔗 [[Nova/SYNTHESIS|Nova]] — Nova Lakehouse Labelit 커맨드 로그 수신 담당
-- 🔗 [[OpenLABEL/SYNTHESIS|OpenLABEL]] — 어노테이션 포맷·클래스 품질 기준 연계
+- (API 없음 — 수동 작성 필요)
