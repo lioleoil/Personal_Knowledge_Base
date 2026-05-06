@@ -17,7 +17,10 @@
       "Bash(PYTHONUNBUFFERED=1 python -u jira_chrome_runner.py login)",
       "Bash(PYTHONUNBUFFERED=1 .venv\\\\Scripts\\\\python.exe -u jira_chrome_runner.py)",
       "Bash(PYTHONUNBUFFERED=1 .venv/Scripts/python.exe -u jira_chrome_runner.py)",
-      "Bash(PYTHONUNBUFFERED=1 .venv/Scripts/python.exe -u jira_debug_dom.py)"
+      "Bash(PYTHONUNBUFFERED=1 .venv/Scripts/python.exe -u jira_debug_dom.py)",
+      "mcp__eff6054d-b467-47e5-a8f0-3bff67a94ec7__getAccessibleAtlassianResources",
+      "mcp__eff6054d-b467-47e5-a8f0-3bff67a94ec7__getConfluenceSpaces",
+      "mcp__eff6054d-b467-47e5-a8f0-3bff67a94ec7__createConfluencePage"
     ],
     "deny": []
   }
