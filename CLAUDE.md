@@ -21,6 +21,7 @@
 - `global/03_Instructions/user_custom_instructions.md` — 응답 규칙 전문 (한국어, Q1/Q2/Q3 등)
 - `global/03_Instructions/Claude_Code_효율화_매뉴얼.md` — 토큰 효율화 전략
 - `global/04_AgentEcosystem/ecosystem_design.md` — 에이전트 생태계 아키텍처 overview
+- `projects/nova_log_analytics/CLAUDE.md` — nova_log_analytics 프로젝트 가이드 (핵심 파일, 탐지 구조, feature별 처리)
 
 ---
 
@@ -43,7 +44,7 @@
 projects/
 ├── 04_WorkLog/            # Daily Scrap 자동 수집 출력 (.scripts/daily_scrap.py)
 ├── nova_helper/           # Nova Slack 봇 (Bolt, HTTP/Socket Mode)
-├── nova_log_analytics/    # 로그 파이프라인 분석, Anomaly Detection
+├── nova_log_analytics/    # Labelit 커맨드 로그 기반 분석 (Databricks, 별도 git 관리)
 ├── personal_knowledge_base/  # 04_WorkLog/ — 대화 로그 주제별 정리
 ├── sv_dqat/               # 별도 git 관리 (embedded)
 └── sv_lakehouse/          # 별도 git 관리 (embedded)

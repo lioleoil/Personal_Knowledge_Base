@@ -1,38 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir -p \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/agents\")",
-      "Bash(mv \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/role_rules__app_engineer.md\" \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/agents/\")",
-      "Bash(mv \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/role_rules__qa_tester.md\" \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/agents/\")",
-      "Bash(mv \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/role_rules__data_engineer.md\" \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/agents/\")",
-      "Bash(mv \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/scenario__case1_initialize.md\" \"/c/Users/psh93/OneDrive/Desktop/Log_samples/docs/agents/\")",
-      "Bash(pip install:*)",
-      "Bash(\"C:/Users/Seonghwan.PARK/AppData/Local/Programs/Python/Python311/python.exe\" \"3DP_FV_OD_RMD_by_policy.py\")",
-      "Bash(python run_ld_pipeline.py)",
       "WebSearch",
       "WebFetch(domain:docs.databricks.com)",
-      "WebFetch(domain:www.databricks.com)",
-      "Bash(ls -lh *.html)",
-      "Bash(python3:*)",
-      "Bash(sed 's/\"\"\"\"command\"\"\"\":\"\"\"\"//')",
-      "Bash(sed 's/\"\"\"\"$//')",
-      "Bash(grep -c \"CommandV1\" *.html)",
-      "Bash(grep -o \"__DATABRICKS_NOTEBOOK_MODEL = ''''[^'''']*''''\" rmd_template.html)",
-      "Bash(/c/Users/psh93/AppData/Local/Programs/Python/Python313/python:*)",
-      "Bash(grep -o \"\"command\"\":\"\"[^\"\"]*SQL[^\"\"]*\"\" C:Userspsh93OneDriveDesktopNova_log_data_validation.assistantskillsanomaly_detection_templatesod_template.html)",
-      "Bash(sed \"s/'''';$//\")",
-      "Read(//tmp/**)",
-      "Bash(xxd -r -p)",
-      "Bash(xargs -0 printf %b)",
-      "Bash(perl -pe 's/%\\([0-9A-Fa-f]{2}\\)/chr\\(hex\\($1\\)\\)/ge' /tmp/encoded_notebook.txt)",
-      "Bash(perl -pe 's/%\\([0-9A-Fa-f]{2}\\)/chr\\(hex\\($1\\)\\)/ge')",
-      "Bash(jq -r \".commands[] | select\\(.command | startswith\\(\"\"%sql\"\"\\)\\) | .command\" /tmp/decoded_notebook.json)",
-      "Bash(perl -pe 's/^\"\"\"\"command\"\"\"\":\"\"\"\"%sql//')",
-      "Bash(perl -pe s/\\\\\\\\n/n/g)",
-      "Bash(grep -oE '[A-Za-z0-9+/]{500,}' \"C:\\\\Users\\\\psh93\\\\OneDrive\\\\Desktop\\\\Nova_log_data_validation\\\\.assistant\\\\skills\\\\anomaly_detection_templates\\\\rmd_template.html\")",
-      "Bash(grep -oE '[A-Za-z0-9+/]{500,}' \"C:\\\\Users\\\\psh93\\\\OneDrive\\\\Desktop\\\\Nova_log_data_validation\\\\.assistant\\\\skills\\\\anomaly_detection_templates\\\\ld_template.html\")",
-      "Bash(__NEW_LINE_7acf683334af9052__ perl -MURI::URL -e ':*)",
-      "Bash(__NEW_LINE_7acf683334af9052__ head:*)"
+      "WebFetch(domain:www.databricks.com)"
     ]
   }
 }
