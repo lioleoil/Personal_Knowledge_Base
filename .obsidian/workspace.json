@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "98bd3761f42a6745",
+        "id": "9ed131d43bf180a6",
         "type": "tabs",
         "children": [
           {
-            "id": "1fafe91f42a8d725",
+            "id": "b9c399cd4418de4d",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -176,8 +176,14 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "1fafe91f42a8d725",
+  "active": "b9c399cd4418de4d",
   "lastOpenFiles": [
+    "global/06_PKB/Gen2_Policy/SYNTHESIS.md",
+    "global/06_PKB/OpenLABEL/OpenLABEL_대화_학습_정리.md",
+    "Databricks 데이터 플랫폼 인사이트.md",
+    "무제.canvas",
+    "global/06_PKB/OpenLABEL/SYNTHESIS.md",
+    "global/06_PKB/Nova/SYNTHESIS.md",
     "global/06_PKB/Gen1_Gen2_Labeling/SYNTHESIS.md",
     "global/05_PM_Outputs/# [Databricks PoC] 데이터브릭스 자산 번들(DABs)을 적용한 배포 자동화 워크플로우 구축.md",
     "2026-04-15.md",
@@ -188,7 +194,6 @@
     "global/05_PM_Outputs/# [Databricks PoC] S3 Sync를 활용한 하이브리드 클라우드 데이터 통합 아키텍쳐.md",
     "global/05_PM_Outputs/# [Databricks PoC] Zerobus 도입에 따른 데이터 엔지니어링 운영 및 협업 가이드라인.md",
     "CLAUDE.md",
-    "무제.canvas",
     "무제.base"
   ]
 }

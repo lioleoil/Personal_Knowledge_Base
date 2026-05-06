@@ -222,8 +222,13 @@ DOMAIN_MAP = {
         'context':    ['projects/nova_helper/'],
     },
     'nova_log_analytics': {
-        'role_rules': 'global/04_AgentEcosystem/agents/domains/role_rules__nova_log_analytics.md',
-        'context':    ['projects/nova_log_analytics/config.yaml'],
+        'role_rules':   'global/04_AgentEcosystem/agents/domains/role_rules__nova_log_analytics.md',
+        'context':      [],
+        'context_docs': [
+            'projects/nova_log_analytics/docs/labeler_focus_criteria_v0.9.md',
+            'projects/nova_log_analytics/docs/labeler_focus_drop_criteria_v1.0_design.md',
+            'projects/nova_log_analytics/docs/labeler_focus_drop_parameter_design_v1.0.md',
+        ],
     },
     'pkb_worklog':        {
         'role_rules': 'global/04_AgentEcosystem/agents/domains/role_rules__pkb_worklog.md',
@@ -424,16 +429,36 @@ def prefetch_pkb(task: str, top: int = 5) -> str:
         return ''
 
 
+def _build_file_context_section(domain: str) -> str:
+    """도메인 context_docs 파일을 읽어 프롬프트 삽입용 텍스트로 반환."""
+    info = DOMAIN_MAP.get(domain, {})
+    doc_paths = info.get('context_docs', [])
+    if not doc_paths:
+        return ''
+    sections = ['\n=== 참조 문서 (파일 내용 직접 주입) ===']
+    for rel in doc_paths:
+        abs_path = _abs(rel)
+        try:
+            with open(abs_path, encoding='utf-8') as f:
+                content = f.read()
+            sections.append(f'\n--- {rel} ---\n{content}')
+        except FileNotFoundError:
+            sections.append(f'\n--- {rel} --- (파일 없음)')
+    return '\n'.join(sections) + '\n'
+
+
 def make_execution_prompt(task: str, domain: str, task_id: str, bus_path: str,
                            retry_count: int = 0, url_context: dict[str, str] | None = None) -> str:
     retry_note = f'\n[재시도 {retry_count}회차]' if retry_count else ''
     url_section = _url_context_section(url_context or {})
+    file_context = _build_file_context_section(domain)
     return (
         f'당신은 Execution Agent + {domain} Domain Agent입니다.{retry_note}\n\n'
         f'Role Rules: {_abs("global/04_AgentEcosystem/agents/role_rules__execution.md")}\n'
         f'Domain Rules: {_abs(DOMAIN_MAP[domain]["role_rules"])}\n'
         f'Protocol: {_abs("global/04_AgentEcosystem/protocol/task_manifest_schema.md")}\n\n'
         f'Task ID: {task_id}\nDomain: {domain}\nTask: {task}\n'
+        f'{file_context}'
         f'{url_section}'
         f'\n수행 순서:\n'
         f'1. 위 Task를 충분히 분석하고 작업을 수행한다\n'
@@ -623,6 +648,15 @@ def run_claude_agent(prompt: str, label: str, log: AgentLog,
         return False, ''
 
 
+def _model_supports_temperature(model: str) -> bool:
+    """Claude 4.6+ / 4.7+ 모델은 temperature deprecated. 4.5 이하만 지원."""
+    import re
+    m = re.search(r'claude-\w+-4-(\d+)', model)
+    if m:
+        return int(m.group(1)) <= 5
+    return True  # 알 수 없는 모델은 기본 허용
+
+
 def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
                         model: str = 'claude-sonnet-4-5',
                         temperature: float = 0.3,
@@ -648,15 +682,18 @@ def run_anthropic_agent(prompt: str, label: str, log: AgentLog,
         ok, stdout = run_claude_agent(prompt, label, log)
         return ok, stdout, 0, 0
 
-    log.add(f'[{label}] SDK 실행 (model={model}, temp={temperature})')
+    use_temp = _model_supports_temperature(model)
+    log.add(f'[{label}] SDK 실행 (model={model}, temp={temperature if use_temp else "N/A"})')
     try:
         client = _anthropic.Anthropic(api_key=api_key)
-        message = client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=[{'role': 'user', 'content': prompt}],
-        )
+        create_kwargs: dict = {
+            'model': model,
+            'max_tokens': max_tokens,
+            'messages': [{'role': 'user', 'content': prompt}],
+        }
+        if use_temp:
+            create_kwargs['temperature'] = temperature
+        message = client.messages.create(**create_kwargs)
         text = message.content[0].text if message.content else ''
         in_tok = message.usage.input_tokens
         out_tok = message.usage.output_tokens
