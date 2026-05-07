@@ -20,12 +20,12 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | `docs/anomaly_detection_scoring.md` | 스코어링 수식, Stage 2 병합 구조 |
 | `docs/anomaly_detection_review.md` | 로직 검토 보고서 — 이슈 수정 이력 및 검증 결과 |
 | `docs/policies/focus_drop_kpi_monitoring_skill.md` | Focus Drop KPI 통합 운영 가이드 (파이프라인 설계·SQL·Bootstrap 절차) |
-| `notebooks/focus_drop/focus_drop__gap_percentiles.py` | gap 1차 percentile 산출 — 분기 1회 |
-| `notebooks/focus_drop/focus_drop__session_metrics.py` | 세션별 gap count/ratio 산출 — 일 배치 |
-| `notebooks/focus_drop/focus_drop__session_tags.py` | 세션 판정 (기준선 참조) — 일 배치 |
-| `notebooks/focus_drop/focus_drop__user_day_kpi.py` | 유저 일 KPI 산출 및 판정 — 일 배치 |
-| `notebooks/focus_drop/focus_drop__session_thresholds.py` | 세션 2차 기준선 갱신 — 주 1회 |
-| `notebooks/focus_drop/focus_drop__user_thresholds.py` | 유저 2차 기준선 갱신 — 주 1회 |
+| `notebooks/focus_drop/focus_drop__gap_percentiles.sql` | gap 1차 percentile 산출 — 분기 1회 |
+| `notebooks/focus_drop/focus_drop__session_metrics.sql` | 세션별 gap count/ratio 산출 — 일 배치 |
+| `notebooks/focus_drop/focus_drop__session_tags.sql` | 세션 판정 (기준선 참조) — 일 배치 |
+| `notebooks/focus_drop/focus_drop__user_day_kpi.sql` | 유저 일 KPI 산출 및 판정 — 일 배치 |
+| `notebooks/focus_drop/focus_drop__session_thresholds.sql` | 세션 2차 기준선 갱신 — 주 1회 |
+| `notebooks/focus_drop/focus_drop__user_thresholds.sql` | 유저 2차 기준선 갱신 — 주 1회 |
 
 ---
 
