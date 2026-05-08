@@ -8,17 +8,32 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 ## 핵심 파일
 
+> 모든 소스는 `.assistant/skills/` 단일 위치에서 관리됩니다.
+
 | 파일 | 역할 |
 |------|------|
-| `notebooks/anomaly_detection_runner.py` | 메인 러너 — feature·date 파라미터로 전체 STEP 실행 |
-| `notebooks/templates/od_template.py` | OD 탐색적 분석 템플릿 |
-| `notebooks/templates/ld_template.py` | LD 탐색적 분석 템플릿 |
-| `notebooks/templates/rmd_template.py` | RMD 탐색적 분석 템플릿 |
-| `notebooks/scoring/cross_feature_validation.py` | Cross-feature 스코어링 공정성 검증 |
-| `notebooks/scoring/weight_tuning_simulation.py` | 가중치·CAP 파라미터 시뮬레이션 |
-| `docs/anomaly_detection_guide.md` | STEP별 판정 기준, 임계값, 워크플로우 |
-| `docs/anomaly_detection_scoring.md` | 스코어링 수식, Stage 2 병합 구조 |
-| `docs/anomaly_detection_review.md` | 로직 검토 보고서 — 이슈 수정 이력 및 검증 결과 |
+| `.assistant/skills/anomaly_detection/anomaly_detection_runner.py` | 메인 러너 — feature·date 파라미터로 전체 STEP 실행 |
+| `.assistant/skills/anomaly_detection/templates/od_template.py` | OD 탐색적 분석 템플릿 |
+| `.assistant/skills/anomaly_detection/templates/ld_template.py` | LD 탐색적 분석 템플릿 |
+| `.assistant/skills/anomaly_detection/templates/rmd_template.py` | RMD 탐색적 분석 템플릿 |
+| `.assistant/skills/anomaly_detection/scoring/Scoring v1.2 Cross-Feature Validation.py` | Cross-feature 스코어링 공정성 검증 |
+| `.assistant/skills/anomaly_detection/scoring/Scoring Weight Tuning Simulation.py` | 가중치·CAP 파라미터 시뮬레이션 |
+| `.assistant/skills/anomaly_detection/guide/SKILL.md` | STEP별 판정 기준, 임계값, 워크플로우 |
+| `.assistant/skills/anomaly_detection/scoring/SKILL.md` | 스코어링 수식, Stage 2 병합 구조 |
+| `.assistant/skills/gen2_command_definitions.md` | 커맨드 정의서 — QA 커버리지 비교용 전체 커맨드 기준 문서 |
+| `.assistant/skills/focus_drop_kpi/SKILL.md` | Focus Drop KPI 통합 운영 가이드 (파이프라인 설계·SQL·Bootstrap 절차) |
+| `.sql/focus_drop__gap_percentiles.sql` | gap 1차 percentile 산출 — 분기 1회 |
+| `.sql/focus_drop__session_metrics.sql` | 세션별 gap count/ratio 산출 — 일 배치 |
+| `.sql/focus_drop__session_tags.sql` | 세션 판정 (기준선 참조) — 일 배치 |
+| `.sql/focus_drop__user_day_kpi.sql` | 유저 일 KPI 산출 및 판정 — 일 배치 |
+| `.sql/focus_drop__session_thresholds.sql` | 세션 2차 기준선 갱신 — 주 1회 |
+| `.sql/focus_drop__user_thresholds.sql` | 유저 2차 기준선 갱신 — 주 1회 |
+| `.assistant/skills/agents/role_rules__labelit_engineer.md` | Labelit Engineer 에이전트 R&R |
+| `.assistant/skills/agents/role_rules__nova_engineer.md` | Nova Engineer 에이전트 R&R |
+| `.assistant/skills/agents/role_rules__qa_tester.md` | QA Tester 에이전트 R&R |
+| `.scenario/scenario__case1_initialize.md` | 시나리오: 초기화 케이스 |
+| `.scenario/scenario__case2_new_command.md` | 시나리오: 신규 커맨드 케이스 |
+| `.scenario/scenario__case3_ux_change.md` | 시나리오: UX 변경 케이스 |
 
 ---
 
@@ -27,7 +42,7 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | 영역 | 상태 | 설명 |
 |------|------|------|
 | 이상 탐지 (Anomaly Detection) | ✅ 구현 완료 | STEP 0–9, 스코어링 v1.2 |
-| KPI 메트릭 설계 및 분석 | 🔜 미전개 | 라벨러 생산성·효율성 지표 설계 및 집계 |
+| KPI 메트릭 설계 및 분석 | 🔧 구현 중 | Focus Drop KPI 파이프라인 구축 (notebooks/focus_drop/) |
 
 ---
 
@@ -52,16 +67,20 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 ## KPI 메트릭 설계 — 선행 자료 연결 구조
 
-`docs/policies/` 문서들은 이상 탐지(STEP 8)의 근거 문서인 동시에, KPI 메트릭 설계의 직접 선행 자료다.
+`.assistant/skills/focus_drop_kpi/` 문서들은 이상 탐지(STEP 8)의 근거 문서인 동시에, KPI 메트릭 설계의 직접 선행 자료다.
 
 | 문서 | 역할 | KPI 연결 포인트 |
 |------|------|----------------|
-| `labeler_focus_drop_policy.md` (v0.9) | STEP 8에 반영된 현행 운영 기준 | `avg_gap > 30s AND gaps_5min > 10` — 생산성 저하 탐지의 출발점 |
 | `labeler_focus_drop_concept_design.md` (v1.0) | 절대값 → percentile 기반 체계 전환 설계 | gap severity 구간(observation·warning·critical·departure) 정의 |
-| `labeler_focus_drop_metric_design.md` (v1.0) | 메트릭 구조 및 산출 원칙 | `warning_gap_count`, `critical_gap_count`, `departure_gap_count`, ratio 지표 — KPI 집계 구조의 청사진 |
-| `focus_drop_v1_refactoring_report.md` | v1.0 전환 리팩토링 보고서 | 기존 탐지 → 메트릭 체계로 전환 시 변경 사항 |
+| `labeler_focus_drop_metric_design.md` (v1.0) | 메트릭 구조 및 산출 원칙 | warning/critical/departure count/ratio — KPI 집계 구조의 청사진 |
+| `SKILL.md` | **통합 운영 가이드 (최신)** | 파이프라인 구조·SQL 레퍼런스·Bootstrap 절차·트러블슈팅 |
 
-**설계 계보**: v0.9 운영 기준(탐지) → v1.0 개념·메트릭 설계(측정) → KPI 메트릭 분석(집계·리포팅)
+**설계 계보**: v1.0 개념·메트릭 설계 → Focus Drop KPI 파이프라인(집계·리포팅)
+
+**파이프라인 실행 순서** (`.sql/`):
+- **분기**: `gap_percentiles` (1차 percentile 산출)
+- **주 1회 (월)**: `session_thresholds` → `user_thresholds` (rolling 30일 기준선 갱신)
+- **일 배치 (04:00 UTC)**: `session_metrics` → `session_tags` → `user_day_kpi`
 
 ---
 

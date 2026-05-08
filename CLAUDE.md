@@ -44,7 +44,8 @@
 projects/
 ├── 04_WorkLog/            # Daily Scrap 자동 수집 출력 (.scripts/daily_scrap.py)
 ├── nova_helper/           # Nova Slack 봇 (Bolt, HTTP/Socket Mode)
-├── nova_log_analytics/    # Labelit 커맨드 로그 기반 분석 (Databricks, 별도 git 관리)
+├── nova_log_analytics/    # Labelit 커맨드 로그 기반 분석 (Databricks)
+│   └── .assistant/skills/ # 단일 소스 — anomaly_detection/ · focus_drop_kpi/ · agents/
 ├── personal_knowledge_base/  # 04_WorkLog/ — 대화 로그 주제별 정리
 ├── sv_dqat/               # 별도 git 관리 (embedded)
 └── sv_lakehouse/          # 별도 git 관리 (embedded)
