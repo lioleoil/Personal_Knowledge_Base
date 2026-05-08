@@ -7,11 +7,11 @@
 
 ## 포함 노트북
 
-### 1. Scoring v1.0 Cross-Feature Validation
+### 1. Scoring v1.2 Cross-Feature Validation
 
-**경로**: `.assistant/skills/anomaly_detection_scoring/Scoring v1.0 Cross-Feature Validation`
+**경로**: `.assistant/skills/anomaly_detection_scoring/Scoring v1.2 Cross-Feature Validation`
 
-**목적**: OD/LD/RMD 3개 feature에 대해 runner를 실행하고, 스코어링 v1.x의 cross-feature 공정성을 검증.
+**목적**: OD/LD/RMD 3개 feature에 대해 runner를 실행하고, 스코어링 v1.2의 cross-feature 공정성을 검증.
 
 **검증 항목**:
 - Per-STEP 점수가 feature간 비교 가능한 스케일인지
@@ -39,7 +39,7 @@
 
 **기능**:
 - `compute_quality_score()` 함수: runner와 동일한 Per-STEP CAP 기반 스코어링 재현
-- 카테고리 가중치 7종 시뮬레이션 (A중심, v1.0 기본, B중심, C강화, v0.9 기본, 균등, C최소)
+- 카테고리 가중치 7종 시뮬레이션 (A중심, v1.2 기본, B중심, C강화, v0.9 기본, 균등, C최소)
 - CAP 비율 격자 탐색 (CAP_EVENT × CAP_OBJECT 25개 조합)
 - Heatmap 시각화 (feature별 CAP 감도)
 - 최적 파라미터 추천 (std 최소 기준)

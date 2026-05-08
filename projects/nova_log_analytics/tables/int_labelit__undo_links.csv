@@ -1,2 +1,0 @@
-﻿undo_event_id,undo_type,undo_time,session_id,reverted_event_id,reverted_command_type,reverted_count,rev_event_type,rev_event_time,rev_event_category
-dfdbda29,history.undo,04:39:14.484,64518f05,b139f4f4,UpdateBbox3dTransformCommand,1,bbox3d.transform,04:39:11.809,transform
