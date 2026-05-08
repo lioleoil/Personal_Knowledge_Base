@@ -22,6 +22,29 @@
 - RMD: `.assistant/skills/anomaly_detection/templates/rmd_template`
 - 사용법: 전체 셀 순서대로 실행 (데이터 준비 셀이 raw 테이블에서 temp view를 생성하고, 이후 STEP 셀들이 이를 참조)
 
+## Focus Drop KPI SQL 파이프라인
+
+- SQL 파이프라인 파일 위치: `.sql/` (프로젝트 루트 기준)
+- 포함 파일:
+  - `.sql/focus_drop__gap_percentiles.sql` — gap 1차 percentile 산출 (분기 1회)
+  - `.sql/focus_drop__session_metrics.sql` — 세션별 gap count/ratio (일 배치)
+  - `.sql/focus_drop__session_tags.sql` — 세션 판정 (일 배치)
+  - `.sql/focus_drop__user_day_kpi.sql` — 유저 일 KPI 산출 (일 배치)
+  - `.sql/focus_drop__session_thresholds.sql` — 세션 2차 기준선 갱신 (주 1회)
+  - `.sql/focus_drop__user_thresholds.sql` — 유저 2차 기준선 갱신 (주 1회)
+- 운영 가이드: `.assistant/skills/focus_drop_kpi/SKILL.md`
+- **트리거 키워드**: "focus drop", "KPI", "gap", "기준선", "percentile", "session_metrics", "user_day_kpi" 중 하나라도 포함되면 `.sql/` 파일 및 `.assistant/skills/focus_drop_kpi/SKILL.md`를 먼저 참조할 것
+
+## 에이전트 시나리오
+
+- 시나리오 파일 위치: `.scenario/` (프로젝트 루트 기준)
+- 포함 파일:
+  - `.scenario/scenario__case1_initialize.md` — 초기화 케이스
+  - `.scenario/scenario__case2_new_command.md` — 신규 커맨드 케이스
+  - `.scenario/scenario__case3_ux_change.md` — UX 변경 케이스
+- 에이전트 R&R: `.assistant/skills/agents/role_rules__*.md`
+- **트리거 키워드**: "시나리오", "scenario", "에이전트 실행", "멀티에이전트", "케이스" 중 하나라도 포함되면 `.scenario/` 파일을 먼저 참조할 것
+
 ## 프로젝트 컨텍스트
 
 - 데이터 소스: `sv_nova_dev_an2_catalog.raw` 스키마의 Labelit 원시 테이블
