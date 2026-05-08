@@ -1,5 +1,4 @@
 # Claude Code 설정
-.assistant/
 .claude/
 
 # 샘플 데이터 (원시 JSON, CSV 결과물)

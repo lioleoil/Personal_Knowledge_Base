@@ -3,9 +3,12 @@
 # MAGIC %md
 # MAGIC # 스코어링 가중치 튜닝 시뮬레이션
 # MAGIC > anomaly_detection_results 테이블의 실제 데이터를 기반으로
-# MAGIC > W_A, W_B, W_C 및 M_EVENT, M_OBJECT 파라미터를 변경하며 품질 점수 변화를 시뮬레이션합니다.
+# MAGIC > W_A, W_B, W_C 및 CAP_EVENT/CAP_OBJECT 파라미터를 변경하며 품질 점수 변화를 시뮬레이션합니다.
 # MAGIC >
-# MAGIC > **전제**: anomaly_detection_runner가 3개 feature(OD/LD/RMD)에 대해 실행된 상태
+# MAGIC > **스코어링 v1.2 기준**: Stage 2(STEP 6/7 → step_id=5, STEP 8/9 → step_id=3) 병합 포함
+# MAGIC > B(S3)·C(S5) 집계 시 Stage 2 결과가 results 테이블에 이미 반영되어 있으므로 수식 변경 없이 자동 포함됨.
+# MAGIC >
+# MAGIC > **전제**: anomaly_detection_runner v1.2가 3개 feature(OD/LD/RMD)에 대해 실행된 상태
 
 # COMMAND ----------
 
@@ -147,7 +150,7 @@ def compute_quality_score(feat_data, W_A, W_B, W_C, CAP_EVENT=5.0, CAP_OBJECT=10
             'per_step': {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4, 'S5': s5}}
 
 # 현재 설정 기준 확인 (CAP_EVENT=5%, CAP_OBJECT=10%)
-print("📊 현재 스코어링 v1.0 기준 (CAP_EVENT=5%, CAP_OBJECT=10%)")
+print("📊 현재 스코어링 v1.2 기준 (CAP_EVENT=5%, CAP_OBJECT=10%)")
 for feat, data in features_data.items():
     r = compute_quality_score(data, 0.40, 0.40, 0.20, CAP_EVENT=5.0, CAP_OBJECT=10.0)
     print(f"  {feat.upper()}: {r['grade']} ({r['score']}) | A={r['A']} B={r['B']} C={r['C']}")
@@ -162,7 +165,7 @@ for feat, data in features_data.items():
 # W_A, W_B, W_C 조합 시뮬레이션 (CAP_EVENT=5%, CAP_OBJECT=10% 고정)
 weight_combos = [
     (0.50, 0.30, 0.20, 'A중심'),
-    (0.40, 0.40, 0.20, 'v1.0 기본'),
+    (0.40, 0.40, 0.20, 'v1.2 기본'),
     (0.30, 0.50, 0.20, 'B중심'),
     (0.35, 0.35, 0.30, 'C강화'),
     (0.40, 0.35, 0.25, 'v0.9 기본'),
@@ -296,4 +299,4 @@ for cap_e, cap_o, mean, std in best_sens[:5]:
 
 print(f"\n{'='*60}")
 print("💡 CAP 비율이 높을수록 관대한 평가 (점수 낮아짐), 낮을수록 엄격한 평가 (점수 높아짐)")
-print("💡 std가 작을수록 feature간 공정한 평가. 현재 설정: CAP_EVENT=5%, CAP_OBJECT=10%")
+print("💡 std가 작을수록 feature간 공정한 평가. 현재 설정(v1.2): CAP_EVENT=5%, CAP_OBJECT=10%")

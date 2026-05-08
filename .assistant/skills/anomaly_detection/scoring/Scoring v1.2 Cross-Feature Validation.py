@@ -1,14 +1,15 @@
 # Databricks notebook source
-# DBTITLE 1,Scoring v1.0 Cross-Feature Validation
+# DBTITLE 1,Scoring v1.2 Cross-Feature Validation
 # MAGIC %md
-# MAGIC # Scoring v1.0 Cross-Feature Validation
+# MAGIC # Scoring v1.2 Cross-Feature Validation
 # MAGIC > OD, LD, RMD 3개 feature에 대해 anomaly_detection_runner를 실행하고,
-# MAGIC > 스코어링 v1.0의 cross-feature 공정성을 검증합니다.
+# MAGIC > 스코어링 v1.2의 cross-feature 공정성을 검증합니다.
 # MAGIC >
 # MAGIC > **검증 항목**:
 # MAGIC > - Per-STEP 점수가 feature간 비교 가능한 스케일인지
 # MAGIC > - STEP 4 skip (LD) vs active (OD/RMD)의 A 카테고리 점수 공정성
 # MAGIC > - C 카테고리의 객체 비율 정규화가 feature별 모수 차이를 적절히 반영하는지
+# MAGIC > - Stage 2 병합 결과가 B·C 카테고리에 반영되는지 (v1.2: STEP 6/7 → S5, STEP 8/9 → S3)
 
 # COMMAND ----------
 
@@ -138,7 +139,7 @@ for feat, r in results_map.items():
     print(f"  모수: total_task_objects = {total_obj:,}")
     for row in step5:
         print(f"  STEP 5 {row.severity}: {row.object_count} objects")
-    print(f"  C 점수: {c_score} (객체 비율 기반, M_OBJECT=500)")
+    print(f"  C 점수: {c_score} (객체 비율 기반, M_OBJECT=10, CAP_OBJECT=10%)")
     
     # v0.9 대비 비교
     weighted_obj = sum(
