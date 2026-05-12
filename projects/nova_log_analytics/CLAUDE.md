@@ -10,6 +10,13 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 > 모든 소스는 `.assistant/skills/` 단일 위치에서 관리됩니다.
 
+### 공용
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/common/gen2_command_definitions.md` | 커맨드 정의서 — QA 커버리지 비교용 전체 커맨드 기준 문서 |
+| `.assistant/skills/common/stage_transition_analysis.md` | Stage 파이프라인 구조·전환 이력 (stageKey / transitionHistory 샘플) — 전 분석 영역 공통 참조 |
+
+### 이상 탐지 (Anomaly Detection)
 | 파일 | 역할 |
 |------|------|
 | `.assistant/skills/anomaly_detection/anomaly_detection_runner.py` | 메인 러너 — feature·date 파라미터로 전체 STEP 실행 |
@@ -20,20 +27,72 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | `.assistant/skills/anomaly_detection/scoring/Scoring Weight Tuning Simulation.py` | 가중치·CAP 파라미터 시뮬레이션 |
 | `.assistant/skills/anomaly_detection/guide/SKILL.md` | STEP별 판정 기준, 임계값, 워크플로우 |
 | `.assistant/skills/anomaly_detection/scoring/SKILL.md` | 스코어링 수식, Stage 2 병합 구조 |
-| `.assistant/skills/gen2_command_definitions.md` | 커맨드 정의서 — QA 커버리지 비교용 전체 커맨드 기준 문서 |
-| `.assistant/skills/focus_drop_kpi/SKILL.md` | Focus Drop KPI 통합 운영 가이드 (파이프라인 설계·SQL·Bootstrap 절차) |
+
+### Focus Drop KPI
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/kpi _metrics/labeling_productivity/focus_drop/SKILL.md` | 통합 운영 가이드 (파이프라인 설계·SQL·Bootstrap 절차) |
+| `.sql/focus_drop__ddl.sql` | 테이블 초기 생성 DDL (7개 테이블, v1.2 스키마 기준) |
 | `.sql/focus_drop__gap_percentiles.sql` | gap 1차 percentile 산출 — 분기 1회 |
-| `.sql/focus_drop__session_metrics.sql` | 세션별 gap count/ratio 산출 — 일 배치 |
+| `.sql/focus_drop__session_metrics.sql` | 세션별 gap count/ratio/idle_duration 산출 — 일 배치 |
+| `.sql/focus_drop__task_idle_rollup.sql` | Task별 idle gap 누적 (생산성 연계용) — 일 배치 |
 | `.sql/focus_drop__session_tags.sql` | 세션 판정 (기준선 참조) — 일 배치 |
 | `.sql/focus_drop__user_day_kpi.sql` | 유저 일 KPI 산출 및 판정 — 일 배치 |
 | `.sql/focus_drop__session_thresholds.sql` | 세션 2차 기준선 갱신 — 주 1회 |
 | `.sql/focus_drop__user_thresholds.sql` | 유저 2차 기준선 갱신 — 주 1회 |
+
+### KPI Metric Policy (공통)
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/kpi _metrics/kpi_metric_policy.md` | 전 KPI 메트릭 정의·산출식·판정 기준 단일 정책 문서 — 거버넌스 기준 |
+
+### Inspection Quality
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/kpi _metrics/inspection_quality/SKILL.md` | 검수 품질 지표 운영 가이드 (데이터 소스·비즈니스 규칙·SQL 템플릿) |
+| `.assistant/skills/kpi _metrics/inspection_quality/inspection-fpy_concept_design.md` | 검수 반려율·FPY 기획문서 (지표 정의·필터 조건·검증 결과) |
+| `.sql/inspection_quality__ddl.sql` | 테이블 초기 생성 DDL (2개 테이블) |
+| `.sql/inspection_quality__monthly_fpy.sql` | 월별 검수 반려율 & First Pass Yield 산출 — 월 1회 |
+| `.sql/inspection_quality__multi_reject_detail.sql` | 다중 반려 Task 상세 (inspection reject ≥ 2회) — 월 1회 |
+
+### Staging Layer (KPI 공통 선행 레이어)
+> 모든 KPI metric SQL은 raw table 직접 참조 대신 staging table을 소스로 사용한다.
+
+| 파일 | 역할 |
+|------|------|
+| `.sql/stg__ddl.sql` | Staging 테이블 초기 생성 DDL (3개 테이블) |
+| `.sql/stg__task_transition_events.sql` | gen2_tasks transitionHistory 전체 flatten — 일 OVERWRITE |
+| `.sql/stg__object_counts_by_task.sql` | 객체 테이블 10개 CDC dedup + task별 COUNT — 일 배치 (table_name REPLACE) |
+| `.sql/stg__cmd_slots_by_task.sql` | workspace_command task별 user_hour_slots·person_days 집계 — 일 OVERWRITE |
+
+### Labeling Productivity
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/kpi _metrics/labeling_productivity/productivity/productivity_concept_design.md` | 생산량·생산성 지표 설계 — 납품 Task 수·객체 수·생산성 Metric |
+| `.assistant/skills/kpi _metrics/labeling_productivity/productivity/SKILL.md` | 생산량·생산성 운영 가이드 (데이터 소스·비즈니스 규칙·SQL 템플릿) |
+| `.sql/production_volume__ddl.sql` | 테이블 초기 생성 DDL (1개 테이블) |
+| `.sql/production_volume__weekly.sql` | 주별 납품 Task 수·객체 수·생산성 집계 — 주 1회 (staging 기반) |
+
+### Operation Analytics
+| 파일 | 역할 |
+|------|------|
+| `.assistant/skills/kpi _metrics/operation_analytics/SKILL.md` | 운영 지표 운영 가이드 (Stage Duration · Object Delta SQL 템플릿 · DDL · Bootstrap) |
+| `.assistant/skills/kpi _metrics/operation_analytics/operation_concept_design.md` | 운영 지표 설계 — Stage별 산출물 변화(증감)·소요 시간·반려율 |
+| `.assistant/skills/stage_progress_dashboard_design.md` | Stage 진행 현황 대시보드 설계 — 업체별 Task 분포·파이프라인 진척률 Funnel·Aging·Reject 재작업·SQL 스케치 3개 |
+
+### 에이전트 R&R
+| 파일 | 역할 |
+|------|------|
 | `.assistant/skills/agents/role_rules__labelit_engineer.md` | Labelit Engineer 에이전트 R&R |
 | `.assistant/skills/agents/role_rules__nova_engineer.md` | Nova Engineer 에이전트 R&R |
 | `.assistant/skills/agents/role_rules__qa_tester.md` | QA Tester 에이전트 R&R |
-| `.scenario/scenario__case1_initialize.md` | 시나리오: 초기화 케이스 |
-| `.scenario/scenario__case2_new_command.md` | 시나리오: 신규 커맨드 케이스 |
-| `.scenario/scenario__case3_ux_change.md` | 시나리오: UX 변경 케이스 |
+
+### 시나리오
+| 파일 | 역할 |
+|------|------|
+| `.scenario/scenario__case1_initialize.md` | 초기화 케이스 |
+| `.scenario/scenario__case2_new_command.md` | 신규 커맨드 케이스 |
+| `.scenario/scenario__case3_ux_change.md` | UX 변경 케이스 |
 
 ---
 
@@ -42,7 +101,10 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | 영역 | 상태 | 설명 |
 |------|------|------|
 | 이상 탐지 (Anomaly Detection) | ✅ 구현 완료 | STEP 0–9, 스코어링 v1.2 |
-| KPI 메트릭 설계 및 분석 | 🔧 구현 중 | Focus Drop KPI 파이프라인 구축 (notebooks/focus_drop/) |
+| Focus Drop KPI | ✅ 구현 완료 | 세션·Task·유저 KPI 파이프라인 (.sql/, 일 배치) + 생산성 idle 연계 |
+| Inspection Quality | ✅ 구현 완료 | 월별 검수 반려율·FPY·다중 반려 분석 (.sql/ 작성 완료, DDL 작성 완료) |
+| Labeling Productivity | ✅ 구현 완료 | 주별 납품 Task 수·객체 수·생산성·순소요시간 (.sql/ 작성 완료, DDL 작성 완료) |
+| Operation Analytics | ⚙️ SQL 작성 중 | Stage별 산출물 변화·소요 시간·반려율·Stage 진행 현황 대시보드 (설계 완료, .sql/ 미생성) |
 
 ---
 
@@ -67,7 +129,7 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 
 ## KPI 메트릭 설계 — 선행 자료 연결 구조
 
-`.assistant/skills/focus_drop_kpi/` 문서들은 이상 탐지(STEP 8)의 근거 문서인 동시에, KPI 메트릭 설계의 직접 선행 자료다.
+`.assistant/skills/kpi _metrics/labeling_productivity/focus_drop/` 문서들은 이상 탐지(STEP 8)의 근거 문서인 동시에, KPI 메트릭 설계의 직접 선행 자료다.
 
 | 문서 | 역할 | KPI 연결 포인트 |
 |------|------|----------------|
@@ -80,7 +142,10 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 **파이프라인 실행 순서** (`.sql/`):
 - **분기**: `gap_percentiles` (1차 percentile 산출)
 - **주 1회 (월)**: `session_thresholds` → `user_thresholds` (rolling 30일 기준선 갱신)
-- **일 배치 (04:00 UTC)**: `session_metrics` → `session_tags` → `user_day_kpi`
+- **일 배치 (04:00 UTC)**:
+  1. **Staging** (공통 선행): `stg__task_transition_events` → `stg__object_counts_by_task` → `stg__cmd_slots_by_task`
+  2. **Focus Drop**: `session_metrics` → `task_idle_rollup` → `session_tags` → `user_day_kpi`
+- **주 배치 (월요일)**: `production_volume__weekly` (staging + task_idle_rollup 완료 후)
 
 ---
 

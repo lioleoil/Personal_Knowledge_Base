@@ -31,9 +31,9 @@ SELECT
   CAST('${is_bootstrap}' AS BOOLEAN)               AS is_bootstrap,
   DATE_SUB(CURRENT_DATE(), ${rolling_window_days})  AS window_start,
   DATE_SUB(CURRENT_DATE(), 1)                       AS window_end,
-  PERCENTILE(warning_session_count,  0.90)          AS user_warning_session_count_p90,
-  PERCENTILE(critical_session_count, 0.95)          AS user_critical_session_count_p95,
-  PERCENTILE(departure_gap_total,    0.99)          AS user_departure_gap_total_p99
+  PERCENTILE(light_session_count,    0.90)          AS user_light_session_count_p90,
+  PERCENTILE(heavy_session_count,    0.95)          AS user_heavy_session_count_p95,
+  PERCENTILE(idle_gap_total,         0.99)          AS user_idle_gap_total_p99
 FROM analytics.focus_drop_user_day_kpi
 WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND DATE_SUB(CURRENT_DATE(), 1);
 
@@ -41,6 +41,6 @@ WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND
 
 -- 결과 확인
 SELECT version, is_bootstrap, window_start, window_end,
-       user_warning_session_count_p90, user_critical_session_count_p95, user_departure_gap_total_p99
+       user_light_session_count_p90, user_heavy_session_count_p95, user_idle_gap_total_p99
 FROM analytics.focus_drop_user_thresholds
 WHERE version = (SELECT MAX(version) FROM analytics.focus_drop_user_thresholds);

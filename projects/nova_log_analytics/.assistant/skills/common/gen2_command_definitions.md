@@ -3,11 +3,18 @@
 > **목적**: QA 테스터가 수행한 커맨드와 정의된 전체 커맨드를 LLM이 비교 분석하여 누락 여부를 확인하기 위한 기준 문서  
 > **원본 출처**: Labelit Engineer 제공 커맨드 수집 요청서  
 > **총 섹션**: 6개 (Common / Cuboid / Point / Polygon / Polyline / Topology)
+>
+> | 수정 이력 | 내용 |
+> |-----------|------|
+> | 1차 수정 | C-3 Channel Change 미수집 수정 / CB-19 로그명·subclass name 보완 / CB-20 attribute 로그 추가 / Polywall class update 로그 오류 수정 / 그룹핑 object type 표기 통일 |
+> | 1차 보완 | 공통 로그 필드 신설 — input_type·view 수집 / TP-1 Topology 생성 이벤트 범위 재정의 |
+> | 2차 수집 | 공통 로그 필드 신설 — is_batch_mode 수집 |
 
 ---
 
 ## 목차
 
+- [공통 로그 필드](#공통-로그-필드)
 - [2.1 Common](#21-common)
   - [2.1.1 Contextual Action](#211-contextual-action)
   - [2.1.2 Tracking ID Group](#212-tracking-id-group)
@@ -16,6 +23,20 @@
 - [2.4 Polygon Action](#24-polygon-action)
 - [2.5 Polyline Action](#25-polyline-action)
 - [2.6 Topology Action](#26-topology-action)
+
+---
+
+## 공통 로그 필드
+
+> 모든 커맨드 액션에 공통으로 수집·기록되는 필드 (1차 보완·2차 수집 요구사항 반영)
+
+| 필드명 | 값 예시 | 설명 | 근거 |
+|--------|---------|------|------|
+| `input_type` | `keyboard` / `mouse` | 커맨드 액션을 발생시킨 입력 수단 | 1차 보완 — 사용자 행동 패턴 및 UX/UI 분석 |
+| `view` | `lidar` / `top` / `right` / `rear` / `height` / `image` | 액션이 발생한 Workspace UI View | 1차 보완 — View별 상호작용 분석 |
+| `is_batch_mode` | `true` / `false` | 해당 액션이 Batch Mode에서 발생했는지 여부 | 2차 수집 — Batch Mode 기능 사용 빈도·임팩트·활성화 수준 분석 |
+
+**적용 범위**: C-1(Task 진입)을 제외한 모든 커맨드 액션 로그에 포함.
 
 ---
 
@@ -29,7 +50,7 @@
 |---|---------|------|---------|-----------|-------|------|---------|
 | C-1 | **Task 진입** | - | All | - | - | 작업자가 Task에 진입할 때 발생하는 Context 정보 | 기록 필수 항목: task id / policy name·ver. / stage 정보 / 작업자 정보(id·authority·company) / 진입 세션 정보(동일 task stage 다회 접속 포함) / 진입 시간. 작업자별 Stage 구분 및 라벨링 공수 분석에 활용 |
 | C-2 | **Frame 이동** | - | All | - | 키보드 또는 마우스 | 현재 작업 프레임을 다른 프레임으로 이동할 때 발생 | 이동 전후 프레임 정보(구간) 필수 기록. 직전 커맨드 실행 시간과의 차이 기록. Object 선택 상태 vs 미선택 상태 구분 필요 |
-| C-3 | **Image Channel 이동** | - | All | - | 키보드 또는 마우스 | 현재 보고 있는 이미지 채널을 변경할 때 발생 | 이전 채널과 변경된 채널 정보(구간) 필수 기록. 직전 커맨드 실행 시간과의 차이 기록 |
+| C-3 | **Image Channel 이동** | - | All | Image Preview | 키보드 또는 마우스 | 현재 보고 있는 이미지 채널을 변경할 때 발생 | 이전 채널과 변경된 채널 정보(구간) 필수 기록. 직전 커맨드 실행 시간과의 차이 기록. **[1차 수정]** Image Preview에서 Channel Change 발생 시 입력 타입(keyboard/mouse)과 채널 정보가 기록되지 않던 문제 수정 — `input_type`·채널 정보 수집 필수 |
 | C-4 | **Undo** | - | All | - | 키보드 (Ctrl+Z) | 직전 커맨드를 취소할 때 발생 | (TBU) 여러 단계를 한 번에 취소하는 Batch Undo는 별도 기록 필요 |
 | C-5 | **Redo** | - | All | - | 키보드 (Ctrl+Shift+Z) | 취소한 커맨드를 다시 실행할 때 발생 | (TBU) 여러 단계를 한 번에 재실행하는 Batch Redo는 별도 기록 필요 |
 
@@ -38,6 +59,8 @@
 ### 2.1.2 Tracking ID Group
 
 > OD / LD / Lane / Topology Feature의 Sidebar에서 Group 단위로 발생하는 커맨드
+>
+> **[1차 수정]** 그룹핑 관련 로그의 `object_type` 필드는 Feature에 관계없이 `annotation-group`으로 통일하여 기록한다. (기존: LD → `annotation-group`, OD → `annotationGroup` 으로 표기 불일치 → 단일화)
 
 | # | Command | Type | Feature | Tool View | Input | 설명 | 특이사항 |
 |---|---------|------|---------|-----------|-------|------|---------|
@@ -83,8 +106,8 @@
 | CB-16 | **Cuboid 크기 조정 (width/length)** | 수정 | OD / SOD / TSTLD / RMD | Sub View - Top | 마우스 | Cuboid의 너비, 길이를 조정 | - |
 | CB-17 | **Cuboid 크기 조정 (length/height)** | 수정 | OD / SOD / TSTLD / RMD | Sub View - Right | 마우스 | Cuboid의 길이, 높이를 조정 | - |
 | CB-18 | **Cuboid 크기 조정 (width/height)** | 수정 | OD / SOD / TSTLD / RMD | Sub View - Rear | 마우스 | Cuboid의 너비, 높이를 조정 | - |
-| CB-19 | **Cuboid 클래스 변경 (생성 후)** | 수정 | OD / SOD / TSTLD / RMD | Sidebar | 키보드 또는 마우스 | 이미 생성된 Cuboid의 클래스/서브클래스를 변경할 때 발생 | 생성 시 클래스 지정과 반드시 구분하여 기록 |
-| CB-20 | **Cuboid 속성 부여** | 수정 | OD / SOD / TSTLD / RMD | - | 키보드 또는 마우스 | 특정 프레임 또는 Sequence 전체에 걸쳐 적용되는 속성을 Cuboid에 부여하거나 변경 | - |
+| CB-19 | **Cuboid 클래스 변경 (생성 후)** | 수정 | OD / SOD / TSTLD / RMD | Sidebar | 키보드 또는 마우스 | 이미 생성된 Cuboid의 클래스/서브클래스를 변경할 때 발생 | 생성 시 클래스 지정과 반드시 구분하여 기록. **[1차 수정]** 로그명: `annotation.object.update_class`. subclass name 포함 필수 (기존 로그에는 subclass id만 기록되고 name 누락) |
+| CB-20 | **Cuboid 속성 부여** | 수정 | OD / SOD / TSTLD / RMD | - | 키보드 또는 마우스 | 특정 프레임 또는 Sequence 전체에 걸쳐 적용되는 속성을 Cuboid에 부여하거나 변경 | **[1차 수정]** 로그명: `annotation.object.update_attributes`. 기존 로그에서 attribute 정보 및 액션이 미수집. class·subclass와 함께 old/new 값을 모두 포함하여 기록 필수 |
 
 ### 삭제 커맨드
 
@@ -204,7 +227,7 @@
 
 | # | Command | Type | Feature | Tool View | Input | 설명 | 특이사항 |
 |---|---------|------|---------|-----------|-------|------|---------|
-| PG-4 | **Polygon 클래스 변경 (생성 후)** | 수정 | RMD / Lane / LD / RBD | Sidebar | 키보드 또는 마우스 | 이미 생성된 Polygon의 클래스/서브클래스를 변경 | 생성 시 클래스 지정과 반드시 구분하여 기록 |
+| PG-4 | **Polygon 클래스 변경 (생성 후)** | 수정 | RMD / Lane / LD / RBD | Sidebar | 키보드 또는 마우스 | 이미 생성된 Polygon의 클래스/서브클래스를 변경 | 생성 시 클래스 지정과 반드시 구분하여 기록. **[1차 수정]** Polywall 객체의 class 변경: 로그명은 `polywall.class.update`, object type도 `polywall`로 기록. (기존 오류: 로그명에 `bbox3d`로 표기되고 object type도 `bbox3d`로 기록되던 문제 수정) |
 | PG-5 | **Polygon 높이 조정 - General mode (Free view)** | 수정 | RMD / LD / RBD | Sub View - Free view | 키보드 | Polygon 생성 후 외곽 경계 전체의 높이(z축)를 조정 | Point 단위 높이 조정과 구분 필요 |
 | PG-6 | **Polygon 높이 조정 - General mode (Right)** | 수정 | RMD / LD / RBD | Sub View - Right | 키보드 | Polygon 생성 후 외곽 경계 전체의 높이(z축)를 조정 | Point 단위 높이 조정과 구분 필요 |
 | PG-7 | **Polygon 높이 조정 - General mode (Rear)** | 수정 | RMD / LD / RBD | Sub View - Rear | 키보드 | Polygon 생성 후 외곽 경계 전체의 높이(z축)를 조정 | Point 단위 높이 조정과 구분 필요 |
@@ -232,7 +255,7 @@
 | # | Command | Type | Feature | Tool View | Input | 설명 | 특이사항 |
 |---|---------|------|---------|-----------|-------|------|---------|
 | PL-1 | **Polyline 생성** | 생성 | LD / RBD | LiDAR View | 키보드 | Point 입력을 완료하고 Line Object를 확정 | Point 생성 커맨드와 Polyline 생성 커맨드는 별도로 기록 |
-| PL-2 | **Polyline Split으로 Tracking ID 신규 생성** | 생성 | OD | LiDAR View | - | 하나의 Polyline을 특정 Point 기준으로 두 개의 Polyline으로 분리할 때 발생. 분리된 point 기준으로 신규 Tracking ID가 부여된 Polyline이 생성됨 | PL-7(Polyline Split) 커맨드 이후에만 발생 |
+| PL-2 | **Polyline Split으로 Tracking ID 신규 생성** | 생성 | LD / RBD | LiDAR View | - | 하나의 Polyline을 특정 Point 기준으로 두 개의 Polyline으로 분리할 때 발생. 분리된 point 기준으로 신규 Tracking ID가 부여된 Polyline이 생성됨 | PL-7(Polyline Split) 커맨드 이후에만 발생 |
 | PL-3 | **Polyline 클래스 지정 (생성 시)** | 생성 | LD | - | 마우스 또는 키보드 | 생성 시 또는 생성 직후 Polyline Object에 클래스를 부여 | 생성 후 클래스 변경(PL-9)과 구분 필요. Point 단위 클래스 지정과 구분 필요. LD 다중 클래스 선택 관련 내용 기록 여부 확인 필요 |
 
 ### 수정 커맨드
@@ -268,7 +291,7 @@
 
 | # | Command | Type | Feature | Tool View | Input | 설명 | 특이사항 |
 |---|---------|------|---------|-----------|-------|------|---------|
-| TP-1 | **Topology 생성** | 생성 | Lane | - | 마우스 | Source / Destination Lane 선택 및 Type 설정을 기반으로 Topology Object를 확정·생성 | Lane 선택 및 클래스 지정 이후 마지막에 발생하는 커맨드 |
+| TP-1 | **Topology 생성** | 생성 | Lane | - | 마우스 | Source / Destination Lane 선택 및 Type 설정을 기반으로 Topology Object를 확정·생성 | Lane 선택 및 클래스 지정 이후 마지막에 발생하는 커맨드. **[1차 보완]** 생성에 투입된 시간 정의 재수립: TP-2(Source Lane 선택) 시점부터 TP-4(클래스 부여 1회 확정)까지를 단일 생성 이벤트로 정의. 이 구간의 소요 시간(`creation_duration_ms`)을 생성 로그에 포함하여 기록. (Topology 생성에 투입되는 평균 시간 정확도 및 라벨링 비효율 분석에 활용) |
 | TP-2 | **Topology 선택 - Source Lane (생성 시)** | 선택 | Lane | LiDAR View | 마우스 | Topology를 구성할 Source Lane을 선택 | Source Lane ID 기록 필요. Destination Lane 선택(TP-3)과 별도 커맨드로 기록 |
 | TP-3 | **Topology 선택 - Destination Lane (생성 시)** | 선택 | Lane | LiDAR View | 마우스 | Topology를 구성할 Destination Lane을 선택 | Destination Lane ID 기록 필요. Source Lane 선택(TP-2) 이후에 발생 |
 | TP-4 | **Topology 클래스 지정 (생성 시)** | 생성(선택) | Lane | Sidebar | 마우스 | Topology 생성 시 Topology Type을 선택 | - |
@@ -281,7 +304,7 @@
 | TP-6 | **Topology 선택 (생성 후) - Sidebar** | 선택 | Lane | Sidebar | 마우스 | 작업할 Topology Object를 선택 | - |
 | TP-7 | **Topology 클래스 변경 (생성 후)** | 수정 | Lane | LiDAR View / Sidebar | 마우스 | 생성된 Topology의 클래스를 변경 | - |
 | TP-8 | **Topology 삭제** | 삭제 | Lane | LiDAR View | 마우스 | 생성된 Topology Object를 삭제 | - |
-| TP-9 | **Topology 선택 해제** | 선택 | LD / RBD | - | 키보드 또는 마우스 | 선택했던 Object를 선택 해제 | - |
+| TP-9 | **Topology 선택 해제** | 선택 | Lane | - | 키보드 또는 마우스 | 선택했던 Object를 선택 해제 | - |
 
 ---
 
@@ -307,3 +330,6 @@
 3. **자동 발생 커맨드**: G-8(Group 자동 삭제)은 사용자 액션이 아닌 Task Done 시점에 자동 발생 — 수집 방식 별도 확인 필요
 4. **Split → 신규 생성 연계**: CB-2(Cuboid Split으로 신규 생성)는 CB-23(Cuboid Split) 이후 자동 발생, PL-2(Polyline Split으로 신규 생성)는 PL-7(Polyline Split) 이후 자동 발생
 5. **payload 구분 필요 항목**: G-2와 G-3은 Input이 동일하므로 payload의 대상 타입(Object/Group)으로 구분
+6. **공통 로그 필드**: `input_type`·`view`·`is_batch_mode` 세 필드는 C-1을 제외한 전체 커맨드 로그에 포함. QA 로그 수집 시 이 필드 누락 여부도 커버리지 비교 대상에 포함
+7. **로그명 수정 항목**: CB-19(`annotation.object.update_class`), CB-20(`annotation.object.update_attributes`), PG-4 Polywall(`polywall.class.update`) — 실제 수집 로그 검증 시 이전 로그명(`bbox3d` 등)으로 조회하면 오탐 발생 가능
+8. **Topology 생성 이벤트 범위**: TP-1은 TP-2 ~ TP-4 구간 전체를 포함하는 단일 이벤트. TP-2·TP-3·TP-4를 개별 이벤트로 분석하지 않도록 주의
