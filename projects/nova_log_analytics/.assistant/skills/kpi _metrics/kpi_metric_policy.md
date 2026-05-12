@@ -1,4 +1,4 @@
-# Nova Log Analytics — KPI Metric Policy
+﻿# Nova Log Analytics — KPI Metric Policy
 
 **문서 상태**: Released (v1.2)  
 **작성일**: 2026-05-12  
@@ -61,13 +61,13 @@
 
 | Feature | primary objects |
 |---------|----------------|
-| MV2_LD | `gen2_lines`, `gen2_road_boundary`, `gen2_lane`, `gen2_topology` |
-| MV2_RMD | `gen2_polywall_roadmark_objects`, `gen2_bbox3d_object` |
+| MV2_LD | `gen2_lines`, `gen2_road_boundaries`, `gen2_lanes`, `gen2_topologies` |
+| MV2_RMD | `gen2_polywall_roadmark_objects`, `gen2_box_roadmark_objects` |
 | MV2_OD | `gen2_dynamic_targets` + `gen2_static_targets` |
 | MV2_SOD | `gen2_static_targets` |
 | MV2_TSTLD | `gen2_static_targets` |
 
-> LD points(`gen2_line_point`, `gen2_road_boundary_point`)는 `delivered_point_count`로 별도 집계. primary objects에 미포함.  
+> LD points(`gen2_line_points`, `gen2_road_boundary_points`)는 `delivered_point_count`로 별도 집계. primary objects에 미포함.  
 > 재납품 중복 처리: 동일 Task는 납품 1건으로 카운트. 재납품 월 귀속은 최초 착수 월 기준 (v2 이관 예정).
 
 **운영 SQL**: `production_volume__weekly.sql`
@@ -158,6 +158,7 @@
 | `light_session_count` | 해당 일 light 세션 수 | 핵심 반복성 |
 | `heavy_session_count` | 해당 일 heavy 세션 수 | 핵심 반복성 |
 | `idle_gap_total` | 해당 일 idle gap 발생 횟수 합산 | 핵심 반복성 |
+| `idle_gap_duration_total_sec` | 해당 일 idle gap 지속 초수 합산 (모든 세션 합산) | 생산성 보조 |
 
 **유저 일 판정 기준 (2차 percentile 기반)**:
 

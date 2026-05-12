@@ -1,4 +1,4 @@
-# Production Volume & Productivity — Metric Design
+﻿# Production Volume & Productivity — Metric Design
 
 **문서 상태**: Released (v1.3)  
 **작성일**: 2026-05-11  
@@ -65,8 +65,8 @@ Labelit Gen2 작업 파이프라인에서 **생산량**, **생산성**을 정량
 
 | Feature | primary objects (생산량 산출 기준) | 보조 지표 |
 |---|---|---|
-| MV2_LD | `gen2_lines`, `gen2_road_boundary`, `gen2_lane`, `gen2_topology` | `gen2_line_point`, `gen2_road_boundary_point` (복잡도 proxy) |
-| MV2_RMD | `gen2_polywall_roadmark_objects`, `gen2_bbox3d_object` | — |
+| MV2_LD | `gen2_lines`, `gen2_road_boundaries`, `gen2_lanes`, `gen2_topologies` | `gen2_line_points`, `gen2_road_boundary_points` (복잡도 proxy) |
+| MV2_RMD | `gen2_polywall_roadmark_objects`, `gen2_box_roadmark_objects` | — |
 | MV2_OD | `gen2_dynamic_targets` + `gen2_static_targets` | — |
 | MV2_SOD | `gen2_static_targets` | — |
 | MV2_TSTLD | `gen2_static_targets` | — |

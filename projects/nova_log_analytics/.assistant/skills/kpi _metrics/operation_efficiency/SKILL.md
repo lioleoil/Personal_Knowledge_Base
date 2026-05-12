@@ -1,4 +1,4 @@
-# Operation Analytics Skill
+﻿# Operation Analytics Skill
 
 Stage별 소요 시간(Stage Duration)과 산출물 변화(Object Delta) 산출을 위한 가이드.
 
@@ -155,8 +155,10 @@ CAST(CONVERT_TIMEZONE('UTC', 'Asia/Seoul', action_at) AS DATE) AS event_date_kst
 
 | 지표 | 산출식 |
 | --- | --- |
-| Review 반려율 | `COUNT(from_state='review' AND trigger='reject') / COUNT(review 완료)` |
-| Inspection 반려율 | `COUNT(from_state='inspection' AND trigger='reject') / COUNT(inspection 완료)` |
+| Review 반려율 | `COUNT(from_state='review' AND trigger='reject') / NULLIF(COUNT(review 완료), 0) × 100` |
+| Inspection 반려율 | `COUNT(from_state='inspection' AND trigger='reject') / NULLIF(COUNT(inspection 완료), 0) × 100` |
+
+> Policy §1.3 원칙: 분모 = 0인 경우 `NULL`로 산출 (`NULLIF` 적용).
 
 ---
 
@@ -206,6 +208,8 @@ labeling_duration AS (
   SELECT s.task_id, s.company_id, s.policy_id,
     'labeling' AS stage, s.pass_num,
     s.stage_start_at,
+    -- NOTE: §2.3 규칙은 3단 fallback (실제종료 → 다음Stage시작 → CURRENT_TIMESTAMP())이나,
+    -- 현 구현은 2단 간소화. "다음Stage시작" fallback은 LEAD/서브쿼리 필요 — 향후 개선 대상.
     COALESCE(e.stage_end_at, CURRENT_TIMESTAMP()) AS stage_end_at,
     ROUND((UNIX_TIMESTAMP(COALESCE(e.stage_end_at, CURRENT_TIMESTAMP()))
            - UNIX_TIMESTAMP(s.stage_start_at)) / 3600.0, 3) AS duration_hours,
@@ -505,6 +509,8 @@ TBLPROPERTIES ('delta.columnMapping.mode' = 'name');
 | 90일 범위 조회 | Reject 재진입 Task가 여러 주에 걸쳐 있으므로 Stage Duration SQL은 `event_week >= analysis_week - 90일` 범위로 이벤트를 수집한다 |
 | Reassign 제외 | `trigger='reassign'` 이벤트는 Stage 시작으로 카운트하지 않는다. 종료 이벤트 기준 pass_num 매핑 시 시작이 없는 종료가 생기지 않도록 주의 |
 | staging 선행 의존 | ops 배치 실행 전 반드시 `stg__task_transition_events` · `stg__object_counts_by_task` 갱신 완료 확인 |
+| 종료 이벤트 fallback | §2.3 규칙은 3단 fallback(실제종료 → 다음Stage시작 → CURRENT_TIMESTAMP())이나, §4.1 SQL은 2단 간소화 구현. `is_open=TRUE` Task는 집계에서 제외하여 영향 최소화. "다음Stage시작" fallback 추가는 향후 개선 |
+| 테이블명 불일치 | Productivity SKILL은 단수형(`gen2_lanes`, `gen2_road_boundaries`), Operation SKILL은 복수형(`gen2_lanes`, `gen2_road_boundaries`) 사용. DDL 확인 후 통일 필요. RMD: `gen2_box_roadmark_objects` vs `gen2_box_roadmark_objects` 동일 여부 미확인 |
 
 ---
 
@@ -551,7 +557,7 @@ SELECT
   COUNT(*) AS total_review_end,
   SUM(CASE WHEN trigger = 'reject' THEN 1 ELSE 0 END) AS rejected,
   ROUND(SUM(CASE WHEN trigger = 'reject' THEN 1 ELSE 0 END)
-        / COUNT(*) * 100, 2) AS reject_rate_pct
+        / NULLIF(COUNT(*), 0) * 100, 2) AS reject_rate_pct
 FROM analytics.stg_task_transition_events
 WHERE from_state = 'review'
   AND to_state IN ('waiting_submit', 'waiting_labeling')

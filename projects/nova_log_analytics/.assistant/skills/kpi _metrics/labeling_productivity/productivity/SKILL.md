@@ -1,4 +1,4 @@
-# Production Volume & Productivity Skill
+﻿# Production Volume & Productivity Skill
 
 생산량(납품 Task 수, 납품 객체 수)과 생산성(시간당 객체 수, 1인 1일 Task 수, Task 평균 소요시간) 산출을 위한 가이드.
 
@@ -36,8 +36,8 @@
 
 | 항목 | 테이블 | Feature |
 | --- | --- | --- |
-| 객체 테이블 (LD) | `gen2_lines`, `gen2_line_point`, `gen2_road_boundary`, `gen2_road_boundary_point`, `gen2_lane`, `gen2_topology` | MV2_LD |
-| 객체 테이블 (RMD) | `gen2_polywall_roadmark_objects`, `gen2_bbox3d_object` | MV2_RMD |
+| 객체 테이블 (LD) | `gen2_lines`, `gen2_line_points`, `gen2_road_boundaries`, `gen2_road_boundary_points`, `gen2_lanes`, `gen2_topologies` | MV2_LD |
+| 객체 테이블 (RMD) | `gen2_polywall_roadmark_objects`, `gen2_box_roadmark_objects` | MV2_RMD |
 | 객체 테이블 (OD) | `gen2_dynamic_targets`, `gen2_static_targets` | MV2_OD (합산) |
 | 객체 테이블 (SOD) | `gen2_static_targets` | MV2_SOD |
 | 객체 테이블 (TSTLD) | `gen2_static_targets` | MV2_TSTLD |
@@ -138,7 +138,7 @@ ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
 | --- | --- | --- |
 | 납품 Task 수 | 납품 이벤트 발생 Task DISTINCT COUNT | transitionHistory |
 | 납품 객체 수 (primary) | 납품 Task의 `stageKey='inspection'` 객체 COUNT (feature별 기준 테이블) | 객체 테이블 |
-| 납품 포인트 수 (보조) | LD 전용: `gen2_line_point` + `gen2_road_boundary_point` COUNT | 객체 테이블 |
+| 납품 포인트 수 (보조) | LD 전용: `gen2_line_points` + `gen2_road_boundary_points` COUNT | 객체 테이블 |
 | 객체당 포인트 수 | `delivered_point_count / delivered_object_count` — LD 복잡도 proxy | 산출값 |
 
 > **2-tier 설계**: primary objects(lines·rb·lanes·topo·polywall·bbox3d·dynamic·static)는 사람이 직접 생성한 산출물. points는 lines·road_boundary에 종속되는 보조 지표로 복잡도 추정에 활용. LD `delivered_object_count`에 points는 포함하지 않음.
@@ -211,13 +211,13 @@ obj AS (
   SELECT
     task_id,
     SUM(CASE WHEN table_name = 'gen2_lines'                     THEN object_count END) AS ld_lines,
-    SUM(CASE WHEN table_name = 'gen2_line_point'                THEN object_count END) AS ld_line_points,
-    SUM(CASE WHEN table_name = 'gen2_road_boundary'             THEN object_count END) AS ld_road_boundaries,
-    SUM(CASE WHEN table_name = 'gen2_road_boundary_point'       THEN object_count END) AS ld_road_boundary_points,
-    SUM(CASE WHEN table_name = 'gen2_lane'                      THEN object_count END) AS ld_lanes,
-    SUM(CASE WHEN table_name = 'gen2_topology'                  THEN object_count END) AS ld_topologies,
+    SUM(CASE WHEN table_name = 'gen2_line_points'                THEN object_count END) AS ld_line_points,
+    SUM(CASE WHEN table_name = 'gen2_road_boundaries'             THEN object_count END) AS ld_road_boundaries,
+    SUM(CASE WHEN table_name = 'gen2_road_boundary_points'       THEN object_count END) AS ld_road_boundary_points,
+    SUM(CASE WHEN table_name = 'gen2_lanes'                      THEN object_count END) AS ld_lanes,
+    SUM(CASE WHEN table_name = 'gen2_topologies'                  THEN object_count END) AS ld_topologies,
     SUM(CASE WHEN table_name = 'gen2_polywall_roadmark_objects' THEN object_count END) AS rmd_polywall_objects,
-    SUM(CASE WHEN table_name = 'gen2_bbox3d_object'             THEN object_count END) AS rmd_bbox3d_objects,
+    SUM(CASE WHEN table_name = 'gen2_box_roadmark_objects'             THEN object_count END) AS rmd_bbox3d_objects,
     SUM(CASE WHEN table_name = 'gen2_dynamic_targets'           THEN object_count END) AS dynamic_targets,
     SUM(CASE WHEN table_name = 'gen2_static_targets'            THEN object_count END) AS static_targets
   FROM analytics.stg_object_counts_by_task
@@ -339,13 +339,13 @@ policies AS (
 | `feature` | STRING | Feature (MV2_LD, MV2_OD, MV2_SOD, MV2_RMD, MV2_TSTLD) |
 | `delivered_task_count` | BIGINT | 주당 납품 Task 수 (재납품 중복 제거) |
 | `ld_lines` | BIGINT | gen2_lines (MV2_LD 전용, 타 feature NULL) |
-| `ld_line_points` | BIGINT | gen2_line_point — 보조 지표 |
-| `ld_road_boundaries` | BIGINT | gen2_road_boundary |
-| `ld_road_boundary_points` | BIGINT | gen2_road_boundary_point — 보조 지표 |
-| `ld_lanes` | BIGINT | gen2_lane |
-| `ld_topologies` | BIGINT | gen2_topology |
+| `ld_line_points` | BIGINT | gen2_line_points — 보조 지표 |
+| `ld_road_boundaries` | BIGINT | gen2_road_boundaries |
+| `ld_road_boundary_points` | BIGINT | gen2_road_boundary_points — 보조 지표 |
+| `ld_lanes` | BIGINT | gen2_lanes |
+| `ld_topologies` | BIGINT | gen2_topologies |
 | `rmd_polywall_objects` | BIGINT | gen2_polywall_roadmark_objects (MV2_RMD 전용) |
-| `rmd_bbox3d_objects` | BIGINT | gen2_bbox3d_object |
+| `rmd_bbox3d_objects` | BIGINT | gen2_box_roadmark_objects |
 | `dynamic_targets` | BIGINT | gen2_dynamic_targets (MV2_OD 전용) |
 | `static_targets` | BIGINT | gen2_static_targets (MV2_OD / SOD / TSTLD 공유) |
 | `delivered_object_count` | BIGINT | primary objects 합산 (LD: lines+rb+lanes+topo, RMD: pw+bb, OD: dyn+st, SOD/TSTLD: st) |
@@ -386,7 +386,7 @@ policies AS (
 
 1. **Staging DDL 적용**: `.sql/stg__ddl.sql` 실행 → `stg_task_transition_events` / `stg_object_counts_by_task` / `stg_cmd_slots_by_task` 생성
 2. **KPI DDL 적용**: `.sql/production_volume__ddl.sql` 실행 → `analytics.production_volume_weekly` 생성
-3. **Focus Drop DDL 적용**: `.sql/focus_drop__ddl.sql` 실행 (idle 차감 의존성 — focus_drop SKILL.md §12.4 Phase 0 참조)
+3. **Focus Drop DDL 적용**: `.sql/focus_drop__ddl.sql` 실행 (idle 차감 의존성 — focus_drop `focus_drop_deployment.md` §12.4 Phase 0 참조)
 4. **존재 확인**:
    ```sql
    SHOW TABLES IN analytics LIKE 'stg_%';

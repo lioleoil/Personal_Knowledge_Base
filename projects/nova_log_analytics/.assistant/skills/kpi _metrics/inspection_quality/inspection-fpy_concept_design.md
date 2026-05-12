@@ -1,9 +1,10 @@
 # 검수 품질 지표 산출 기획문서
 ## Inspection Reject Rate & Monthly First Pass Yield — Labelit Gen2
 
-**문서 상태**: Released (v1.0)  
-**작성일**: 2026-05-08  
-**데이터 소스**: `sv_nova_dev_an2_catalog.raw.raw_labelit__gen2_tasks`  
+**문서 상태**: Released (v1.1)  
+**작성일**: 2026-05-12  
+**데이터 소스**: `analytics.stg_task_transition_events` (reject 이벤트) + `sv_nova_dev_an2_catalog.raw.raw_labelit__gen2_tasks` (task 메타)  
+**관련 SKILL**: `.assistant/skills/kpi_metrics/inspection_quality/SKILL.md`  
 **목적**: Labelit Gen2 작업 파이프라인의 inspection 단계 반려율과 FPY를 월별로 산출하여 품질 추이를 정량 모니터링
 
 ---
@@ -62,90 +63,94 @@ Labelit Gen2 작업 파이프라인에서 **inspection 단계의 reject**를 대
 ### 4.1 월별 반려율 & First Pass Yield
 
 ```sql
--- 모집단: deliveryId IS NOT NULL (= inspection 단계 진입 task)
--- 월 기준: updatedAt의 YY-MM
--- Reject 대상: fromState = 'inspection' AND trigger = 'reject'
-WITH latest_tasks AS (
-  SELECT *,
-         ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-  FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
-  WHERE `_is_deleted` = false
-),
-delivered_tasks AS (
+-- 운영 SQL: staging 기반 (LATERAL VIEW explode 불필요)
+-- 모집단: deliveryId IS NOT NULL (= inspection 단계 진입 task) — raw gen2_tasks에서 추출
+-- Reject 이벤트: stg_task_transition_events에서 단순 필터
+-- Policy §1.3: NULLIF 적용
+WITH delivered_tasks AS (
   SELECT
-    `_id` AS task_id,
-    get_json_object(`_raw`, '$.name')         AS task_name,
-    get_json_object(`_raw`, '$.assignmentId') AS assignment_id,
-    get_json_object(`_raw`, '$.deliveryId')   AS delivery_id,
+    t.`_id`                                                              AS task_id,
     DATE_FORMAT(
-      TO_TIMESTAMP(get_json_object(`_raw`, '$.updatedAt')), 'yy-MM'
-    ) AS deliver_month,
-    get_json_object(`_raw`, '$.transitionHistory') AS transition_json
-  FROM latest_tasks
-  WHERE rn = 1
-    AND get_json_object(`_raw`, '$.deliveryId') IS NOT NULL
+      TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt')), 'yy-MM'
+    )                                                                    AS deliver_month
+  FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+    WHERE `_is_deleted` = false
+  ) t
+  WHERE t.rn = 1
+    AND get_json_object(t.`_raw`, '$.deliveryId') IS NOT NULL
 ),
 reject_stats AS (
   SELECT
-    t.task_id,
-    t.task_name,
-    t.deliver_month,
-    SUM(CASE WHEN trans.fromState = 'inspection' AND trans.trigger = 'reject'
-             THEN 1 ELSE 0 END) AS inspection_reject_count,
-    COLLECT_SET(
-      CASE WHEN trans.fromState = 'inspection' AND trans.trigger = 'reject'
-           THEN NULLIF(TRIM(trans.reason), '') END
-    ) AS reject_reasons
-  FROM delivered_tasks t
-  LATERAL VIEW explode(
-    from_json(t.transition_json,
-      'array<struct<fromState:string,toState:string,trigger:string,actionBy:string,actionAt:string,reason:string,metadata:map<string,string>>>')
-  ) AS trans
-  GROUP BY t.task_id, t.task_name, t.deliver_month
+    task_id,
+    COUNT(*)            AS inspection_reject_count,
+    COLLECT_SET(reason) AS reject_reasons
+  FROM analytics.stg_task_transition_events
+  WHERE from_state = 'inspection'
+    AND trigger    = 'reject'
+  GROUP BY task_id
 )
 SELECT
-  deliver_month,
-  COUNT(*)                                                         AS total_inspected,
-  SUM(CASE WHEN inspection_reject_count > 0 THEN 1 ELSE 0 END)   AS rejected_count,
+  d.deliver_month,
+  COUNT(*)                                                             AS total_inspected,
+  SUM(CASE WHEN r.inspection_reject_count > 0 THEN 1 ELSE 0 END)     AS rejected_count,
   ROUND(
-    SUM(CASE WHEN inspection_reject_count > 0 THEN 1 ELSE 0 END)
-    / COUNT(*) * 100, 2
-  )                                                                AS rejection_rate_pct,
+    SUM(CASE WHEN r.inspection_reject_count > 0 THEN 1 ELSE 0 END)
+    / NULLIF(COUNT(*), 0) * 100, 2
+  )                                                                    AS rejection_rate_pct,
   ROUND(
-    100 - SUM(CASE WHEN inspection_reject_count > 0 THEN 1 ELSE 0 END)
-          / COUNT(*) * 100, 2
-  )                                                                AS first_pass_yield_pct,
-  FLATTEN(COLLECT_SET(reject_reasons))                            AS distinct_reasons
-FROM reject_stats
-GROUP BY deliver_month
-ORDER BY deliver_month
+    100 - SUM(CASE WHEN r.inspection_reject_count > 0 THEN 1 ELSE 0 END)
+          / NULLIF(COUNT(*), 0) * 100, 2
+  )                                                                    AS first_pass_yield_pct,
+  FLATTEN(COLLECT_SET(r.reject_reasons))                               AS distinct_reasons
+FROM delivered_tasks d
+LEFT JOIN reject_stats r ON d.task_id = r.task_id
+GROUP BY d.deliver_month
+ORDER BY d.deliver_month
 ```
+
+> **설계 변경 (v1.1)**: `stg_task_transition_events`를 사용하여 `LATERAL VIEW explode + from_json` 재처리가 불필요해짐. 모집단(`deliveryId`, `updatedAt`)은 staging에 없는 메타 필드이므로 raw 직접 조회 유지.
 
 ### 4.2 다중 반려 Task 상세
 
 ```sql
--- 다중 반려 Task 상세: inspection reject 2회 이상 발생 task
-WITH latest_tasks AS ( ... ),  -- 동일
-delivered_tasks AS ( ... ),    -- 동일
+-- 다중 반려 Task 상세: staging 기반 (inspection reject 2회 이상)
+WITH delivered_tasks AS (
+  SELECT
+    t.`_id`                                        AS task_id,
+    get_json_object(t.`_raw`, '$.name')            AS task_name,
+    get_json_object(t.`_raw`, '$.assignmentId')    AS assignment_id,
+    DATE_FORMAT(
+      TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt')), 'yy-MM'
+    )                                              AS deliver_month
+  FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+    WHERE `_is_deleted` = false
+  ) t
+  WHERE t.rn = 1
+    AND get_json_object(t.`_raw`, '$.deliveryId') IS NOT NULL
+),
 multi_reject AS (
   SELECT
-    t.task_id, t.task_name, t.assignment_id, t.deliver_month,
-    trans.actionBy  AS rejected_by,
-    trans.actionAt  AS rejected_at,
-    NULLIF(TRIM(trans.reason), '') AS reject_reason
-  FROM delivered_tasks t
-  LATERAL VIEW explode( from_json(t.transition_json, '...') ) AS trans
-  WHERE trans.fromState = 'inspection'
-    AND trans.trigger   = 'reject'
+    e.task_id,
+    e.action_by   AS rejected_by,
+    e.action_at   AS rejected_at,
+    NULLIF(TRIM(e.reason), '') AS reject_reason
+  FROM analytics.stg_task_transition_events e
+  WHERE e.from_state = 'inspection'
+    AND e.trigger    = 'reject'
 )
 SELECT
-  task_id, task_name, assignment_id, deliver_month,
+  d.task_id, d.task_name, d.assignment_id, d.deliver_month,
   COUNT(*) AS reject_count,
-  COLLECT_LIST(STRUCT(rejected_at, rejected_by, reject_reason)) AS reject_details
-FROM multi_reject
-GROUP BY task_id, task_name, assignment_id, deliver_month
+  COLLECT_LIST(STRUCT(m.rejected_at, m.rejected_by, m.reject_reason)) AS reject_details
+FROM delivered_tasks d
+JOIN multi_reject m ON d.task_id = m.task_id
+GROUP BY d.task_id, d.task_name, d.assignment_id, d.deliver_month
 HAVING COUNT(*) >= 2
-ORDER BY deliver_month, reject_count DESC
+ORDER BY d.deliver_month, reject_count DESC
 ```
 
 ---
@@ -218,3 +223,12 @@ ORDER BY deliver_month, reject_count DESC
 | 2 | actionBy → 사용자명 매핑 (users 테이블 조인) | 데이터 |
 | 3 | 대시보드 초안 작성 및 stakeholder 리뷰 | PM |
 | 4 | 스케줄링 자동화 (월별 지표 갱신) | 데이터 |
+
+---
+
+## 9. 버전 히스토리
+
+| 버전 | 일자 | 상태 | 주요 내용 |
+|---|---|---|---|
+| `v1.0` | 2026-05-08 | Released | 초판 — raw JSON 직접 파싱 기반 SQL, 월별 FPY/반려율 산출 로직 확정 |
+| `v1.1` | 2026-05-12 | Released | staging 전환 반영 — `stg_task_transition_events` 기반 SQL로 교체 / `NULLIF` 적용 (Policy §1.3) / SKILL 문서와 동기화 |
