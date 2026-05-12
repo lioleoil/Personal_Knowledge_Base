@@ -30,12 +30,12 @@ SELECT
   CAST('${is_bootstrap}' AS BOOLEAN)               AS is_bootstrap,
   DATE_SUB(CURRENT_DATE(), ${rolling_window_days})  AS window_start,
   DATE_SUB(CURRENT_DATE(), 1)                       AS window_end,
-  PERCENTILE(warning_gap_count,   0.90)             AS session_warning_count_p90,
-  PERCENTILE(critical_gap_count,  0.95)             AS session_critical_count_p95,
-  PERCENTILE(departure_gap_count, 0.99)             AS session_departure_count_p99,
-  PERCENTILE(warning_gap_ratio,   0.90)             AS session_warning_ratio_p90,
-  PERCENTILE(critical_gap_ratio,  0.95)             AS session_critical_ratio_p95,
-  PERCENTILE(departure_gap_ratio, 0.99)             AS session_departure_ratio_p99
+  PERCENTILE(light_gap_count,     0.90)             AS session_light_count_p90,
+  PERCENTILE(heavy_gap_count,     0.95)             AS session_heavy_count_p95,
+  PERCENTILE(idle_gap_count,      0.99)             AS session_idle_count_p99,
+  PERCENTILE(light_gap_ratio,     0.90)             AS session_light_ratio_p90,
+  PERCENTILE(heavy_gap_ratio,     0.95)             AS session_heavy_ratio_p95,
+  PERCENTILE(idle_gap_ratio,      0.99)             AS session_idle_ratio_p99
 FROM analytics.focus_drop_session_metrics
 WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND DATE_SUB(CURRENT_DATE(), 1);
 
@@ -43,18 +43,18 @@ WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND
 
 -- zero-inflation 보정 (threshold = 0이면 최솟값 1로 올림 → 단일 gap 오탐 방지)
 UPDATE analytics.focus_drop_session_thresholds
-SET session_departure_count_p99 = GREATEST(session_departure_count_p99, 1),
-    session_critical_count_p95  = GREATEST(session_critical_count_p95, 1),
-    session_warning_count_p90   = GREATEST(session_warning_count_p90, 1)
+SET session_idle_count_p99    = GREATEST(session_idle_count_p99, 1),
+    session_heavy_count_p95   = GREATEST(session_heavy_count_p95, 1),
+    session_light_count_p90   = GREATEST(session_light_count_p90, 1)
 WHERE version = (SELECT MAX(version) FROM analytics.focus_drop_session_thresholds)
-  AND (session_departure_count_p99 = 0
-    OR session_critical_count_p95  = 0
-    OR session_warning_count_p90   = 0);
+  AND (session_idle_count_p99   = 0
+    OR session_heavy_count_p95  = 0
+    OR session_light_count_p90  = 0);
 
 -- COMMAND ----------
 
 -- 결과 확인
 SELECT version, is_bootstrap, window_start, window_end,
-       session_warning_count_p90, session_critical_count_p95, session_departure_count_p99
+       session_light_count_p90, session_heavy_count_p95, session_idle_count_p99
 FROM analytics.focus_drop_session_thresholds
 WHERE version = (SELECT MAX(version) FROM analytics.focus_drop_session_thresholds);

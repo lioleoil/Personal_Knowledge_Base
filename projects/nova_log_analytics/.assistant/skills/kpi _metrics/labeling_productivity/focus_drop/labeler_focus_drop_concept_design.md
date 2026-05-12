@@ -1,6 +1,6 @@
 # Labeler 작업 집중도 저하 탐지 개념 정의 설계안 v1.0
 
-**문서 상태**: Draft  
+**문서 상태**: Released (v1.0)  
 **작성자**: OpenAI Codex  
 **적용 범위**: `projects/nova_log_analytics` 내 Labeler role 대상 작업 집중도 저하 탐지 기준 고도화 설계  
 **선행 문서**: `labeler_focus_drop_policy.md`
@@ -60,9 +60,9 @@ v1.0의 핵심 방향은 다음과 같다.
 
 작업 집중도 저하 구간은 Labeler 정상군 분포 기준 상위 꼬리 영역에 해당하는 긴 gap이 세션 내에서 반복적으로 관측되는 구간을 의미한다.
 
-### 4.3 작업 이탈 후보 구간
+### 4.3 작업 이탈 (Idle)
 
-작업 이탈 후보 구간은 정상 분포를 현저히 벗어나는 극단적인 long gap이 나타나, 실질적인 작업 중단 또는 세션 유지 상태의 비유효 시간을 의심할 수 있는 구간을 의미한다.
+작업 이탈(Idle)은 연속 이벤트 간격이 **3분(180초) 이상**인 gap으로, 작업자가 물리적으로 자리를 비웠거나 세션을 유지한 채 실질적인 작업이 중단된 상태를 의미한다. percentile 기반 집중도 저하 구간(light·heavy)과 달리, 협의된 고정 임계값으로 정의된다.
 
 ---
 
@@ -103,49 +103,49 @@ v1.0에서는 다음 3개 단위를 구분한다.
 - `p75 초과 ~ p90 이하` 구간에 해당하는 gap 수
 - 추세 관찰용 보조 지표이며 직접적인 저하 판정 태그로 사용하지 않는다
 
-#### `warning_gap_count`
+#### `light_gap_count`
 
 - `p90 초과 ~ p95 이하` 구간에 해당하는 gap 수
-- `warning` 판정의 핵심 반복성 지표
+- `light` 판정의 핵심 반복성 지표
 
-#### `critical_gap_count`
+#### `heavy_gap_count`
 
 - `p95 초과 ~ p99 이하` 구간에 해당하는 gap 수
-- `critical` 판정의 핵심 반복성 지표
+- `heavy` 판정의 핵심 반복성 지표
 
-#### `departure_gap_count`
+#### `idle_gap_count`
 
-- `p99 초과` 구간에 해당하는 gap 수
-- `departure` 또는 extreme 해석의 핵심 반복성 지표
+- `diff_sec ≥ 180`(3분 고정 임계값) 구간에 해당하는 gap 수
+- `idle` 판정의 핵심 반복성 지표
 
-#### `warning_gap_ratio`
+#### `light_gap_ratio`
 
-- 세션 내 전체 gap 중 `warning` 구간 gap의 비율
+- 세션 내 전체 gap 중 `light` 구간 gap의 비율
 - 세션 길이 차이를 보정하기 위한 보조 지표
 
-#### `critical_gap_ratio`
+#### `heavy_gap_ratio`
 
-- 세션 내 전체 gap 중 `critical` 구간 gap의 비율
+- 세션 내 전체 gap 중 `heavy` 구간 gap의 비율
 - 세션 길이 차이를 보정하기 위한 보조 지표
 
-#### `departure_gap_ratio`
+#### `idle_gap_ratio`
 
-- 세션 내 전체 gap 중 `departure` 구간 gap의 비율
+- 세션 내 전체 gap 중 `idle` 구간 gap의 비율
 - 세션 길이 차이를 보정하기 위한 보조 지표
 
 ### 6.3 사용자 일 단위 지표
 
-#### `warning_session_count`
+#### `light_session_count`
 
-- 하루 동안 `warning` 세션으로 판정된 세션 수
+- 하루 동안 `light` 세션으로 판정된 세션 수
 
-#### `critical_session_count`
+#### `heavy_session_count`
 
-- 하루 동안 `critical` 세션으로 판정된 세션 수
+- 하루 동안 `heavy` 세션으로 판정된 세션 수
 
-#### `departure_gap_total`
+#### `idle_gap_total`
 
-- 하루 동안 관측된 `departure` gap 총합
+- 하루 동안 관측된 `idle` gap(≥ 180초) 총합
 
 ---
 
@@ -181,9 +181,9 @@ v1.0에서는 최소 다음 percentile을 산출한다.
 
 - `gap_p50`: 일반적인 작업 리듬의 중앙값
 - `gap_p75`: 정상 범위 상단의 관찰 경계
-- `gap_p90`: `warning` 구간 시작점
-- `gap_p95`: `critical` 구간 시작점
-- `gap_p99`: `departure` 또는 extreme 구간 시작점
+- `gap_p90`: `light` 구간 시작점
+- `gap_p95`: `heavy` 구간 시작점
+- `gap_p99`: (참고 진단용) 분류 경계로 사용하지 않음 — idle 구간은 고정 기준 180s로 대체
 
 ### 7.3 집계 percentile 표기
 
@@ -191,13 +191,13 @@ v1.0에서는 최소 다음 percentile을 산출한다.
 
 예시:
 
-- `session_warning_count_p90`
-- `session_warning_ratio_p90`
-- `session_critical_count_p95`
-- `session_departure_count_p99`
-- `user_warning_session_count_p90`
-- `user_critical_session_count_p95`
-- `user_departure_gap_total_p99`
+- `session_light_count_p90`
+- `session_light_ratio_p90`
+- `session_heavy_count_p95`
+- `session_idle_count_p99`
+- `user_light_session_count_p90`
+- `user_heavy_session_count_p95`
+- `user_idle_gap_total_p99`
 
 ---
 
@@ -221,30 +221,30 @@ gap_p75 < diff_sec <= gap_p90
 - severity 태그는 부여하지 않는다.
 - 추세 해석과 향후 기준 보정 참고값으로만 사용한다.
 
-### 8.3 warning 공백
+### 8.3 light 공백
 
 ```text
 gap_p90 < diff_sec <= gap_p95
 ```
 
-- `warning` 태그 산출의 직접 기준 구간으로 사용한다.
+- `light` 태그 산출의 직접 기준 구간으로 사용한다.
 
-### 8.4 critical 공백
-
-```text
-gap_p95 < diff_sec <= gap_p99
-```
-
-- `critical` 태그 산출의 직접 기준 구간으로 사용한다.
-
-### 8.5 departure 또는 extreme 공백
+### 8.4 heavy 공백
 
 ```text
-diff_sec > gap_p99
+gap_p95 < diff_sec < 180
 ```
 
-- 작업 이탈 또는 비유효 시간 후보 구간으로 해석한다.
-- `departure` 태그 산출의 직접 기준 구간으로 사용한다.
+- `heavy` 태그 산출의 직접 기준 구간으로 사용한다.
+
+### 8.5 idle 공백 (작업 이탈)
+
+```text
+diff_sec >= 180  -- 고정 기준 (3분)
+```
+
+- 작업자 이탈로 확정하는 고정 임계값 기준 구간이다.
+- `idle` 태그 산출의 직접 기준으로 사용하며, percentile 기반 구간(light·heavy)과 독립적으로 적용된다.
 
 ---
 
@@ -255,7 +255,7 @@ v1.0에서는 `percentile`, `count`, `ratio`의 역할을 명확히 구분한다
 ### 9.1 percentile
 
 - 개별 gap의 심각도 구간을 정의하는 기준선으로 사용한다.
-- 즉, `warning`, `critical`, `departure` 구간을 나누는 경계값 역할을 한다.
+- 즉, `light`, `heavy` 구간을 나누는 경계값 역할을 한다. (`idle`은 고정 임계값 180s 적용)
 
 ### 9.2 count
 
@@ -271,7 +271,7 @@ v1.0에서는 `percentile`, `count`, `ratio`의 역할을 명확히 구분한다
 
 - `observation`은 분석용 보조 구간이다.
 - 직접적인 저하 판정 태그로 사용하지 않는다.
-- 실제 판정의 중심은 `warning`, `critical`, `departure`에 둔다.
+- 실제 판정의 중심은 `light`, `heavy`, `idle`에 둔다.
 
 ---
 
@@ -284,28 +284,28 @@ v1.0에서는 `percentile`, `count`, `ratio`의 역할을 명확히 구분한다
 - `observation_gap_count`는 산출 가능하나, 정식 세션 저하 판정 기준으로 사용하지 않는다.
 - 분포 변화 관찰, 추세 점검, threshold 재검토를 위한 보조 해석 지표로 사용한다.
 
-### 10.2 warning 세션 판정 원칙
+### 10.2 light 세션 판정 원칙
 
-- `warning_gap_count`를 핵심 판정 지표로 사용한다.
-- 기준은 `warning_gap_count > session_warning_count_p90`으로 정의한다.
-- 필요 시 `warning_gap_ratio > session_warning_ratio_p90`을 보조 조건으로 사용한다.
-- zero-inflation 방지를 위해 `warning_gap_count > 0` 조건을 함께 둔다.
+- `light_gap_count`를 핵심 판정 지표로 사용한다.
+- 기준은 `light_gap_count > session_light_count_p90`으로 정의한다.
+- 필요 시 `light_gap_ratio > session_light_ratio_p90`을 보조 조건으로 사용한다.
+- zero-inflation 방지를 위해 `light_gap_count > 0` 조건을 함께 둔다.
 - 필요 시 최소 세션 길이 또는 최소 gap 수 조건을 추가한다.
 
-### 10.3 critical 세션 판정 원칙
+### 10.3 heavy 세션 판정 원칙
 
-- `critical_gap_count`를 핵심 판정 지표로 사용한다.
-- 기준은 `critical_gap_count > session_critical_count_p95`로 정의한다.
-- 필요 시 `critical_gap_ratio > session_critical_ratio_p95`를 보조 조건으로 사용한다.
-- zero-inflation 방지를 위해 `critical_gap_count > 0` 조건을 함께 둔다.
+- `heavy_gap_count`를 핵심 판정 지표로 사용한다.
+- 기준은 `heavy_gap_count > session_heavy_count_p95`로 정의한다.
+- 필요 시 `heavy_gap_ratio > session_heavy_ratio_p95`를 보조 조건으로 사용한다.
+- zero-inflation 방지를 위해 `heavy_gap_count > 0` 조건을 함께 둔다.
 - 필요 시 최소 세션 길이 또는 최소 gap 수 조건을 추가한다.
 
-### 10.4 departure 세션 판정 원칙
+### 10.4 idle 세션 판정 원칙
 
-- `departure_gap_count`를 핵심 판정 지표로 사용한다.
-- 기준은 `departure_gap_count > session_departure_count_p99`로 정의한다.
-- 필요 시 `departure_gap_ratio > session_departure_ratio_p99`를 보조 조건으로 사용한다.
-- zero-inflation 방지를 위해 `departure_gap_count > 0` 조건을 함께 둔다.
+- `idle_gap_count`를 핵심 판정 지표로 사용한다.
+- 기준은 `idle_gap_count > session_idle_count_p99`로 정의한다.
+- 필요 시 `idle_gap_ratio > session_idle_ratio_p99`를 보조 조건으로 사용한다.
+- zero-inflation 방지를 위해 `idle_gap_count > 0` 조건을 함께 둔다.
 - 필요 시 최소 세션 길이 또는 최소 gap 수 조건을 추가한다.
 
 ### 10.5 세션 평균 지표의 위치
@@ -319,20 +319,20 @@ v1.0에서는 `percentile`, `count`, `ratio`의 역할을 명확히 구분한다
 
 사용자 일 단위 평가는 세션 판정 결과의 반복성을 집계하는 방식으로 수행한다.
 
-### 11.1 warning 사용자 후보
+### 11.1 light 사용자 후보
 
-- `warning_session_count > user_warning_session_count_p90`으로 해석한다.
-- 필요 시 `warning_session_count > 0` 조건을 함께 둔다.
+- `light_session_count > user_light_session_count_p90`으로 해석한다.
+- 필요 시 `light_session_count > 0` 조건을 함께 둔다.
 
-### 11.2 critical 사용자 후보
+### 11.2 heavy 사용자 후보
 
-- `critical_session_count > user_critical_session_count_p95`로 해석한다.
-- 필요 시 `critical_session_count > 0` 조건을 함께 둔다.
+- `heavy_session_count > user_heavy_session_count_p95`로 해석한다.
+- 필요 시 `heavy_session_count > 0` 조건을 함께 둔다.
 
-### 11.3 departure 사용자 후보
+### 11.3 idle 사용자 후보
 
-- `departure_gap_total > user_departure_gap_total_p99`로 해석한다.
-- 필요 시 `departure_gap_total > 0` 조건을 함께 둔다.
+- `idle_gap_total > user_idle_gap_total_p99`로 해석한다.
+- 필요 시 `idle_gap_total > 0` 조건을 함께 둔다.
 
 ### 11.4 사용자 평균 지표의 위치
 
@@ -347,12 +347,12 @@ v1.0 기준 산출은 다음 절차를 따른다.
 
 1. Labeler role만 필터링한 로그를 준비한다.
 2. `diff_sec` 분포를 산출한다.
-3. `p50, p75, p90, p95, p99`를 계산한다.
-4. 각 gap을 `observation`, `warning`, `critical`, `departure` 구간으로 분류한다.
-5. 세션별 `warning_gap_count`, `critical_gap_count`, `departure_gap_count`를 집계한다.
+3. `p50, p75, p90, p95`를 계산한다. (`gap_p99`는 참고 진단용. idle 경계는 고정 180s)
+4. 각 gap을 `observation`, `light`, `heavy`, `idle` 구간으로 분류한다.
+5. 세션별 `light_gap_count`, `heavy_gap_count`, `idle_gap_count`를 집계한다.
 6. 필요 시 각 ratio 지표를 함께 산출한다.
-7. count와 ratio의 세션 분포 percentile을 계산하고 `session_warning_count_p90`, `session_critical_count_p95`, `session_departure_count_p99` 등을 산출한다.
-8. 사용자 일 단위 반복성 지표 분포를 산출하고 `user_warning_session_count_p90`, `user_critical_session_count_p95`, `user_departure_gap_total_p99` 등을 산출한다.
+7. count와 ratio의 세션 분포 percentile을 계산하고 `session_light_count_p90`, `session_heavy_count_p95`, `session_idle_count_p99` 등을 산출한다.
+8. 사용자 일 단위 반복성 지표 분포를 산출하고 `user_light_session_count_p90`, `user_heavy_session_count_p95`, `user_idle_gap_total_p99` 등을 산출한다.
 9. zero-inflation 여부를 점검하고 최소 세션 길이 또는 최소 gap 수 조건을 보정한다.
 10. 샘플 검토를 통해 오탐과 미탐을 점검한다.
 
@@ -376,7 +376,8 @@ v0.9와 비교한 v1.0 설계 변화는 다음과 같다.
 - 평균 기반 판단에서 `반복 횟수 기반 판단`으로 중심 이동
 - 절대 count 기준에서 `count percentile 기반 기준`으로 확장
 - `observation`을 판정 레벨이 아닌 분석용 보조 구간으로 재정의
-- 실제 저하 판정 중심을 `warning`, `critical`, `departure`에 명시
+- 실제 저하 판정 중심을 `light`, `heavy`, `idle`에 명시
+- `idle` 기준을 percentile 기반(p99)에서 고정 임계값(180s, 3분)으로 전환
 
 ---
 
@@ -385,7 +386,6 @@ v0.9와 비교한 v1.0 설계 변화는 다음과 같다.
 - feature별 기준 분리
 - task complexity 보정
 - 보조 지표의 percentile 기준 추가
-- idle candidate time 정책과의 결합
 - role 내 세부 분포 차이 반영
 
 ---
@@ -396,3 +396,5 @@ v0.9와 비교한 v1.0 설계 변화는 다음과 같다.
 |------|------|------|-----------|
 | `v0.9` | 2026-04-22 | Existing | anomaly 관찰값 기반 초기 운영 기준 |
 | `v1.0-design` | 2026-04-22 | Draft | percentile 기반 개념 체계와 count 중심 판정 원칙 정리 |
+| `v1.1-design` | 2026-05-11 | Updated | `departure` → `idle` 대체: 3분(180s) 고정 임계값 도입, `gap_p99` 분류 경계 제거, critical 상한 `< 180s`로 변경 |
+| `v1.2-design` | 2026-05-11 | Updated | `warning` → `light`, `critical` → `heavy` 레벨 명칭 변경 |

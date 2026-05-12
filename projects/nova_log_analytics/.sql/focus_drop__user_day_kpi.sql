@@ -15,44 +15,44 @@ WITH user_daily AS (
   SELECT
     user_id,
     analysis_date,
-    SUM(CASE WHEN is_warning_session  THEN 1 ELSE 0 END) AS warning_session_count,
-    SUM(CASE WHEN is_critical_session THEN 1 ELSE 0 END) AS critical_session_count,
-    -- 세션 판정 무관, 모든 세션의 departure gap 누적 절대량
-    SUM(departure_gap_count)                              AS departure_gap_total,
+    SUM(CASE WHEN is_light_session THEN 1 ELSE 0 END) AS light_session_count,
+    SUM(CASE WHEN is_heavy_session THEN 1 ELSE 0 END) AS heavy_session_count,
+    -- 세션 판정 무관, 모든 세션의 idle gap 누적 절대량
+    SUM(idle_gap_count)                                   AS idle_gap_total,
     COUNT(*)                                              AS total_sessions
   FROM analytics.focus_drop_session_tags
   WHERE analysis_date = '${analysis_date}'
   GROUP BY user_id, analysis_date
 ),
 thresholds AS (
-  SELECT user_warning_session_count_p90, user_critical_session_count_p95, user_departure_gap_total_p99
+  SELECT user_light_session_count_p90, user_heavy_session_count_p95, user_idle_gap_total_p99
   FROM analytics.focus_drop_user_thresholds
   WHERE version = (SELECT MAX(version) FROM analytics.focus_drop_user_thresholds)
 )
 SELECT
   d.analysis_date,
   d.user_id,
-  d.warning_session_count,
-  d.critical_session_count,
-  d.departure_gap_total,
+  d.light_session_count,
+  d.heavy_session_count,
+  d.idle_gap_total,
   d.total_sessions,
-  CASE WHEN d.warning_session_count > 0
-        AND d.warning_session_count > t.user_warning_session_count_p90
-       THEN TRUE ELSE FALSE END AS is_warning_user,
-  CASE WHEN d.critical_session_count > 0
-        AND d.critical_session_count > t.user_critical_session_count_p95
-       THEN TRUE ELSE FALSE END AS is_critical_user,
-  CASE WHEN d.departure_gap_total > 0
-        AND d.departure_gap_total > t.user_departure_gap_total_p99
-       THEN TRUE ELSE FALSE END AS is_departure_user,
+  CASE WHEN d.light_session_count > 0
+        AND d.light_session_count > t.user_light_session_count_p90
+       THEN TRUE ELSE FALSE END AS is_light_user,
+  CASE WHEN d.heavy_session_count > 0
+        AND d.heavy_session_count > t.user_heavy_session_count_p95
+       THEN TRUE ELSE FALSE END AS is_heavy_user,
+  CASE WHEN d.idle_gap_total > 0
+        AND d.idle_gap_total > t.user_idle_gap_total_p99
+       THEN TRUE ELSE FALSE END AS is_idle_user,
   -- 배타적 최종 레벨
   CASE
-    WHEN d.departure_gap_total > 0
-         AND d.departure_gap_total > t.user_departure_gap_total_p99    THEN 'departure'
-    WHEN d.critical_session_count > 0
-         AND d.critical_session_count > t.user_critical_session_count_p95 THEN 'critical'
-    WHEN d.warning_session_count > 0
-         AND d.warning_session_count > t.user_warning_session_count_p90   THEN 'warning'
+    WHEN d.idle_gap_total > 0
+         AND d.idle_gap_total > t.user_idle_gap_total_p99             THEN 'idle'
+    WHEN d.heavy_session_count > 0
+         AND d.heavy_session_count > t.user_heavy_session_count_p95   THEN 'heavy'
+    WHEN d.light_session_count > 0
+         AND d.light_session_count > t.user_light_session_count_p90   THEN 'light'
     ELSE 'normal'
   END AS user_focus_drop_level
 FROM user_daily d
@@ -65,7 +65,7 @@ SELECT user_focus_drop_level, COUNT(*) AS user_count
 FROM analytics.focus_drop_user_day_kpi
 WHERE analysis_date = '${analysis_date}'
 GROUP BY user_focus_drop_level
-ORDER BY CASE user_focus_drop_level WHEN 'departure' THEN 1 WHEN 'critical' THEN 2 WHEN 'warning' THEN 3 ELSE 4 END;
+ORDER BY CASE user_focus_drop_level WHEN 'idle' THEN 1 WHEN 'heavy' THEN 2 WHEN 'light' THEN 3 ELSE 4 END;
 
 -- COMMAND ----------
 
