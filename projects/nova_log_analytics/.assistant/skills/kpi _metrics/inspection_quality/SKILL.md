@@ -10,7 +10,7 @@
 
 ## 1. 데이터 소스
 
-> **실제 SQL 소스**: 운영 SQL(`.sql/inspection_quality__monthly_fpy.sql` / `.sql/inspection_quality__multi_reject_detail.sql`)은 transitionHistory를 직접 파싱하지 않고 staging 테이블 `analytics.stg_task_transition_events`를 소스로 사용한다.
+> **실제 SQL 소스**: 운영 SQL(`.sql/mrt__inspection_quality_monthly_fpy.sql` / `.sql/mrt__inspection_quality_multi_reject_detail.sql`)은 transitionHistory를 직접 파싱하지 않고 staging 테이블 `analytics.stg_task_transition_events`를 소스로 사용한다.
 > staging 갱신 SQL: `.sql/stg__task_transition_events.sql` (일 OVERWRITE)
 
 | 항목 | 값 |
@@ -155,7 +155,7 @@ WHERE from_state = 'inspection' AND trigger = 'reject'
 ### 4.1 월별 반려율 & First Pass Yield (staging 기반)
 
 ```sql
--- inspection_quality__monthly_fpy.sql
+-- mrt__inspection_quality_monthly_fpy.sql
 -- target_month: 빈 값이면 전체 월 산출, 값 지정 시 해당 월만 갱신 (형식: yy-MM)
 CREATE WIDGET TEXT target_month DEFAULT "";
 
@@ -213,7 +213,7 @@ ORDER BY d.deliver_month;
 ### 4.2 다중 반려 Task 상세 (staging 기반)
 
 ```sql
--- inspection_quality__multi_reject_detail.sql
+-- mrt__inspection_quality_multi_reject_detail.sql
 CREATE WIDGET TEXT target_month DEFAULT "";
 
 INSERT INTO analytics.inspection_quality_multi_reject
@@ -320,7 +320,7 @@ LOWER(TRIM(trans.reason)) AS normalized_reason
 
 ## 8. Delta 테이블 스키마
 
-> 초기 생성 DDL: `.sql/inspection_quality__ddl.sql` (2개 테이블, `columnMapping.mode = 'name'` 포함)
+> 초기 생성 DDL: `.sql/mrt__ddl.sql` (inspection_quality 2개 테이블 포함, `columnMapping.mode = 'name'`)
 
 ### 8.1 inspection_quality_monthly_fpy
 
@@ -364,8 +364,8 @@ PARTITIONED BY (deliver_month)
 
 ### 9.1 Phase 0: 인프라 준비 (Day 0)
 
-1. **Staging DDL 적용**: `.sql/stg__ddl.sql` 실행 → `analytics.stg_task_transition_events` 등 3개 staging 테이블 생성
-2. **KPI DDL 적용**: `.sql/inspection_quality__ddl.sql` 실행 → `analytics.inspection_quality_monthly_fpy`, `analytics.inspection_quality_multi_reject` 생성
+1. **Staging DDL 적용**: `.sql/stg__ddl.sql` 실행 → `analytics.stg_task_transition_events` 생성
+2. **KPI DDL 적용**: `.sql/mrt__ddl.sql` 실행 → `analytics.inspection_quality_monthly_fpy`, `analytics.inspection_quality_multi_reject` 생성
 3. **존재 확인**:
    ```sql
    SHOW TABLES IN analytics LIKE 'stg_task_transition_events';
@@ -395,8 +395,8 @@ PARTITIONED BY (deliver_month)
 ```sql
 -- target_month=""로 전체 월 산출
 %sql USE CATALOG sv_nova_dev_an2_catalog;
--- inspection_quality__monthly_fpy.sql 실행 (target_month="")
--- inspection_quality__multi_reject_detail.sql 실행 (target_month="")
+-- mrt__inspection_quality_monthly_fpy.sql 실행 (target_month="")
+-- mrt__inspection_quality_multi_reject_detail.sql 실행 (target_month="")
 ```
 
 - 모든 월의 FPY/다중 반려 결과를 한 번에 산출
@@ -412,20 +412,20 @@ PARTITIONED BY (deliver_month)
 
 - **staging**: 일 OVERWRITE 스케줄 (`.sql/stg__task_transition_events.sql`)로 매일 04:00 UTC 갱신
 - **KPI 월 1회 실행**:
-  - `inspection_quality__monthly_fpy.sql` (`target_month` 지정 시 해당 월만 REPLACE WHERE)
-  - `inspection_quality__multi_reject_detail.sql` (동일)
+  - `mrt__inspection_quality_monthly_fpy.sql` (`target_month` 지정 시 해당 월만 REPLACE WHERE)
+  - `mrt__inspection_quality_multi_reject_detail.sql` (동일)
 - 신규 월 진입 시 전월 1회 + 신월 1회 갱신 패턴
 
 ### 9.5 의존성 다이어그램
 
 ```
 [Phase 0] stg__ddl.sql            ─┐
-          inspection_quality__ddl ─┤
+          mrt__ddl.sql            ─┤
                                    ↓
 [Phase A] stg__task_transition_events.sql  (전체 백필 1회)
                                    ↓
-[Phase B] inspection_quality__monthly_fpy.sql  (target_month="" 전체 산출)
-          inspection_quality__multi_reject_detail.sql
+[Phase B] mrt__inspection_quality_monthly_fpy.sql  (target_month="" 전체 산출)
+          mrt__inspection_quality_multi_reject_detail.sql
                                    ↓
 [Phase C] 일 staging OVERWRITE + 월 KPI REPLACE WHERE
 ```
