@@ -6,11 +6,15 @@
 
 -- COMMAND ----------
 
+CREATE WIDGET TEXT catalog DEFAULT "sv_nova_dev_an2_catalog";
+
+-- COMMAND ----------
+
 INSERT OVERWRITE analytics.stg_task_transition_events
 WITH latest_tasks AS (
-  SELECT *,
+  SELECT `_id`, `_raw`, `_ingested_at`,
          ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-  FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+  FROM ${catalog}.`raw`.`raw_labelit__gen2_tasks`
   WHERE `_is_deleted` = false
 )
 SELECT
@@ -26,7 +30,7 @@ SELECT
   DATE_TRUNC('WEEK',
     CONVERT_TIMEZONE('UTC', 'Asia/Seoul', TO_TIMESTAMP(trans.actionAt))
   )                                                                          AS event_week,
-  CURRENT_TIMESTAMP()                                                        AS refreshed_at
+  CURRENT_TIMESTAMP()                                                        AS _loaded_at
 FROM latest_tasks t
 LATERAL VIEW explode(
   from_json(

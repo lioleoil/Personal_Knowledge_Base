@@ -1,8 +1,10 @@
 -- Databricks notebook source
 -- Staging Layer — 테이블 초기 생성 DDL
 -- 실행 조건: Unity Catalog 환경, analytics 스키마 존재
--- 갱신 전략: stg_task_transition_events / stg_cmd_slots_by_task — 일 OVERWRITE
---            stg_object_counts_by_task — 일 REPLACE WHERE table_name (per-table 단위)
+-- 현행 테이블: stg_task_transition_events / stg_tasks / stg_workspace_commands
+--              stg_workspace_command_details / stg_objects
+-- [DEPRECATED] stg_object_counts_by_task → int_object_counts_by_task 로 대체 예정
+-- [DEPRECATED] stg_command_slots_by_task → int_command_slots_by_task 로 대체 예정
 
 -- COMMAND ----------
 
@@ -23,7 +25,7 @@ CREATE TABLE IF NOT EXISTS analytics.stg_task_transition_events (
   action_at    TIMESTAMP,    -- transitionHistory[].actionAt (UTC 저장)
   reason       STRING,       -- transitionHistory[].reason (반려 사유 등; inspection_quality 활용)
   event_week   DATE,         -- DATE_TRUNC('WEEK', action_at KST) — 파티션 키
-  refreshed_at TIMESTAMP     -- 적재 시점
+  _loaded_at   TIMESTAMP     -- 적재 시점
 )
 USING DELTA
 PARTITIONED BY (event_week)
@@ -35,11 +37,20 @@ TBLPROPERTIES (
 
 -- COMMAND ----------
 
+COMMENT ON TABLE analytics.stg_task_transition_events
+  IS 'gen2_tasks transitionHistory flatten. CDC dedup by _id, daily OVERWRITE.';
+ALTER TABLE analytics.stg_task_transition_events
+  ADD CONSTRAINT tte_task_id_not_null   CHECK (task_id   IS NOT NULL);
+ALTER TABLE analytics.stg_task_transition_events
+  ADD CONSTRAINT tte_action_at_not_null CHECK (action_at IS NOT NULL);
+
+-- COMMAND ----------
+
 -- ════════════════════════════════════════════════
--- 2. stg_object_counts_by_task
---    10개 객체 테이블 CDC dedup + task별 객체 수 집계
+-- 2. [DEPRECATED] stg_object_counts_by_task
+--    → stg_objects (CDC dedup only) + int_object_counts_by_task (집계) 로 분리 예정
 --    grain: task_id × table_name × stage_key
---    소스: stg__object_counts_by_task.sql (일 배치, per-table REPLACE)
+--    소스: stg__object_counts_by_task.sql
 -- ════════════════════════════════════════════════
 
 CREATE TABLE IF NOT EXISTS analytics.stg_object_counts_by_task (
@@ -47,7 +58,7 @@ CREATE TABLE IF NOT EXISTS analytics.stg_object_counts_by_task (
   table_name   STRING,    -- 'gen2_lines' | 'gen2_line_point' | ... (파티션 키)
   stage_key    STRING,    -- 객체 테이블 _raw.stageKey
   object_count BIGINT,    -- COUNT(*) after CDC dedup
-  refreshed_at TIMESTAMP
+  _loaded_at   TIMESTAMP
 )
 USING DELTA
 PARTITIONED BY (table_name)
@@ -59,18 +70,27 @@ TBLPROPERTIES (
 
 -- COMMAND ----------
 
+COMMENT ON TABLE analytics.stg_object_counts_by_task
+  IS '10 object tables CDC dedup, task x table_name x stage_key object count. Daily per-table REPLACE.';
+ALTER TABLE analytics.stg_object_counts_by_task
+  ADD CONSTRAINT oct_task_id_not_null    CHECK (task_id    IS NOT NULL);
+ALTER TABLE analytics.stg_object_counts_by_task
+  ADD CONSTRAINT oct_table_name_not_null CHECK (table_name IS NOT NULL);
+
+-- COMMAND ----------
+
 -- ════════════════════════════════════════════════
--- 3. stg_cmd_slots_by_task
---    workspace_command task별 투입 자원 집계
+-- 3. [DEPRECATED] stg_command_slots_by_task
+--    → stg_workspace_commands (row-level) + int_command_slots_by_task (집계) 로 대체 예정
 --    grain: task_id (전체 기간 합산)
---    소스: stg__cmd_slots_by_task.sql (일 배치)
+--    소스: stg__command_slots_by_task.sql
 -- ════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS analytics.stg_cmd_slots_by_task (
+CREATE TABLE IF NOT EXISTS analytics.stg_command_slots_by_task (
   task_id         STRING,    -- workspace_command._raw.taskId
   user_hour_slots BIGINT,    -- COUNT DISTINCT (user × KST event_hour)
   person_days     BIGINT,    -- COUNT DISTINCT (user × KST event_date)
-  refreshed_at    TIMESTAMP
+  _loaded_at      TIMESTAMP
 )
 USING DELTA
 TBLPROPERTIES (
@@ -78,6 +98,168 @@ TBLPROPERTIES (
   'delta.minReaderVersion'   = '2',
   'delta.minWriterVersion'   = '5'
 );
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.stg_command_slots_by_task
+  IS 'workspace_command task-level active time aggregation. Labeler + Reviewer combined, daily OVERWRITE.';
+ALTER TABLE analytics.stg_command_slots_by_task
+  ADD CONSTRAINT cst_task_id_not_null CHECK (task_id IS NOT NULL);
+
+-- COMMAND ----------
+
+-- ════════════════════════════════════════════════
+-- 4. stg_tasks
+--    gen2_tasks CDC dedup, 태스크 핵심 속성 추출
+--    grain: task _id
+--    소스: stg__tasks.sql (일 OVERWRITE)
+-- ════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS analytics.stg_tasks (
+  task_id      STRING,       -- gen2_tasks._id
+  company_id   STRING,       -- _raw.companyId
+  policy_id    STRING,       -- _raw.policyId
+  status       STRING,       -- _raw.status (현재 태스크 상태)
+  stage_key    STRING,       -- _raw.stageKey (현재 스테이지)
+  created_at   TIMESTAMP,    -- _raw.createdAt (UTC 저장)
+  created_week DATE,         -- DATE_TRUNC('WEEK', created_at KST) — 파티션 키
+  _loaded_at   TIMESTAMP     -- 적재 시점
+)
+USING DELTA
+PARTITIONED BY (created_week)
+TBLPROPERTIES (
+  'delta.columnMapping.mode' = 'name',
+  'delta.minReaderVersion'   = '2',
+  'delta.minWriterVersion'   = '5'
+);
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.stg_tasks
+  IS 'gen2_tasks CDC dedup, task-level attributes flatten. Daily OVERWRITE.';
+ALTER TABLE analytics.stg_tasks
+  ADD CONSTRAINT tsk_task_id_not_null  CHECK (task_id  IS NOT NULL);
+ALTER TABLE analytics.stg_tasks
+  ADD CONSTRAINT tsk_created_at_not_null CHECK (created_at IS NOT NULL);
+
+-- COMMAND ----------
+
+-- ════════════════════════════════════════════════
+-- 5. stg_workspace_commands
+--    workspace_command CDC dedup, CloudEvents 1.0 필드 추출
+--    grain: command _id
+--    소스: stg__workspace_commands.sql (일 OVERWRITE)
+-- ════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS analytics.stg_workspace_commands (
+  -- ── CloudEvents root ───────────────────────────────────────────
+  command_id   STRING,       -- _id (CloudEvents id)
+  event_type   STRING,       -- type (e.g. annotation.object.delete)
+  dataschema   STRING,       -- dataschema (1.0.0 / 1.1.0 ...)
+  event_time   TIMESTAMP,    -- time (UTC)
+  event_date   DATE,         -- DATE(event_time KST) — 파티션 키
+  event_hour   INT,          -- HOUR(event_time KST) — slot 집계용
+  subject      STRING,       -- subject (이벤트 대상 엔티티 ID)
+  session_id   STRING,       -- sessionid (Focus Drop 세션 키)
+  -- ── data.project ───────────────────────────────────────────────
+  task_id      STRING,       -- data.project.task_id
+  dataset_id   STRING,       -- data.project.dataset_id
+  -- ── data.user ──────────────────────────────────────────────────
+  user_id      STRING,       -- data.user.id
+  user_name    STRING,       -- data.user.name
+  -- ── data.action context ────────────────────────────────────────
+  feature      STRING,       -- data.feature (ld / od / rmd)
+  action       STRING,       -- data.action (create / delete / update / transform ...)
+  input_type   STRING,       -- data.input_type (mouse / keyboard)
+  input_view   STRING,       -- data.input_view (rear / front / ... ; 1.1.0+ nullable)
+  -- ── metadata ───────────────────────────────────────────────────
+  _loaded_at   TIMESTAMP     -- 적재 시점
+)
+USING DELTA
+PARTITIONED BY (event_date)
+TBLPROPERTIES (
+  'delta.columnMapping.mode' = 'name',
+  'delta.minReaderVersion'   = '2',
+  'delta.minWriterVersion'   = '5'
+);
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.stg_workspace_commands
+  IS 'workspace_command CDC dedup, CloudEvents 1.0 row-level flatten. targets/changes/params는 stg_workspace_command_details 참조. Daily OVERWRITE.';
+ALTER TABLE analytics.stg_workspace_commands
+  ADD CONSTRAINT wc_command_id_not_null CHECK (command_id IS NOT NULL);
+ALTER TABLE analytics.stg_workspace_commands
+  ADD CONSTRAINT wc_event_time_not_null CHECK (event_time IS NOT NULL);
+
+-- COMMAND ----------
+
+-- ════════════════════════════════════════════════
+-- 6. stg_workspace_command_details
+--    workspace_command 상세 — targets / changes / params
+--    grain: command _id (stg_workspace_commands 1:1 대응)
+--    소스: stg__workspace_command_details.sql (일 OVERWRITE)
+--    활용: 객체 영향 범위·변경 내역 상세 분석 (intermediate에서 explode)
+-- ════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS analytics.stg_workspace_command_details (
+  command_id   STRING,        -- FK → stg_workspace_commands.command_id
+  event_date   DATE,          -- 파티션 정렬용 (stg_workspace_commands.event_date 동일)
+  targets      ARRAY<BIGINT>, -- data.targets (영향받은 object ID 목록)
+  changes      STRING,        -- data.changes (JSON array, old/new 전체 보존)
+  params       STRING,        -- data.params (커맨드별 부가 파라미터, JSON string)
+  _loaded_at   TIMESTAMP
+)
+USING DELTA
+PARTITIONED BY (event_date)
+TBLPROPERTIES (
+  'delta.columnMapping.mode' = 'name',
+  'delta.minReaderVersion'   = '2',
+  'delta.minWriterVersion'   = '5'
+);
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.stg_workspace_command_details
+  IS 'workspace_command targets/changes/params 상세. stg_workspace_commands와 command_id로 1:1 조인. Daily OVERWRITE.';
+ALTER TABLE analytics.stg_workspace_command_details
+  ADD CONSTRAINT wcd_command_id_not_null CHECK (command_id IS NOT NULL);
+
+-- COMMAND ----------
+
+-- ════════════════════════════════════════════════
+-- 7. stg_objects
+--    10개 객체 테이블 unified CDC dedup (집계 없음)
+--    grain: object_id × table_name
+--    소스: stg__objects.sql (일 배치, per-table REPLACE WHERE table_name)
+--    후행: int_object_counts_by_task (task별 집계)
+-- ════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS analytics.stg_objects (
+  object_id    STRING,       -- 객체 테이블 _id (table_name 내 고유)
+  table_name   STRING,       -- 소스 테이블명 — 파티션 키
+  task_id      STRING,       -- _raw.taskId
+  stage_key    STRING,       -- _raw.stageKey
+  _loaded_at   TIMESTAMP
+)
+USING DELTA
+PARTITIONED BY (table_name)
+TBLPROPERTIES (
+  'delta.columnMapping.mode' = 'name',
+  'delta.minReaderVersion'   = '2',
+  'delta.minWriterVersion'   = '5'
+);
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.stg_objects
+  IS '10 object tables unified CDC dedup. No aggregation — grain: object_id x table_name. Daily per-table REPLACE.';
+ALTER TABLE analytics.stg_objects
+  ADD CONSTRAINT obj_object_id_not_null  CHECK (object_id  IS NOT NULL);
+ALTER TABLE analytics.stg_objects
+  ADD CONSTRAINT obj_table_name_not_null CHECK (table_name IS NOT NULL);
+ALTER TABLE analytics.stg_objects
+  ADD CONSTRAINT obj_task_id_not_null    CHECK (task_id    IS NOT NULL);
 
 -- COMMAND ----------
 

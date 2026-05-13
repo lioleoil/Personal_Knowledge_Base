@@ -1,11 +1,12 @@
 -- Databricks notebook source
--- Focus Drop — Gap Percentile 산출 (분기 1회 또는 드리프트 감지 시)
+-- Intermediate: focus_drop_gap_thresholds (Gap Percentile 산출, 분기 1회)
 -- 의존성: 없음 (파이프라인 최상위)
 -- 시간 기준: rolling_days는 KST 기준 영업일 (createdAt UTC → KST 변환 후 비교)
 
 -- COMMAND ----------
 
 CREATE WIDGET TEXT rolling_days DEFAULT "90";
+CREATE WIDGET TEXT catalog      DEFAULT "sv_nova_dev_an2_catalog";
 
 -- COMMAND ----------
 
@@ -14,24 +15,24 @@ INSERT INTO analytics.focus_drop_gap_thresholds
 WITH latest_assignments AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_assignments`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__gen2_assignments`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),
 latest_tasks AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__gen2_tasks`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),
 latest_commands AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__workspace_command`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__workspace_command`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),

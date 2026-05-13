@@ -1,7 +1,9 @@
 -- Databricks notebook source
+-- [DEPRECATED] Production Volume DDL → mrt__ddl.sql 로 통합됨
+-- 이 파일은 mrt__ddl.sql 마이그레이션 검증 완료 후 삭제 예정
+-- ────────────────────────────────────────────────────────────────
 -- Production Volume & Productivity — 테이블 초기 생성 DDL
 -- 실행 조건: Unity Catalog 환경, analytics 스키마 존재
--- 갱신 전략: INSERT INTO ... REPLACE WHERE deliver_week_start (주 1회)
 
 -- COMMAND ----------
 
@@ -60,6 +62,13 @@ TBLPROPERTIES (
   'delta.minReaderVersion'   = '2',
   'delta.minWriterVersion'   = '5'
 );
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.production_volume_weekly
+  IS 'Weekly delivered task count, object count, and productivity metrics by company and feature.';
+ALTER TABLE analytics.production_volume_weekly
+  ADD CONSTRAINT pvw_deliver_week_not_null CHECK (deliver_week_start IS NOT NULL);
 
 -- COMMAND ----------
 

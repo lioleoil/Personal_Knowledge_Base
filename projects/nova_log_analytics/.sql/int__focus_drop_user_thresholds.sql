@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — 유저 기준선 산출 (주 1회 월요일 03:00 UTC)
+-- Intermediate: focus_drop_user_thresholds (유저 기준선 산출, 주 1회)
 -- 의존성: focus_drop_user_day_kpi (직전 rolling_window_days 분)
 -- Phase B: 수동 INSERT로 초기화 후 실행 (skill 문서 §12.4 참조)
 

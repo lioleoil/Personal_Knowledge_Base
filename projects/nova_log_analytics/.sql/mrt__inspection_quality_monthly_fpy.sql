@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Inspection Quality — 월별 검수 반려율 & First Pass Yield
+-- Marts: inspection_quality_monthly_fpy (월별 검수 반려율 & FPY, 월 1회)
 -- 소스: analytics.stg_task_transition_events (reject 이벤트)
 --      + sv_nova_dev_an2_catalog.raw.raw_labelit__gen2_tasks (deliveryId / updatedAt 메타)
 -- 실행 주기: 월 1회 (또는 수동)
@@ -9,6 +9,7 @@
 -- COMMAND ----------
 
 -- target_month: 빈 값이면 전체 월 산출, 값 지정 시 해당 월만 갱신 (형식: yy-MM)
+CREATE WIDGET TEXT catalog      DEFAULT "sv_nova_dev_an2_catalog";
 CREATE WIDGET TEXT target_month DEFAULT "";
 
 -- COMMAND ----------
@@ -19,18 +20,20 @@ WITH delivered_tasks AS (
   SELECT
     t.`_id`                                                              AS task_id,
     DATE_FORMAT(
-      TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt')), 'yy-MM'
+      CONVERT_TIMEZONE('UTC', 'Asia/Seoul',
+        TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt'))), 'yy-MM'
     )                                                                    AS deliver_month
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__gen2_tasks`
     WHERE `_is_deleted` = false
   ) t
   WHERE t.rn = 1
     AND get_json_object(t.`_raw`, '$.deliveryId') IS NOT NULL
     AND (
       LENGTH('${target_month}') = 0
-      OR DATE_FORMAT(TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt')), 'yy-MM') = '${target_month}'
+      OR DATE_FORMAT(CONVERT_TIMEZONE('UTC', 'Asia/Seoul',
+           TO_TIMESTAMP(get_json_object(t.`_raw`, '$.updatedAt'))), 'yy-MM') = '${target_month}'
     )
 ),
 reject_stats AS (

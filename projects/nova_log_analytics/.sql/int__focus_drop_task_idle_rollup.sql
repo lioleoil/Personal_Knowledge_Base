@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — Task별 idle gap 누적 산출 (일 단위 배치, 매일 04:00 UTC)
+-- Intermediate: focus_drop_task_idle_rollup (Task별 idle gap 누적, 일 배치)
 -- 의존성: focus_drop_session_metrics (동일 analysis_date 먼저 실행)
 -- 목적: 생산성 연계 — Task 총 idle 시간(초) 누적 (착수→납품 gross 소요시간에서 차감)
 

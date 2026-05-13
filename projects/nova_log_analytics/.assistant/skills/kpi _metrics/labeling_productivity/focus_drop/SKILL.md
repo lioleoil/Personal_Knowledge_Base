@@ -432,9 +432,9 @@ SELECT
   SUM(CASE WHEN gap_severity = 'heavy'       THEN 1 ELSE 0 END)  AS heavy_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN 1 ELSE 0 END)  AS idle_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN diff_sec ELSE 0 END) AS idle_gap_duration_sec,
-  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS light_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS heavy_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 4) AS idle_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS light_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS heavy_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 2) AS idle_gap_ratio,
   AVG(diff_sec)                                                   AS session_avg_gap
 FROM gap_classified
 GROUP BY user_id, session_id, task_id

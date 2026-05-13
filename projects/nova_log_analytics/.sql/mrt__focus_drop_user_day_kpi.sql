@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — 사용자 일 KPI 산출 (일 단위 배치)
+-- Marts: focus_drop_user_day_kpi (유저 일 KPI 최종 판정, 일 배치)
 -- 의존성: focus_drop_session_tags, focus_drop_user_thresholds
 
 -- COMMAND ----------

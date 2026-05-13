@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — 세션 판정 (일 단위 배치)
+-- Intermediate: focus_drop_session_tags (세션 판정, 일 배치)
 -- 의존성: focus_drop_session_metrics, focus_drop_session_thresholds
 
 -- COMMAND ----------

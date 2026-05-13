@@ -1,10 +1,10 @@
 -- Databricks notebook source
--- Production Volume & Productivity — 주별 집계
+-- Marts: production_volume_weekly (납품 생산량 & 생산성, 주 1회)
 -- 집계 단위 : deliver_week_start (납품 시점 기준 주 월요일, KST)
 -- 갱신 전략 : INSERT INTO analytics.production_volume_weekly REPLACE WHERE deliver_week_start
 -- 실행 주기 : 주 1회 (월요일, 전 주 데이터 대상)
 -- 파라미터  : analysis_week (YYYY-MM-DD, 대상 주 월요일) — 미입력 시 전 주 자동 산출
--- 선행 조건 : stg_task_transition_events / stg_object_counts_by_task / stg_cmd_slots_by_task 갱신 완료
+-- 선행 조건 : stg__task_transition_events / int__object_counts_by_task / int__command_slots_by_task / dim__companies / dim__policies 갱신 완료
 
 -- COMMAND ----------
 
@@ -55,7 +55,7 @@ start_events AS (
 
 -- ─────────────────────────────────────────────
 -- 3. 납품 객체 수 — staging PIVOT
---    stg_object_counts_by_task (task_id × table_name × stage_key)
+--    int_object_counts_by_task (task_id × table_name × stage_key)
 -- ─────────────────────────────────────────────
 obj AS (
   SELECT
@@ -70,7 +70,7 @@ obj AS (
     SUM(CASE WHEN table_name = 'gen2_bbox3d_object'             THEN object_count END) AS rmd_bbox3d_objects,
     SUM(CASE WHEN table_name = 'gen2_dynamic_targets'           THEN object_count END) AS dynamic_targets,
     SUM(CASE WHEN table_name = 'gen2_static_targets'            THEN object_count END) AS static_targets
-  FROM analytics.stg_object_counts_by_task
+  FROM analytics.int_object_counts_by_task
   WHERE stage_key = 'inspection'
     AND task_id IN (SELECT task_id FROM first_delivers)
   GROUP BY task_id
@@ -81,7 +81,7 @@ obj AS (
 -- ─────────────────────────────────────────────
 cmd AS (
   SELECT task_id, user_hour_slots, person_days
-  FROM analytics.stg_cmd_slots_by_task
+  FROM analytics.int_command_slots_by_task
   WHERE task_id IN (SELECT task_id FROM first_delivers)
 ),
 
@@ -98,27 +98,7 @@ task_idle AS (
 ),
 
 -- ─────────────────────────────────────────────
--- 6. 메타 (company, feature)
--- ─────────────────────────────────────────────
-companies AS (
-  SELECT `_id`, get_json_object(`_raw`, '$.name')    AS company_name
-  FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__company`
-    WHERE `_is_deleted` = false
-  ) WHERE rn = 1
-),
-policies AS (
-  SELECT `_id`, get_json_object(`_raw`, '$.feature') AS feature
-  FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_annotation_policies`
-    WHERE `_is_deleted` = false
-  ) WHERE rn = 1
-),
-
--- ─────────────────────────────────────────────
--- 7. Task 단위 상세 (집계 전)
+-- 6. Task 단위 상세 (집계 전)
 -- ─────────────────────────────────────────────
 task_detail AS (
   SELECT
@@ -184,8 +164,8 @@ task_detail AS (
     END                                                                    AS net_hours_per_task
 
   FROM first_delivers    d
-  LEFT JOIN companies    c    ON d.company_id = c.`_id`
-  LEFT JOIN policies     p    ON d.policy_id  = p.`_id`
+  LEFT JOIN analytics.dim_companies c    ON d.company_id = c.company_id
+  LEFT JOIN analytics.dim_policies  p    ON d.policy_id  = p.policy_id
   LEFT JOIN obj               ON d.task_id    = obj.task_id
   LEFT JOIN cmd               ON d.task_id    = cmd.task_id
   LEFT JOIN start_events s    ON d.task_id    = s.task_id
@@ -193,7 +173,7 @@ task_detail AS (
 )
 
 -- ─────────────────────────────────────────────
--- 8. 최종 집계
+-- 7. 최종 집계
 -- ─────────────────────────────────────────────
 SELECT
   deliver_week_start,

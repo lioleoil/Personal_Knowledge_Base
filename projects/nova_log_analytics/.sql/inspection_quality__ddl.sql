@@ -1,14 +1,16 @@
 -- Databricks notebook source
+-- [DEPRECATED] Inspection Quality DDL → mrt__ddl.sql 로 통합됨
+-- 이 파일은 mrt__ddl.sql 마이그레이션 검증 완료 후 삭제 예정
+-- ────────────────────────────────────────────────────────────────
 -- Inspection Quality — 테이블 초기 생성 DDL
 -- 실행 조건: Unity Catalog 환경, analytics 스키마 존재
--- 갱신 전략: INSERT INTO ... REPLACE WHERE deliver_month (월 1회 수동 또는 스케줄)
 
 -- COMMAND ----------
 
 -- ════════════════════════════════════════════════
 -- 1. inspection_quality_monthly_fpy
 --    월별 검수 반려율 & First Pass Yield
---    소스: focus_drop__monthly_fpy.sql
+--    소스: inspection_quality__monthly_fpy.sql
 -- ════════════════════════════════════════════════
 
 CREATE TABLE IF NOT EXISTS analytics.inspection_quality_monthly_fpy (
@@ -29,10 +31,17 @@ TBLPROPERTIES (
 
 -- COMMAND ----------
 
+COMMENT ON TABLE analytics.inspection_quality_monthly_fpy
+  IS 'Monthly inspection rejection rate and First Pass Yield (FPY) by delivered tasks.';
+ALTER TABLE analytics.inspection_quality_monthly_fpy
+  ADD CONSTRAINT fpy_deliver_month_not_null CHECK (deliver_month IS NOT NULL);
+
+-- COMMAND ----------
+
 -- ════════════════════════════════════════════════
 -- 2. inspection_quality_multi_reject
 --    다중 반려 Task 상세 (inspection reject ≥ 2)
---    소스: focus_drop__multi_reject_detail.sql
+--    소스: inspection_quality__multi_reject_detail.sql
 -- ════════════════════════════════════════════════
 
 CREATE TABLE IF NOT EXISTS analytics.inspection_quality_multi_reject (
@@ -54,6 +63,15 @@ TBLPROPERTIES (
   'delta.minReaderVersion'   = '2',
   'delta.minWriterVersion'   = '5'
 );
+
+-- COMMAND ----------
+
+COMMENT ON TABLE analytics.inspection_quality_multi_reject
+  IS 'Monthly task-level detail for inspection reject >= 2 occurrences.';
+ALTER TABLE analytics.inspection_quality_multi_reject
+  ADD CONSTRAINT mr_task_id_not_null     CHECK (task_id       IS NOT NULL);
+ALTER TABLE analytics.inspection_quality_multi_reject
+  ADD CONSTRAINT mr_deliver_month_not_null CHECK (deliver_month IS NOT NULL);
 
 -- COMMAND ----------
 

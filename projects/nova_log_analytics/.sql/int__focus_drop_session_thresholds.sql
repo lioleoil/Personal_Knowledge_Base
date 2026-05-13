@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — 세션 기준선 산출 (주 1회 월요일 03:00 UTC)
+-- Intermediate: focus_drop_session_thresholds (세션 기준선 산출, 주 1회)
 -- 의존성: focus_drop_session_metrics (직전 rolling_window_days 분)
 
 -- COMMAND ----------

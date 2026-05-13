@@ -118,7 +118,7 @@
 | `review_reject_rate_pct` | Review 단계 반려율 | 주 | `ops__stage_duration.sql`
 
 > 집계 Dimension: 업체 × Feature × Stage 전환 × 주차  
-> 선행 조건: `stg_task_transition_events` · `stg_object_counts_by_task` 적재 완료  
+> 선행 조건: `stg_task_transition_events` · `int_object_counts_by_task` 적재 완료  
 > 미구현 — P2 Undo/Redo: 우선 순위 낮음.
 
 ---

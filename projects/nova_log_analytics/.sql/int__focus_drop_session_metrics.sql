@@ -1,5 +1,5 @@
 -- Databricks notebook source
--- Focus Drop — 세션 메트릭 산출 (일 단위 배치, 매일 04:00 UTC)
+-- Intermediate: focus_drop_session_metrics (세션 메트릭 산출, 일 배치)
 -- 의존성: focus_drop_gap_thresholds (gap 구간 경계 — 테이블에서 자동 로드)
 -- 갱신 전략: INSERT INTO ... REPLACE WHERE analysis_date
 -- 시간 기준: analysis_date는 KST 일자 (createdAt UTC → KST 변환 후 비교)
@@ -10,6 +10,7 @@ CREATE WIDGET TEXT analysis_date            DEFAULT "";
 CREATE WIDGET TEXT min_gap_count            DEFAULT "5";
 CREATE WIDGET TEXT min_event_count          DEFAULT "10";
 CREATE WIDGET TEXT min_session_duration_sec DEFAULT "60";
+CREATE WIDGET TEXT catalog                 DEFAULT "sv_nova_dev_an2_catalog";
 
 -- COMMAND ----------
 
@@ -25,24 +26,24 @@ WITH thresholds AS (
 latest_assignments AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_assignments`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__gen2_assignments`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),
 latest_tasks AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__gen2_tasks`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),
 latest_commands AS (
   SELECT `_id`, `_raw`
   FROM (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-    FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__workspace_command`
+    SELECT `_id`, `_raw`, `_ingested_at`, ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
+    FROM ${catalog}.`raw`.`raw_labelit__workspace_command`
     WHERE `_is_deleted` = false
   ) WHERE rn = 1
 ),
@@ -91,9 +92,9 @@ SELECT
   SUM(CASE WHEN gap_severity = 'heavy'       THEN 1 ELSE 0 END)  AS heavy_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN 1 ELSE 0 END)  AS idle_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN diff_sec ELSE 0 END) AS idle_gap_duration_sec,
-  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS light_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS heavy_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 4) AS idle_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS light_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS heavy_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 2) AS idle_gap_ratio,
   AVG(diff_sec)                                                   AS session_avg_gap
 FROM gap_classified
 GROUP BY user_id, session_id, task_id
