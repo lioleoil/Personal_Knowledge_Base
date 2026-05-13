@@ -12,25 +12,25 @@
 ```
 [기준선 산출 — 분기/주 단위]
 
-focus_drop__gap_percentiles.sql          → analytics.focus_drop_gap_thresholds
+int__focus_drop_gap_percentiles.sql          → analytics.focus_drop_gap_thresholds
                                             (1차 percentile: gap 구간 경계)
 
 [일 단위 배치 — 매일 04:00 UTC]
 
-focus_drop__session_metrics.sql          → analytics.focus_drop_session_metrics
+int__focus_drop_session_metrics.sql          → analytics.focus_drop_session_metrics
         ↓                                   (세션별 count/ratio/duration 산출)
-focus_drop__task_idle_rollup.sql         → analytics.focus_drop_task_idle_rollup
+int__focus_drop_task_idle_rollup.sql         → analytics.focus_drop_task_idle_rollup
         ↓                                   (Task별 idle 누적 횟수/초수 산출)
-focus_drop__session_tags.sql             → analytics.focus_drop_session_tags
+int__focus_drop_session_tags.sql             → analytics.focus_drop_session_tags
         ↓                                   (기준선 참조 → 세션 판정)
-focus_drop__user_day_kpi.sql             → analytics.focus_drop_user_day_kpi
+mrt__focus_drop_user_day_kpi.sql             → analytics.focus_drop_user_day_kpi
                                             (기준선 참조 → 유저 판정)
 
 [기준선 갱신 — 주 1회 월요일 03:00 UTC, session_metrics/user_day_kpi 누적 결과를 입력으로 사용]
 
-focus_drop__session_thresholds.sql       → analytics.focus_drop_session_thresholds
+int__focus_drop_session_thresholds.sql       → analytics.focus_drop_session_thresholds
                                             (직전 30일 session_metrics 기반)
-focus_drop__user_thresholds.sql          → analytics.focus_drop_user_thresholds
+int__focus_drop_user_thresholds.sql          → analytics.focus_drop_user_thresholds
                                             (직전 30일 user_day_kpi 기반)
 ```
 
@@ -46,7 +46,7 @@ focus_drop__user_thresholds.sql          → analytics.focus_drop_user_threshold
 
 ### 6.3 Delta 테이블
 
-> 초기 생성 DDL: `.sql/focus_drop__ddl.sql` (7개 테이블, `PARTITIONED BY (analysis_date)` + `columnMapping.mode = 'name'` 포함)
+> 초기 생성 DDL: `.sql/int__ddl.sql` (focus_drop intermediate 6개) + `.sql/mrt__ddl.sql` (focus_drop_user_day_kpi 1개), `PARTITIONED BY (analysis_date)` + `columnMapping.mode = 'name'` 포함
 
 | 테이블 | 스키마 | 갱신 전략 |
 |--------|--------|----------|
@@ -185,7 +185,7 @@ tasks:
 ### 7.3 세션 기준선 산출 (rolling 30일)
 
 ```sql
--- focus_drop__session_thresholds.sql
+-- int__focus_drop_session_thresholds.sql
 INSERT INTO analytics.focus_drop_session_thresholds
 SELECT
   COALESCE((SELECT MAX(version) FROM analytics.focus_drop_session_thresholds), 0) + 1  AS version,
@@ -207,7 +207,7 @@ WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND
 ### 7.4 세션 판정 (사전 산출 기준선 참조)
 
 ```sql
--- focus_drop__session_tags.sql
+-- int__focus_drop_session_tags.sql
 WITH thresholds AS (
   -- ★ 사전 산출된 rolling baseline 테이블에서 조회 (count + ratio 모두)
   SELECT
@@ -252,7 +252,7 @@ WHERE m.analysis_date = ${analysis_date};
 ### 7.5 사용자 일 KPI (사전 산출 기준선 참조)
 
 ```sql
--- focus_drop__user_day_kpi.sql
+-- mrt__focus_drop_user_day_kpi.sql
 WITH user_daily AS (
   SELECT
     user_id,
@@ -308,7 +308,7 @@ CROSS JOIN user_thresholds t;
 ### 7.6 유저 기준선 산출 (rolling 30일)
 
 ```sql
--- focus_drop__user_thresholds.sql
+-- int__focus_drop_user_thresholds.sql
 INSERT INTO analytics.focus_drop_user_thresholds
 SELECT
   COALESCE((SELECT MAX(version) FROM analytics.focus_drop_user_thresholds), 0) + 1  AS version,
@@ -326,7 +326,7 @@ WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND
 ### 7.7 Task idle rollup (생산성 연계용)
 
 ```sql
--- focus_drop__task_idle_rollup.sql
+-- int__focus_drop_task_idle_rollup.sql
 INSERT INTO analytics.focus_drop_task_idle_rollup
 REPLACE WHERE analysis_date = ${analysis_date}
 SELECT
@@ -592,7 +592,7 @@ user_day_kpi       ← user_thresholds 필요  ← 자기 자신 30일분 필요
 
 테이블이 존재하지 않는 상태에서 시작한다.
 
-1. **DDL 적용**: `.sql/focus_drop__ddl.sql` 실행 → 7개 Delta 테이블 생성
+1. **DDL 적용**: `.sql/int__ddl.sql` + `.sql/mrt__ddl.sql` 실행 → Focus Drop 관련 Delta 테이블 생성
    - `focus_drop_gap_thresholds`, `focus_drop_session_thresholds`, `focus_drop_user_thresholds`
    - `focus_drop_session_metrics`, `focus_drop_task_idle_rollup`, `focus_drop_session_tags`, `focus_drop_user_day_kpi`
 2. **존재 확인 쿼리**:

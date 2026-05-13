@@ -165,7 +165,7 @@ ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
 
 ## 4. SQL 템플릿 (staging 기반 — 운영 SQL)
 
-> 실제 운영 SQL은 주 단위 (`deliver_week_start` 파티션) — `.sql/production_volume__weekly.sql` 참조. 아래는 운영 SQL의 핵심 CTE 패턴을 발췌한다.
+> 실제 운영 SQL은 주 단위 (`deliver_week_start` 파티션) — `.sql/mrt__production_volume_weekly.sql` 참조. 아래는 운영 SQL의 핵심 CTE 패턴을 발췌한다.
 
 ### 4.1 납품 이벤트 추출 (대상 주 최초 납품)
 
@@ -275,7 +275,7 @@ policies AS (
 )
 ```
 
-> company/policy 메타는 staging에 별도 존재하지 않으므로 raw 직접 참조 + CDC dedup. 전체 .sql 흐름과 최종 SELECT는 `.sql/production_volume__weekly.sql` 참조.
+> company/policy 메타는 staging에 별도 존재하지 않으므로 raw 직접 참조 + CDC dedup. 전체 .sql 흐름과 최종 SELECT는 `.sql/mrt__production_volume_weekly.sql` 참조.
 
 ---
 

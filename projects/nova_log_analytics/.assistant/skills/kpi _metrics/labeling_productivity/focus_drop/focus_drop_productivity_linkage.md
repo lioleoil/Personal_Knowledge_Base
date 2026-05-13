@@ -10,7 +10,7 @@
 ### 7.7 Task idle rollup (생산성 연계용)
 
 ```sql
--- focus_drop__task_idle_rollup.sql
+-- int__focus_drop_task_idle_rollup.sql
 INSERT INTO analytics.focus_drop_task_idle_rollup
 REPLACE WHERE analysis_date = ${analysis_date}
 SELECT

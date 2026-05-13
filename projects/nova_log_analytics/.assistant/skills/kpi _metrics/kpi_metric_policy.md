@@ -70,7 +70,7 @@
 > LD points(`gen2_line_points`, `gen2_road_boundary_points`)는 `delivered_point_count`로 별도 집계. primary objects에 미포함.  
 > 재납품 중복 처리: 동일 Task는 납품 1건으로 카운트. 재납품 월 귀속은 최초 착수 월 기준 (v2 이관 예정).
 
-**운영 SQL**: `production_volume__weekly.sql`
+**운영 SQL**: `mrt__production_volume_weekly.sql`
 
 ---
 
@@ -95,7 +95,7 @@
 | `task_per_person_day` | `delivered_task_count / NULLIF(person_days, 0)` | tasks/person-day |
 
 > 집계 Dimension: 업체 × Feature × 주차 / 선행 문서: `productivity_concept_design.md`  
-> **운영 SQL**: `production_volume__weekly.sql`
+> **운영 SQL**: `mrt__production_volume_weekly.sql`
 
 ### 2.3 신규 생성 vs ALT 사용 비율 [P1 · ⬜ 미구현]
 
