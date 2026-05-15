@@ -93,20 +93,6 @@ python .scripts/orchestrator.py \
 
 ---
 
-## 모니터링·토큰 추적 (.status/)
-
-| 스크립트 | 용도 |
-|---|---|
-| `monitor.py` | 에이전트 실행 상태 GUI (tkinter) |
-| `show_tokens.py` | Claude 토큰 사용량 표시·기록 |
-| `auto_track.py` | Stop 훅 연동 자동 추적 |
-| `remote_track.py` | 원격 에이전트 토큰 추적 (PostToolUse 훅) |
-
-토큰 데이터: `.status/token_usage.json` (4시간 롤링 윈도우, hourly_buckets 집계)  
-한도: Claude Pro 72,000 토큰 / 5시간, 855,485 토큰 / 주
-
----
-
 ## 에이전트 로그 (.agents/)
 
 로그 저장 위치: `.agents/<agent_type>/{YYYYMMDD_HHMMSS}_{agent_id}.json`

@@ -1,117 +1,54 @@
--- Databricks notebook source
--- Intermediate Layer — Dimension Lookup Tables DDL
+-- Dimension Layer — 테이블 초기 생성 DDL
 -- 실행 조건: Unity Catalog 환경, analytics 스키마 존재
--- 갱신 전략: INSERT OVERWRITE (일 전체 교체, CDC dedup 포함)
---
--- 현행 테이블:
---   dim_companies   — 업체 목록 (라벨링·검수 공통)
---   dim_policies    — 어노테이션 정책 (feature 매핑)
---   dim_assignments — 어사이먼트(작업 배치) 메타데이터
--- [대기]
---   dim_users       — 유저 목록 (raw 샘플 확인 후 추가 예정)
+-- 현행 테이블: dim_companies / dim_assignments / dim_policies
 
 -- COMMAND ----------
 
 -- ════════════════════════════════════════════════
 -- 1. dim_companies
---    소스: raw_labelit__company (CDC dedup)
---    grain: company _id
---    소스 파일: dim__companies.sql (일 OVERWRITE)
 -- ════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS analytics.dim_companies (
-  company_id   STRING,       -- raw_labelit__company._id
-  company_name STRING,       -- _raw.name
-  _loaded_at   TIMESTAMP
+CREATE TABLE IF NOT EXISTS sv_nova_dev_an2_catalog.analytics.dim_companies (
+  company_id   STRING    COMMENT '업체 고유 ID (raw_labelit__company._id)',
+  company_name STRING    COMMENT '업체명 ($.name)',
+  _loaded_at   TIMESTAMP COMMENT '적재 시점'
 )
-USING DELTA
-TBLPROPERTIES (
-  'delta.columnMapping.mode' = 'name',
-  'delta.minReaderVersion'   = '2',
-  'delta.minWriterVersion'   = '5'
-);
-
--- COMMAND ----------
-
-COMMENT ON TABLE analytics.dim_companies
-  IS 'Company lookup. CDC dedup from raw_labelit__company. Daily OVERWRITE.';
-ALTER TABLE analytics.dim_companies
-  ADD CONSTRAINT dc_company_id_not_null CHECK (company_id IS NOT NULL);
+COMMENT '업체 마스터. grain: company_id. 소스: raw_labelit__company (CDC dedup). 갱신: INSERT OVERWRITE.'
+TBLPROPERTIES ('quality' = 'gold');
 
 -- COMMAND ----------
 
 -- ════════════════════════════════════════════════
--- 2. dim_policies
---    소스: raw_labelit__gen2_annotation_policies (CDC dedup)
---    grain: policy _id
---    소스 파일: dim__policies.sql (일 OVERWRITE)
+-- 2. dim_assignments
 -- ════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS analytics.dim_policies (
-  policy_id    STRING,       -- raw_labelit__gen2_annotation_policies._id
-  feature      STRING,       -- _raw.feature (ld / od / rmd 등)
-  _loaded_at   TIMESTAMP
+CREATE TABLE IF NOT EXISTS sv_nova_dev_an2_catalog.analytics.dim_assignments (
+  assignment_id            STRING         COMMENT '어사인먼트 고유 ID (raw_labelit__gen2_assignments._id)',
+  company_id               STRING         COMMENT '소속 업체 ID ($.companyId)',
+  review_company_id        STRING         COMMENT '검수 업체 ID ($.reviewCompanyIds[0])',
+  assignment_name          STRING         COMMENT '어사인먼트명 ($.name)',
+  description              STRING         COMMENT '설명 ($.description)',
+  status                   STRING         COMMENT '상태 (READY / PENDING 등)',
+  purpose                  STRING         COMMENT '목적 (PRODUCTION / NON_PRODUCTION)',
+  tags                     ARRAY<STRING>  COMMENT '태그 배열 ($.tags)',
+  workflow_definition_id   STRING         COMMENT '워크플로우 정의 ID',
+  total_data_package_count BIGINT         COMMENT '총 데이터 패키지 수',
+  created_at               TIMESTAMP      COMMENT '어사인먼트 생성 시각 (UTC)',
+  _loaded_at               TIMESTAMP      COMMENT '적재 시점'
 )
-USING DELTA
-TBLPROPERTIES (
-  'delta.columnMapping.mode' = 'name',
-  'delta.minReaderVersion'   = '2',
-  'delta.minWriterVersion'   = '5'
-);
-
--- COMMAND ----------
-
-COMMENT ON TABLE analytics.dim_policies
-  IS 'Annotation policy lookup. feature field for object table mapping. CDC dedup. Daily OVERWRITE.';
-ALTER TABLE analytics.dim_policies
-  ADD CONSTRAINT dp_policy_id_not_null CHECK (policy_id IS NOT NULL);
+COMMENT '어사인먼트 마스터. grain: assignment_id. 소스: raw_labelit__gen2_assignments (CDC dedup). 갱신: INSERT OVERWRITE.'
+TBLPROPERTIES ('quality' = 'gold');
 
 -- COMMAND ----------
 
 -- ════════════════════════════════════════════════
--- 3. dim_assignments
---    소스: raw_labelit__assignments (CDC dedup)
---    grain: assignment _id
---    소스 파일: dim__assignments.sql (일 OVERWRITE)
---    참고: policy_id / delivery_id — gen2_tasks._raw 에서 확인 필요 (미포함)
---          workflowSnapshot.stages → dim_stages 설계 시 활용 예정
+-- 3. dim_policies
 -- ════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS analytics.dim_assignments (
-  assignment_id             STRING,        -- raw_labelit__assignments._id
-  company_id                STRING,        -- _raw.companyId (라벨링 업체)
-  review_company_id         STRING,        -- _raw.reviewCompanyIds[0] (검수 업체)
-  assignment_name           STRING,        -- _raw.name
-  description               STRING,        -- _raw.description
-  status                    STRING,        -- _raw.status (READY 등)
-  purpose                   STRING,        -- _raw.purpose (PRODUCTION 등)
-  tags                      ARRAY<STRING>, -- _raw.tags (["DeliveryDate_YYMMDD", "CW" ...])
-  workflow_definition_id    STRING,        -- _raw.workflowDefinitionId
-  total_data_package_count  BIGINT,        -- _raw.totalDataPackageCount
-  created_at                TIMESTAMP,     -- _raw.createdAt
-  _loaded_at                TIMESTAMP
+CREATE TABLE IF NOT EXISTS sv_nova_dev_an2_catalog.analytics.dim_policies (
+  policy_id  STRING    COMMENT '정책 고유 ID (raw_labelit__gen2_annotation_policies._id)',
+  feature    STRING    COMMENT 'Feature 도메인 (OD / LD / RMD 등)',
+  _loaded_at TIMESTAMP COMMENT '적재 시점'
 )
-USING DELTA
-TBLPROPERTIES (
-  'delta.columnMapping.mode' = 'name',
-  'delta.minReaderVersion'   = '2',
-  'delta.minWriterVersion'   = '5'
-);
-
--- COMMAND ----------
-
-COMMENT ON TABLE analytics.dim_assignments
-  IS 'Assignment metadata lookup. CDC dedup from raw_labelit__assignments. tags includes DeliveryDate/CW markers. Daily OVERWRITE.';
-ALTER TABLE analytics.dim_assignments
-  ADD CONSTRAINT da_assignment_id_not_null CHECK (assignment_id IS NOT NULL);
-ALTER TABLE analytics.dim_assignments
-  ADD CONSTRAINT da_company_id_not_null    CHECK (company_id    IS NOT NULL);
-
--- COMMAND ----------
-
--- ★ 생성 확인
-SELECT table_name, partition_columns
-FROM information_schema.tables
-WHERE table_schema = 'analytics'
-  AND table_name LIKE 'dim_%'
-ORDER BY table_name;
+COMMENT '어노테이션 정책 마스터. grain: policy_id. 소스: raw_labelit__gen2_annotation_policies (CDC dedup). 갱신: INSERT OVERWRITE.'
+TBLPROPERTIES ('quality' = 'gold');

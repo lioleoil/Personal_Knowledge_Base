@@ -1,46 +1,49 @@
--- Databricks notebook source
--- Intermediate: focus_drop_user_thresholds (유저 기준선 산출, 주 1회)
--- 의존성: focus_drop_user_day_kpi (직전 rolling_window_days 분)
--- Phase B: 수동 INSERT로 초기화 후 실행 (skill 문서 §12.4 참조)
+-- Intermediate: int_focus_drop_user_thresholds (유저 판정 기준선)
+-- 의존성: int_focus_drop_user_day_kpi (raw 의존 없음)
+-- 갱신 전략: INSERT INTO (versioned append)
+-- 실행 주기: 주 1회 (수동) — 30일 rolling window
+-- 참조: Focus Drop SKILL
 
 -- COMMAND ----------
 
-CREATE WIDGET TEXT rolling_window_days DEFAULT "30";
-CREATE WIDGET TEXT is_bootstrap         DEFAULT "false";
+CREATE SCHEMA IF NOT EXISTS sv_nova_dev_an2_catalog.analytics;
 
 -- COMMAND ----------
 
--- 최소 요건 확인
+-- ★ user-level 판정 기준선 산출 (30일 rolling)
+INSERT INTO sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_thresholds
+WITH window_data AS (
+  SELECT
+    light_session_count, heavy_session_count, idle_gap_total
+  FROM sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_day_kpi
+  WHERE analysis_date >= CURRENT_DATE() - INTERVAL 30 DAY
+    AND analysis_date < CURRENT_DATE()
+)
 SELECT
-  COUNT(DISTINCT analysis_date) AS available_days,
-  COUNT(DISTINCT user_id)       AS total_users,
-  CASE
-    WHEN COUNT(DISTINCT analysis_date) >= ${rolling_window_days} AND COUNT(*) >= 30
-    THEN 'READY'
-    ELSE 'INSUFFICIENT — is_bootstrap=true 또는 데이터 축적 후 재실행'
-  END AS status
-FROM analytics.focus_drop_user_day_kpi
-WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND DATE_SUB(CURRENT_DATE(), 1);
+  COALESCE(
+    (SELECT MAX(version) + 1 FROM sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_thresholds),
+    1
+  )                                                         AS version,
+  CURRENT_TIMESTAMP()                                       AS computed_at,
+  (COUNT(*) < 100)                                          AS is_bootstrap,
+  CURRENT_DATE() - INTERVAL 30 DAY                          AS window_start,
+  CURRENT_DATE() - INTERVAL 1 DAY                           AS window_end,
+  PERCENTILE_APPROX(light_session_count, 0.90)             AS user_light_session_count_p90,
+  PERCENTILE_APPROX(heavy_session_count, 0.95)             AS user_heavy_session_count_p95,
+  PERCENTILE_APPROX(idle_gap_total, 0.99)                  AS user_idle_gap_total_p99
+FROM window_data;
 
 -- COMMAND ----------
 
-INSERT INTO analytics.focus_drop_user_thresholds
-SELECT
-  COALESCE((SELECT MAX(version) FROM analytics.focus_drop_user_thresholds), 0) + 1 AS version,
-  CURRENT_TIMESTAMP()                               AS computed_at,
-  CAST('${is_bootstrap}' AS BOOLEAN)               AS is_bootstrap,
-  DATE_SUB(CURRENT_DATE(), ${rolling_window_days})  AS window_start,
-  DATE_SUB(CURRENT_DATE(), 1)                       AS window_end,
-  PERCENTILE(light_session_count,    0.90)          AS user_light_session_count_p90,
-  PERCENTILE(heavy_session_count,    0.95)          AS user_heavy_session_count_p95,
-  PERCENTILE(idle_gap_total,         0.99)          AS user_idle_gap_total_p99
-FROM analytics.focus_drop_user_day_kpi
-WHERE analysis_date BETWEEN DATE_SUB(CURRENT_DATE(), ${rolling_window_days}) AND DATE_SUB(CURRENT_DATE(), 1);
+COMMENT ON TABLE sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_thresholds
+  IS '유저 판정 기준선 (30일 rolling). versioned append. user_day_kpi 기반 percentile.';
 
 -- COMMAND ----------
 
--- 결과 확인
-SELECT version, is_bootstrap, window_start, window_end,
-       user_light_session_count_p90, user_heavy_session_count_p95, user_idle_gap_total_p99
-FROM analytics.focus_drop_user_thresholds
-WHERE version = (SELECT MAX(version) FROM analytics.focus_drop_user_thresholds);
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_thresholds SET TBLPROPERTIES ('quality' = 'silver');
+
+-- COMMAND ----------
+
+-- ★ 적재 확인
+SELECT * FROM sv_nova_dev_an2_catalog.analytics.int_focus_drop_user_thresholds
+ORDER BY version DESC LIMIT 3;

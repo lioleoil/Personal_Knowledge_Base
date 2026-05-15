@@ -24,16 +24,39 @@
 
 -- COMMAND ----------
 
-CREATE WIDGET TEXT catalog DEFAULT "sv_nova_dev_an2_catalog";
+CREATE SCHEMA IF NOT EXISTS sv_nova_dev_an2_catalog.analytics;
 
 -- COMMAND ----------
 
-INSERT OVERWRITE analytics.stg_workspace_commands
+CREATE TABLE IF NOT EXISTS sv_nova_dev_an2_catalog.analytics.stg_workspace_commands (
+  command_id   STRING    COMMENT 'CloudEvents root id — 커맨드 고유 식별자',
+  event_type   STRING    COMMENT 'CloudEvents type (e.g. annotation.object.delete)',
+  dataschema   STRING    COMMENT 'CloudEvents dataschema 버전 (1.0.0 / 1.1.0)',
+  event_time   TIMESTAMP COMMENT 'CloudEvents time — 이벤트 발생 시각 (UTC)',
+  event_date   DATE      COMMENT 'event_time KST 변환 후 DATE',
+  event_hour   INT       COMMENT 'event_time KST 변환 후 HOUR (0~23)',
+  subject      STRING    COMMENT 'CloudEvents subject — 이벤트 대상 엔티티 ID',
+  session_id   STRING    COMMENT 'Focus Drop 세션 키 (sessionid)',
+  task_id      STRING    COMMENT 'data.project.task_id — 소속 Task ID',
+  dataset_id   STRING    COMMENT 'data.project.dataset_id — 소속 Dataset ID',
+  user_id      STRING    COMMENT 'data.user.id — 작업자 ID',
+  user_name    STRING    COMMENT 'data.user.name — 작업자 이름',
+  feature      STRING    COMMENT 'data.feature — 도메인 (ld / od / rmd)',
+  action       STRING    COMMENT 'data.action — 행위 유형 (create / delete / update / transform)',
+  input_type   STRING    COMMENT 'data.input_type — 입력 장치 (mouse / keyboard)',
+  input_view   STRING    COMMENT 'data.input_view — 뷰포트 (rear / front 등, 1.1.0+ nullable)',
+  _loaded_at   TIMESTAMP COMMENT '데이터 적재 시각 (CURRENT_TIMESTAMP at INSERT)'
+)
+COMMENT 'workspace_command CloudEvents 필드 추출 (CDC dedup). 소스: raw.raw_labelit__workspace_command. 갱신: INSERT OVERWRITE (일 전체 교체). 실행 주기: 일 배치 04:00 UTC.'
+TBLPROPERTIES ('quality' = 'silver');
+
+-- COMMAND ----------
+
+INSERT OVERWRITE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands
 WITH latest_commands AS (
-  SELECT `_id`, `_raw`, `_ingested_at`,
-         ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-  FROM ${catalog}.`raw`.`raw_labelit__workspace_command`
-  WHERE `_is_deleted` = false
+  SELECT `_id`, `_raw`, `_occurred_at`,
+         ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_occurred_at` DESC) AS rn
+  FROM sv_nova_dev_an2_catalog.`raw`.`raw_labelit__workspace_command`
 )
 SELECT
   -- ── CloudEvents root ────────────────────────────────────────────
@@ -68,6 +91,35 @@ WHERE rn = 1
 
 -- COMMAND ----------
 
+-- ★ 테이블/컬럼 설명 업데이트 (기존 테이블 대응)
+COMMENT ON TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands IS 'workspace_command CloudEvents 필드 추출 (CDC dedup). 소스: raw.raw_labelit__workspace_command. 갱신: INSERT OVERWRITE (일 전체 교체). 실행 주기: 일 배치 04:00 UTC.';
+
+-- COMMAND ----------
+
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN command_id COMMENT 'CloudEvents root id — 커맨드 고유 식별자';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN event_type COMMENT 'CloudEvents type (e.g. annotation.object.delete)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN dataschema COMMENT 'CloudEvents dataschema 버전 (1.0.0 / 1.1.0)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN event_time COMMENT 'CloudEvents time — 이벤트 발생 시각 (UTC)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN event_date COMMENT 'event_time KST 변환 후 DATE';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN event_hour COMMENT 'event_time KST 변환 후 HOUR (0~23)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN subject COMMENT 'CloudEvents subject — 이벤트 대상 엔티티 ID';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN session_id COMMENT 'Focus Drop 세션 키 (sessionid)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN task_id COMMENT 'data.project.task_id — 소속 Task ID';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN dataset_id COMMENT 'data.project.dataset_id — 소속 Dataset ID';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN user_id COMMENT 'data.user.id — 작업자 ID';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN user_name COMMENT 'data.user.name — 작업자 이름';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN feature COMMENT 'data.feature — 도메인 (ld / od / rmd)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN action COMMENT 'data.action — 행위 유형 (create / delete / update / transform)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN input_type COMMENT 'data.input_type — 입력 장치 (mouse / keyboard)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN input_view COMMENT 'data.input_view — 뷰포트 (rear / front 등, 1.1.0+ nullable)';
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands ALTER COLUMN _loaded_at COMMENT '데이터 적재 시각 (CURRENT_TIMESTAMP at INSERT)';
+
+-- COMMAND ----------
+
+ALTER TABLE sv_nova_dev_an2_catalog.analytics.stg_workspace_commands SET TBLPROPERTIES ('quality' = 'silver');
+
+-- COMMAND ----------
+
 -- ★ 적재 확인
 SELECT
   event_date,
@@ -76,7 +128,7 @@ SELECT
   COUNT(DISTINCT user_name)               AS users,
   MIN(event_time)                         AS earliest,
   MAX(event_time)                         AS latest
-FROM analytics.stg_workspace_commands
+FROM sv_nova_dev_an2_catalog.analytics.stg_workspace_commands
 WHERE event_date >= CURRENT_DATE() - INTERVAL 7 DAYS
 GROUP BY event_date
 ORDER BY event_date DESC;
