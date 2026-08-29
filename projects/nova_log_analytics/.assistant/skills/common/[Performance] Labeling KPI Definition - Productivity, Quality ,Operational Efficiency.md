@@ -32,15 +32,15 @@
 
 | 지표명 | 산출식 | 주기 | SQL |
 |--------|--------|------|-----|
-| `delivered_task_count` | `waiting_submit → inspection` 전환 Task 수 | 주 | `production_volume__weekly.sql` |
-| `delivered_object_count` | 납품 Task의 `stageKey='inspection'` 스냅샷 객체 수 | 주 | `production_volume__weekly.sql` |
+| `delivered_task_count` | `waiting_submit → inspection` 전환 Task 수 | 주 | `mrt__production_volume_weekly.sql` |
+| `delivered_object_count` | 납품 Task의 `stageKey='inspection'` 스냅샷 객체 수 | 주 | `mrt__production_volume_weekly.sql` |
 
 **P0 구현 세부 — 생산성**
 
 | 지표명 | 산출식 | 주기 | SQL |
 |--------|--------|------|-----|
-| `obj_per_person_hour` | `delivered_object_count / user_hour_slots` | 주 | `production_volume__weekly.sql` |
-| `task_per_person_day` | `delivered_task_count / person_days` | 주 | `production_volume__weekly.sql` |
+| `obj_per_person_hour` | `delivered_object_count / user_hour_slots` | 주 | `mrt__production_volume_weekly.sql` |
+| `task_per_person_day` | `delivered_task_count / person_days` | 주 | `mrt__production_volume_weekly.sql` |
 
 > 집계 Dimension: 업체 × Feature × 주차 / 투입 자원 = Labeler + Reviewer 합산
 
@@ -48,10 +48,10 @@
 
 | 지표명 | 설명 | 주기 | SQL |
 |--------|------|------|-----|
-| `focus_drop_level` | 세션 판정 (light / heavy / idle / normal) | 일 | `focus_drop__session_tags.sql` |
-| `idle_gap_duration_sec` | 세션 idle 구간 지속 초수 합산 | 일 | `focus_drop__session_metrics.sql` |
-| `heavy_session_count` | 유저 일 단위 heavy 세션 수 | 일 | `focus_drop__user_day_kpi.sql` |
-| `idle_gap_total` | 유저 일 단위 idle gap 횟수 합산 | 일 | `focus_drop__user_day_kpi.sql` |
+| `focus_drop_level` | 세션 판정 (light / heavy / idle / normal) | 일 | `int__focus_drop_session_tags.sql` |
+| `idle_gap_duration_sec` | 세션 idle 구간 지속 초수 합산 | 일 | `int__focus_drop_session_metrics.sql` |
+| `heavy_session_count` | 유저 일 단위 heavy 세션 수 | 일 | `mrt__focus_drop_user_day_kpi.sql` |
+| `idle_gap_total` | 유저 일 단위 idle gap 횟수 합산 | 일 | `mrt__focus_drop_user_day_kpi.sql` |
 
 > gap 구간 기준: normal / observation / light(p90) / heavy(p95) / idle(≥180s 고정)  
 > 미구현 — P1 신규 생성 vs ALT 사용 비율: ALT 관련 Log 확정 후 착수
@@ -75,9 +75,9 @@
 
 | 지표명 | 산출식 | 주기 | SQL |
 |--------|--------|------|-----|
-| `rejection_rate_pct` | `rejected_count / total_inspected × 100` | 월 | `inspection_quality__monthly_fpy.sql` |
-| `first_pass_yield_pct` | `100 − rejection_rate_pct` | 월 | `inspection_quality__monthly_fpy.sql` |
-| 다중 반려 Task | `inspection_reject_count ≥ 2` | 월 | `inspection_quality__multi_reject_detail.sql` |
+| `rejection_rate_pct` | `rejected_count / total_inspected × 100` | 월 | `mrt__inspection_quality_monthly_fpy.sql` |
+| `first_pass_yield_pct` | `100 − rejection_rate_pct` | 월 | `mrt__inspection_quality_monthly_fpy.sql` |
+| 다중 반려 Task | `inspection_reject_count ≥ 2` | 월 | `mrt__inspection_quality_multi_reject_detail.sql` |
 
 > 모집단: `deliveryId IS NOT NULL` (inspection 진입 Task) / Reject 기준: `from_state='inspection' AND trigger='reject'` / `from_state='review'` reject 제외  
 > 미구현 — P1~P3: ALT 관련 Log 확정 후 착수
@@ -100,8 +100,8 @@
 
 | 지표명 | 산출식 | 주기 | SQL |
 |--------|--------|------|-----|
-| `gross_task_hours` | `(deliver_actionAt − start_actionAt) / 3600.0` | 주 | `production_volume__weekly.sql` |
-| `net_task_hours` | `GREATEST(gross_task_sec − task_total_idle_sec, 0) / 3600.0` | 주 | `production_volume__weekly.sql` |
+| `gross_task_hours` | `(deliver_actionAt − start_actionAt) / 3600.0` | 주 | `mrt__production_volume_weekly.sql` |
+| `net_task_hours` | `GREATEST(gross_task_sec − task_total_idle_sec, 0) / 3600.0` | 주 | `mrt__production_volume_weekly.sql` |
 
 > `net_task_hours`는 Focus Drop idle 차감 후 순작업시간 (생산성 지표 P1 연계)
 
@@ -118,7 +118,7 @@
 | `review_reject_rate_pct` | Review 단계 반려율 | 주 | `ops__stage_duration.sql`
 
 > 집계 Dimension: 업체 × Feature × Stage 전환 × 주차  
-> 선행 조건: `stg_task_transition_events` · `stg_object_counts_by_task` 적재 완료  
+> 선행 조건: `stg_task_transition_events` · `int_object_counts_by_task` 적재 완료  
 > 미구현 — P2 Undo/Redo: 우선 순위 낮음.
 
 ---

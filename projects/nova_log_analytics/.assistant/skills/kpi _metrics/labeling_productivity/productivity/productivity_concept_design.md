@@ -143,7 +143,7 @@ Labelit Gen2 작업 파이프라인에서 **생산량**, **생산성**을 정량
 
 | 순서 | 작업 | 산출물 |
 |---|---|---|
-| 1 | 납품 Task·객체 수 주별 집계 SQL | `.sql/production_volume__weekly.sql` ✅ |
+| 1 | 납품 Task·객체 수 주별 집계 SQL | `.sql/mrt__production_volume_weekly.sql` ✅ |
 | 2 | `role_group` 매핑 테이블 SQL 작성 | `.sql/dim_role_group.sql` ⏸ 보류 |
 | 3 | 이상탐지 STEP 8 (생산성 이상) 연계 지점 정의 | Anomaly Detection 문서 업데이트 |
 
@@ -157,4 +157,4 @@ Labelit Gen2 작업 파이프라인에서 **생산량**, **생산성**을 정량
 | `v1.1` | 2026-05-11 | Draft | 필터 조건 `toState='inspection'` 확정 / 생산성 분모 Labeler+Reviewer 합산으로 변경 / 재납품 카운트 정책 수정 (동일 Task = 1건) / `role_group` SQL 생성 예정 명시 / KST 변환 규약 추가 |
 | `v1.2` | 2026-05-11 | Draft | 라벨링 착수 필터 확정: `fromState='waiting_labeling' AND toState='labeling' AND trigger='start'` / reassign 제외 근거 명시 |
 | `v1.3` | 2026-05-11 | Draft | Feature별 객체 테이블 전체 매핑 확정 (LD 6개·RMD 2개·OD/SOD/TSTLD static 공유) / 2-tier 생산량 설계 (primary objects + LD points 보조 지표) / Task 순소요시간(net) 지표 추가 (Focus Drop idle 연계) / DDL wide-table 구조 반영 |
-| `v1.3` | 2026-05-12 | Released | 제약사항 `role_group 보류` · `재납품 귀속 v2 이관` 처리 완료 / `.sql/production_volume__weekly.sql` 구현 확정 기준 정식 배포 |
+| `v1.3` | 2026-05-12 | Released | 제약사항 `role_group 보류` · `재납품 귀속 v2 이관` 처리 완료 / `.sql/mrt__production_volume_weekly.sql` 구현 확정 기준 정식 배포 |

@@ -70,7 +70,7 @@
 > LD points(`gen2_line_points`, `gen2_road_boundary_points`)는 `delivered_point_count`로 별도 집계. primary objects에 미포함.  
 > 재납품 중복 처리: 동일 Task는 납품 1건으로 카운트. 재납품 월 귀속은 최초 착수 월 기준 (v2 이관 예정).
 
-**운영 SQL**: `production_volume__weekly.sql`
+**운영 SQL**: `mrt__production_volume_weekly.sql`
 
 ---
 
@@ -95,7 +95,7 @@
 | `task_per_person_day` | `delivered_task_count / NULLIF(person_days, 0)` | tasks/person-day |
 
 > 집계 Dimension: 업체 × Feature × 주차 / 선행 문서: `productivity_concept_design.md`  
-> **운영 SQL**: `production_volume__weekly.sql`
+> **운영 SQL**: `mrt__production_volume_weekly.sql`
 
 ### 2.3 신규 생성 vs ALT 사용 비율 [P1 · ⬜ 미구현]
 
@@ -303,7 +303,7 @@ Review·Inspection 단계에서 추가·삭제된 객체 수를 Stage 전환 단
 | `avg_abs_delta_ratio` | `AVG(ABS(delta_ratio))` — 수정 강도 (방향 무관) | % |
 
 > 전환 쌍: Labeling→Review / Review→Inspection / Inspection→Final QA / Labeling→Final QA(전체 순증)  
-> 소스: `stg_object_counts_by_task` PIVOT by `stage_key` / 양수(+): 객체 추가, 음수(−): 객체 삭제  
+> 소스: `int_object_counts_by_task` PIVOT by `stage_key` / 양수(+): 객체 추가, 음수(−): 객체 삭제  
 > **운영 SQL**: `ops__object_delta.sql` (미생성) / 선행 문서: `operation_concept_design.md`
 
 ### 4.4 Review 반려율 [P1 · ⬜ 미구현]
@@ -346,7 +346,7 @@ Tool UX 및 세부 작업 흐름 분석. Scene 내 작업 흐름 분석이 구�
 | 우선순위 | 지표 | 선행 조건 |
 |----------|------|-----------|
 | P1 — Stage별 소요 시간 세분화 | `stg_task_transition_events` 적재 완료 / `ops__ddl.sql` 실행 |
-| P1 — Stage별 객체 증감 (Object Delta) | `stg_object_counts_by_task` 적재 완료 / `ops__ddl.sql` 실행 |
+| P1 — Stage별 객체 증감 (Object Delta) | `int_object_counts_by_task` 적재 완료 / `ops__ddl.sql` 실행 |
 | P1 — Review 반려율 | `stg_task_transition_events` 적재 완료 |
 | P1 — 신규 생성 vs ALT 사용 비율 | Command Log 커맨드 분류 체계 확정 (`gen2_command_definitions.md`) |
 | P1 — Undo/Redo 비율·이동 패턴 | Command Log 커맨드 분류 체계 확정 |

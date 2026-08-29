@@ -6,11 +6,33 @@
 
 -- COMMAND ----------
 
-INSERT OVERWRITE analytics.stg_task_transition_events
+CREATE SCHEMA IF NOT EXISTS sv_nova_dev_an2_catalog.analytics;
+
+-- COMMAND ----------
+
+CREATE TABLE IF NOT EXISTS sv_nova_dev_an2_catalog.analytics.stg_task_transition_events (
+  task_id        STRING    COMMENT 'gen2_tasks._id',
+  company_id     STRING    COMMENT 'task.companyId',
+  policy_id      STRING    COMMENT 'task.policyId',
+  from_state     STRING    COMMENT 'transitionHistory.fromState',
+  to_state       STRING    COMMENT 'transitionHistory.toState',
+  trigger        STRING    COMMENT 'transitionHistory.trigger',
+  action_by      STRING    COMMENT 'transitionHistory.actionBy',
+  action_at      TIMESTAMP COMMENT 'transitionHistory.actionAt (UTC)',
+  reason         STRING    COMMENT 'transitionHistory.reason (정규화)',
+  event_week     TIMESTAMP COMMENT 'actionAt 기준 KST 주 시작일',
+  _loaded_at     TIMESTAMP COMMENT '적재 시각'
+)
+COMMENT 'Task 상태 전환 이력 (flatten). 일 배치 전체 교체.'
+TBLPROPERTIES ('quality' = 'silver');
+
+-- COMMAND ----------
+
+INSERT OVERWRITE sv_nova_dev_an2_catalog.analytics.stg_task_transition_events
 WITH latest_tasks AS (
-  SELECT *,
+  SELECT `_id`, `_raw`, `_ingested_at`,
          ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
-  FROM `sv_nova_dev_an2_catalog`.`raw`.`raw_labelit__gen2_tasks`
+  FROM sv_nova_dev_an2_catalog.`raw`.`raw_labelit__gen2_tasks`
   WHERE `_is_deleted` = false
 )
 SELECT
@@ -26,7 +48,7 @@ SELECT
   DATE_TRUNC('WEEK',
     CONVERT_TIMEZONE('UTC', 'Asia/Seoul', TO_TIMESTAMP(trans.actionAt))
   )                                                                          AS event_week,
-  CURRENT_TIMESTAMP()                                                        AS refreshed_at
+  CURRENT_TIMESTAMP()                                                        AS _loaded_at
 FROM latest_tasks t
 LATERAL VIEW explode(
   from_json(
@@ -44,7 +66,7 @@ SELECT event_week,
        COUNT(DISTINCT task_id)         AS tasks,
        COUNT(*)                        AS total_events,
        COUNT(DISTINCT from_state || '→' || to_state) AS transition_types
-FROM analytics.stg_task_transition_events
+FROM sv_nova_dev_an2_catalog.analytics.stg_task_transition_events
 WHERE event_week >= DATE_TRUNC('WEEK', CURRENT_DATE() - INTERVAL 28 DAYS)
 GROUP BY event_week
 ORDER BY event_week DESC;

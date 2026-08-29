@@ -55,7 +55,7 @@
 > ⚠️ RMD: Productivity SKILL은 `gen2_box_roadmark_objects`, Operation SKILL은 `gen2_box_roadmark_objects` — 동일 테이블 여부 확인 필요.
 
 **조인 키**: 객체 테이블 `taskId` → task `_id` → `companyId`, `policyId`  
-**소스**: `analytics.stg_object_counts_by_task` (staging PIVOT — CDC dedup 완료)
+**소스**: `analytics.int_object_counts_by_task` (staging PIVOT — CDC dedup 완료)
 
 ---
 
@@ -154,7 +154,7 @@ stage_end_at = COALESCE(실제종료, 다음Stage시작, CURRENT_TIMESTAMP())
 
 | 항목 | 상태 | 비고 |
 |---|---|---|
-| 객체 테이블 ↔ TransitionHistory 시점 정합성 검증 | 미완료 | `stg_object_counts_by_task` 기반 `stage_key`별 스냅샷 정합성 확인 필요 |
+| 객체 테이블 ↔ TransitionHistory 시점 정합성 검증 | 미완료 | `int_object_counts_by_task` 기반 `stage_key`별 스냅샷 정합성 확인 필요 |
 | 객체 테이블 ↔ TransitionHistory 시점 정합성 | 미검증 | 객체 `updatedAt`과 `actionAt` 매핑 검증 필요 |
 | Reject 재진입 시 소요 시간 합산 정밀도 | 미검증 | pass_num ROW_NUMBER 기반 확정 — start/end 쌍 불일치 엣지케이스 검증 필요 |
 | Feature별 테이블명 단수/복수 통일 | 미완료 | Productivity SKILL(단수) vs Operation SKILL(복수) 불일치 — DDL 확인 후 전 문서 통일 |

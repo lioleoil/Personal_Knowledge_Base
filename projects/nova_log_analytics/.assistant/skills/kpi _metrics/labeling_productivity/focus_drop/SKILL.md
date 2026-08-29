@@ -274,7 +274,7 @@ END
 ### 7.1 gap percentile 산출 (Labeler role 필터 포함)
 
 ```sql
--- focus_drop__gap_percentiles.sql
+-- int__focus_drop_gap_percentiles.sql
 -- 시간 기준: rolling_days는 KST 기준 영업일 (createdAt UTC → KST 변환 후 비교)
 -- 표본 10,000 미달 시 HAVING으로 자동 스킵 → 기존 기준선 유지
 
@@ -345,7 +345,7 @@ HAVING COUNT(*) >= 10000;  -- ★ §5.4 최소 표본 요건 강제 (미달 시 
 ### 7.2 세션 메트릭 산출 (유효성 3조건 완전 구현)
 
 ```sql
--- focus_drop__session_metrics.sql
+-- int__focus_drop_session_metrics.sql
 -- 의존성: focus_drop_gap_thresholds (gap 구간 경계 — 테이블에서 자동 로드)
 -- 갱신 전략: INSERT INTO ... REPLACE WHERE analysis_date
 -- 시간 기준: analysis_date는 KST 일자 (createdAt UTC → KST 변환 후 비교)
@@ -432,9 +432,9 @@ SELECT
   SUM(CASE WHEN gap_severity = 'heavy'       THEN 1 ELSE 0 END)  AS heavy_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN 1 ELSE 0 END)  AS idle_gap_count,
   SUM(CASE WHEN gap_severity = 'idle'        THEN diff_sec ELSE 0 END) AS idle_gap_duration_sec,
-  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS light_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 4) AS heavy_gap_ratio,
-  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 4) AS idle_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'light'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS light_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'heavy'     THEN 1 ELSE 0 END) / COUNT(*), 2) AS heavy_gap_ratio,
+  ROUND(SUM(CASE WHEN gap_severity = 'idle'      THEN 1 ELSE 0 END) / COUNT(*), 2) AS idle_gap_ratio,
   AVG(diff_sec)                                                   AS session_avg_gap
 FROM gap_classified
 GROUP BY user_id, session_id, task_id

@@ -12,7 +12,7 @@ Stage별 소요 시간(Stage Duration)과 산출물 변화(Object Delta) 산출�
 
 > **운영 SQL 원칙**: staging layer를 우선 소스로 사용한다.
 > - Stage Duration: `stg_task_transition_events` (이벤트 쌍 기반)
-> - Object Delta: `stg_object_counts_by_task` (stage_key별 COUNT PIVOT 기반)
+> - Object Delta: `int_object_counts_by_task` (stage_key별 COUNT PIVOT 기반)
 > - raw 메타(`company`, `gen2_annotation_policies`)만 직접 참조한다.
 
 > 전체 카탈로그 prefix: `sv_nova_dev_an2_catalog.raw.raw_labelit__`
@@ -22,7 +22,7 @@ Stage별 소요 시간(Stage Duration)과 산출물 변화(Object Delta) 산출�
 | Staging 테이블 | grain | 출처 | 용도 |
 | --- | --- | --- | --- |
 | `analytics.stg_task_transition_events` | task_id × event row | `raw_labelit__gen2_tasks` transitionHistory flatten | Stage 시작/종료 이벤트 추출 |
-| `analytics.stg_object_counts_by_task` | task_id × table_name × stage_key | 10개 객체 테이블 CDC dedup + COUNT | Stage별 객체 수 비교 |
+| `analytics.int_object_counts_by_task` | task_id × table_name × stage_key | 10개 객체 테이블 CDC dedup + COUNT | Stage별 객체 수 비교 |
 
 ### 1.1 raw 메타 직접 참조 (staging에 없음)
 
@@ -48,7 +48,7 @@ Stage별 소요 시간(Stage Duration)과 산출물 변화(Object Delta) 산출�
 
 > staging은 snake_case — raw `_raw` JSON의 camelCase (`fromState`, `toState`)와 구분.
 
-### 1.3 stg_object_counts_by_task 컬럼
+### 1.3 int_object_counts_by_task 컬럼
 
 | 컬럼 | 타입 | 설명 |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ Stage별 소요 시간(Stage Duration)과 산출물 변화(Object Delta) 산출�
 | MV2_OD / MV2_SOD / MV2_TSTLD | `gen2_dynamic_targets`, `gen2_static_targets` | bbox3d |
 | MV2_RMD | `gen2_polywall_roadmark_objects`, `gen2_box_roadmark_objects` | polywall, bbox3d |
 
-**조인 키**: `stg_object_counts_by_task.task_id` → `raw_labelit__gen2_tasks._id` → `companyId`, `policyId`
+**조인 키**: `int_object_counts_by_task.task_id` → `raw_labelit__gen2_tasks._id` → `companyId`, `policyId`
 
 ### 1.5 Stage 전환 이벤트 정의
 
@@ -332,7 +332,7 @@ WHERE DATE_TRUNC('WEEK', CAST(
 -- ops__object_delta.sql
 -- Stage 전환별 객체 증감 산출 — task_id × table_name × Stage 전환 단위
 -- 전 Feature(MV2_LD · MV2_RMD · MV2_OD · MV2_SOD · MV2_TSTLD) 대상
--- 주기: 주 배치 — stg_object_counts_by_task 갱신 후 실행
+-- 주기: 주 배치 — int_object_counts_by_task 갱신 후 실행
 
 CREATE WIDGET TEXT target_week DEFAULT "";
 
@@ -351,7 +351,7 @@ WITH obj AS (
     MAX(CASE WHEN stage_key = 'review'     THEN object_count ELSE 0 END) AS review_count,
     MAX(CASE WHEN stage_key = 'inspection' THEN object_count ELSE 0 END) AS inspection_count,
     MAX(CASE WHEN stage_key = 'final_qa'   THEN object_count ELSE 0 END) AS final_qa_count
-  FROM analytics.stg_object_counts_by_task
+  FROM analytics.int_object_counts_by_task
   GROUP BY task_id, table_name
 ),
 deliver_events AS (
@@ -572,7 +572,7 @@ ORDER BY week DESC, reject_rate_pct DESC;
 
 | 항목 | 상태 | 비고 |
 | --- | --- | --- |
-| 객체 테이블 ↔ TransitionHistory 시점 정합성 | 미검증 | `stg_object_counts_by_task`의 `stage_key`별 스냅샷이 `actionAt` 기준 stage 전환 시점과 일치하는지 확인 필요 |
+| 객체 테이블 ↔ TransitionHistory 시점 정합성 | 미검증 | `int_object_counts_by_task`의 `stage_key`별 스냅샷이 `actionAt` 기준 stage 전환 시점과 일치하는지 확인 필요 |
 | 객체 `updatedAt` ↔ `actionAt` 매핑 | 미검증 | 객체 테이블 `updatedAt`과 전환 이력 `actionAt` 차이로 인한 stage_key 귀속 오류 가능성 |
 | Reject 재진입 소요 시간 합산 정밀도 | 미검증 | 동일 Stage 복수 pass 식별 로직 (pass_num ROW_NUMBER 기반)의 정밀도 — 엣지케이스에서 start/end 쌍 불일치 여부 |
 

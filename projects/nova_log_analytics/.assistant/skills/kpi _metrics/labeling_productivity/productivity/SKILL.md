@@ -10,19 +10,19 @@
 
 ## 1. 데이터 소스
 
-> **운영 SQL 원칙**: `.sql/production_volume__weekly.sql`은 raw 객체 테이블/transitionHistory를 직접 파싱하지 않고 staging layer 3개 테이블을 소스로 사용한다.
-> staging 갱신 SQL: `.sql/stg__*.sql` (일 배치).
+> **운영 SQL 원칙**: `.sql/mrt__production_volume_weekly.sql`은 raw 객체 테이블/transitionHistory를 직접 파싱하지 않고 staging/intermediate 레이어 테이블을 소스로 사용한다.
+> staging 갱신: `.sql/stg__*.sql` / intermediate 갱신: `.sql/int__*.sql` (일 배치).
 > raw 메타(`company`, `gen2_annotation_policies`)와 `focus_drop_task_idle_rollup`만 직접 참조한다.
 
 > 전체 카탈로그 prefix: `sv_nova_dev_an2_catalog.raw.raw_labelit__`
 
-### 1.0 운영 소스 (Staging)
+### 1.0 운영 소스 (Staging / Intermediate)
 
-| Staging 테이블 | grain | 출처 | 용도 |
+| 소스 테이블 | grain | 출처 | 용도 |
 | --- | --- | --- | --- |
 | `analytics.stg_task_transition_events` | task_id × event row | `raw_labelit__gen2_tasks` transitionHistory flatten | 납품/착수 이벤트 추출 |
-| `analytics.stg_object_counts_by_task` | task_id × table_name × stage_key | 10개 객체 테이블 CDC dedup + GROUP BY | 납품 객체 수 PIVOT |
-| `analytics.stg_cmd_slots_by_task` | task_id | `raw_labelit__workspace_command` 집계 | user_hour_slots / person_days |
+| `analytics.int_object_counts_by_task` | task_id × table_name × stage_key | 10개 객체 테이블 CDC dedup + GROUP BY | 납품 객체 수 PIVOT |
+| `analytics.int_command_slots_by_task` | task_id | `raw_labelit__workspace_command` 집계 | user_hour_slots / person_days |
 
 ### 1.1 raw 메타 직접 참조 (staging에 없음)
 
@@ -42,7 +42,7 @@
 | 객체 테이블 (SOD) | `gen2_static_targets` | MV2_SOD |
 | 객체 테이블 (TSTLD) | `gen2_static_targets` | MV2_TSTLD |
 
-> 10개 객체 테이블은 staging 적재 SQL(`stg__object_counts_by_task.sql`) 내부에서만 직접 참조. 운영 KPI SQL은 PIVOT 결과인 staging 테이블만 본다.
+> 10개 객체 테이블은 `stg__objects.sql` 내부에서만 직접 참조. PIVOT 집계는 `int__object_counts_by_task.sql` 경유 → 운영 KPI SQL은 `int_object_counts_by_task` 테이블만 본다.
 
 ### 1.3 transitionHistory 스키마 (staging 적재 입력 구조 참조)
 
@@ -78,7 +78,7 @@ from_json(
 
 ### 1.5 Command Log 주요 필드 (staging 적재 입력 — 참고만)
 
-운영 KPI SQL은 `stg_cmd_slots_by_task`의 집계 컬럼(`user_hour_slots`, `person_days`)만 사용. raw `workspace_command` 직접 참조는 staging SQL 내부에서만 발생.
+운영 KPI SQL은 `int_command_slots_by_task`의 집계 컬럼(`user_hour_slots`, `person_days`)만 사용. raw `workspace_command` 직접 참조는 staging SQL 내부에서만 발생.
 
 | 필드 | 파싱 | 설명 |
 | --- | --- | --- |
@@ -165,7 +165,7 @@ ROW_NUMBER() OVER (PARTITION BY `_id` ORDER BY `_ingested_at` DESC) AS rn
 
 ## 4. SQL 템플릿 (staging 기반 — 운영 SQL)
 
-> 실제 운영 SQL은 주 단위 (`deliver_week_start` 파티션) — `.sql/production_volume__weekly.sql` 참조. 아래는 운영 SQL의 핵심 CTE 패턴을 발췌한다.
+> 실제 운영 SQL은 주 단위 (`deliver_week_start` 파티션) — `.sql/mrt__production_volume_weekly.sql` 참조. 아래는 운영 SQL의 핵심 CTE 패턴을 발췌한다.
 
 ### 4.1 납품 이벤트 추출 (대상 주 최초 납품)
 
@@ -220,21 +220,21 @@ obj AS (
     SUM(CASE WHEN table_name = 'gen2_box_roadmark_objects'             THEN object_count END) AS rmd_bbox3d_objects,
     SUM(CASE WHEN table_name = 'gen2_dynamic_targets'           THEN object_count END) AS dynamic_targets,
     SUM(CASE WHEN table_name = 'gen2_static_targets'            THEN object_count END) AS static_targets
-  FROM analytics.stg_object_counts_by_task
+  FROM analytics.int_object_counts_by_task
   WHERE stage_key = 'inspection'
     AND task_id IN (SELECT task_id FROM first_delivers)
   GROUP BY task_id
 )
 ```
 
-> 10개 객체 테이블의 CDC dedup + COUNT가 staging에 이미 완료되어 있다. KPI SQL은 PIVOT만 수행.
+> 10개 객체 테이블의 CDC dedup + COUNT는 stg_objects에 완료되어 있다. KPI SQL은 int_object_counts_by_task 경유로 PIVOT 결과만 참조.
 
-### 4.4 투입 자원 (staging 직접 SELECT)
+### 4.4 투입 자원 (intermediate 직접 SELECT)
 
 ```sql
 cmd AS (
   SELECT task_id, user_hour_slots, person_days
-  FROM analytics.stg_cmd_slots_by_task
+  FROM analytics.int_command_slots_by_task
   WHERE task_id IN (SELECT task_id FROM first_delivers)
 )
 ```
@@ -275,7 +275,7 @@ policies AS (
 )
 ```
 
-> company/policy 메타는 staging에 별도 존재하지 않으므로 raw 직접 참조 + CDC dedup. 전체 .sql 흐름과 최종 SELECT는 `.sql/production_volume__weekly.sql` 참조.
+> company/policy 메타는 staging에 별도 존재하지 않으므로 raw 직접 참조 + CDC dedup. 전체 .sql 흐름과 최종 SELECT는 `.sql/mrt__production_volume_weekly.sql` 참조.
 
 ---
 
@@ -309,7 +309,7 @@ policies AS (
 | A/B | `labeler` | 기본값 — Focus Drop session_metrics에 `role_group` 컬럼 미존재 |
 | C | `all_roles` | session_metrics에 role 차원 추가 + Reviewer command 데이터 적재 완료 후 전환 |
 
-전환 시 변경 위치: `production_volume__weekly.sql`의 `task_idle` CTE → `WHERE role_scope = 'all_roles'`
+전환 시 변경 위치: `mrt__production_volume_weekly.sql`의 `task_idle` CTE → `WHERE role_scope = 'all_roles'`
 
 ---
 
@@ -329,7 +329,7 @@ policies AS (
 
 ### 8.1 `analytics.production_volume_weekly`
 
-> 초기 생성 DDL: `.sql/production_volume__ddl.sql` (1개 테이블, `PARTITIONED BY (deliver_week_start)`)
+> 초기 생성 DDL: `.sql/mrt__ddl.sql` (`production_volume_weekly` 포함, `PARTITIONED BY (deliver_week_start)`)
 > Wide-table 구조: feature 행으로 분리, 비해당 feature 컬럼은 NULL
 
 | 컬럼 | 타입 | 설명 |
@@ -368,11 +368,13 @@ policies AS (
 | 산출물 | 경로 | 상태 |
 | --- | --- | --- |
 | Staging DDL | `.sql/stg__ddl.sql` | ✅ 완료 |
+| Intermediate DDL | `.sql/int__ddl.sql` | ✅ 완료 |
+| Dimension DDL | `.sql/dim__ddl.sql` | ✅ 완료 |
+| Marts DDL | `.sql/mrt__ddl.sql` | ✅ 완료 |
 | Staging SQL (task events) | `.sql/stg__task_transition_events.sql` | ✅ 완료 |
-| Staging SQL (object counts) | `.sql/stg__object_counts_by_task.sql` | ✅ 완료 |
-| Staging SQL (cmd slots) | `.sql/stg__cmd_slots_by_task.sql` | ✅ 완료 |
-| KPI DDL | `.sql/production_volume__ddl.sql` | ✅ 완료 |
-| 주별 집계 SQL (staging 기반) | `.sql/production_volume__weekly.sql` | ✅ 완료 |
+| Intermediate SQL (object counts) | `.sql/int__object_counts_by_task.sql` | ✅ 완료 |
+| Intermediate SQL (cmd slots) | `.sql/int__command_slots_by_task.sql` | ✅ 완료 |
+| 주별 집계 SQL | `.sql/mrt__production_volume_weekly.sql` | ✅ 완료 |
 | 역할 매핑 | `.sql/dim_role_group.sql` | ⏸ 보류 |
 | STEP 8 이상탐지 연계 | Anomaly Detection 문서 업데이트 | 📋 예정 |
 
@@ -384,12 +386,16 @@ policies AS (
 
 ### 10.1 Phase 0: 인프라 준비 (Day 0)
 
-1. **Staging DDL 적용**: `.sql/stg__ddl.sql` 실행 → `stg_task_transition_events` / `stg_object_counts_by_task` / `stg_cmd_slots_by_task` 생성
-2. **KPI DDL 적용**: `.sql/production_volume__ddl.sql` 실행 → `analytics.production_volume_weekly` 생성
-3. **Focus Drop DDL 적용**: `.sql/focus_drop__ddl.sql` 실행 (idle 차감 의존성 — focus_drop `focus_drop_deployment.md` §12.4 Phase 0 참조)
-4. **존재 확인**:
+1. **DDL 적용** (레이어별):
+   - `.sql/stg__ddl.sql` 실행 → `stg_task_transition_events` 생성
+   - `.sql/int__ddl.sql` 실행 → `int_object_counts_by_task` / `int_command_slots_by_task` / focus_drop 중간 테이블 생성
+   - `.sql/dim__ddl.sql` 실행 → `dim_companies` / `dim_policies` / `dim_assignments` 생성
+   - `.sql/mrt__ddl.sql` 실행 → `production_volume_weekly` / focus_drop KPI 테이블 생성
+2. **존재 확인**:
    ```sql
    SHOW TABLES IN analytics LIKE 'stg_%';
+   SHOW TABLES IN analytics LIKE 'int_%';
+   SHOW TABLES IN analytics LIKE 'dim_%';
    SHOW TABLES IN analytics LIKE 'production_volume_%';
    SHOW TABLES IN analytics LIKE 'focus_drop_%';
    ```
@@ -399,28 +405,29 @@ policies AS (
 세 staging SQL을 순차 실행 (위젯 미설정 시 전체 기간 적재).
 
 1. `stg__task_transition_events.sql` 실행 → transitionHistory 전체 flatten
-2. `stg__object_counts_by_task.sql` 실행 → 10개 객체 테이블 CDC dedup + COUNT (per-table REPLACE)
-3. `stg__cmd_slots_by_task.sql` 실행 → workspace_command task별 인시/인일 집계
+2. `stg__objects.sql` 실행 → 10개 객체 테이블 CDC dedup (stg_objects 적재, per-table REPLACE)
+3. `int__object_counts_by_task.sql` 실행 → stg_objects → task별 PIVOT 집계
+4. `int__command_slots_by_task.sql` 실행 → workspace_command task별 인시/인일 집계
 4. 적재 검증:
    ```sql
    SELECT
      'transition' AS layer, COUNT(*) AS rows, COUNT(DISTINCT task_id) AS distinct_tasks
    FROM analytics.stg_task_transition_events
-   UNION ALL SELECT 'object_counts', COUNT(*), COUNT(DISTINCT task_id) FROM analytics.stg_object_counts_by_task
-   UNION ALL SELECT 'cmd_slots',     COUNT(*), COUNT(DISTINCT task_id) FROM analytics.stg_cmd_slots_by_task;
+   UNION ALL SELECT 'object_counts', COUNT(*), COUNT(DISTINCT task_id) FROM analytics.int_object_counts_by_task
+   UNION ALL SELECT 'cmd_slots',     COUNT(*), COUNT(DISTINCT task_id) FROM analytics.int_command_slots_by_task;
    ```
 
 ### 10.3 Phase B: Focus Drop idle rollup 적재 (Day 1)
 
 Focus Drop 파이프라인이 미적재 상태이면 `task_idle` LEFT JOIN 결과가 NULL → `net_hours = gross_hours`로 산출됨 (정상 동작).
 
-- 초기 배포 시 `production_volume__weekly`의 `avg_net_hours_per_task`/`median_net_hours_per_task` 컬럼은 idle 미적용 상태(= gross 값)로 채워진다.
+- 초기 배포 시 `production_volume_weekly`의 `avg_net_hours_per_task`/`median_net_hours_per_task` 컬럼은 idle 미적용 상태(= gross 값)로 채워진다.
 - Focus Drop SKILL.md §12.4 Phase A/B 절차 완료 후 다음 주 배치부터 idle 차감 자동 반영.
 
 ### 10.4 Phase C: KPI 초기 산출 (Day 1)
 
 ```sql
--- production_volume__weekly.sql 실행
+-- mrt__production_volume_weekly.sql 실행
 -- analysis_week 미입력 시 전 주 자동 산출 (DEFAULT DATE_TRUNC('WEEK', CURRENT_DATE() - INTERVAL 7 DAYS))
 -- 과거 주 백필 시: SET VAR analysis_week = DATE '2026-05-05';
 ```
@@ -438,26 +445,30 @@ Focus Drop 파이프라인이 미적재 상태이면 `task_idle` LEFT JOIN 결�
 
 | 레이어 | 스케줄 | 갱신 전략 |
 | --- | --- | --- |
-| staging 3종 | 매일 04:00 UTC | 일 OVERWRITE / per-table REPLACE |
+| staging (stg__task_transition_events 등 5종) | 매일 04:00 UTC | 일 OVERWRITE / per-table REPLACE |
+| int + dim (int 2종 + dim 3종, 병렬) | 매일 04:00 UTC | 일 OVERWRITE |
 | Focus Drop session/task/user | 매일 04:00 UTC | analysis_date REPLACE WHERE |
 | production_volume_weekly | 매주 월요일 05:00 UTC | deliver_week_start REPLACE WHERE (전 주) |
 
-> staging이 일 단위 갱신이고 production_volume은 주 1회 산출이므로, staging 일 배치가 완료된 다음 주 월요일에 KPI 주 배치가 안전하게 실행된다.
+> staging/intermediate 일 배치가 완료된 다음 주 월요일에 KPI 주 배치가 안전하게 실행된다.
 
 ### 10.6 의존성 다이어그램
 
 ```
 [Phase 0] stg__ddl.sql                ─┐
-          production_volume__ddl       ─┤
-          focus_drop__ddl              ─┘
+          int__ddl.sql                 ─┤
+          dim__ddl.sql                 ─┤
+          mrt__ddl.sql                 ─┘
                                           ↓
 [Phase A] stg__task_transition_events.sql      ─┐
-          stg__object_counts_by_task.sql       ─┤  (전체 백필 1회)
-          stg__cmd_slots_by_task.sql           ─┘
+          stg__objects.sql                     ─┤  (stg 백필 1회)
+          int__object_counts_by_task.sql       ─┤  (int 집계)
+          int__command_slots_by_task.sql       ─┤
+          dim__companies/policies/assignments  ─┘  (dim 초기 적재)
                                           ↓
 [Phase B] focus_drop pipeline (선택; 미적재 시 idle=0)
                                           ↓
-[Phase C] production_volume__weekly.sql  (analysis_week 지정 / 전 주 자동)
+[Phase C] mrt__production_volume_weekly.sql  (analysis_week 지정 / 전 주 자동)
                                           ↓
 [Phase D] 일 staging + 일 Focus Drop + 주 KPI 정기 스케줄
 ```

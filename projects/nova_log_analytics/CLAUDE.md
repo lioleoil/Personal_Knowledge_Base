@@ -32,14 +32,14 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 | 파일 | 역할 |
 |------|------|
 | `.assistant/skills/kpi _metrics/labeling_productivity/focus_drop/SKILL.md` | 통합 운영 가이드 (파이프라인 설계·SQL·Bootstrap 절차) |
-| `.sql/focus_drop__ddl.sql` | 테이블 초기 생성 DDL (7개 테이블, v1.2 스키마 기준) |
-| `.sql/focus_drop__gap_percentiles.sql` | gap 1차 percentile 산출 — 분기 1회 |
-| `.sql/focus_drop__session_metrics.sql` | 세션별 gap count/ratio/idle_duration 산출 — 일 배치 |
-| `.sql/focus_drop__task_idle_rollup.sql` | Task별 idle gap 누적 (생산성 연계용) — 일 배치 |
-| `.sql/focus_drop__session_tags.sql` | 세션 판정 (기준선 참조) — 일 배치 |
-| `.sql/focus_drop__user_day_kpi.sql` | 유저 일 KPI 산출 및 판정 — 일 배치 |
-| `.sql/focus_drop__session_thresholds.sql` | 세션 2차 기준선 갱신 — 주 1회 |
-| `.sql/focus_drop__user_thresholds.sql` | 유저 2차 기준선 갱신 — 주 1회 |
+| `.sql/focus_drop__ddl.sql` | **[DEPRECATED]** → int__ddl.sql + mrt__ddl.sql 로 통합 |
+| `.sql/int__focus_drop_gap_percentiles.sql` | gap 1차 percentile 산출 — 분기 1회 |
+| `.sql/int__focus_drop_session_metrics.sql` | 세션별 gap count/ratio/idle_duration 산출 — 일 배치 |
+| `.sql/int__focus_drop_task_idle_rollup.sql` | Task별 idle gap 누적 (생산성 연계용) — 일 배치 |
+| `.sql/int__focus_drop_session_tags.sql` | 세션 판정 (기준선 참조) — 일 배치 |
+| `.sql/mrt__focus_drop_user_day_kpi.sql` | 유저 일 KPI 산출 및 판정 — 일 배치 |
+| `.sql/int__focus_drop_session_thresholds.sql` | 세션 2차 기준선 갱신 — 주 1회 |
+| `.sql/int__focus_drop_user_thresholds.sql` | 유저 2차 기준선 갱신 — 주 1회 |
 
 ### KPI Metric Policy (공통)
 | 파일 | 역할 |
@@ -51,33 +51,60 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 |------|------|
 | `.assistant/skills/kpi _metrics/inspection_quality/SKILL.md` | 검수 품질 지표 운영 가이드 (데이터 소스·비즈니스 규칙·SQL 템플릿) |
 | `.assistant/skills/kpi _metrics/inspection_quality/inspection-fpy_concept_design.md` | 검수 반려율·FPY 기획문서 (지표 정의·필터 조건·검증 결과) |
-| `.sql/inspection_quality__ddl.sql` | 테이블 초기 생성 DDL (2개 테이블) |
-| `.sql/inspection_quality__monthly_fpy.sql` | 월별 검수 반려율 & First Pass Yield 산출 — 월 1회 |
-| `.sql/inspection_quality__multi_reject_detail.sql` | 다중 반려 Task 상세 (inspection reject ≥ 2회) — 월 1회 |
+| `.sql/inspection_quality__ddl.sql` | **[DEPRECATED]** → mrt__ddl.sql 로 통합 |
+| `.sql/mrt__inspection_quality_monthly_fpy.sql` | 월별 검수 반려율 & First Pass Yield 산출 — 월 1회 |
+| `.sql/mrt__inspection_quality_multi_reject_detail.sql` | 다중 반려 Task 상세 (inspection reject ≥ 2회) — 월 1회 |
 
 ### Staging Layer (KPI 공통 선행 레이어)
 > 모든 KPI metric SQL은 raw table 직접 참조 대신 staging table을 소스로 사용한다.
+> 레이어 구조: `raw → stg → int (dim 포함) → mrt`
 
+**DDL**
 | 파일 | 역할 |
 |------|------|
-| `.sql/stg__ddl.sql` | Staging 테이블 초기 생성 DDL (3개 테이블) |
+| `.sql/stg__ddl.sql` | Staging DDL (5개 현행 + 2개 deprecated) |
+| `.sql/int__ddl.sql` | Intermediate DDL (int_object_counts_by_task, int_command_slots_by_task, focus_drop intermediate 6개) |
+| `.sql/dim__ddl.sql` | Intermediate DDL — Dimension Lookup Tables (dim_companies, dim_policies, dim_assignments; dim_users 대기) |
+| `.sql/mrt__ddl.sql` | Marts DDL (focus_drop_user_day_kpi, inspection_quality 2개, production_volume_weekly) |
+
+**Staging DML**
+| 파일 | 역할 |
+|------|------|
 | `.sql/stg__task_transition_events.sql` | gen2_tasks transitionHistory 전체 flatten — 일 OVERWRITE |
-| `.sql/stg__object_counts_by_task.sql` | 객체 테이블 10개 CDC dedup + task별 COUNT — 일 배치 (table_name REPLACE) |
-| `.sql/stg__cmd_slots_by_task.sql` | workspace_command task별 user_hour_slots·person_days 집계 — 일 OVERWRITE |
+| `.sql/stg__tasks.sql` | gen2_tasks CDC dedup, 태스크 핵심 속성 추출 — 일 OVERWRITE |
+| `.sql/stg__workspace_commands.sql` | workspace_command CDC dedup, CloudEvents 1.0 row-level flatten — 일 OVERWRITE |
+| `.sql/stg__workspace_command_details.sql` | workspace_command targets·changes·params 상세 — 일 OVERWRITE |
+| `.sql/stg__objects.sql` | 10개 객체 테이블 unified CDC dedup, grain: object_id × table_name — 일 REPLACE per-table |
+| `.sql/stg__object_counts_by_task.sql` | **[DEPRECATED]** → int__object_counts_by_task.sql |
+| `.sql/stg__command_slots_by_task.sql` | **[DEPRECATED]** → int__command_slots_by_task.sql |
+
+**Intermediate DML**
+| 파일 | 역할 |
+|------|------|
+| `.sql/int__object_counts_by_task.sql` | stg_objects → task × table_name × stage_key 집계 — 일 OVERWRITE |
+| `.sql/int__command_slots_by_task.sql` | stg_workspace_commands → task별 user_hour_slots·person_days 집계 — 일 OVERWRITE |
+
+**Dimension DML (Intermediate Layer)**
+| 파일 | 역할 |
+|------|------|
+| `.sql/dim__companies.sql` | raw_labelit__company CDC dedup → dim_companies (company_id, company_name) — 일 OVERWRITE |
+| `.sql/dim__policies.sql` | raw_labelit__gen2_annotation_policies CDC dedup → dim_policies (policy_id, feature) — 일 OVERWRITE |
+| `.sql/dim__assignments.sql` | raw_labelit__assignments CDC dedup → dim_assignments (전 필드 포함, tags ARRAY) — 일 OVERWRITE |
+| `.sql/dim__users.sql` | **[대기]** raw 샘플 확인 후 추가 예정 |
 
 ### Labeling Productivity
 | 파일 | 역할 |
 |------|------|
 | `.assistant/skills/kpi _metrics/labeling_productivity/productivity/productivity_concept_design.md` | 생산량·생산성 지표 설계 — 납품 Task 수·객체 수·생산성 Metric |
 | `.assistant/skills/kpi _metrics/labeling_productivity/productivity/SKILL.md` | 생산량·생산성 운영 가이드 (데이터 소스·비즈니스 규칙·SQL 템플릿) |
-| `.sql/production_volume__ddl.sql` | 테이블 초기 생성 DDL (1개 테이블) |
-| `.sql/production_volume__weekly.sql` | 주별 납품 Task 수·객체 수·생산성 집계 — 주 1회 (staging 기반) |
+| `.sql/production_volume__ddl.sql` | **[DEPRECATED]** → mrt__ddl.sql 로 통합 |
+| `.sql/mrt__production_volume_weekly.sql` | 주별 납품 Task 수·객체 수·생산성 집계 — 주 1회 (dim_companies·dim_policies join, int_command_slots_by_task 참조) |
 
 ### Operation Analytics
 | 파일 | 역할 |
 |------|------|
-| `.assistant/skills/kpi _metrics/operation_analytics/SKILL.md` | 운영 지표 운영 가이드 (Stage Duration · Object Delta SQL 템플릿 · DDL · Bootstrap) |
-| `.assistant/skills/kpi _metrics/operation_analytics/operation_concept_design.md` | 운영 지표 설계 — Stage별 산출물 변화(증감)·소요 시간·반려율 |
+| `.assistant/skills/kpi _metrics/operation_efficiency/SKILL.md` | 운영 지표 운영 가이드 (Stage Duration · Object Delta SQL 템플릿 · DDL · Bootstrap) |
+| `.assistant/skills/kpi _metrics/operation_efficiency/operation_concept_design.md` | 운영 지표 설계 — Stage별 산출물 변화(증감)·소요 시간·반려율 |
 | `.assistant/skills/stage_progress_dashboard_design.md` | Stage 진행 현황 대시보드 설계 — 업체별 Task 분포·파이프라인 진척률 Funnel·Aging·Reject 재작업·SQL 스케치 3개 |
 
 ### 에이전트 R&R
@@ -140,12 +167,15 @@ Databricks 노트북(Python) 기반, Unity Catalog 환경에서 실행됩니다.
 **설계 계보**: v1.0 개념·메트릭 설계 → Focus Drop KPI 파이프라인(집계·리포팅)
 
 **파이프라인 실행 순서** (`.sql/`):
-- **분기**: `gap_percentiles` (1차 percentile 산출)
-- **주 1회 (월)**: `session_thresholds` → `user_thresholds` (rolling 30일 기준선 갱신)
+- **분기**: `int__focus_drop_gap_percentiles` (1차 percentile 산출)
+- **주 1회 (월)**: `int__focus_drop_session_thresholds` → `int__focus_drop_user_thresholds` (rolling 30일 기준선 갱신)
 - **일 배치 (04:00 UTC)**:
-  1. **Staging** (공통 선행): `stg__task_transition_events` → `stg__object_counts_by_task` → `stg__cmd_slots_by_task`
-  2. **Focus Drop**: `session_metrics` → `task_idle_rollup` → `session_tags` → `user_day_kpi`
-- **주 배치 (월요일)**: `production_volume__weekly` (staging + task_idle_rollup 완료 후)
+  1. **Staging**: `stg__task_transition_events` → `stg__tasks` → `stg__workspace_commands` + `stg__workspace_command_details` (병렬) → `stg__objects` (10개 per-table 병렬)
+  2. **Intermediate + Dimension** (병렬):
+     - Intermediate: `int__object_counts_by_task` + `int__command_slots_by_task` (병렬)
+     - Dimension: `dim__companies` + `dim__policies` + `dim__assignments` (병렬, raw 직접 참조)
+  3. **Focus Drop (Intermediate)**: `int__focus_drop_session_metrics` → `int__focus_drop_task_idle_rollup` → `int__focus_drop_session_tags` → `mrt__focus_drop_user_day_kpi`
+- **주 배치 (월요일)**: `mrt__production_volume_weekly` (int + dim 완료 후)
 
 ---
 
