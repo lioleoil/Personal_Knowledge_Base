@@ -14,6 +14,7 @@ sentence-transformers>=3.0.0
 slack-bolt>=1.27.0
 slack-sdk>=3.41.0
 flask>=3.0.0
+apscheduler>=3.10.0
 
 # ── Google AI (doc_gen.py, pm_ppt_generator.py) ─────────────────────────
 google-genai>=1.0.0

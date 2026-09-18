@@ -1,5 +1,7 @@
 slack-bolt
+slack-sdk
 python-dotenv
 requests
 markdown
 anthropic
+apscheduler
